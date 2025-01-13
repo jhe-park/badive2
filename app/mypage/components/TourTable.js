@@ -1,77 +1,93 @@
 "use client";
+
+import React from "react";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
+  Card,
+  CardHeader,
+  CardBody,
+  Button,
   Pagination,
 } from "@nextui-org/react";
+import { Icon } from "@iconify/react";
 
-const rows = [
-  {
-    key: "1",
-    name: "Tony Reichert",
-    role: "CEO",
-    status: "Active",
-  },
-  {
-    key: "2",
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    status: "Paused",
-  },
-  {
-    key: "3",
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    status: "Active",
-  },
-  {
-    key: "4",
-    name: "William Howard",
-    role: "Community Manager",
-    status: "Vacation",
-  },
-];
+import CellWrapper from "./cell-wrapper";
 
-const columns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "role",
-    label: "ROLE",
-  },
-  {
-    key: "status",
-    label: "STATUS",
-  },
-];
-
-export default function TourTable() {
+export default function ProgramTable(props) {
   return (
-    <div className="flex flex-col items-center justify-start gap-4 p-5">
-      <Table aria-label="Example table with dynamic content" shadow="none">
-        <TableHeader columns={columns}>
-          {(column) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={rows}>
-          {(item) => (
-            <TableRow key={item.key}>
-              {(columnKey) => (
-                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <Pagination initialPage={1} total={10} />
+    <div className="w-full flex-col justify-center items-center space-y-5">
+      <Card className="w-full w-full p-2" {...props}>
+        <CardHeader className="flex flex-col items-start px-4 pb-0 pt-4">
+          <p className="text-large">Security Settings</p>
+          <p className="text-small text-default-500">
+            Manage your security preferences
+          </p>
+        </CardHeader>
+        <CardBody className="space-y-2">
+          {/* Email */}
+          <CellWrapper>
+            <div>
+              <p>Email Address</p>
+              <p className="text-small text-default-500">
+                The email address associated with your account.
+              </p>
+            </div>
+            <div className="flex w-full flex-wrap items-center justify-end gap-6 sm:w-auto sm:flex-nowrap">
+              <div className="flex flex-col items-end">
+                <p>john.doe@mail.com</p>
+                <p className="text-small text-success">Verified</p>
+              </div>
+              <Button
+                endContent={<Icon icon="solar:pen-2-linear" />}
+                radius="full"
+                variant="bordered"
+              >
+                Edit
+              </Button>
+            </div>
+          </CellWrapper>
+          {/* Password */}
+          <CellWrapper>
+            <div>
+              <p>Password</p>
+              <p className="text-small text-default-500">
+                Set a unique password to protect your account.
+              </p>
+            </div>
+            <Button radius="full" variant="bordered">
+              Change
+            </Button>
+          </CellWrapper>
+          {/* Two-Factor Authentication */}
+
+          {/* Deactivate Account */}
+          <CellWrapper>
+            <div>
+              <p>Deactivate Account</p>
+              <p className="text-small text-default-500">
+                Deactivate your account and delete all your data.
+              </p>
+            </div>
+            <Button radius="full" variant="bordered">
+              Deactivate
+            </Button>
+          </CellWrapper>
+          {/* Delete Account */}
+          <CellWrapper>
+            <div>
+              <p>Delete Account</p>
+              <p className="text-small text-default-500">
+                Delete your account and all your data.
+              </p>
+            </div>
+            <Button color="danger" radius="full" variant="flat">
+              Delete
+            </Button>
+          </CellWrapper>
+        </CardBody>
+      </Card>
+      <div className="w-full flex justify-center items-center">
+        <Pagination initialPage={1} total={10} />
+      </div>
     </div>
   );
 }
