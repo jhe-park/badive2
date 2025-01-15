@@ -26,9 +26,9 @@ const FourImageCarousel = () => {
   };
 
   return (
-    <div className="relative w-full p-4 px-[3vw]">
+    <div className="relative w-full h-full p-4 px-[3vw]">
       {/* Main Container with Side Arrows */}
-      <div className="relative group h-[250px]">
+      <div className="relative group h-full">
         {/* Left Arrow */}
         <button
           onClick={handlePrev}
