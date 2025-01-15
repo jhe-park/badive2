@@ -55,7 +55,7 @@ function RegionTabs() {
               className="object-cover rounded-lg" 
             />
           </div>
-          <p className="mt-2 font-medium">{location.name}</p>
+          <p className="mt-2 text-3xl font-medium">{location.name}</p>
         </div>
       ))}
     </div>
