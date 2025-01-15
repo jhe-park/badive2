@@ -2,19 +2,18 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import { IoIosPlayCircle } from "react-icons/io";
+import Link from 'next/link';
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 예시 이미지 데이터
   const images = [
-    { id: 1, url: "/api/placeholder/200/150", title: "Image 1" },
-    { id: 2, url: "/api/placeholder/200/150", title: "Image 2" },
-    { id: 3, url: "/api/placeholder/200/150", title: "Image 3" },
-    { id: 4, url: "/api/placeholder/200/150", title: "Image 4" },
-    { id: 5, url: "/api/placeholder/200/150", title: "Image 5" },
-    { id: 6, url: "/api/placeholder/200/150", title: "Image 6" },
-    { id: 7, url: "/api/placeholder/200/150", title: "Image 7" },
-    { id: 8, url: "/api/placeholder/200/150", title: "Image 8" }
+    { id: 1, url: "/story/story1.png", title: "2024.03 필리핀 말라파스쿠아"},
+    { id: 2, url: "/story/story2.png", title: "2024.08 필리핀 세부 막탄(with 예지원)"},
+    { id: 3, url: "/story/story3.png", title: "2024.10 필리핀 보홀 1편"},
+    { id: 4, url: "/story/story4.png", title: "2024.10 필리핀 보홀 2편"},
+    { id: 5, url: "/story/story5.png", title: "2024.12 필리핀 코론"},
   ];
 
   const handlePrev = () => {
@@ -70,12 +69,13 @@ const MultiImageCarousel = () => {
                   className="transition-transform duration-300 ease-out group-hover:scale-105"
                 />
                 {/* Play Button */}
-                <button
+                <Link
                   className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                   aria-label={`Play ${image.title}`}
+                  href={image.url}
                 >
-                  ▶
-                </button>
+                  <IoIosPlayCircle className="w-20 h-20" />
+                </Link>
               </div>
             </div>
           ))}

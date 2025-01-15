@@ -1,32 +1,84 @@
-'use client'
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Image from 'next/image';
+"use client";
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { IoIosPlayCircle } from "react-icons/io";
+import Link from "next/link";
 const InstagramCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 예시 이미지 데이터
   const images = [
-    { id: 1, url: "/api/placeholder/200/150", title: "Image 1" },
-    { id: 2, url: "/api/placeholder/200/150", title: "Image 2" },
-    { id: 3, url: "/api/placeholder/200/150", title: "Image 3" },
-    { id: 4, url: "/api/placeholder/200/150", title: "Image 4" },
-    { id: 5, url: "/api/placeholder/200/150", title: "Image 5" },
-    { id: 6, url: "/api/placeholder/200/150", title: "Image 6" },
-    { id: 7, url: "/api/placeholder/200/150", title: "Image 7" },
-    { id: 8, url: "/api/placeholder/200/150", title: "Image 8" }
+    {
+      id: 1,
+      url: "/instagram/instagram1.png",
+      title: "Image 1",
+      link: "https://www.instagram.com/p/DDCXjI4PXW7/",
+    },
+    {
+      id: 2,
+      url: "/instagram/instagram2.png",
+      title: "Image 2",
+      link: "https://www.instagram.com/p/DCn34ESv1un/",
+    },
+    {
+      id: 3,
+      url: "/instagram/instagram3.png",
+      title: "Image 3",
+      link: "https://www.instagram.com/p/DCOXIM2v3Hc/",
+    },
+    {
+      id: 4,
+      url: "/instagram/instagram4.png",
+      title: "Image 4",
+      link: "https://www.instagram.com/p/DCDlRhbSIH6/",
+    },
+    {
+      id: 5,
+      url: "/instagram/instagram5.png",
+      title: "Image 5",
+      link: "https://www.instagram.com/p/DCq0tXpy_6a/",
+    },
+    {
+      id: 6,
+      url: "/instagram/instagram6.png",
+      title: "Image 6",
+      link: "https://www.instagram.com/p/DD1Ej-8Pgg-/",
+    },
+    {
+      id: 7,
+      url: "/instagram/instagram7.png",
+      title: "Image 7",
+      link: "https://www.instagram.com/p/DB0QqcWpEKt/",
+    },
+    {
+      id: 8,
+      url: "/instagram/instagram8.png",
+      title: "Image 8",
+      link: "https://www.instagram.com/p/DCEG-W9vWi6/",
+    },
+    {
+      id: 9,
+      url: "/instagram/instagram9.png",
+      title: "Image 9",
+      link: "https://www.instagram.com/p/DCSqGN8oPLn/",
+    },
+    {
+      id: 10,
+      url: "/instagram/instagram10.png",
+      title: "Image 10",
+      link: "https://www.instagram.com/p/DDO4WI0vzo6/",
+    },
   ];
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => 
+    setCurrentIndex((prev) =>
       prev === 0 ? Math.max(0, images.length - 5) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => 
-      prev >= images.length - 5 ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev >= images.length - 5 ? 0 : prev + 1));
   };
 
   return (
@@ -51,10 +103,10 @@ const InstagramCarousel = () => {
 
       {/* Images Container */}
       <div className="relative overflow-hidden h-full pt-5">
-        <div 
+        <div
           className="flex transition-transform duration-300 ease-out gap-4 h-full"
           style={{
-            transform: `translateX(-${currentIndex * (20 + 1)}%)`
+            transform: `translateX(-${currentIndex * (20 + 1)}%)`,
           }}
         >
           {images.map((image) => (
@@ -74,7 +126,9 @@ const InstagramCarousel = () => {
                   className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                   aria-label={`Play ${image.title}`}
                 >
-                  ▶
+                  <Link href={image.link} target="_blank">
+                    <IoIosPlayCircle className="w-20 h-20" />
+                  </Link>
                 </button>
               </div>
             </div>

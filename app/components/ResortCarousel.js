@@ -7,14 +7,10 @@ const FourImageCarousel = () => {
 
   // 예시 이미지 데이터
   const images = [
-    { id: 1, url: "/api/placeholder/280/200", title: "Image 1" },
-    { id: 2, url: "/api/placeholder/280/200", title: "Image 2" },
-    { id: 3, url: "/api/placeholder/280/200", title: "Image 3" },
-    { id: 4, url: "/api/placeholder/280/200", title: "Image 4" },
-    { id: 5, url: "/api/placeholder/280/200", title: "Image 5" },
-    { id: 6, url: "/api/placeholder/280/200", title: "Image 6" },
-    { id: 7, url: "/api/placeholder/280/200", title: "Image 7" },
-    { id: 8, url: "/api/placeholder/280/200", title: "Image 8" }
+    { id: 1, url: "/resort/resort1.png", title: "필리핀 세부 스컬 리조트",link:"http://www.skuldive.com"},
+    { id: 2, url: "/resort/resort2.png", title: "필리핀 말라파스쿠아 드래곤제이원 리조트",link:'https://m.dragonj1dive.com' },
+    { id: 3, url: "/resort/resort3.png", title: "필리핀 보홀 딥블루 리조트",link:'http://www.deepblue-bohol.co.kr' },
+    { id: 4, url: "/resort/resort4.png", title: "필리핀 코론 박스터 리조트",link:"" },
   ];
 
   const handlePrev = () => {
@@ -56,11 +52,28 @@ const FourImageCarousel = () => {
                 className="flex-none w-1/4 h-full"
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden shadow-md h-full w-full">
-                  <img
-                    src={image.url}
-                    alt={image.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
+                  {image.link ? (
+                    <a
+                      href={image.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full h-full"
+                    >
+                      <img
+                        src={image.url}
+                        alt={image.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                      />
+                    </a>
+                  ) : (
+                    <div className="block w-full h-full">
+                      <img
+                        src={image.url}
+                        alt={image.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

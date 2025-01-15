@@ -24,8 +24,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "BDN DIVE",
+  description: "BDN DIVE",
 };
 
 const geistSans = Geist({
@@ -88,9 +88,9 @@ export default function RootLayout({ children }) {
                   <div className="text-black text-xs">{label}</div>
                 </div>
               ))}
-              <div className="w-full h-full bg-black text-lg rounded-md">
-                <p className="text-white text-center">100일</p>
-                <p className="text-white text-center">
+              <div className="w-full h-full bg-black text-lg rounded-md p-2">
+                <p className="font-bold text-2xl text-white text-center blink">100일</p>
+                <p className="text-white text-center text-2xl font-bold">
                   <span className="text-red-500 font-bold">無</span>사고
                 </p>{" "}
               </div>

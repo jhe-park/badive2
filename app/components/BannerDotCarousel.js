@@ -5,10 +5,9 @@ const BannerDotCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const slides = [
-    { id: 1, content: "Slide 1", bgColor: "bg-blue-500" },
-    { id: 2, content: "Slide 2", bgColor: "bg-cyan-400" },
-    { id: 3, content: "Slide 3", bgColor: "bg-red-500" },
-    { id: 4, content: "Slide 4", bgColor: "bg-yellow-500" }
+    { id: 1, content: "Slide 1", bgColor: "bg-blue-500", image: "/banner/bannercarousel1.png" },
+    { id: 2, content: "Slide 2", bgColor: "bg-cyan-400", image: "/banner/bannercarousel2.png" },
+    
   ];
 
   useEffect(() => {
@@ -35,7 +34,8 @@ const BannerDotCarousel = () => {
               slide.bgColor
             } ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
           >
-            {slide.content}
+            <img src={slide.image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover opacity-50" />
+            
           </div>
         ))}
       </div>
