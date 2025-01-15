@@ -7,6 +7,7 @@ export default function Story() {
         <img src="/logo/youtube_story.png" alt="" className='h-12 w-auto' />
         <p className='text-[36px] font-bold'>BDN DIVING STORY</p>
       </div>
+      
       <StoryCarousel></StoryCarousel>
 
     </div>

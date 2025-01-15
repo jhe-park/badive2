@@ -1,11 +1,12 @@
 import React from "react";
-
+import SlideUp from "@/components/animation/SlideUp";
 export default function Experts() {
   return (
     <div className="w-full h-[100vh] flex flex-col justify-start items-start gap-y-5 px-[2vw] py-[1vw]">
       <div className="flex gap-x-5 justify-center items-center">
         <p className="text-[36px] font-bold">소속강사</p>
       </div>
+      <SlideUp>
       <div className="w-full h-full flex gap-2">
         <div className="w-1/3 h-full flex flex-col justify-center items-center gap-2">
           <div className="w-full h-full bg-green-500 overflow-hidden">
@@ -52,6 +53,7 @@ export default function Experts() {
           </div>
         </div>
       </div>
+      </SlideUp>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { IoIosPlayCircle } from "react-icons/io";
 import Link from 'next/link';
+import SlideUp from '@/components/animation/SlideUp';
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -30,7 +31,7 @@ const MultiImageCarousel = () => {
 
   return (
     <div className="relative w-full h-full">
-      {/* Navigation Buttons */}
+      
       <div className="absolute right-0 -top-10 flex gap-2">
         <button
           onClick={handlePrev}
@@ -48,7 +49,7 @@ const MultiImageCarousel = () => {
         </button>
       </div>
 
-      {/* Images Container */}
+      <SlideUp>
       <div className="relative overflow-hidden h-full pt-5">
         <div 
           className="flex transition-transform duration-300 ease-out gap-4 h-full"
@@ -81,6 +82,7 @@ const MultiImageCarousel = () => {
           ))}
         </div>
       </div>
+      </SlideUp>
     </div>
   );
 };

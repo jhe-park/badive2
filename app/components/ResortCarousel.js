@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
+import SlideUp from '@/components/animation/SlideUp';
 const FourImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,6 +38,7 @@ const FourImageCarousel = () => {
           <ChevronLeft className="w-6 h-6" />
         </button>
 
+        <SlideUp>
         {/* Images Container */}
         <div className="relative overflow-hidden h-full">
           <div 
@@ -79,7 +80,7 @@ const FourImageCarousel = () => {
             ))}
           </div>
         </div>
-
+        </SlideUp>
         {/* Right Arrow */}
         <button
           onClick={handleNext}

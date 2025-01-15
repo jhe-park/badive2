@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { IoIosPlayCircle } from "react-icons/io";
 import Link from "next/link";
+import SlideUp from "@/components/animation/SlideUp";
 const InstagramCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -102,39 +103,41 @@ const InstagramCarousel = () => {
       </div>
 
       {/* Images Container */}
-      <div className="relative overflow-hidden h-full pt-5">
-        <div
-          className="flex transition-transform duration-300 ease-out gap-4 h-full"
-          style={{
-            transform: `translateX(-${currentIndex * (20 + 1)}%)`,
-          }}
-        >
-          {images.map((image) => (
-            <div
-              key={image.id}
-              className="flex-none w-1/5 h-full relative group"
-            >
-              <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">
-                <Image
-                  src={image.url}
-                  alt={image.title}
-                  fill
-                  className="transition-transform duration-300 ease-out group-hover:scale-105"
-                />
-                {/* Play Button */}
-                <button
-                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label={`Play ${image.title}`}
-                >
-                  <Link href={image.link} target="_blank">
-                    <IoIosPlayCircle className="w-20 h-20" />
-                  </Link>
-                </button>
+      <SlideUp>
+        <div className="relative overflow-hidden h-full pt-5">
+          <div
+            className="flex transition-transform duration-300 ease-out gap-4 h-full"
+            style={{
+              transform: `translateX(-${currentIndex * (20 + 1)}%)`,
+            }}
+          >
+            {images.map((image) => (
+              <div
+                key={image.id}
+                className="flex-none w-1/5 h-full relative group"
+              >
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">
+                  <Image
+                    src={image.url}
+                    alt={image.title}
+                    fill
+                    className="transition-transform duration-300 ease-out group-hover:scale-105"
+                  />
+                  {/* Play Button */}
+                  <button
+                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label={`Play ${image.title}`}
+                  >
+                    <Link href={image.link} target="_blank">
+                      <IoIosPlayCircle className="w-20 h-20" />
+                    </Link>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </SlideUp>
     </div>
   );
 };
