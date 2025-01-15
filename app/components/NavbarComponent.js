@@ -2,27 +2,44 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
+import { usePathname } from 'next/navigation';  // 상단에 import 추가
 
 export default function Navbar() {
+  const pathname = usePathname();
+  
   useEffect(() => {
-    const navbar = document.querySelector('nav');
-    navbar.style.top = '-100px'; // Initially hide navbar
+    // Only apply hide/show effect on home page
+    if (pathname === '/') {
+      const navbar = document.querySelector('nav');
+      navbar.style.top = '-100px'; // Initially hide navbar
 
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollTop > 0) {
-        navbar.style.top = '0'; // Show navbar when scrolling down
-      } else {
-        navbar.style.top = '-100px'; // Hide navbar when at the top
-      }
-    };
+      const handleScroll = () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > 0) {
+          navbar.style.top = '0';
+        } else {
+          navbar.style.top = '-100px';
+        }
+      };
 
-    window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    } else {
+      // On other pages, always show navbar
+      const navbar = document.querySelector('nav');
+      navbar.style.top = '0';
+    }
+  }, [pathname]); // Add pathname as dependency
+
+  useEffect(() => {
+    console.log('Current pathname:', pathname);  // pathname 로그 출력
+    // ... existing scroll handling code ...
+  }, [pathname]);  // pathname이 변경될 때마다 실행
+
+  
 
   useEffect(() => {
     const handleScrollPosition = () => {
@@ -37,7 +54,7 @@ export default function Navbar() {
     };
   }, []);
   return (
-    <nav className="nav w-full z-10 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: '-100px' }}>
+    <nav className="nav w-full fixed z-10 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: pathname === '/' ? '-100px' : '0' }}>
       <div className="w-full px-8 flex justify-between h-full mx-auto">
         {/* 로고 영역 - 여백 조정 */}
         <div className="flex items-center justify-center flex-col pl-4">
