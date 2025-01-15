@@ -10,6 +10,13 @@ import { NextUIProvider } from "@nextui-org/react";
 import NavbarComponent from "@/app/components/NavbarComponent";
 import FooterComponent from "@/app/components/FooterComponent";
 import "@/app/globals.css";
+import Image from "next/image";
+import { PiCertificate } from "react-icons/pi";
+import { MdLocationPin } from "react-icons/md";
+import { BsTelephoneForward } from "react-icons/bs";
+import { RiKakaoTalkFill } from "react-icons/ri";
+import { FaChevronUp } from "react-icons/fa6";
+import { Divider } from "@nextui-org/react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -26,9 +33,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
@@ -41,25 +46,55 @@ export default function RootLayout({
           <NextUIProvider>
             <main className="min-h-screen flex flex-col items-center">
               <div className="w-full flex flex-col items-center">
-                {/* <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-                  <div className="flex gap-5 items-center font-semibold">
-                    <Link href={"/"}>Next.js Supabase Starter</Link>
-                    <div className="flex items-center gap-2">
-                      <DeployButton />
-                    </div>
-                  </div>
-                  {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
-                </div>
-              </nav> */}
                 <NavbarComponent />
-                <div className="flex flex-col gap-20 w-full">
-                  {children}
-                </div>
+                <div className="flex flex-col gap-20 w-full">{children}</div>
 
                 <FooterComponent></FooterComponent>
               </div>
             </main>
+            <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 ">
+              {[
+                {
+                  label: "소속강사",
+                  src: "/floating/license.png",
+                  Icon: PiCertificate,
+                },
+                {
+                  label: "다이빙투어",
+                  src: "/floating/location.png",
+                  Icon: MdLocationPin,
+                },
+                {
+                  label: "전화문의",
+                  src: "/floating/phone.png",
+                  Icon: BsTelephoneForward,
+                },
+                {
+                  label: "카카오상담",
+                  src: "/floating/kakao.png",
+                  Icon: RiKakaoTalkFill,
+                },
+                { label: "TOP", src: "/floating/top.png", Icon: FaChevronUp },
+              ].map(({ label, src, Icon }, index) => (
+                <div
+                  key={index}
+                  className={`text-white p-2 flex flex-col items-center justify-center ${
+                    index !== 4 ? "border-b border-gray-300" : ""
+                  }`}
+                >
+                  <div>
+                    <Icon className="text-black text-2xl" />
+                  </div>
+                  <div className="text-black text-xs">{label}</div>
+                </div>
+              ))}
+              <div className="w-full h-full bg-black text-lg rounded-md">
+                <p className="text-white text-center">100일</p>
+                <p className="text-white text-center">
+                  <span className="text-red-500 font-bold">無</span>사고
+                </p>{" "}
+              </div>
+            </div>
           </NextUIProvider>
         </ThemeProvider>
       </body>

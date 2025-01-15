@@ -1,11 +1,12 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 
-const DotCarousel = () => {
+const BannerDotCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const slides = [
     { id: 1, content: "Slide 1", bgColor: "bg-blue-500" },
-    { id: 2, content: "Slide 2", bgColor: "bg-green-500" },
+    { id: 2, content: "Slide 2", bgColor: "bg-cyan-400" },
     { id: 3, content: "Slide 3", bgColor: "bg-red-500" },
     { id: 4, content: "Slide 4", bgColor: "bg-yellow-500" }
   ];
@@ -23,9 +24,9 @@ const DotCarousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
+    <div className="relative w-full h-full ">
       {/* Carousel Container */}
-      <div className="relative h-64 overflow-hidden rounded-lg">
+      <div className="relative h-full overflow-hidden rounded-lg">
         {/* Slides */}
         {slides.map((slide, index) => (
           <div
@@ -60,4 +61,4 @@ const DotCarousel = () => {
   );
 };
 
-export default DotCarousel;
+export default BannerDotCarousel;

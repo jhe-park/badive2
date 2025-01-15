@@ -1,5 +1,5 @@
 import React from "react";
-
+import BannerDotCarousel from "./BannerDotCarousel";
 export default function Banner() {
   return (
     <>
@@ -17,8 +17,13 @@ export default function Banner() {
           MERMAID
         </button>
       </div>
-      <div className="bg-green-500 w-full h-[100vh] relative"></div>
-
+      <div className="bg-green-500 w-full h-[100vh] relative grid grid-cols-2">
+        <div className="col-span-1 flex justify-center items-center w-full h-full">
+          <div className="w-1/2 h-1/2 flex justify-center items-center">
+            <BannerDotCarousel></BannerDotCarousel>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
