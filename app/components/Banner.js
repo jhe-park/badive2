@@ -69,12 +69,23 @@ export default function Banner() {
               <FaPlayCircle className="text-6xl" />
             )}
           </button>
-          <Button className="text-white text-2xl" color="" variant="flat">
-            자세히보기
+          <Button 
+            className="text-white text-2xl relative group w-48 h-16" 
+            color="" 
+            variant="flat"
+          >
+            <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity "></span>
+            <span className="relative">자세히보기</span>
           </Button>
-          <Button className="text-white text-2xl" color="" variant="flat">
-            강사소개
+          <Button 
+            className="text-white text-2xl relative group w-48 h-16"  
+            color="" 
+            variant="flat"
+          >
+            <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity"></span>
+            <span className="relative">강사소개</span>
           </Button>
+
         </div>
       </div>
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[+150%] flex space-x-0 bg-black w-1/2 h-24 z-10">

@@ -16,3 +16,11 @@
 .blink {
   animation: blink 1s infinite;
 }
+
+nav {
+  transition: top 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}

@@ -17,7 +17,7 @@ export default function Curriculum() {
                 className="w-full h-full transition-transform duration-300 transform hover:scale-110 rounded-2xl"
               />
               <Link href="/programs">
-                <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-full group-hover:-translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-all duration-500 group-hover:opacity-100">
                   스쿠버다이빙
                 </div>
               </Link>
@@ -31,7 +31,7 @@ export default function Curriculum() {
                 className="w-full h-full transition-transform duration-300 transform hover:scale-110 rounded-2xl"
               />
               <Link href="/programs">
-                <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-full group-hover:-translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-all duration-500 group-hover:opacity-100">
                   프리다이빙
                 </div>
               </Link>
@@ -45,7 +45,7 @@ export default function Curriculum() {
                 className="w-full h-full transition-transform duration-300 transform hover:scale-110 rounded-2xl"
               />
               <Link href="/programs">
-                <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-full group-hover:-translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-all duration-500 group-hover:opacity-100">
                   머메이드
                 </div>
               </Link>

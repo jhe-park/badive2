@@ -106,22 +106,23 @@ const InstagramCarousel = () => {
       <SlideUp>
         <div className="relative overflow-hidden h-full pt-5">
           <div
-            className="flex transition-transform duration-300 ease-out gap-4 h-full"
+            className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (20 + 1)}%)`,
+              transform: `translateX(-${currentIndex * 20}%)`,
             }}
           >
-            {images.map((image) => (
+            {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/5 h-full relative group"
+                className="flex-none w-1/5 h-full relative"
+                style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full">
                   <Image
                     src={image.url}
                     alt={image.title}
                     fill
-                    className="transition-transform duration-300 ease-out group-hover:scale-105"
+                    className="transition-transform duration-300 ease-out hover:scale-105"
                   />
                   {/* Play Button */}
                   <button

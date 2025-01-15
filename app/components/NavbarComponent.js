@@ -1,9 +1,43 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Navbar() {
+  useEffect(() => {
+    const navbar = document.querySelector('nav');
+    navbar.style.top = '-100px'; // Initially hide navbar
+
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > 0) {
+        navbar.style.top = '0'; // Show navbar when scrolling down
+      } else {
+        navbar.style.top = '-100px'; // Hide navbar when at the top
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScrollPosition = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      console.log('Scroll position:', scrollTop);
+    };
+
+    window.addEventListener('scroll', handleScrollPosition);
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollPosition); 
+    };
+  }, []);
   return (
-    <nav className="w-full bg-black/95 backdrop-blur-sm h-[100px] shadow-lg">
+    <nav className="nav w-full z-10 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: '-100px' }}>
       <div className="w-full px-8 flex justify-between h-full mx-auto">
         {/* 로고 영역 - 여백 조정 */}
         <div className="flex items-center justify-center flex-col pl-4">
