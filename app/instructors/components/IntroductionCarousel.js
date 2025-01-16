@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
-
+import Image from "next/image";
 function IntroductionCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -41,7 +41,7 @@ function IntroductionCarousel() {
 
   return (
     <>
-      <div className="relative w-full h-full overflow-hidden">
+      <div className="relative w-[90vw] h-full overflow-hidden ">
         {/* 캐러셀 컨텐츠 */}
         <div
           className="flex h-full "
@@ -54,27 +54,61 @@ function IntroductionCarousel() {
           {items.map((item, index) => (
             <div key={index} className="flex min-w-full">
               {/* 왼쪽 섹션 */}
-              <div className="w-1/2 h-full relative bg-blue-100 pl-[8vw]">
-                <img
-                  src={item.left.image}
-                  alt={item.left.title}
-                  className="w-full h-full object-cover"
-                />
-                <h3 className="absolute bottom-4 left-4 text-white text-xl font-bold">
-                  {item.left.title}
-                </h3>
+              <div className="w-1/2 h-full relative pl-[8vw] flex flex-col justify-center items-center gap-y-10">
+                <div className="text-[100px] font-bold">정은지 강사</div>
+                <div className="text-[32px]" style={{ color: "#902020" }}>
+                  서울 잠실, 경기 용인 | 스쿠버다이빙, 프리다이빙 강습 가능{" "}
+                </div>
+                <div className="text-[30px] text-center">
+                  <p>
+                    - 한국 최초 여자 프리다이빙 강사 / 강사훈련관
+                    <br />
+                    (SSI, PADI, CMAS, PTRD, EFR, React right)
+                  </p>
+
+                  <p>- 전) SSI KOREA, SCUBAPRO 한국 본사 근무</p>
+
+                  <p>
+                    - 졸) 한국해양대학교 해양과학기술대학
+                    <br />
+                    수중잠수과학기술학과 대학원 석사
+                  </p>
+
+                  <p>- 현) MINDSET freediving school 대표</p>
+
+                  <p>
+                    - SBS 정글의 법칙 in 캐리비언 / 사모아 / 뉴칼레도니아 편
+                    촬영
+                  </p>
+
+                  <p>- 2015, 2017, 2018 해군 2함대 프리다이빙 교육</p>
+
+                  <p>- 2015 진해 해군특수전전단(UDT) 교육</p>
+
+                  <p>- 2015 필리핀 세부 해군 교육</p>
+
+                  <p>- 2018~2022 진해 해난구조전대(SSU) 교육</p>
+
+                  <p>- 2018~2023 경기소방학교 특수구조사 과정 교육</p>
+
+                  <p>- 2017~2021 해양경찰교육원 구조대원 양성과정 교육</p>
+
+                  <p>- 2022~2023 창원 해양경찰서 구조대 집중 교육훈련</p>
+
+                  <p>- 2022 TEDxYonseiUniversity 프리다이빙 강연</p>
+                </div>
               </div>
 
               {/* 오른쪽 섹션 */}
-              <div className="w-1/2 h-full relative bg-red-100 pr-[8vw]">
-                <img
-                  src={item.right.image}
-                  alt={item.right.title}
-                  className="w-full h-full object-cover"
-                />
-                <h3 className="absolute bottom-4 left-4 text-white text-xl font-bold">
-                  {item.right.title}
-                </h3>
+              <div className="w-1/2 h-full relative pr-[8vw] flex justify-center items-center">
+                <div className="w-2/3 h-2/3 relative">
+                  <Image
+                    src="/instructors/expert1.png"
+                    fill
+                    className="object-cover rounded-2xl"
+                    alt="expert1"
+                  ></Image>
+                </div>
               </div>
             </div>
           ))}
@@ -100,16 +134,23 @@ function IntroductionCarousel() {
       {/* 페이지네이션 인디케이터 수정 */}
       <div className="flex gap-24 z-5 my-12">
         {items.map((_, index) => (
-          <button
+          <div
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-24 h-24 rounded-full transition-all duration-300 ${
+            className={`w-24 h-24 rounded-full transition-all duration-300 relative ${
               currentIndex === index
                 ? "bg-gray-200 opacity-100 border-3 border-[#0077B6]"
                 : "bg-gray-200 opacity-50 hover:opacity-80"
             }`}
             aria-label={`Go to slide ${index + 1}`}
-          />
+          >
+            <Image
+              src={`/instructors/expert1small.png`}
+              alt={`Slide ${index + 1}`}
+              fill
+              className="object-cover rounded-full"
+            />
+          </div>
         ))}
       </div>
     </>
