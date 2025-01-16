@@ -55,6 +55,9 @@ function IntroductionCarousel() {
             <div key={index} className="flex min-w-full">
               {/* 왼쪽 섹션 */}
               <div className="w-1/2 h-full relative pl-[8vw] flex flex-col justify-center items-center gap-y-10">
+                <div className="absolute top-0 left-0 text-[200px] font-bold text-gray-200 opacity-20">
+                  01
+                </div>
                 <div className="text-[100px] font-bold">정은지 강사</div>
                 <div className="text-[32px]" style={{ color: "#902020" }}>
                   서울 잠실, 경기 용인 | 스쿠버다이빙, 프리다이빙 강습 가능{" "}
