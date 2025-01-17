@@ -201,7 +201,7 @@ export default function Contents3() {
           있습니다.{" "}
         </div>
 
-        <div className="w-full h-[100px] flex items-center justify-center">
+        <div className="w-full h-[100px] flex items-center justify-center my-24">
           <Link
             className="flex items-center justify-center gap-x-2"
             href="/book"

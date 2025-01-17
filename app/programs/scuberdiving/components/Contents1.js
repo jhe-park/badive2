@@ -134,7 +134,7 @@ export default function Contents1() {
           </div>
         </div>
 
-        <div className="w-full h-[100px] flex items-center justify-center">
+        <div className="w-full h-full  flex items-center justify-center my-24">
           <Link className="flex items-center justify-center gap-x-2" href='/book'>
           <Button className="text-6xl font-bold w-full h-full p-4">예약하기</Button>
           </Link>
