@@ -4,6 +4,7 @@ import { Divider } from "@nextui-org/react";
 import { FaRegCheckCircle } from "react-icons/fa";
 import Link from "next/link";
 import { FaChevronRight } from "react-icons/fa";
+import { Button } from "@nextui-org/react";
 
 export default function Contents2() {
   return (
@@ -153,15 +154,12 @@ export default function Contents2() {
           </div>
 
           <div className="text-3xl">
-          ■ 개방수역(다이빙풀)에서 배운 교육내용을 실제 다이빙 환경인 바다에서 실습하여 실제 다이빙 환경에 적응하는 훈련입니다.
+            ■ 개방수역(다이빙풀)에서 배운 교육내용을 실제 다이빙 환경인 바다에서
+            실습하여 실제 다이빙 환경에 적응하는 훈련입니다.
           </div>
           <div className="text-3xl text-[#8D0000] text-center">
-            <p>
-            · 오픈워터 개방수역 훈련은 15m이내에서 실시합니다. 
-            </p>
-            <p>
-            (* 오픈워터의 개방수역은 최대 수심 20m입니다.)
-            </p>
+            <p>· 오픈워터 개방수역 훈련은 15m이내에서 실시합니다.</p>
+            <p>(* 오픈워터의 개방수역은 최대 수심 20m입니다.)</p>
           </div>
         </div>
 
@@ -192,15 +190,9 @@ export default function Contents2() {
             className="flex items-center justify-center gap-x-2"
             href="/book"
           >
-            <div className="text-6xl font-bold">오픈워터 다이버 코스 예약하러 가기</div>
-            <div className="relative w-20 h-20">
-              <Image
-                src={"/program/cursor.png"}
-                alt="scubadiving"
-                fill
-                className="object-cover"
-              ></Image>
-            </div>
+            <Button className="text-6xl font-bold w-full h-full p-4">
+              예약하기
+            </Button>
           </Link>
         </div>
       </div>

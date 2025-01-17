@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Divider } from "@nextui-org/react";
 import { FaRegCheckCircle } from "react-icons/fa";
 import Link from "next/link";
+import { Button } from "@nextui-org/react";
 export default function Contents1() {
   return (
     <div className="w-[80vw] h-full flex flex-col items-center justify-center">
@@ -135,8 +136,7 @@ export default function Contents1() {
 
         <div className="w-full h-[100px] flex items-center justify-center">
           <Link className="flex items-center justify-center gap-x-2" href='/book'>
-          <div className="text-6xl font-bold">체험다이빙 예약하러 가기</div>
-          <div className="relative w-20 h-20"><Image src={"/program/cursor.png"} alt="scubadiving" fill className="object-cover"></Image></div>
+          <Button className="text-6xl font-bold w-full h-full p-4">예약하기</Button>
           </Link>
         </div>
       </div>
