@@ -44,15 +44,15 @@ export default function Component() {
           {/* Social Links */}
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              { src: "/logo/youtube.png", alt: "youtube" },
-              { src: "/logo/kakao.png", alt: "kakao" },
-              { src: "/logo/instagram.png", alt: "instagram" },
-              { src: "/logo/cafe.png", alt: "cafe" },
-              { src: "/logo/blog.png", alt: "blog" },
+              { src: "/logo/youtube.png", alt: "youtube", href: "https://youtube.com/@bdndive?si=p72b0W3_Szqc_c7Y" },
+              { src: "/logo/kakao.png", alt: "kakao", href: "" },
+              { src: "/logo/instagram.png", alt: "instagram", href: "https://www.instagram.com/bdn_dive?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
+              { src: "/logo/cafe.png", alt: "cafe", href: "https://cafe.naver.com/bdndive" },
+              { src: "/logo/blog.png", alt: "blog", href: "" },
             ].map((social) => (
               <Link 
                 key={social.alt} 
-                href="/"
+                href={social.href}
                 className="transform hover:scale-110 transition-transform"
               >
                 <Image
