@@ -6,7 +6,7 @@ import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
-import { NextUIProvider } from "@nextui-org/react";
+import {HeroUIProvider} from "@heroui/react";
 import NavbarComponent from "@/app/components/NavbarComponent";
 import FooterComponent from "@/app/components/FooterComponent";
 import "@/app/globals.css";
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <NextUIProvider>
+          <HeroUIProvider>
             <main className="min-h-screen flex flex-col items-center">
               <div className="w-full flex flex-col items-center">
                 <NavbarComponent />
@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
             </main>
             <Actionbar></Actionbar>
             
-          </NextUIProvider>
+          </HeroUIProvider>
         </ThemeProvider>
       </body>
     </html>

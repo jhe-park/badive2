@@ -17,7 +17,7 @@
   animation: blink 1s infinite;
 }
 
-nav {
+.nav {
   transition: top 0.3s ease-in-out;
   position: fixed;
   top: 0;

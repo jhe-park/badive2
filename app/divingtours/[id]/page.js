@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import TourCards from "./components/TourCards";
 export default function page() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
@@ -16,7 +15,6 @@ export default function page() {
         </div>
       </div>
       <div className="w-[calc(1320/1920*100%)] h-full flex flex-col items-center justify-center gap-y-5">
-        <TourCards></TourCards>
       </div>
     </div>
   );
