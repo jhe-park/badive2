@@ -13,7 +13,7 @@ export default function Contents3() {
         <div className="w-1/2 h-full flex items-center justify-center py-24">
           <div className="relative w-2/3 h-full">
             <Image
-              src={"/program4/contents4_1.png"}
+              src={"/program4/contents3_1.png"}
               alt="scubadiving"
               fill
               className="object-cover"
