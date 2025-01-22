@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   ChevronLeft,
@@ -10,8 +11,19 @@ import { Pagination } from "@heroui/react";
 import Link from "next/link";
 import { Chip } from "@heroui/react";
 import { IoMdAlarm } from "react-icons/io";
-
+import { Alert } from "@heroui/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@heroui/react";
 export default function TourCards() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const tours = [
     {
       id: 1,
@@ -62,6 +74,7 @@ export default function TourCards() {
   return (
     <div className="w-full mx-auto p-4 my-12">
       {/* 투어 리스트 */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {tours.map((tour) => (
           <div
@@ -77,37 +90,59 @@ export default function TourCards() {
                 {tour.status}
               </Chip>
             )}
-            <Link href={`/divingtours/${tour.id}`}>
-              <div className="relative">
-                <img
-                  src={tour.image}
-                  alt={tour.title}
-                  className={`w-full aspect-[4/3] object-cover ${tour.isClosed ? "grayscale" : ""}`}
-                />
-              </div>
-              <div className="p-4 flex flex-col items-center justify-center gap-y-2">
-                <div className="font-bold text-xl text-center overflow-hidden text-ellipsis whitespace-nowrap">
-                  {tour.title}
+            {tour.isClosed ? (
+              <div onClick={onOpen} className="cursor-pointer">
+                <div className="relative">
+                  <img
+                    src={tour.image}
+                    alt={tour.title}
+                    className={`w-full aspect-[4/3] object-cover grayscale`}
+                  />
                 </div>
-                <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap">
-                  {tour.period}
-                </div>
-                <div className="text-sm text-gray-600 text-center overflow-hidden text-ellipsis whitespace-nowrap">
-                  {tour.description}
-                </div>
-                <div className="flex justify-between items-center">
-                  {tour.isClosed ? (
+                <div className="p-4 flex flex-col items-center justify-center gap-y-2">
+                  <div className="font-bold text-xl text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {tour.title}
+                  </div>
+                  <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {tour.period}
+                  </div>
+                  <div className="text-sm text-gray-600 text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {tour.description}
+                  </div>
+                  <div className="flex justify-between items-center">
                     <span className="text-2xl font-bold text-gray-500">
                       모집종료
                     </span>
-                  ) : (
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link href={`/divingtours/${tour.id}`}>
+                <div className="relative">
+                  <img
+                    src={tour.image}
+                    alt={tour.title}
+                    className={`w-full aspect-[4/3] object-cover`}
+                  />
+                </div>
+                <div className="p-4 flex flex-col items-center justify-center gap-y-2">
+                  <div className="font-bold text-xl text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {tour.title}
+                  </div>
+                  <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {tour.period}
+                  </div>
+                  <div className="text-sm text-gray-600 text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {tour.description}
+                  </div>
+                  <div className="flex justify-between items-center">
                     <span className="text-2xl font-bold text-blue-500">
                       8/10명
                     </span>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            )}
           </div>
         ))}
       </div>
@@ -131,6 +166,25 @@ export default function TourCards() {
         </button> */}
         <Pagination isCompact showControls initialPage={1} total={10} />
       </div>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                모집마감
+              </ModalHeader>
+              <ModalBody>
+                <p>해당 투어는 마감되어 조회가 불가능합니다.</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onPress={onClose}>
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
