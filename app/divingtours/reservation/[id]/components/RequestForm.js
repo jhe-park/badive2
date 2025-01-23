@@ -55,7 +55,7 @@ const CompanyInformationForm = React.forwardRef(
     return (
       <div className="w-[90vw] md:w-[60vw] flex flex-col items-center justify-center gap-y-12">
         <div className="text-4xl font-bold leading-9 text-default-foreground">
-          ‘필리핀 코론 수중 프로필 촬영 다이빙 투어’{" "}
+          ‘필리핀 코론 수중 프로필 촬영 다이빙 투어’
         </div>
         <div className="py-4 text-default-500 bg-gray-100 rounded-lg p-6 w-full">
           <p>※ 필리핀 코론 수중 프로필 촬영 다이빙 투어 신청서 작성 안내</p>
