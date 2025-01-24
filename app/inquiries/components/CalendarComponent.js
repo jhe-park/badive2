@@ -2,10 +2,14 @@
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {RadioGroup, Radio} from "@heroui/radio";
-
+import { useDisclosure } from "@heroui/react";
+import SelectModal from "./SelectModal";
 const CalendarComponent = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
 
   const handleNextMonth = () => {
     setCurrentDate(
@@ -23,6 +27,7 @@ const CalendarComponent = () => {
     setSelectedDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
     );
+    onOpen();
   };
 
   const daysInMonth = new Date(
@@ -37,7 +42,7 @@ const CalendarComponent = () => {
   ).getDay();
 
   return (
-    <div className="w-1/2 mx-auto flex-1 flex-col items-center justify-start gap-y-12 flex-grow">
+    <div className="col-span-1 flex flex-col items-center justify-start gap-y-12 h-full">
       <div className="flex justify-between items-center mb-4 w-full">
         <button
           onClick={handlePrevMonth}
@@ -93,8 +98,8 @@ const CalendarComponent = () => {
           Selected date: {selectedDate.toLocaleDateString()}
         </div>
       )}
-      <div className="w-full h-full flex flex-col items-center justify-center gap-y-6">
-        <div className="w-full h-full flex items-center justify-center border-2 border-[#0077B6] rounded-lg p-2">
+      <div className="w-[90%] h-full items-center justify-start gap-y-6 flex flex-col">
+        <div className="w-full h-16 flex items-center justify-center border-2 border-[#0077B6] rounded-lg p-2">
           <RadioGroup>
             <Radio value="1">
               <span className="text-3xl">12. 19(목) AM 8:00~ AM 10:00 이세원강사</span>
@@ -106,6 +111,7 @@ const CalendarComponent = () => {
           <p>(예약이 확정된 이후에는 변경이 어려울 수 있습니다.)</p>
         </div>
       </div>
+      <SelectModal isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}></SelectModal>
     </div>
   );
 };
