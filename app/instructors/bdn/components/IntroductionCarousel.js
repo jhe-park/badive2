@@ -3,22 +3,29 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
 import Image from "next/image";
 import { items } from "./items";
+import useInstructor from '@/app/store/useInstructor'
+
 function IntroductionCarousel() {
+  const { instructor, setInstructor } = useInstructor();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+    const newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+    setInstructor(items[newIndex].left.title);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+    const newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+    setInstructor(items[newIndex].left.title);
   };
 
   // 페이지 직접 이동 함수 추가
   const goToSlide = (index) => {
     setCurrentIndex(index);
+    setInstructor(items[index].left.title);
   };
-
   return (
     <>
       <div className="relative w-[90vw] h-full overflow-hidden ">

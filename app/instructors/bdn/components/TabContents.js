@@ -2,13 +2,11 @@
 import React, { useState, useEffect } from 'react'
 import IntroductionCarousel from './IntroductionCarousel'
 import { useRouter, usePathname } from 'next/navigation'
-
 export default function TabContents() {
   const [activeTab, setActiveTab] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
   console.log('params:', pathname);
-
   const tabs = [
     { id: 0, label: 'BDN 강사', path: '/instructors/bdn' },
     { id: 1, label: 'BDN 수중촬영감독', path: '/instructors/director' },
