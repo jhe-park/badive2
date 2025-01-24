@@ -9,6 +9,7 @@ import ReactPlayer from "react-player";
 import { IoMdClose } from "react-icons/io";
 import { BiFullscreen } from "react-icons/bi";
 import { BiExitFullscreen } from "react-icons/bi";
+import useModalOpen from '@/app/store/useModalOpen';
 
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,7 +17,7 @@ const MultiImageCarousel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  
+  const { isOpen, setIsOpen } = useModalOpen();
   // 모달 컨테이너에 대한 ref 추가
   const modalRef = useRef(null);
 
@@ -71,11 +72,13 @@ const MultiImageCarousel = () => {
   const handleImageClick = (image) => {
     setSelectedImage(image);
     setIsModalOpen(true);
+    setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+    setIsOpen(false);
   };
 
   const toggleFullScreen = () => {
@@ -186,6 +189,7 @@ const MultiImageCarousel = () => {
             ref={modalRef}
             className="relative w-full h-full flex items-center justify-center"
           >
+            <div className='text-red-500'>11111</div>
             <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
               <button className="" onClick={toggleFullScreen}>
                   {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}
@@ -194,7 +198,7 @@ const MultiImageCarousel = () => {
                 <IoMdClose className="w-10 h-10 text-white" />
               </button>
             </div>
-
+            
             <ReactPlayer
               className="react-player"
               url={selectedImage.link}

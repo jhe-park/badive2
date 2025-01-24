@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from 'next/navigation';  // 상단에 import 추가
-
+import useModalOpen from '@/app/store/useModalOpen';
 export default function Navbar() {
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const navRef = useRef(null);
-  
+  const { isOpen, setIsOpen } = useModalOpen();
+
   // Add menu data structure
   const menuItems = [
     {
@@ -113,7 +114,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav ref={navRef} className="nav w-full fixed z-10 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: pathname === '/' ? '-100px' : '0' }}>
+    <nav ref={navRef} className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: isOpen ? '-100px' : '0' }}>
       <div className="w-full px-8 flex justify-between h-full mx-auto">
         {/* 로고 영역 */}
         <div className="flex items-center justify-center flex-col pl-4">
