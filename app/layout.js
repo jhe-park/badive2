@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
             <main className="min-h-screen flex flex-col items-center">
               <div className="w-full flex flex-col items-center">
                 <NavbarComponent />
-                <div className="flex flex-col gap-20 w-full">{children}</div>
+                <div className="flex flex-col gap-20 w-full ">{children}</div>
 
                 <FooterComponent></FooterComponent>
               </div>

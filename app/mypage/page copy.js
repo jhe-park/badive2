@@ -3,7 +3,7 @@ import Image from "next/image";
 import PurchaseTable from "./components/ProgramTable";
 export default function page() {
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-start p-16">
+    <div className="flex h-full w-full flex-col items-center justify-start p-16">
       <div className="w-full font-bold text-2xl">MY PAGE</div>
       <div className="w-full grid grid-cols-4 items-center justify-start">
         <div className="flex flex-col gap-4 pt-10 col-span-1 justify-center items-start pl-10">

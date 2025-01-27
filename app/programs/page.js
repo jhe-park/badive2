@@ -7,7 +7,7 @@ export default function page() {
     <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="w-full h-[600px] bg-red-100 relative">
         <Image
-          src="/program/programTop.png"
+          src="/program/programtop1.png"
           alt="program1"
           fill
           className="object-cover"

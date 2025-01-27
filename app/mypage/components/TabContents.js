@@ -7,9 +7,10 @@ import SayGoodbye from "./SayGoodbye";
 import Image from "next/image";
 export default function App() {
   return (
-    <div className="flex w-full flex-col">
-      <div className="flex justify-between items-center">
-        <div className="w-full font-bold text-2xl">MY PAGE</div>
+    <div className="flex w-full h-full flex-col">
+      <div className="w-full bg-black"></div>
+      <div className="flex justify-between items-center mt-24">
+        <div className="w-full font-bold text-2xl ">MY PAGE</div>
         <div className="flex w-1/5 h-auto bg-gray-200 rounded-lg px-5 py-2">
           <div>
             <Image src="/profile/profile.png" alt="profile" width={50} height={50} />
@@ -22,7 +23,7 @@ export default function App() {
         </div>
       </div>
 
-      <Tabs aria-label="Options" className="w-full h-full mt-5">
+      <Tabs aria-label="Options" className="w-full h-12" variant="underlined">
         <Tab key="purchase" title="프로그램 예약 조회">
           <ProgramTable />
         </Tab>

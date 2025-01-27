@@ -14,7 +14,9 @@ const config = {
   prefix: "",
   theme: {
     extend: {
-      
+      colors: {
+        primary: "#0077B6"
+      },
     },
   },
   plugins: [heroui()],

@@ -1,5 +1,13 @@
 import React from "react";
-import { Form, Input, Button } from "@nextui-org/react";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  SelectItem,
+  Radio,
+  RadioGroup,
+} from "@nextui-org/react";
 
 export default function App() {
   const [action, setAction] = React.useState(null);
@@ -17,79 +25,132 @@ export default function App() {
       }}
     >
       <div className="grid grid-cols-2 gap-x-5 w-full">
-      <Input
-          isRequired
-          errorMessage="Please enter a valid username"
-          label="Username"
-          labelPlacement="outside"
-          name="username"
-          placeholder="Enter your username"
-          type="text"
-          className="w-full col-span-1"
-        />
-      
-      
-        <Input
-          isRequired
-          errorMessage="Please enter a valid email"
-          label="Email"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-          className="w-full col-span-1"
-        />
-                <Input
-          isRequired
-          errorMessage="Please enter a valid email"
-          label="Email"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-          className="w-full col-span-1"
-        />
-                <Input
-          isRequired
-          errorMessage="Please enter a valid email"
-          label="Email"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-          className="w-full col-span-1"
-        />
-                <Input
-          isRequired
-          errorMessage="Please enter a valid email"
-          label="Email"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-          className="w-full col-span-1"
-        />
-                <Input
-          isRequired
-          errorMessage="Please enter a valid email"
-          label="Email"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-          className="w-full col-span-1"
-        />
+        <div className="flex flex-col">
+          <div>비밀번호</div>
+          <Input
+            name="username"
+            placeholder=""
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div>비밀번호 확인</div>
+          <Input
+            name="username"
+            placeholder=""
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div>이름</div>
+          <Input
+            name="username"
+            placeholder=""
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div>휴대폰번호</div>
+          <Input
+            name="username"
+            placeholder="010-1234-5678"
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div>생년월일</div>
+          <Input
+            name="username"
+            placeholder="1980-01-01"
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div>보유한 라이센스</div>
+          <Input
+            name="username"
+            placeholder=""
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div>희망하는 강습</div>
+          <div className="flex flex-row gap-2 justify-start items-center w-full">
+            <span>01.</span>
+            <Select>
+              <SelectItem>강습1</SelectItem>
+              <SelectItem>강습2</SelectItem>
+              <SelectItem>강습3</SelectItem>
+            </Select>
+          </div>
+          <div className="flex flex-row gap-2 justify-start items-center w-full">
+            <span>02.</span>
+            <Select>
+              <SelectItem>강습1</SelectItem>
+              <SelectItem>강습2</SelectItem>
+              <SelectItem>강습3</SelectItem>
+            </Select>
+          </div>
+          <div className="flex flex-row gap-2 justify-start items-center w-full">
+            <span>03.</span>
+            <Select>
+              <SelectItem>강습1</SelectItem>
+              <SelectItem>강습2</SelectItem>
+              <SelectItem>강습3</SelectItem>
+            </Select>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <div>성별</div>
+          <RadioGroup orientation="horizontal">
+            <Radio value="male">남</Radio>
+            <Radio value="female">여</Radio>
+          </RadioGroup>
+        </div>
+        <div className="flex flex-col">
+          <div>이메일</div>
+          <Input
+            name="username"
+            placeholder="abcd1234@naver.com"
+            type="text"
+            className="w-full col-span-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div>주소</div>
+          <div className="flex flex-row gap-2 justify-start items-center w-full">
+            <Input
+              name="username"
+              placeholder="abcd1234@naver.com"
+              type="text"
+              className="w-full col-span-1"
+            />
+            <Button>주소검색</Button>
+          </div>
+          <div>
+            <div>상세주소</div>
+            <Input
+              name="username"
+              placeholder="abcd1234@naver.com"
+              type="text"
+              className="w-full col-span-1"
+            />
+          </div>
+        </div>
       </div>
-      
-
-      
 
       <div className="flex gap-2 w-full">
-        <Button color="primary" type="submit" className="w-full">
-          Submit
-        </Button>
         <Button type="reset" variant="flat" className="w-full">
-          Reset
+          취소
+        </Button>
+        <Button color="primary" type="submit" className="w-full">
+          확인
         </Button>
       </div>
       {action && (

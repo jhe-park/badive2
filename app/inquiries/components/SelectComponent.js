@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Divider, Select, SelectItem, Button } from "@heroui/react";
-
+import { useRouter } from "next/navigation";
 export default function SelectComponent() {
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => Math.max(1, prev - 1));
@@ -115,7 +116,7 @@ export default function SelectComponent() {
       </div>
 
       <div className="w-full flex justify-center">
-        <Button className="bg-[#0077B6] text-white w-full text-2xl h-16">결제하기</Button>
+        <Button onPress={() => router.push('/inquiries/complete')} className="bg-[#0077B6] text-white w-full text-2xl h-16">결제하기</Button>
       </div>
     </div>
   );

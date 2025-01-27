@@ -24,7 +24,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           <p className="text-small text-default-500 text-[24px]">로그인</p>
         </div>
       </div>
-      <div className="mt-2 flex w-[500px] flex-col gap-4 rounded-large bg-content1 px-8 py-6 shadow-small">
+      <div className="mt-2 flex w-[90%] md:w-1/3 flex-col gap-4 rounded-large bg-content1 px-8 py-6 shadow-small">
         <Form className="flex flex-col gap-3" validationBehavior="native">
           <Input
             isRequired
