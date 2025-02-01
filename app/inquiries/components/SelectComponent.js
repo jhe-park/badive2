@@ -10,37 +10,37 @@ export default function SelectComponent() {
   const decrement = () => setQuantity((prev) => Math.max(1, prev - 1));
 
   return (
-    <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-6">
-      <div className="text-center text-4xl font-bold">
+    <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
+      <div className="text-center text-2xl md:text-4xl font-bold">
         스쿠버 다이빙 - 오픈워터 다이버
       </div>
-      <div className="text-center text-xl">
+      <div className="text-center text-sm md:text-xl">
         스쿠버 다이빙의 첫걸음 오픈워터 다이버 강습 프로그램
       </div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
-      <div className="w-full text-2xl font-bold">강습프로그램</div>
+      <div className="w-full text-lg md:text-2xl font-bold">강습프로그램</div>
       <Select className="w-full h-full text-xl">
         <SelectItem>1</SelectItem>
         <SelectItem>2</SelectItem>
         <SelectItem>3</SelectItem>
       </Select>
-      <div className="w-full text-2xl font-bold">희망하는 지역</div>
+      <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>
       <Select className="w-full h-full text-xl">
         <SelectItem>1</SelectItem>
         <SelectItem>2</SelectItem>
         <SelectItem>3</SelectItem>
       </Select>
-      <div className="w-full text-2xl font-bold">강사</div>
+      <div className="w-full text-lg md:text-2xl font-bold">강사</div>
       <Select className="w-full h-full">
         <SelectItem>1</SelectItem>
         <SelectItem>2</SelectItem>
         <SelectItem>3</SelectItem>
       </Select>
 
-      <div className="w-full text-2xl font-bold">인원선택</div>
+      <div className="w-full text-lg md:text-2xl font-bold">인원선택</div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
       <div className="w-full flex items-center justify-end">
-        <div className="relative flex items-center border border-gray-300 w-1/5">
+        <div className="relative flex items-center border border-gray-300 w-1/2 md:w-1/5">
           <button
             type="button"
             id="decrement-button"
@@ -99,24 +99,24 @@ export default function SelectComponent() {
         </div>
       </div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
-      <div className="w-[90%] text-2xl font-bold">결제</div>
+      <div className="w-[90%] text-lg md:text-2xl font-bold">결제</div>
       <Divider className="w-[90%] bg-[#A6A6A6]"></Divider>
       
       <div className="flex justify-between items-center w-[90%]">
-        <div className="text-2xl">합계</div>
-        <div className="text-2xl w-1/5 text-center">0원</div>
+        <div className="text-lg md:text-2xl">합계</div>
+        <div className="text-lg md:text-2xl w-1/5 text-center">0원</div>
       </div>
       <Divider className="w-[90%] bg-[#A6A6A6]"></Divider>
       <div className="flex justify-between items-center w-[90%]">
-        <div className="text-2xl">최종 결제 금액</div>
-        <div className="flex flex-col justify-center items-center w-1/5 text-center">
-          <p className="text-2xl">0원</p>
-          <p className="text-2xl">(vat포함)</p>
+        <div className="text-lg md:text-2xl">최종 결제 금액</div>
+        <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
+          <p className="text-lg md:text-2xl">0원</p>
+          <p className="text-lg md:text-2xl">(vat포함)</p>
         </div>
       </div>
 
       <div className="w-full flex justify-center">
-        <Button onPress={() => router.push('/inquiries/complete')} className="bg-[#0077B6] text-white w-full text-2xl h-16">결제하기</Button>
+        <Button onPress={() => router.push('/inquiries/complete')} className="bg-[#0077B6] text-white w-full text-lg md:text-2xl h-12 md:h-16">결제하기</Button>
       </div>
     </div>
   );

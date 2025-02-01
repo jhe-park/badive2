@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <Form
-      className="flex flex-col gap-4 p-5 w-full"
+      className="flex flex-col gap-4 md:p-5 w-full"
       validationBehavior="native"
       onReset={() => setAction("reset")}
       onSubmit={(e) => {

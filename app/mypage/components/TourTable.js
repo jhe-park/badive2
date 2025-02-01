@@ -53,7 +53,7 @@ export default function TourTable(props) {
       {!isDetailOpen && (
         <div className="w-full flex flex-col justify-center items-center space-y-5">
           <div className="w-full flex justify-end items-center gap-2">
-            <Select  className="w-[10%]" selectedKeys={searchFilter} onChange={(e) => setSearchFilter(e.target.value)}>
+            <Select  className="w-1/2 md:w-[10%]" selectedKeys={searchFilter} onChange={(e) => setSearchFilter(e.target.value)}>
               <SelectItem key="제목" value="제목">제목</SelectItem>
               <SelectItem key="장소" value="장소">장소</SelectItem>
               <SelectItem key="강사" value="강사">강사</SelectItem>
@@ -61,11 +61,11 @@ export default function TourTable(props) {
             </Select>
             <Input
               placeholder="검색"
-              className="w-1/4 text-gray-500"
+              className="w-1/2 md:w-1/4 text-gray-500"
               startContent={<FaSearch></FaSearch>}
             ></Input>
           </div>
-          <Card className="w-full p-2" {...props} shadow="none">
+          <Card className="w-full " {...props} shadow="none">
             <CardBody className="space-y-2">
               <Table removeWrapper aria-label="Example static collection table">
                 <TableHeader>
@@ -80,23 +80,24 @@ export default function TourTable(props) {
                   <TableColumn className="w-1/7 text-center">비고</TableColumn>
                 </TableHeader>
                 <TableBody>
-                  <TableRow key="1">
+                <TableRow key="1">
                     <TableCell className="text-center">01</TableCell>
                     <TableCell className="text-center flex justify-center items-center">
-                      <Image
-                        alt="program"
-                        src="/mypage/queryProgram.png"
-                        width={100}
-                        height={100}
+                      <div className="w-12 h-12 md:w-24 md:h-24 relative">
+                        <Image
+                          alt="program"
+                          src="/mypage/queryProgram.png"
+                      fill
                       ></Image>
+                      </div>
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center whitespace-nowrap">
                       스쿠버다이빙_오픈워터 다이버
                     </TableCell>
-                    <TableCell className="text-center">인천</TableCell>
-                    <TableCell className="text-center">이세원강사</TableCell>
-                    <TableCell className="text-center">예약확정</TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center whitespace-nowrap">인천</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">이세원강사</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">예약확정</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">
                       <Button color="primary" onPress={handleDetailOpen}>
                         자세히보기
                       </Button>

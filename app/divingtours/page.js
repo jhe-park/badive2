@@ -4,7 +4,7 @@ import TourCards from "./components/TourCards";
 export default function page() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
-      <div className="w-full h-[600px] flex items-center justify-center relative">
+      <div className="w-full h-[30vh] md:h-[800px] flex items-center justify-center relative">
         <Image
           src={"/divingtour/divingtour.png"}
           alt="scuberdiving"
@@ -15,7 +15,7 @@ export default function page() {
 
         </div>
       </div>
-      <div className="w-[calc(1320/1920*100%)] h-full flex flex-col items-center justify-center gap-y-5">
+      <div className="w-[90%] md:w-[calc(1320/1920*100%)] h-full flex flex-col items-center justify-center gap-y-5">
         <TourCards></TourCards>
       </div>
     </div>

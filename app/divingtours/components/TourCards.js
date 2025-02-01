@@ -100,7 +100,7 @@ export default function TourCards() {
                   />
                 </div>
                 <div className="p-4 flex flex-col items-center justify-center gap-y-2">
-                  <div className="font-bold text-xl text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                  <div className="font-bold text-xl text-center overflow-hidden text-ellipsis ">
                     {tour.title}
                   </div>
                   <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap">
@@ -126,7 +126,7 @@ export default function TourCards() {
                   />
                 </div>
                 <div className="p-4 flex flex-col items-center justify-center gap-y-2">
-                  <div className="font-bold text-xl text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                  <div className="font-bold text-xl text-center overflow-hidden text-ellipsis">
                     {tour.title}
                   </div>
                   <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap">

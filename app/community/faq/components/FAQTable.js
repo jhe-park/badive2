@@ -57,7 +57,7 @@ export default function FAQTable() {
     <div className="w-full mx-auto p-4 my-12">
       {/* Search Bar */}
       <div className="mb-6 flex justify-end items-center">
-        <div className="relative w-1/3">
+        <div className="relative w-full md:w-1/3">
           <input
             type="text"
             placeholder="검색어를 입력해주세요"
@@ -82,27 +82,26 @@ export default function FAQTable() {
                 onClick={() => toggleAccordion(index)}
                 className="w-full flex justify-between items-center py-4 text-left hover:bg-gray-50 transition-colors"
               >
-                <span className=" flex items-center text-xl md:text-3xl font-bold text-black">
-                  <span className="mr-2 font-bold text-xl md:text-4xl">Q</span>
+                <span className=" flex items-center text-sm md:text-3xl font-bold text-black">
+                  <span className="mr-2 font-bold text-sm md:text-4xl">Q</span>
                   {item.question}
                 </span>
                 {openIndex === index ? (
-                  <ChevronUp className=" text-gray-500 text-xl md:text-4xl" />
+                  <ChevronUp className=" text-gray-500 text-sm md:text-4xl" />
                 ) : (
-                  <ChevronDown className=" text-gray-500 text-xl md:text-4xl" />
+                  <ChevronDown className=" text-gray-500 text-sm md:text-4xl" />
                 )}
               </button>
 
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openIndex === index ? "max-h-40" : "max-h-0"
-                }`}
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40" : "max-h-0"
+                  }`}
               >
                 <div className="p-4 bg-gray-50">
-                  
+
                   {item.answer.split("\n").map((line, i) => (
-                    <p key={i} className={`mb-1 text-lg md:text-2xl ${i === 0 ? "font-bold" : ""}`}>
-                      {i === 0 && <span className="text-gray-500 mr-2 text-lg md:text-2xl">A</span>}
+                    <p key={i} className={`mb-1 text-sm md:text-2xl ${i === 0 ? "font-bold" : ""}`}>
+                      {i === 0 && <span className="text-gray-500 mr-2 text-sm md:text-2xl">A</span>}
                       {line}
                     </p>
                   ))}
@@ -130,8 +129,7 @@ export default function FAQTable() {
         <button className="px-3 py-1 border rounded hover:bg-gray-100">
           <HiChevronDoubleRight className="text-4xl" />
         </button> */}
-        <Pagination isCompact showControls initialPage={1} total={10} />
-      </div>
+        <Pagination initialPage={1} total={10} />      </div>
     </div>
   );
 }

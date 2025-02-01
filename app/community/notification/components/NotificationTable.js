@@ -40,7 +40,7 @@ export default function NotificationTable() {
     <div className="w-full mx-auto p-4 my-12">
       {/* Search Bar */}
       <div className="mb-6 flex justify-end items-center">
-        <div className="relative w-1/3">
+        <div className="relative w-full md:w-1/3">
           <input
             type="text"
             placeholder="검색어를 입력해주세요"
@@ -53,9 +53,9 @@ export default function NotificationTable() {
       </div>
 
       {/* Board Table */}
-      <table className="w-full border-t-2 border-gray-800 text-lg md:text-[30px]">
+      <table className="w-full border-t-2 border-gray-800 text-sm md:text-[30px]">
         <thead>
-          <tr className="bg-gray-50">
+          <tr className="bg-gray-50 ">
             <th className="py-2 px-4 text-left w-[10%]">NO.</th>
             <th className="py-2 px-4 text-left w-[75%]">내용</th>
             <th className="py-2 px-4 text-left w-[15%] ">작성일</th>
@@ -74,25 +74,20 @@ export default function NotificationTable() {
               <td className="py-3 px-4">
                 <Link
                   href={`/community/notification/${post.id}`}
-                  className="hover:text-blue-600"
+                  className="hover:text-blue-600 text-sm md:text-lg"
                 >
                   {post.title}
                 </Link>
               </td>
-              <td className="py-3 px-4 text-gray-600">{post.date}</td>
+              <td className="py-3 px-4 text-gray-600 text-sm md:text-lg">{post.date}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6 gap-2">
-        {/* <button className="px-3 py-1 border rounded hover:bg-gray-100"><HiChevronDoubleLeft className="text-4xl"/></button>
-        <button className="px-3 py-1 border rounded hover:bg-gray-100"><HiChevronLeft className="text-4xl"/></button>
-        <button className="px-3 py-1 border rounded bg-blue-500 text-white text-[20px]">1</button>
-        <button className="px-3 py-1 border rounded hover:bg-gray-100"><HiChevronRight className="text-4xl"/></button>
-        <button className="px-3 py-1 border rounded hover:bg-gray-100"><HiChevronDoubleRight className="text-4xl"/></button> */}
-        <Pagination isCompact showControls initialPage={1} total={10} />{" "}
+      <div className="flex justify-center mt-6 w-full">
+      <Pagination initialPage={1} total={10} />
       </div>
     </div>
   );

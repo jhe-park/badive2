@@ -3,7 +3,7 @@ import CalendarComponent from './CalendarComponent'
 import SelectComponent from './SelectComponent'
 export default function OrderComponents() {
   return (
-    <div className="w-full h-full grid grid-cols-2 items-center justify-center gap-y-6 gap-x-12">
+    <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-6 gap-x-12">
       <CalendarComponent />
       <SelectComponent />
     </div>

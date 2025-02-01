@@ -24,6 +24,7 @@ export default function SelectModal({ isOpen, onOpenChange, onClose }) {
   const dummyData = [
     {
       date: "2023-10-01",
+      weekday: "월",
       schedule: [
         { time: "06:00~07:00", status: 0 },
         { time: "07:00~08:00", status: 1 },
@@ -142,53 +143,55 @@ export default function SelectModal({ isOpen, onOpenChange, onClose }) {
           {(onClose) => (
             <>
               <ModalHeader className="">
-                <div className="flex flex-row justify-between w-full">
-                  <div className="text-2xl font-bold">이세원강사</div>
+                <div className="flex md:flex-row flex-col justify-between w-full gap-y-2">
+                  <div className="text-lg md:text-2xl font-bold">이세원강사</div>
                   <div className="flex items-center gap-2 pr-6">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-[#A9D6E5]"></div>
-                      <div>예약완료</div>
+                      <div className="text-sm md:text-lg">예약완료</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-[#F4F4F4]"></div>
-                      <div>예약가능</div>
+                      <div className="text-sm md:text-lg">예약가능</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-[#FD0000]"></div>
-                      <div>예약불가</div>
+                      <div className="text-sm md:text-lg">예약불가</div>
                     </div>
                   </div>
                 </div>
               </ModalHeader>
               <ModalBody>
-                <Table aria-label="Example static collection table" shadow="none" removeWrapper>
-                  <TableHeader>
-                    <TableColumn className="text-lg text-center w-1/8">시간/요일</TableColumn>
-                    {dummyData.map((slot, index) => (
-                      <TableColumn key={index} className="text-lg text-center w-1/8">{slot.weekday}</TableColumn>
-                    ))}
-                  </TableHeader>
-                  <TableBody>
-                    {dummyData[0].schedule.map((schedule, timeIndex) => (
-                      <TableRow key={timeIndex}>
-                        <TableCell className="text-center text-medium z-50">{schedule.time}</TableCell>
-                        {dummyData.map((slot, dateIndex) => (
-                          <TableCell
-                            key={dateIndex}
-                            className={`text-center ${getStatusColor(slot.schedule[timeIndex].status)} ${selectedCell === `${timeIndex}-${dateIndex}` ? "bg-[#CAD593]" : ""} ${slot.schedule[timeIndex].status === 0 ? "cursor-pointer" : "cursor-not-allowed"}`}
-                            onClick={() => slot.schedule[timeIndex].status === 0 && handleCellClick(`${timeIndex}-${dateIndex}`)}
-                          >
-                            {slot.schedule[timeIndex].status}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                <div className="overflow-x-auto">
+                  <Table aria-label="Example static collection table" shadow="none" removeWrapper>
+                    <TableHeader>
+                      <TableColumn className="text-sm md:text-lg text-center w-1/8">시간/요일</TableColumn>
+                      {dummyData.map((slot, index) => (
+                        <TableColumn key={index} className="text-sm md:text-lg text-center w-1/8">{slot.weekday}</TableColumn>
+                      ))}
+                    </TableHeader>
+                    <TableBody>
+                      {dummyData[0].schedule.map((schedule, timeIndex) => (
+                        <TableRow key={timeIndex} className="text-center overflow-x-auto">
+                          <TableCell className="text-center text-sm md:text-lg z-50">{schedule.time}</TableCell>
+                          {dummyData.map((slot, dateIndex) => (
+                            <TableCell
+                              key={dateIndex}
+                              className={`text-center ${getStatusColor(slot.schedule[timeIndex].status)} ${selectedCell === `${timeIndex}-${dateIndex}` ? "bg-[#CAD593]" : ""} ${slot.schedule[timeIndex].status === 0 ? "cursor-pointer" : "cursor-not-allowed"}`}
+                              onClick={() => slot.schedule[timeIndex].status === 0 && handleCellClick(`${timeIndex}-${dateIndex}`)}
+                            >
+                              {slot.schedule[timeIndex].status}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button
-                  className="bg-[#0077B6] text-white w-full text-xl h-12"
+                  className="bg-[#0077B6] text-white w-full text-lg md:text-xl h-12 md:h-16"
                   onPress={onClose}
                 >
                   예약일정 선택하기

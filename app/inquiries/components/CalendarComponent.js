@@ -42,16 +42,16 @@ const CalendarComponent = () => {
   ).getDay();
 
   return (
-    <div className="col-span-1 flex flex-col items-center justify-start gap-y-12 h-full">
-      <div className="flex justify-between items-center mb-4 w-full">
+    <div className="col-span-1 flex flex-col items-center justify-start gap-y-2 md:gap-y-12 h-full">
+      <div className="flex justify-between items-center md:mb-4 w-full">
         <button
           onClick={handlePrevMonth}
           className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
         >
-          <ChevronLeft size={40} />
-          <span className="text-3xl">이전달</span>
+          <ChevronLeft className="text-4xl md:text-9xl font-bold" />
+          <span className="text-sm md:text-2xl">이전달</span>
         </button>
-        <div className="font-medium text-3xl underline my-6">
+        <div className="font-medium text-sm md:text-3xl underline my-6">
           {currentDate.toLocaleString("default", { month: "long" })}{" "}
           {currentDate.getFullYear()}
         </div>
@@ -59,15 +59,15 @@ const CalendarComponent = () => {
           onClick={handleNextMonth}
           className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
         >
-          <span className="text-3xl">다음달</span>
-          <ChevronRight size={40} />
+          <span className="text-sm md:text-2xl">다음달</span>
+          <ChevronRight className="text-4xl md:text-9xl font-bold" />
         </button>
       </div>
       <div className="grid grid-cols-7 gap-2 w-full">
         {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
           <div
             key={day}
-            className={`font-bold text-3xl text-center h-16 flex items-center justify-center w-full ${
+            className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${
               index === 0 ? "text-red-500" : ""
             }`}
           >
@@ -80,7 +80,7 @@ const CalendarComponent = () => {
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
           <div
             key={day}
-            className={`text-center text-3xl w-full h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition ${
+            className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition ${
               selectedDate?.getDate() === day &&
               selectedDate?.getMonth() === currentDate.getMonth() &&
               selectedDate?.getFullYear() === currentDate.getFullYear()
@@ -93,20 +93,20 @@ const CalendarComponent = () => {
           </div>
         ))}
       </div>
-      {selectedDate && (
+      {/* {selectedDate && (
         <div className="mt-4 text-center">
           Selected date: {selectedDate.toLocaleDateString()}
         </div>
-      )}
+      )} */}
       <div className="w-[90%] h-full items-center justify-start gap-y-6 flex flex-col">
         <div className="w-full h-16 flex items-center justify-center border-2 border-[#0077B6] rounded-lg p-2">
           <RadioGroup>
             <Radio value="1">
-              <span className="text-3xl">12. 19(목) AM 8:00~ AM 10:00 이세원강사</span>
+              <span className="text-sm md:text-3xl">12. 19(목) AM 8:00~ AM 10:00 이세원강사</span>
             </Radio>
           </RadioGroup>
         </div>
-        <div className="flex flex-col items-center justify-center gap-y-2 text-xl">
+        <div className="flex flex-col items-center justify-center gap-y-2 text-sm md:text-xl">
           <p>※위 내용 일정으로 예약을 신청하시겠습니까?</p>
           <p>(예약이 확정된 이후에는 변경이 어려울 수 있습니다.)</p>
         </div>

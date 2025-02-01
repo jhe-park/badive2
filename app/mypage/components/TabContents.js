@@ -11,19 +11,19 @@ export default function App() {
       <div className="w-full bg-black"></div>
       <div className="flex justify-between items-center mt-24">
         <div className="w-full font-bold text-2xl ">MY PAGE</div>
-        <div className="flex w-1/5 h-auto bg-gray-200 rounded-lg px-5 py-2">
-          <div>
-            <Image src="/profile/profile.png" alt="profile" width={50} height={50} />
+        <div className="flex w-full md:w-1/5 h-auto bg-gray-200 rounded-lg px-2 md:px-5 md:py-2 justify-center items-center">
+          <div className="w-12 h-12 md:w-24 md:h-24 relative">
+            <Image src="/profile/profile.png" alt="profile" fill />
           </div>
           <div className="flex flex-col p-2 justify-center items-center">
-          <p className="text-sm">XX님 안녕하세요</p>
-          <p className="text-xs">누적 포인트 : 1000P</p>
+            <p className="text-sm">XX님 안녕하세요</p>
+            <p className="text-xs">누적 포인트 : 1000P</p>
           </div>
-          
+
         </div>
       </div>
 
-      <Tabs aria-label="Options" className="w-full h-12" variant="underlined">
+      <Tabs aria-label="Options" className="w-full h-12 my-6" variant="underlined">
         <Tab key="purchase" title="프로그램 예약 조회">
           <ProgramTable />
         </Tab>
