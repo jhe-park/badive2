@@ -85,7 +85,7 @@ const InstagramCarousel = () => {
   return (
     <div className="relative w-full h-full">
       {/* Navigation Buttons */}
-      <div className="absolute right-0 -top-10 flex gap-2">
+      <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
@@ -104,17 +104,17 @@ const InstagramCarousel = () => {
 
       {/* Images Container */}
       <SlideUp>
-        <div className="relative overflow-hidden h-full pt-5">
+        <div className="relative overflow-hidden h-full pt-12 md:pt-5">
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * 20}%)`,
+              transform: `translateX(-${currentIndex * (window.innerWidth >= 768 ? 20 : 50)}%)`,
             }}
           >
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/5 h-full relative"
+                className="flex-none w-1/2 md:w-1/5 h-full relative"
                 style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full">
@@ -130,7 +130,7 @@ const InstagramCarousel = () => {
                     aria-label={`Play ${image.title}`}
                   >
                     <Link href={image.link} target="_blank">
-                      <IoIosPlayCircle className="w-20 h-20" />
+                      <IoIosPlayCircle className="w-10 md:w-20 h-10 md:h-20" />
                     </Link>
                   </button>
                 </div>

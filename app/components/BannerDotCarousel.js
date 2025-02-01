@@ -49,7 +49,7 @@ const BannerDotCarousel = () => {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
                 currentSlide === index
                   ? 'bg-white scale-110'
                   : 'bg-white/50 hover:bg-white/70'

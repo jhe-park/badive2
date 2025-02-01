@@ -56,13 +56,15 @@ const MultiImageCarousel = () => {
   ];
 
   const handlePrev = () => {
+    const itemsPerView = window.innerWidth < 768 ? 2 : 5; // md 브레이크포인트에서 변경
     setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, images.length - 5) : Math.max(0, prev - 1)
+      prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= images.length - 5 ? 0 : prev + 1));
+    const itemsPerView = window.innerWidth < 768 ? 2 : 5; // md 브레이크포인트에서 변경
+    setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
 
   const handleVideoClick = (url) => {
@@ -125,7 +127,7 @@ const MultiImageCarousel = () => {
 
   return (
     <div className="relative w-full h-full">
-      <div className="absolute right-0 -top-10 flex gap-2">
+      <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
@@ -143,18 +145,18 @@ const MultiImageCarousel = () => {
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden h-full pt-5">
+        <div className="relative overflow-hidden h-full pt-10 md:pt-5">
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * 20}%)`,
+              transform: `translateX(-${currentIndex * (window.innerWidth < 768 ? 50 : 20)}%)`,
             }}
           >
             {images.map((image) => (
               <div
                 key={image.id}
                 className="flex-none h-full relative group"
-                style={{ width: "20%", padding: "0 10px" }}
+                style={{ width: window.innerWidth < 768 ? "50%" : "20%", padding: "0 10px" }}
                 onClick={() => handleImageClick(image)}
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-4/5 group">
@@ -170,12 +172,12 @@ const MultiImageCarousel = () => {
                     aria-label={`Play ${image.title}`}
                     onClick={() => handleVideoClick(image.link)}
                   >
-                    <IoIosPlayCircle className="w-20 h-20" />
+                    <IoIosPlayCircle className="w-10 h-10 md:w-20 md:h-20" />
                   </button>
                 </div>
                 {/* Title below the image */}
                 <div className="text-center h-1/5 flex justify-center items-center">
-                  <span className="text-[18px]">{image.title}</span>
+                  <span className="text-sm md:text-[18px]">{image.title}</span>
                 </div>
               </div>
             ))}
@@ -187,7 +189,7 @@ const MultiImageCarousel = () => {
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div 
             ref={modalRef}
-            className="relative w-full h-full flex items-center justify-center"
+            className="relative  w-full h-full flex items-center justify-center"
           >
             <div className='text-red-500'>11111</div>
             <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">

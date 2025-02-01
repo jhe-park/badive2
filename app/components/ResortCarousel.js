@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import SlideUp from "@/components/animation/SlideUp";
 const FourImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  // 화면 크기에 따른 표시할 이미지 개수 설정
+  const itemsToShow = typeof window !== 'undefined' && window.innerWidth < 768 ? 2 : 4;
 
   // 예시 이미지 데이터
   const images = [
@@ -35,12 +37,12 @@ const FourImageCarousel = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, images.length - 4) : Math.max(0, prev - 1)
+      prev === 0 ? Math.max(0, images.length - itemsToShow) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= images.length - 4 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev >= images.length - itemsToShow ? 0 : prev + 1));
   };
 
   return (
@@ -62,11 +64,14 @@ const FourImageCarousel = () => {
             <div
               className="flex transition-transform duration-300 ease-out gap-6 h-full p-2"
               style={{
-                transform: `translateX(-${currentIndex * (25 + 1.5)}%)`,
+                transform: `translateX(-${currentIndex * (100 / itemsToShow + 1.5)}%)`,
               }}
             >
               {images.map((image) => (
-                <div key={image.id} className="flex-none w-1/4 h-full">
+                <div 
+                  key={image.id} 
+                  className="flex-none md:w-1/4 w-1/2 h-full"
+                >
                   <div className="aspect-video rounded-lg overflow-hidden h-full w-full">
                     <a
                       href={image.link}
@@ -81,7 +86,7 @@ const FourImageCarousel = () => {
                       />
                     </a>
 
-                    <div className="text-[18px] resort-title text-center mt-2 bg-white bg-opacity-75 p-2 rounded flex justify-center items-center">
+                    <div className="text-sm md:text-[18px] resort-title text-center mt-2 bg-white bg-opacity-75 p-2 rounded flex justify-center items-center">
                       {image.title}
                     </div>
                   </div>

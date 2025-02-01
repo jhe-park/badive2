@@ -9,6 +9,7 @@ export default function Navbar() {
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const navRef = useRef(null);
   const { isOpen, setIsOpen } = useModalOpen();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 모바일 메뉴 상태 추가
 
   // Add menu data structure
   const menuItems = [
@@ -123,8 +124,18 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* 우측 메뉴 영역 */}
-        <div className="flex flex-col items-end justify-center relative">
+        {/* 햄버거 메뉴 버튼 (모바일) */}
+        <button 
+          className="lg:hidden flex items-center"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <svg className="w-6 h-6 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <path d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
+          </svg>
+        </button>
+
+        {/* 데스크톱 메뉴 */}
+        <div className="hidden lg:flex flex-col items-end justify-center relative">
           {/* 상단 행: 로그인/회원가입/마이페이지 */}
           <div className="flex h-1/3 gap-6 justify-end items-center">
             {["로그인", "회원가입", "마이페이지"].map((item, index) => (
@@ -172,6 +183,57 @@ export default function Navbar() {
             ))}
           </div>
         </div>
+
+        {/* 모바일 메뉴 */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden absolute top-[100px] left-0 w-full bg-black/95 backdrop-blur-sm">
+            {/* 모바일 로그인 메뉴 */}
+            <div className="flex justify-center gap-6 py-4 border-b border-gray-700">
+              {["로그인", "회원가입", "마이페이지"].map((item, index) => (
+                <Link 
+                  key={index}
+                  href={`/${item === "로그인" ? "login" : item === "회원가입" ? "register" : "mypage"}`}
+                  className="text-[14px] text-gray-200 hover:text-white"
+                >
+                  {item}
+                </Link>
+              ))}
+            </div>
+            
+            {/* 모바일 메인 메뉴 */}
+            <div className="py-4">
+              {menuItems.map((item, index) => (
+                <div key={index} className="relative">
+                  <div 
+                    className="px-6 py-3 text-gray-200 hover:bg-gray-800 cursor-pointer"
+                    onClick={() => setOpenSubmenu(openSubmenu === index ? null : index)}
+                  >
+                    <span className="text-[16px]">{item.title}</span>
+                    {item.submenu && (
+                      <span className="float-right">
+                        {openSubmenu === index ? '▼' : '▶'}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {item.submenu && openSubmenu === index && (
+                    <div className="bg-gray-900">
+                      {item.submenu.map((subitem, subindex) => (
+                        <Link 
+                          key={`${index}-${subindex}`}
+                          href={subitem.href}
+                          className="block px-8 py-2 text-[14px] text-gray-300 hover:text-white hover:bg-gray-800"
+                        >
+                          {subitem.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

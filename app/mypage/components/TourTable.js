@@ -47,6 +47,7 @@ export default function TourTable(props) {
     setIsDetailOpen(false);
   };
 
+  
   return (
     <div className="w-full flex-col justify-center items-center space-y-5 h-full">
       {!isDetailOpen && (

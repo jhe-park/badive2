@@ -2,9 +2,9 @@ import React from "react";
 import SlideUp from "@/components/animation/SlideUp";
 export default function Experts() {
   return (
-    <div className="w-full h-[100vh] flex flex-col justify-start items-start gap-y-5 px-[2vw] py-[1vw]">
-      <div className="flex gap-x-5 justify-center items-center">
-        <p className="text-[36px] font-bold">소속강사</p>
+    <div className="w-full h-[40vh] md:h-[100vh] md:h-[100vh] flex flex-col justify-start items-start gap-y-5 px-[2vw] py-[1vw]">
+      <div className="flex gap-x-5 justify-center md:justify-start items-center w-full">
+        <p className="text-2xl md:text-[36px] font-bold text-center md:text-start">소속강사</p>
       </div>
       <SlideUp>
       <div className="w-full h-full flex gap-2">
@@ -31,7 +31,7 @@ export default function Experts() {
               alt="Expert 3"
               className="w-full h-full transition-transform duration-300 transform hover:scale-110"
             />
-            <div className="text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="text-sm md:text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-12 md:h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               강사소개
             </div>
           </div>

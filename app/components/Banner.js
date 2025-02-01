@@ -47,10 +47,10 @@ export default function Banner() {
 
   return (
     <>
-      <div className="bg-white w-full h-[100vh] relative">
+      <div className="bg-white w-full h-[40vh] md:h-[100vh] relative">
         <video
           ref={videoRef}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-fill"
           autoPlay
           muted
           loop
@@ -61,72 +61,74 @@ export default function Banner() {
           <source src={getVideoSource()} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <div className="absolute bottom-48 left-48  text-white px-4 py-2 rounded flex gap-8 justify-center items-center">
-          <button onClick={togglePlayPause}>
-            {isPlaying ? (
-              <FaPauseCircle className="text-6xl" />
-            ) : (
-              <FaPlayCircle className="text-6xl" />
-            )}
+        <div className="absolute bottom-[5%] md:bottom-[10%] left-[0%] md:left-[10%] text-white px-4 py-2 rounded flex gap-2 md:gap-8 justify-center items-start flex-col">
+          <div className="flex flex-row gap-4">
+            <Button
+              className="text-white font-bold text-md md:text-2xl relative group h-10 md:w-24 md:h-16"
+              color=""
+              variant="flat"
+            >
+              <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity "></span>
+              <span className="relative">자세히보기</span>
+            </Button>
+            <Button
+              className="text-white font-bold text-md md:text-2xl relative group  h-10 md:w-24 md:h-16"
+              color=""
+              variant="flat"
+            >
+              <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity"></span>
+              <span className="relative">강사소개</span>
+            </Button>
+          </div>
+          <div className="flex flex-row ml-4 md:ml-12">
+            <button onClick={togglePlayPause}>
+              {isPlaying ? (
+                <FaPauseCircle className="text-3xl md:text-6xl" />
+              ) : (
+                <FaPlayCircle className="text-3xl md:text-6xl" />
+              )}
+            </button>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-1/2 h-12 md:h-24 z-50">
+          <button
+            className="bg-black text-white px-4 py-2 rounded-l w-1/3 text-[11px] md:text-[25px]"
+            onClick={() => setSelectMode("mode1")}
+          >
+            SCUBA DIVING
           </button>
-          <Button 
-            className="text-white text-2xl relative group w-48 h-16" 
-            color="" 
-            variant="flat"
+          <div className="w-px bg-white"></div>
+          <button
+            className="bg-black text-white px-4 py-2 w-1/3 text-[11px] md:text-[25px]"
+            onClick={() => setSelectMode("mode2")}
           >
-            <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity "></span>
-            <span className="relative">자세히보기</span>
-          </Button>
-          <Button 
-            className="text-white text-2xl relative group w-48 h-16"  
-            color="" 
-            variant="flat"
+            FREEDIVING
+          </button>
+          <div className="w-px bg-white"></div>
+          <button
+            className="bg-black text-white px-4 py-2 w-1/3 text-[11px] md:text-[25px]"
+            onClick={() => setSelectMode("mode3")}
           >
-            <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity"></span>
-            <span className="relative">강사소개</span>
-          </Button>
-
+            MERMAID
+          </button>
         </div>
       </div>
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-1/2 h-24 z-10">
-        <button
-          className="bg-black text-white px-4 py-2 rounded-l w-1/3 text-[25px]"
-          onClick={() => setSelectMode("mode1")}
-        >
-          SCUBA DIVING
-        </button>
-        <div className="w-px bg-white"></div>
-        <button
-          className="bg-black text-white px-4 py-2 w-1/3 text-[25px]"
-          onClick={() => setSelectMode("mode2")}
-        >
-          FREEDIVING
-        </button>
-        <div className="w-px bg-white"></div>
-        <button
-          className="bg-black text-white px-4 py-2 w-1/3 text-[25px]"
-          onClick={() => setSelectMode("mode3")}
-        >
-          MERMAID
-        </button>
-      </div>
       <div
-        className="bg-green-500 w-full h-[100vh] relative grid grid-cols-2"
+        className="bg-green-500 w-full h-[40vh] md:h-[100vh] relative grid grid-cols-2"
         style={{
           backgroundImage: "url('/banner/bannerlower.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="col-span-1 flex justify-center items-center w-full h-ful">
+        <div className="col-span-1 flex justify-center items-center w-full h-full">
           <div className="w-1/2 h-1/2 flex justify-center items-center">
             <BannerDotCarousel></BannerDotCarousel>
           </div>
-          
         </div>
-        <div className="col-span-1 flex justify-center items-center w-full h-ful flex-col">
-          <p className="text-white text-[80px]">Open The Sea Gate</p>
-          <p className="text-white text-[48px]">the soul of diving</p>
+        <div className="col-span-1 flex justify-center items-center w-full h-full flex-col">
+          <p className="text-white text-2xl md:text-[80px]">Open The Sea Gate</p>
+          <p className="text-white text-xl md:text-[48px]">the soul of diving</p>
         </div>
       </div>
     </>
