@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
 import Image from "next/image";
@@ -9,6 +9,18 @@ function IntroductionCarousel() {
   const { instructor, setInstructor } = useInstructor();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(!window.matchMedia('(min-width: 768px)').matches);
+    
+    const handleResize = () => {
+      setIsMobile(!window.matchMedia('(min-width: 768px)').matches);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const nextSlide = () => {
     const newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
@@ -64,7 +76,7 @@ function IntroductionCarousel() {
                 </div>
                 <div
                   className={`text-sm md:text-[30px] text-center md:[&>p:not(:last-child)]:mb-8 ${
-                    expandedIndex !== index && !window.matchMedia('(min-width: 768px)').matches ? 'line-clamp-6' : ''
+                    expandedIndex !== index && isMobile ? 'line-clamp-6' : ''
                   }`}
                   dangerouslySetInnerHTML={{ __html: item.left.description }}
                 ></div>
