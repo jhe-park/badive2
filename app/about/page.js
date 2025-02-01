@@ -5,7 +5,7 @@ import RegionTabs from "./components/RegionTabs";
 export default function page() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-start">
-      <div className="w-full h-[600px] mt-[100px] relative">
+      <div className="w-full h-[30vh] md:h-[600px] mt-[100px] relative">
         <Image
           src="/about/topbanner.png"
           alt="about_banner"
@@ -13,15 +13,15 @@ export default function page() {
           fill
         />
         <div className="absolute bottom-[2vh] left-[2vw]">
-          <p className="text-[48px] font-bold">BDN DIVE,</p>
-          <p className="text-[32px] ">스쿠버다이빙, 프리다이빙, 머메이드 </p>
-          <p className="text-[32px] ">
+          <div className="text-2xl md:text-[48px] font-bold">BDN DIVE,</div>
+          <div className="text-xl md:text-[32px] ">스쿠버다이빙, 프리다이빙, 머메이드 </div>
+          <div className="text-xl md:text-[32px] ">
             라이센스 및 강사교육을 하는 전문 교육기관{" "}
-          </p>
+          </div>
         </div>
       </div>
-      <div className="w-full h-[1314px] flex flex-col justify-center items-center gap-y-5 py-6">
-        <h1 className="w-full font-bold text-[50px] text-center mb-5">
+      <div className="w-full h-[60vh] md:h-[1314px] flex flex-col justify-center items-center gap-y-5 py-6">
+        <h1 className="w-full font-bold text-2xl md:text-[50px] text-center mb-5">
           "Professionals with Years of Diving Experience
         </h1>
         <div className="h-full  flex items-center w-[75vw] justify-center">
@@ -45,13 +45,13 @@ export default function page() {
           </div>
           <div className="w-1/4 h-full flex flex-col justify-start items-center">
             <div className="w-full h-1/4 relative flex flex-col justify-center items-center px-5 overflow-hidden">
-              <p className="text-3xl ">BDN</p>
-              <p className="text-3xl ">DIVE</p>
-              <p className="text-4xl font-bold">국내 상위1%</p>
-              <p className="text-4xl font-bold">다이빙 강사진</p>
+              <p className="text-xs md:text-3xl ">BDN</p>
+              <p className="text-xs md:text-3xl ">DIVE</p>
+              <p className="text-xs md:text-4xl font-bold">국내 상위1%</p>
+              <p className="text-xs md:text-4xl font-bold">다이빙 강사진</p>
             </div>
             <Divider className="w-4/5"></Divider>
-            <div className="w-4/5 h-1/4 relative border-b-2 border-black px-2 text-xl justify-center items-center flex flex-col overflow-hidden">
+            <div className="w-4/5 h-1/4 relative border-b-2 border-black px-2 text-xs md:text-xl justify-center items-center flex flex-col overflow-hidden">
               <p className="text-center line-clamp-6">
                 “BDN 다이빙 강사진들은 수천회의 다이빙 경험과 다양한 다이빙
                 환경에서의 실전 경험을 바탕으로, 초보강습부터 강사 라이센스
@@ -117,18 +117,18 @@ export default function page() {
         </div>
       </div>
       <div className="w-full h-[1212px] p-10 flex flex-col">
-        <h1 className="text-5xl font-bold">전국 지역 다이빙 강습 가능</h1>
+        <h1 className="text-2xl md:text-5xl font-bold">전국 지역 다이빙 강습 가능</h1>
         <div className="mt-5">
-          <p className="text-xl">
+          <p className="text-medium md:text-xl">
             “BDN은 대한민국 어디서든 다이빙을 배울 수 있는 기회를 제공합니다.
           </p>
-          <p className="text-xl">
+          <p className="text-medium md:text-xl">
             각 지역 원하는 장소에서 강사진들을 통해 체계적이고 안전한 다이빙
           </p>
-          <p className="text-xl">
+          <p className="text-medium md:text-xl">
             강습을 운영하고 있으며, 초보자에게는 기초부터 탄탄하게, 경험자에게는
           </p>
-          <p className="text-xl">
+          <p className="text-medium md:text-xl">
             심화 과정을 통해 수준을 높힐 수 있는 맞춤형 강습을 제공합니다. “
           </p>
         </div>
@@ -136,12 +136,12 @@ export default function page() {
           <RegionTabs></RegionTabs>
         </div>
       </div>
-      <div className="w-full h-[1000px] p-10 flex flex-col justify-center items-start">
-        <h1 className="text-5xl font-bold">
+      <div className="w-full h-[60vh] md:h-[1000px] p-10 flex flex-col justify-center items-start">
+        <h1 className="text-2xl md:text-5xl font-bold">
           깊은 바다로 떠나는 잊을 수 없는 여행
         </h1>
-        <div className="w-full h-[540px] flex justify-center items-center mt-12 px-[5vw] ">
-          <div className="w-1/2 h-full grid grid-cols-4 gap-0">
+        <div className="w-full h-[540px] flex flex-col md:flex-row justify-center items-center mt-12 px-0 md:px-[5vw] ">
+          <div className="w-full md:w-1/2 h-full grid grid-cols-4 gap-0">
             {[...Array(12)].map((_, index) => (
               <div key={index} className="relative w-full h-full p-0">
                 <Image
@@ -153,13 +153,13 @@ export default function page() {
               </div>
             ))}
           </div>
-          <div className="w-1/2 h-full flex flex-col gap-4 p-4 justify-center items-start px-[5vw]">
-            <h1 className="text-[55px] font-bold">Safe dives, Enjoy Diving!</h1>
-            <p className="text-[30px]">
+          <div className="w-full md:w-1/2 h-full flex flex-col gap-4 p-4 justify-center items-start px-[1vw] md:px-[5vw] gap-y-4 md:gap-y-12">
+            <div className="text-2xl md:text-[55px] font-bold">Safe dives, Enjoy Diving!</div>
+            <div className="text-lg md:text-[30px]">
               “BDN은 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브
               리조트들과의 MOU를 체결하여 많은 다이버 회원분들에게 특별한 경험을
               제공하고자 노력하고 있습니다. “
-            </p>
+            </div>
           </div>
         </div>
       </div>
