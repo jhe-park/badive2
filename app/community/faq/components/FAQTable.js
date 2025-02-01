@@ -71,7 +71,7 @@ export default function FAQTable() {
 
       {/* FAQ Accordion */}
       <div className="w-full mx-auto p-4">
-        <h1 className="text-2xl md:text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
+        <h1 className="text-xl md:text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
           자주 묻는 질문 FAQ
         </h1>
 
@@ -82,14 +82,14 @@ export default function FAQTable() {
                 onClick={() => toggleAccordion(index)}
                 className="w-full flex justify-between items-center py-4 text-left hover:bg-gray-50 transition-colors"
               >
-                <span className=" flex items-center text-2xl md:text-3xl font-bold text-black">
-                  <span className="mr-2 font-bold text-2xl md:text-4xl">Q</span>
+                <span className=" flex items-center text-xl md:text-3xl font-bold text-black">
+                  <span className="mr-2 font-bold text-xl md:text-4xl">Q</span>
                   {item.question}
                 </span>
                 {openIndex === index ? (
-                  <ChevronUp className=" text-gray-500 text-2xl md:text-4xl" />
+                  <ChevronUp className=" text-gray-500 text-xl md:text-4xl" />
                 ) : (
-                  <ChevronDown className=" text-gray-500 text-2xl md:text-4xl" />
+                  <ChevronDown className=" text-gray-500 text-xl md:text-4xl" />
                 )}
               </button>
 
