@@ -40,28 +40,30 @@ export default function TabContents() {
 
   return (
     <>
-      <div className="w-[90vw] h-24 flex items-center bg-[#F8F8F8]">
-        {tabs.map((tab, index) => (
-          <React.Fragment key={index}>
-            <div
-              className="flex-1 h-full flex items-center justify-center cursor-pointer relative"
-              onClick={() => setSelectedTab(index)}
-            >
-              <span
-                className={`${
-                  selectedTab === index
-                    ? 'text-[#003049] text-[32px] font-bold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#003049]'
-                    : "text-gray-500 text-[32px]"
-                }`}
+      <div className="w-[90vw] overflow-x-auto scrollbar-hide">
+        <div className="min-w-max h-12 md:h-24 flex items-center bg-[#F8F8F8]">
+          {tabs.map((tab, index) => (
+            <React.Fragment key={index}>
+              <div
+                className="flex-1 h-full flex items-center justify-center cursor-pointer relative px-4 whitespace-nowrap"
+                onClick={() => setSelectedTab(index)}
               >
-                {tab}
-              </span>
-            </div>
-            {index < tabs.length - 1 && (
-              <div className="w-px h-16 bg-gray-300" />
-            )}
-          </React.Fragment>
-        ))}
+                <span
+                  className={`${
+                    selectedTab === index
+                      ? 'text-[#003049] text-sm md:text-[32px] font-bold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#003049]'
+                      : "text-gray-500 text-sm md:text-[32px]"
+                  }`}
+                >
+                  {tab}
+                </span>
+              </div>
+              {index < tabs.length - 1 && (
+                <div className="w-px h-16 bg-gray-300 flex-shrink-0" />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
       <>{renderContent()}</>
     </>

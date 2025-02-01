@@ -4,16 +4,19 @@ import Image from "next/image";
 export default function page() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
-      <div className="w-full h-[600px] flex items-center justify-center relative">
+      <div className="w-full h-[30vh] md:h-[600px] flex items-center justify-center relative">
         <Image src={"/program/contents1top.png"} alt="scuberdiving" fill className="object-cover"/>
-        <div className="absolute bottom-12 left-12 gap-y-2 flex flex-col">
-          <div className="text-5xl font-bold text-white">Scuba Diving</div>
-          <div className="text-3xl text-white">바다로 떠나는 여행, 스쿠버 다이빙</div>
+        <div className="absolute bottom-[2vh] md:bottom-[5vh] left-[2vw] gap-y-2 md:gap-y-6 flex flex-col items-start justify-center">
+          <div className="text-2xl md:text-[48px] font-bold text-white">BDN DIVE,</div>
+          <div className="text-sm md:text-[32px] text-white">스쿠버다이빙, 프리다이빙, 머메이드</div>
+          <div className="text-sm md:text-[32px] text-white">
+            라이센스 및 강사교육을 하는 전문 교육기관
+          </div>
         </div>
       </div>
-      <div className="w-full h-48 flex flex-col items-center justify-center gap-y-5">
-        <div className="text-3xl">Scuba Diving</div>
-        <div className="text-5xl font-bold">스쿠버다이빙</div>
+      <div className="w-full h-24 md:h-48 flex flex-col items-center justify-center gap-y-2 md:gap-y-5">
+        <div className="text-lg md:text-3xl">Scuba Diving</div>
+        <div className="text-2xl md:text-5xl font-bold">스쿠버다이빙</div>
       </div>
       <TabContents></TabContents>
 

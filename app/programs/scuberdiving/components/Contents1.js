@@ -7,9 +7,9 @@ import { Button } from "@nextui-org/react";
 export default function Contents1() {
   return (
     <div className="w-[80vw] h-full flex flex-col items-center justify-center">
-      <div className="w-full h-[800px] flex ">
-        <div className="w-1/2 h-full flex items-center justify-center py-24">
-          <div className="relative w-2/3 h-full">
+      <div className="w-full h-[400px] md:h-[800px] flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 h-full flex  items-center justify-center py-6 md:py-24">
+          <div className="relative w-full md:w-2/3 h-48 md:h-full">
             <Image
               src={"/program/contents1_1.png"}
               alt="scubadiving"
@@ -18,59 +18,59 @@ export default function Contents1() {
             />
           </div>
         </div>
-        <div className="w-1/2 h-full flex flex-col items-center justify-center gap-y-5">
-          <div className="text-2xl">Experience Diving</div>
-          <div className="text-5xl font-bold">체험다이빙</div>
+        <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center gap-y-2 md:gap-y-5">
+          <div className="text-lg md:text-5xl">Experience Diving</div>
+          <div className="text-2xl md:text-7xl font-bold">체험다이빙</div>
           <Divider className="w-1/2 h-1 bg-black"></Divider>
-          <div className="text-3xl">
+          <div className="text-sm md:text-3xl md:text-5xl text-center md:text-start">
             수중세계를 경험해보고 싶으신 분들을 위한 프로그램
           </div>
         </div>
       </div>
 
       <div
-        className="w-full my-12 h-[380px] flex flex-col items-center justify-evenly gap-y-5"
+        className="w-full my-6 md:my-12 h-full md:h-[380px] flex flex-col items-center justify-evenly gap-y-5 p-2 md:p-0"
         style={{
           backgroundImage: "url(/program/contents1_2.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="text-5xl font-bold">
+        <div className="text-2xl md:text-5xl font-bold text-center md:text-start">
           라이센스 없이 다이빙이 가능한 체험코스 !
         </div>
-        <div className="text-3xl ">
+        <div className="text-sm md:text-3xl text-center md:text-start">
           누구나 상관없이{" "}
           <span className="font-bold">전문 강사의 직접 감독</span>하에 안전하게
           다이빙 가능 !
         </div>
-        <div className="text-3xl ">
+        <div className="text-sm md:text-3xl text-center md:text-start">
           <span className="font-bold">※스쿠버다이빙 라이센스(자격증)</span> 없는
           분들도 전부 다 가능
         </div>
       </div>
 
-      <div className="w-full h-[600px] my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-5xl font-bold">체험다이빙 코스 안내</div>
+      <div className="w-full h-full md:h-[600px] my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
+        <div className="text-2xl md:text-5xl font-bold">체험다이빙 코스 안내</div>
         <Divider className="w-full h-1 bg-black"></Divider>
-        <div className="text-5xl">라이센스 관계 없이 체험가능</div>
-        <div className="text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
+        <div className="text-sm md:text-3xl">라이센스 관계 없이 체험가능</div>
+        <div className="text-sm md:text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
           <FaRegCheckCircle />
           체험 다이빙은 라이선스(자격증) 이 없어도 가능한 체험 코스입니다.
         </div>
-        <div className="text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
+        <div className="text-sm md:text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
           <FaRegCheckCircle />만 10세부터 만 60세까지 참가할 수 있습니다.
         </div>
-        <div className="text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
+        <div className="text-sm md:text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
           <FaRegCheckCircle />
           다이빙 전문 강사의 인솔하에 초보자도 안전하게 다이빙 가능합니다.
         </div>
       </div>
-      <div className="w-full h-full my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-5xl font-bold">체험다이빙 코스 </div>
-        <Divider className="w-full h-1 bg-black mt-12"></Divider>
+      <div className="w-full h-full my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
+        <div className="text-2xl md:text-5xl font-bold">체험다이빙 코스 </div>
+        <Divider className="w-full h-1 bg-black  md:mt-12"></Divider>
 
-        <div className="text-3xl flex flex-col justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5 gap-y-5 overflow-hidden py-6 mt-12">
+        <div className="text-sm md:text-3xl flex flex-col justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5 gap-y-5 overflow-hidden py-6 md:mt-12">
           <div>• 만 10세 이상부터 체험할 수 있으며 체험 비용이 발생합니다.</div>
           <div>
             • 호흡기 지급과 전문적인 스쿠버 다이빙 교육으로 물에 대한 공포증이
@@ -86,11 +86,11 @@ export default function Contents1() {
         </div>
       </div>
 
-      <div className="w-full h-full my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-5xl font-bold">체험다이빙 코스 주의사항</div>
-        <Divider className="w-full h-1 bg-black mt-12"></Divider>
+      <div className="w-full h-full my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
+        <div className="text-2xl md:text-5xl font-bold">체험다이빙 코스 주의사항</div>
+        <Divider className="w-full h-1 bg-black  md:mt-12"></Divider>
 
-        <div className="text-3xl flex flex-col justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5 gap-y-1 overflow-hidden py-6 mt-12">
+        <div className="text-sm md:text-3xl flex flex-col justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5 gap-y-1 overflow-hidden py-6 md:mt-12">
           <div>
             • 만 19세 미만 청소년은 프로그램 이용 시 반드시 보호자가 동행하시기
             바랍니다.
@@ -118,7 +118,7 @@ export default function Contents1() {
           </div>
         </div>
 
-        <div className="text-3xl flex flex-col justify-evenly items-start gap-x-2 rounded-lg p-5 w-4/6 gap-y-2  px-12 border-2 border-black mt-12 py-6">
+        <div className="text-sm md:text-3xl flex flex-col justify-evenly items-start gap-x-2 rounded-lg md:p-5 w-[80%] md:w-4/6 gap-y-2 px-2 md:px-12 border-2 border-black mt-6 md:mt-12 py-6">
           <div>
             <span className="font-bold">- 장소(수영장):</span> 강사와 협의 후 결정
           </div>
@@ -134,9 +134,9 @@ export default function Contents1() {
           </div>
         </div>
 
-        <div className="w-full h-full  flex items-center justify-center my-24">
+        <div className="w-1/2 md:w-full h-full  flex items-center justify-center my-6 md:m24">
           <Link className="flex items-center justify-center gap-x-2" href='/book'>
-          <Button className="text-6xl font-bold w-full h-full p-4">예약하기</Button>
+          <Button className="text-2xl md:text-6xl font-bold w-full h-full p-4">예약하기</Button>
           </Link>
         </div>
       </div>

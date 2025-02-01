@@ -12,7 +12,7 @@ export default function page() {
           className="object-contain w-full h-full"
           fill
         />
-        <div className="absolute bottom-[2vh] left-[2vw]">
+        <div className="absolute bottom-[2vh] left-[2vw] flex flex-col justify-center items-start md:gap-y-6">
           <div className="text-medium md:text-[48px] font-bold">BDN DIVE,</div>
           <div className="text-sm md:text-[32px] ">스쿠버다이빙, 프리다이빙, 머메이드 </div>
           <div className="text-sm md:text-[32px] ">
