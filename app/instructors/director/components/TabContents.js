@@ -36,7 +36,7 @@ export default function TabContents() {
 
   return (
     <div className="w-full h-[1810px] flex flex-col items-center justify-start py-14">
-      <div className="w-2/5 flex justify-center items-center gap-16">
+      <div className="w-2/5 flex h-12 md:h-full justify-center items-center gap-4 md:gap-16">
         {tabs.map((tab) => (
           <button
             key={tab.id}
