@@ -1,11 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SlideUp from "@/components/animation/SlideUp";
+
 const FourImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // 화면 크기에 따른 표시할 이미지 개수 설정
-  const itemsToShow = typeof window !== 'undefined' && window.innerWidth < 768 ? 2 : 4;
+  const [itemsToShow, setItemsToShow] = useState(4);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsToShow(window.innerWidth < 768 ? 2 : 4);
+    };
+
+    // 초기 설정
+    handleResize();
+
+    // 리사이즈 이벤트 리스너 추가
+    window.addEventListener('resize', handleResize);
+
+    // 클린업 함수
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 예시 이미지 데이터
   const images = [

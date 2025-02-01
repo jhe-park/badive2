@@ -1,12 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { IoIosPlayCircle } from "react-icons/io";
 import Link from "next/link";
 import SlideUp from "@/components/animation/SlideUp";
+
 const InstagramCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // 예시 이미지 데이터
   const images = [
@@ -108,7 +121,7 @@ const InstagramCarousel = () => {
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (window.innerWidth >= 768 ? 20 : 50)}%)`,
+              transform: `translateX(-${currentIndex * (isMobile ? 50 : 20)}%)`,
             }}
           >
             {images.map((image, index) => (

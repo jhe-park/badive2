@@ -13,6 +13,7 @@ import useModalOpen from '@/app/store/useModalOpen';
 
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -55,15 +56,27 @@ const MultiImageCarousel = () => {
     },
   ];
 
+  // 컴포넌트 마운트 시 window width 설정
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handlePrev = () => {
-    const itemsPerView = window.innerWidth < 768 ? 2 : 5; // md 브레이크포인트에서 변경
+    const itemsPerView = windowWidth < 768 ? 2 : 5;
     setCurrentIndex((prev) =>
       prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    const itemsPerView = window.innerWidth < 768 ? 2 : 5; // md 브레이크포인트에서 변경
+    const itemsPerView = windowWidth < 768 ? 2 : 5;
     setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
 
@@ -149,14 +162,14 @@ const MultiImageCarousel = () => {
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (window.innerWidth < 768 ? 50 : 20)}%)`,
+              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 20)}%)`,
             }}
           >
             {images.map((image) => (
               <div
                 key={image.id}
                 className="flex-none h-full relative group"
-                style={{ width: window.innerWidth < 768 ? "50%" : "20%", padding: "0 10px" }}
+                style={{ width: windowWidth < 768 ? "50%" : "20%", padding: "0 10px" }}
                 onClick={() => handleImageClick(image)}
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-4/5 group">
