@@ -65,7 +65,7 @@ export default function TourTable(props) {
               startContent={<FaSearch></FaSearch>}
             ></Input>
           </div>
-          <Card className="w-full p-2" {...props}>
+          <Card className="w-full p-2" {...props} shadow="none">
             <CardBody className="space-y-2">
               <Table removeWrapper aria-label="Example static collection table">
                 <TableHeader>
