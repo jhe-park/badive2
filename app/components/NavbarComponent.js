@@ -204,15 +204,20 @@ export default function Navbar() {
             <div className="py-4">
               {menuItems.map((item, index) => (
                 <div key={index} className="relative">
-                  <div 
-                    className="px-6 py-3 text-gray-200 hover:bg-gray-800 cursor-pointer"
-                    onClick={() => setOpenSubmenu(openSubmenu === index ? null : index)}
-                  >
-                    <span className="text-[16px]">{item.title}</span>
+                  <div className="flex justify-between items-center px-6 py-3 text-gray-200 hover:bg-gray-800">
+                    <Link 
+                      href={item.href}
+                      className="flex-1 text-[16px]"
+                    >
+                      {item.title}
+                    </Link>
                     {item.submenu && (
-                      <span className="float-right">
+                      <button
+                        onClick={() => setOpenSubmenu(openSubmenu === index ? null : index)}
+                        className="ml-2"
+                      >
                         {openSubmenu === index ? '▼' : '▶'}
-                      </span>
+                      </button>
                     )}
                   </div>
                   

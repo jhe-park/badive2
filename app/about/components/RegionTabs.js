@@ -27,7 +27,7 @@ function RegionTabs() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-    <div className="w-[80vw] h-12 md:h-20 bg-gray-300 flex my-4 text-medium md:text-xl">
+    <div className="w-[80vw] h-12 md:h-20 bg-gray-300 flex my-4 text-sm md:text-xl">
       {regions.map((region, index) => (
         <React.Fragment key={index}>
           <div
@@ -44,9 +44,9 @@ function RegionTabs() {
         </React.Fragment>
       ))}
     </div>
-    <div className="w-[70vw] h-full grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+    <div className="w-[70vw] h-full grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-4  md:mt-6">
       {filteredLocations.map((location,index) => (
-        <div key={index} className="flex flex-col items-center p-4 rounded-lg">
+        <div key={index} className="flex flex-col items-center md:p-4 rounded-lg">
           <div className="w-full h-36 md:h-full relative">
             <Image
               src={location.image} 

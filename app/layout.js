@@ -48,8 +48,9 @@ export default function RootLayout({ children }) {
                 <FooterComponent></FooterComponent>
               </div>
             </main>
-            <Actionbar></Actionbar>
-            
+            <div className="hidden md:block">
+              <Actionbar></Actionbar>
+            </div>
           </HeroUIProvider>
         </ThemeProvider>
       </body>

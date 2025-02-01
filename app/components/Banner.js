@@ -126,9 +126,9 @@ export default function Banner() {
             <BannerDotCarousel></BannerDotCarousel>
           </div>
         </div>
-        <div className="col-span-1 flex justify-center items-center w-full h-full flex-col">
-          <p className="text-white text-2xl md:text-[80px]">Open The Sea Gate</p>
-          <p className="text-white text-xl md:text-[48px]">the soul of diving</p>
+        <div className="col-span-1 flex justify-center items-center w-full h-full flex-col gap-y-2 md:gap-y-12">
+          <div className="text-white text-2xl md:text-[80px]">Open The Sea Gate</div>
+          <div className="text-white text-xl md:text-[48px]">the soul of diving</div>
         </div>
       </div>
     </>

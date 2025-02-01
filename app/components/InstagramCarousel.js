@@ -86,13 +86,15 @@ const InstagramCarousel = () => {
   ];
 
   const handlePrev = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, images.length - 5) : Math.max(0, prev - 1)
-    );
+    setCurrentIndex((prev) => {
+      const maxIndex = isMobile ? images.length - 2 : images.length - 5;
+      return prev === 0 ? maxIndex : Math.max(0, prev - 1);
+    });
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= images.length - 5 ? 0 : prev + 1));
+    const maxIndex = isMobile ? images.length - 2 : images.length - 5;
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   return (
@@ -121,7 +123,7 @@ const InstagramCarousel = () => {
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (isMobile ? 50 : 20)}%)`,
+              transform: `translateX(-${currentIndex * (100 / (isMobile ? 2 : 5))}%)`,
             }}
           >
             {images.map((image, index) => (
