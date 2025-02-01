@@ -26,8 +26,8 @@ function RegionTabs() {
     : locations.filter(location => location.region === selectedTab);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="w-[80vw] flex flex-wrap md:flex-nowrap my-4 text-sm md:text-xl bg-gray-300">
+    <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full md:w-[80vw] flex flex-wrap md:flex-nowrap my-4 text-sm md:text-xl bg-gray-300">
         {regions.map((region, index) => (
           <React.Fragment key={index}>
             <div
@@ -44,7 +44,7 @@ function RegionTabs() {
           </React.Fragment>
         ))}
       </div>
-      <div className="w-[70vw] h-full grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-4  md:mt-6">
+      <div className="w-full md:w-[80vw] h-full grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-4  md:mt-6">
         {filteredLocations.map((location,index) => (
           <div key={index} className="flex flex-col items-center md:p-4 rounded-lg">
             <div className="w-full h-36 md:h-full relative">

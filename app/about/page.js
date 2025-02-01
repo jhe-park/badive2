@@ -20,7 +20,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[60vh] md:h-[1314px] flex flex-col justify-center items-center gap-y-5 py-6">
+      <div className="w-full h-[80vh] md:h-[1314px] flex flex-col justify-center items-center gap-y-5 pt-6 md:py-24">
         <h1 className="w-full font-bold text-2xl md:text-[50px] text-center mb-5">
           "Professionals with Years of Diving Experience
         </h1>
@@ -44,15 +44,14 @@ export default function page() {
             </div>
           </div>
           <div className="w-1/4 h-full flex flex-col justify-start items-center">
-            <div className="w-full h-1/4 relative flex flex-col justify-center items-center px-5 overflow-hidden">
-              <p className="text-xs md:text-3xl ">BDN</p>
-              <p className="text-xs md:text-3xl ">DIVE</p>
-              <p className="text-xs md:text-4xl font-bold">국내 상위1%</p>
-              <p className="text-xs md:text-4xl font-bold">다이빙 강사진</p>
+            <div className="w-full h-1/4 relative justify-center items-center px-5 overflow-hidden flex flex-col gap-y-2">
+              <div className="hidden md:flex text-xs md:text-3xl ">BDN</div>
+              <div className="hidden md:flex text-xs md:text-3xl ">DIVE</div>
+              <div className="hidden md:flex text-xs md:text-4xl font-bold">국내 상위1%</div>
+              <div className="hidden md:flex text-xs md:text-4xl font-bold">다이빙 강사진</div>
             </div>
-            <Divider className="w-4/5"></Divider>
-            <div className="w-4/5 h-1/4 relative border-b-2 border-black px-2 text-xs md:text-xl justify-center items-center flex flex-col overflow-hidden">
-              <p className="text-center line-clamp-6">
+            <div className="w-4/5 h-1/4 relative border-b-2  px-2 text-xs md:text-xl justify-center items-center flex-col overflow-hidden">
+              <p className="hidden md:flex text-center line-clamp-6">
                 “BDN 다이빙 강사진들은 수천회의 다이빙 경험과 다양한 다이빙
                 환경에서의 실전 경험을 바탕으로, 초보강습부터 강사 라이센스
                 교육까지 체계적인 교육시스템을 제공합니다. 어떠한 상황에서도
@@ -114,9 +113,20 @@ export default function page() {
               />
             </div>
           </div>
+
+        </div>
+        <div className="flex md:hidden w-[90%] h-full justify-center items-center flex-col gap-y-2">
+          <p className="flex md:hidden text-lg font-bold">BDN DIVE 국내 상위 1% 다이빙 강사진</p>
+          <p className="flex md:hidden text-sm text-center line-clamp-6">
+            “BDN 다이빙 강사진들은 수천회의 다이빙 경험과 다양한 다이빙
+            환경에서의 실전 경험을 바탕으로, 초보강습부터 강사 라이센스
+            교육까지 체계적인 교육시스템을 제공합니다. 어떠한 상황에서도
+            안전하고 즐거운 다이빙을 즐기실 수 있도록 여러분들에게 최고의
+            다이빙 경험을 선사하겠습니다. ”
+          </p>
         </div>
       </div>
-      <div className="w-full h-full  md:h-[1212px] p-10 flex flex-col">
+      <div className="w-[90%] h-full  md:h-[1212px] pb-10 flex flex-col">
         <h1 className="text-2xl md:text-5xl font-bold">전국 지역 다이빙 강습 가능</h1>
         <div className="mt-5">
           <p className="text-medium md:text-xl">
@@ -136,7 +146,7 @@ export default function page() {
           <RegionTabs></RegionTabs>
         </div>
       </div>
-      <div className="w-full h-[60vh] md:h-[1000px] px-10 md:p-10 flex flex-col justify-center items-start">
+      <div className="w-[90%] h-[60vh] md:h-[1000px] md:p-10 flex flex-col justify-center items-start">
         <h1 className="text-2xl md:text-5xl font-bold">
           깊은 바다로 떠나는 잊을 수 없는 여행
         </h1>
@@ -154,8 +164,8 @@ export default function page() {
             ))}
           </div>
           <div className="w-full md:w-1/2 h-full flex flex-col gap-4 p-4 justify-center items-start px-[1vw] md:px-[5vw] gap-y-4 md:gap-y-12">
-            <div className="text-2xl md:text-[55px] font-bold">Safe dives, Enjoy Diving!</div>
-            <div className="text-medium md:text-[30px]">
+            <div className="text-2xl md:text-[55px] font-bold" style={{ lineHeight: '1.5' }}>Safe dives, Enjoy Diving!</div>
+            <div className="text-medium md:text-[30px] " style={{ lineHeight: '1.5' }}>
               “BDN은 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브
               리조트들과의 MOU를 체결하여 많은 다이버 회원분들에게 특별한 경험을
               제공하고자 노력하고 있습니다. “
