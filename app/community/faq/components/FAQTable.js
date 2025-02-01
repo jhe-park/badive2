@@ -71,7 +71,7 @@ export default function FAQTable() {
 
       {/* FAQ Accordion */}
       <div className="w-full mx-auto p-4">
-        <h1 className="text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
+        <h1 className="text-2xl md:text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
           자주 묻는 질문 FAQ
         </h1>
 
@@ -82,14 +82,14 @@ export default function FAQTable() {
                 onClick={() => toggleAccordion(index)}
                 className="w-full flex justify-between items-center py-4 text-left hover:bg-gray-50 transition-colors"
               >
-                <span className=" flex items-center text-3xl font-bold text-black">
-                  <span className="mr-2 font-bold">Q</span>
+                <span className=" flex items-center text-2xl md:text-3xl font-bold text-black">
+                  <span className="mr-2 font-bold text-2xl md:text-4xl">Q</span>
                   {item.question}
                 </span>
                 {openIndex === index ? (
-                  <ChevronUp className=" text-gray-500 " />
+                  <ChevronUp className=" text-gray-500 text-2xl md:text-4xl" />
                 ) : (
-                  <ChevronDown className=" text-gray-500 " />
+                  <ChevronDown className=" text-gray-500 text-2xl md:text-4xl" />
                 )}
               </button>
 
@@ -101,8 +101,8 @@ export default function FAQTable() {
                 <div className="p-4 bg-gray-50">
                   
                   {item.answer.split("\n").map((line, i) => (
-                    <p key={i} className={`mb-1 text-2xl ${i === 0 ? "font-bold" : ""}`}>
-                      {i === 0 && <span className="text-gray-500 mr-2 text-2xl">A</span>}
+                    <p key={i} className={`mb-1 text-lg md:text-2xl ${i === 0 ? "font-bold" : ""}`}>
+                      {i === 0 && <span className="text-gray-500 mr-2 text-lg md:text-2xl">A</span>}
                       {line}
                     </p>
                   ))}

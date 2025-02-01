@@ -53,7 +53,7 @@ export default function NotificationTable() {
       </div>
 
       {/* Board Table */}
-      <table className="w-full border-t-2 border-gray-800 text-[40px]">
+      <table className="w-full border-t-2 border-gray-800 text-2xl md:text-[30px]">
         <thead>
           <tr className="bg-gray-50">
             <th className="py-2 px-4 text-left w-[10%]">NO.</th>
@@ -61,9 +61,9 @@ export default function NotificationTable() {
             <th className="py-2 px-4 text-left w-[15%] ">작성일</th>
           </tr>
         </thead>
-        <tbody className="text-[30px]">
+        <tbody className="text-2xl md:text-[30px] ">
           {posts.map((post) => (
-            <tr key={post.id} className="border-b hover:bg-gray-50">
+            <tr key={post.id} className="border-b hover:bg-gray-50 ">
               <td className="py-3 px-4">
                 {post.pinned ? (
                   <span className="text-blue-500">📌</span>

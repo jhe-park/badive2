@@ -61,7 +61,7 @@ export default function Banner() {
           <source src={getVideoSource()} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <div className="absolute bottom-[5%] md:bottom-[10%] left-[0%] md:left-[10%] text-white px-4 py-2 rounded flex gap-2 md:gap-8 justify-center items-start flex-col">
+        <div className="absolute bottom-[8%] md:bottom-[10%] left-[0%] md:left-[10%] text-white px-4 py-2 rounded flex gap-2 md:gap-8 justify-center items-start flex-col">
           <div className="flex flex-row gap-4">
             <Button
               className="text-white font-bold text-md md:text-2xl relative group h-10 md:w-24 md:h-16"
@@ -90,7 +90,7 @@ export default function Banner() {
             </button>
           </div>
         </div>
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-1/2 h-12 md:h-24 z-50">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-1/2 h-8 md:h-24 z-50">
           <button
             className="bg-black text-white px-4 py-2 rounded-l w-1/3 text-[11px] md:text-[25px]"
             onClick={() => setSelectMode("mode1")}
@@ -122,7 +122,7 @@ export default function Banner() {
         }}
       >
         <div className="col-span-1 flex justify-center items-center w-full h-full">
-          <div className="w-1/2 h-1/2 flex justify-center items-center">
+          <div className="w-2/3 md:w-1/2 h-1/2 flex justify-center items-center">
             <BannerDotCarousel></BannerDotCarousel>
           </div>
         </div>

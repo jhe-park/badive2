@@ -61,13 +61,13 @@ const FourImageCarousel = () => {
   };
 
   return (
-    <div className="relative w-full h-full p-4 px-[3vw]">
+    <div className="relative w-full min-h-[400px] p-4 px-[3vw] flex justify-center items-center">
       {/* Main Container with Side Arrows */}
-      <div className="relative group h-full">
+      <div className="relative group h-full w-[90%] md:w-full flex items-center">
         {/* Left Arrow */}
         <button
           onClick={handlePrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors z-10"
+          className="absolute left-0 top-1/2 translate-y+12  -translate-x-12 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors z-10"
           aria-label="Previous slides"
         >
           <ChevronLeft className="w-6 h-6" />
@@ -97,7 +97,7 @@ const FourImageCarousel = () => {
                       <img
                         src={image.url}
                         alt={image.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer rounded-lg"
                       />
                     </a>
 
