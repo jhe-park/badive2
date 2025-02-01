@@ -54,7 +54,7 @@ export default function FAQTable() {
     setOpenIndex(openIndex === index ? -1 : index);
   };
   return (
-    <div className="w-full mx-auto p-4 my-12">
+    <div className="w-full mx-auto my-12">
       {/* Search Bar */}
       <div className="mb-6 flex justify-end items-center">
         <div className="relative w-full md:w-1/3">
@@ -70,7 +70,7 @@ export default function FAQTable() {
       </div>
 
       {/* FAQ Accordion */}
-      <div className="w-full mx-auto p-4">
+      <div className="w-full mx-auto ">
         <h1 className="text-xl md:text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
           자주 묻는 질문 FAQ
         </h1>

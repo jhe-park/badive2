@@ -37,7 +37,7 @@ export default function NotificationTable() {
   ];
 
   return (
-    <div className="w-full mx-auto p-4 my-12">
+    <div className="w-full mx-auto  my-12">
       {/* Search Bar */}
       <div className="mb-6 flex justify-end items-center">
         <div className="relative w-full md:w-1/3">
