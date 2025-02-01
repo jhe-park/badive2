@@ -94,18 +94,18 @@ function IntroductionCarousel() {
         {/* 화살표 버튼 */}
         <button
           onClick={prevSlide}
-          className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
+          className="absolute left-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
           aria-label="Previous slide"
         >
-          <FaCircleChevronLeft size={52} className="text-gray-500" />
+          <FaCircleChevronLeft className="text-gray-500 text-2xl md:text-7xl" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
+          className="absolute right-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
           aria-label="Next slide"
         >
-          <FaCircleChevronRight size={52} className="text-gray-500" />
+          <FaCircleChevronRight className="text-gray-500 text-2xl md:text-7xl" />
         </button>
       </div>
       {/* 페이지네이션 인디케이터 수정 */}
