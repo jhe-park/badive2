@@ -9,9 +9,9 @@ import { Button } from "@nextui-org/react";
 export default function Contents4() {
   return (
     <div className="w-[80vw] h-full flex flex-col items-center justify-center">
-      <div className="w-full h-[800px] flex ">
-        <div className="w-1/2 h-full flex items-center justify-center py-24">
-          <div className="relative w-2/3 h-full">
+      <div className="w-full h-[400px] md:h-[800px] flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 h-full flex items-center justify-center py-6 md:py-24">
+          <div className="relative w-full md:w-2/3 h-48 md:h-full">
             <Image
               src={"/program/contents4_1.png"}
               alt="scubadiving"
@@ -20,157 +20,140 @@ export default function Contents4() {
             />
           </div>
         </div>
-        <div className="w-1/2 h-full flex flex-col items-center justify-center gap-y-5">
-          <div className="text-2xl">Rescue Diver</div>
-          <div className="text-5xl font-bold">레스큐 다이버</div>
+        <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center gap-y-2 md:gap-y-5">
+          <div className="text-lg md:text-2xl">Rescue Diver</div>
+          <div className="text-2xl md:text-5xl font-bold">레스큐 다이버</div>
           <Divider className="w-1/2 h-1 bg-black"></Divider>
-          <div className="text-3xl">
+          <div className="text-sm md:text-3xl">
             구조기술과 응급처치법으로 안전한 다이빙 실천
           </div>
         </div>
       </div>
 
       <div
-        className="w-full my-12 h-[380px] flex flex-col items-center justify-evenly gap-y-5"
+        className="w-full my-6 md:my-12 h-full md:h-[380px] flex flex-col items-center justify-evenly gap-y-5 p-2 md:p-0"
         style={{
           backgroundImage: "url(/program/contents4_2.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="text-5xl font-bold">
+        <div className="text-2xl md:text-5xl font-bold text-center md:text-start">
           레저 다이버에게 가장 중요한 응급처치 및 구조 과정!
         </div>
-        <div className="text-3xl ">
+        <div className="text-sm md:text-3xl text-center md:text-start">
           <p>
             <span className="font-bold">오픈워터, 어드밴스드 라이센스</span>
             취득 이후 과정
           </p>
         </div>
-        <div className="text-3xl ">
+        <div className="text-sm md:text-3xl text-center md:text-start">
           ※ <span className="font-bold">수료전 20회이상 다이빙 경험</span> 필요
         </div>
       </div>
 
-      <div className="w-full h-full my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-5xl font-bold">어드밴스 다이버 교육 안내</div>
-        <Divider className="w-full h-1 bg-black my-12"></Divider>
-        <div className="text-5xl">
-          이론교육 1회 + 제한수역(다이빙풀) 교육 + 개방수역(바다해양) 교육 /
-          자격증 발급
+      <div className="w-full h-full my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
+        <div className="text-2xl md:text-5xl font-bold">레스큐 다이버 교육 안내</div>
+        <Divider className="w-full h-1 bg-black md:my-12"></Divider>
+        <div className="text-sm md:text-5xl text-center">
+          이론교육 1회 + 제한수역(다이빙풀) 교육 + 개방수역(바다해양) 교육 / 자격증 발급
         </div>
-        <div className="flex  items-center justify-evenly gap-y-5 gap-x-12 w-4/5 h-full my-12">
-          <div className="flex flex-col items-center justify-start gap-y-5 w-full bg-[#BBD1EA] rounded-lg p-5 h-[400px] overflow-hidden">
-            <div className="text-3xl bg-white rounded-lg p-2 w-full text-center">
+        <div className="flex flex-col md:flex-row items-center justify-evenly gap-y-5 gap-x-12 w-4/5 h-full my-2 md:my-12">
+          <div className="flex flex-col items-center justify-start gap-y-5 w-full bg-[#BBD1EA] rounded-lg p-5 h-full md:h-[400px] overflow-hidden">
+            <div className="text-lg md:text-3xl bg-white rounded-lg p-2 w-full text-center">
               이론
             </div>
-            <div className="text-3xl w-2/3">
-              응급상황 관리 · 장비관리, 깊은수심 다이빙 경험 이해, 다른 다이버의
-              스트레스를 인지하고 관리하기
+            <div className="text-sm md:text-3xl w-2/3">
+              응급상황 관리 · 장비관리, 깊은수심 다이빙 경험 이해, 다른 다이버의 스트레스를 인지하고 관리하기
             </div>
           </div>
-          <div className="w-1/3 h-full flex items-center justify-center">
+          <div className="hidden md:flex w-1/3 h-full items-center justify-center">
             <FaChevronRight className="text-7xl text-sky-600"></FaChevronRight>
           </div>
-          <div className="flex flex-col items-center justify-start gap-y-5 w-full bg-[#A1C6EA] rounded-lg p-5 h-[400px] overflow-hidden">
-            <div className="text-3xl bg-white rounded-lg p-2 w-full text-center">
+          <div className="flex flex-col items-center justify-start gap-y-5 w-full bg-[#A1C6EA] rounded-lg p-5 h-full md:h-[400px] overflow-hidden">
+            <div className="text-lg md:text-3xl bg-white rounded-lg p-2 w-full text-center">
               제한수역
             </div>
-            <div className="text-3xl w-2/3">
-              수면 · 수중 비상상황에 대한 10가지 트레이닝 세션 훈련, 패닉에 빠진
-              다이버들 구조, 의식이 없는 다이버들 구조, 응급처치 및 CPR하기
+            <div className="text-sm md:text-3xl w-2/3">
+              수면 · 수중 비상상황에 대한 10가지 트레이닝 세션 훈련, 패닉에 빠진 다이버들 구조, 의식이 없는 다이버들 구조, 응급처치 및 CPR하기
             </div>
           </div>
-          <div className="w-1/3 h-full flex items-center justify-center">
+          <div className="hidden md:flex w-1/3 h-full items-center justify-center">
             <FaChevronRight className="text-7xl text-sky-600"></FaChevronRight>
           </div>
-          <div className="flex flex-col items-center justify-start gap-y-5 w-full bg-[#507DBC] rounded-lg p-5 h-[400px] overflow-hidden">
-            <div className="text-3xl bg-white rounded-lg p-2 w-full text-center">
+          <div className="flex flex-col items-center justify-start gap-y-5 w-full bg-[#507DBC] rounded-lg p-5 h-full md:h-[400px] overflow-hidden">
+            <div className="text-lg md:text-3xl bg-white rounded-lg p-2 w-full text-center">
               개방수역
             </div>
-            <div className="text-3xl w-2/3">
-              제한수역에서 배운 교육내용을 토대로 실제 바다환경에서 실시하고
-              활용
+            <div className="text-sm md:text-3xl w-2/3">
+              제한수역에서 배운 교육내용을 토대로 실제 바다환경에서 실시하고 활용
             </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full h-full my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-5xl font-bold">레스큐 다이버 교육 과정</div>
-        <Divider className="w-full h-1 bg-black my-12"></Divider>
+      <div className="w-full h-full my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
+        <div className="text-2xl md:text-5xl font-bold">레스큐 다이버 교육 과정</div>
+        <Divider className="w-full h-1 bg-black md:my-12"></Divider>
 
-        <div className="w-full h-full flex flex-col items-center justify-evenly gap-y-14">
-          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-12 gap-y-5 mt-12 ">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 bg-[#BBD1EA] rounded-full flex items-center justify-center text-center text-3xl font-bold py-2">
+        <div className="w-full h-full flex flex-col items-center justify-evenly gap-y-8 md:gap-y-14">
+          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-8 md:py-12 gap-y-5 mt-12">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 md:w-1/2 bg-[#BBD1EA] rounded-full flex items-center justify-center text-center text-lg md:text-3xl font-bold py-2">
               이론교육
             </div>
-
-            <div className="text-3xl">
-              ■ 다이빙 중에 일어나는 사고에 대해 자세하게 배울 수 있는 교육
-              과정입니다.
+            <div className="text-sm md:text-3xl px-4 md:px-0">
+              ■ 다이빙 중에 일어나는 사고에 대해 자세하게 배울 수 있는 교육 과정입니다.
             </div>
-            <div className="text-3xl text-[#8D0000] flex flex-col items-center justify-evenly">
-              <p>
-                · 수압이 몸에 주는 영향 ·장비선택법 및 준비물 ·다이빙 계획 시
-                고려할 사항
-              </p>
+            <div className="text-sm md:text-3xl text-[#8D0000] flex flex-col items-center justify-evenly px-4 md:px-0">
+              <p>· 수압이 몸에 주는 영향 ·장비선택법 및 준비물 ·다이빙 계획 시 고려할 사항</p>
               <p>·다른 다이버의 스트레스를 인지하고 관리하기 </p>
             </div>
           </div>
 
-          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-12 gap-y-5">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-12 bg-[#A1C6EA] rounded-full flex items-center justify-center text-center text-3xl font-bold py-2">
+          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-8 md:py-12 gap-y-5">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 md:w-1/2 h-12 bg-[#A1C6EA] rounded-full flex items-center justify-center text-center text-lg md:text-3xl font-bold py-2">
               제한수역(다이빙풀)
             </div>
 
-            <div className="text-3xl gap-y-3 flex flex-col items-center justify-evenly">
-              <div>
-                <p className="text-center">
-                  ■ 다이빙 중에 일어나는 사고에 대한 자신 스스로 대처방법, 남을
-                  돕는법, 사고를 통제하고 관리하는 법에 대해 배울 수 있습니다.
-                </p>
-              </div>
-              <div className="text-3xl text-[#8D0000] text-center">
-                <p>
-                  · 수면과 수중에서의 비상상황에 대한 10가지 트레이닝 세션 훈련
-                  ·패닉에 빠진 다이버들 구조하기 ·의식없는 다이버들 구조하기
-                </p>
-                <p>· 응급처치 및 CPR하기</p>
-              </div>
+            <div className="text-sm md:text-3xl px-4 md:px-0">
+              <p className="text-center">
+                ■ 다이빙 중에 일어나는 사고에 대한 자신 스스로 대처방법, 남을 돕는법, 사고를 통제하고 관리하는 법에 대해 배울 수 있습니다.
+              </p>
+              <p className="text-center">
+                · 수면과 수중에서의 비상상황에 대한 10가지 트레이닝 세션 훈련 ·패닉에 빠진 다이버들 구조하기 ·의식없는 다이버들 구조하기
+              </p>
+              <p>· 응급처치 및 CPR하기</p>
             </div>
           </div>
 
-          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-12 gap-y-5">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-12 bg-[#507DBC] rounded-full flex items-center justify-center text-center text-3xl font-bold py-2">
+          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-8 md:py-12 gap-y-5">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 md:w-1/2 h-12 bg-[#507DBC] rounded-full flex items-center justify-center text-center text-lg md:text-3xl font-bold py-2">
               개방수역(바다해양)
             </div>
 
-            <div className="text-3xl">
+            <div className="text-sm md:text-3xl px-4 md:px-0">
               <p>
                 ■ 세션 훈련에서 습득한 스킬을 실제 바다에서 시나리오로 적용 훈련
               </p>
             </div>
           </div>
 
-          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-12 gap-y-5">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-12 bg-[#65AFFF] rounded-full flex items-center justify-center text-center text-3xl font-bold py-2">
+          <div className="w-4/5 flex flex-col items-center justify-evenly border-2 border-black relative py-8 md:py-12 gap-y-5">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 md:w-1/2 h-12 bg-[#65AFFF] rounded-full flex items-center justify-center text-center text-lg md:text-3xl font-bold py-2">
               레스큐 다이버 자격증 발급
             </div>
 
-            <div className="text-3xl">
+            <div className="text-sm md:text-3xl px-4 md:px-0">
               <p>
-                ■ 레스큐 다이버 자격증 발급 가능 ( 수료전, 다이빙 20회 이상 경험
-                필요)
+                ■ 레스큐 다이버 자격증 발급 가능 ( 수료전, 다이빙 20회 이상 경험 필요)
               </p>
             </div>
           </div>
         </div>
 
-        <div className="text-3xl flex flex-col justify-evenly items-start gap-x-2  p-5 w-4/5 h-[248px] gap-y-2  px-12 border-2 border-black mt-12">
+        <div className="text-sm md:text-3xl flex flex-col justify-evenly items-start gap-x-2 p-3 md:p-5 w-4/5 gap-y-2 px-4 md:px-12 border-2 border-black mt-6 md:mt-12">
           <div>
-            <span className="font-bold">- 장소(수영장):</span> 강사와 협의 후
-            결정
+            <span className="font-bold">- 장소(수영장):</span> 강사와 협의 후 결정
           </div>
           <div>
             <span className="font-bold">- 준비물:</span> 수영복, 세면도구, 수건
@@ -179,22 +162,17 @@ export default function Contents4() {
             <span className="font-bold">- 포함사항:</span> 교육비
           </div>
           <div>
-            <span className="font-bold">- 불포함사항:</span> 입장료,
-            장비풀세트&공기탱크 대여비, 체험강습비, 자격증 발급비, 해양실습비
+            <span className="font-bold">- 불포함사항:</span> 입장료, 장비풀세트&공기탱크 대여비, 체험강습비, 자격증 발급비, 해양실습비
           </div>
         </div>
 
-        <div className="text-3xl">
-          ※ 모든 강습 일정은 개인에 따라 교육 일정이 추가 되거나 변경될 수
-          있습니다.{" "}
+        <div className="text-sm md:text-3xl">
+          ※ 모든 강습 일정은 개인에 따라 교육 일정이 추가 되거나 변경될 수 있습니다.
         </div>
 
-        <div className="w-full h-[100px] flex items-center justify-center my-24">
-          <Link
-            className="flex items-center justify-center gap-x-2"
-            href="/book"
-          >
-            <Button className="text-6xl font-bold w-full h-full p-4">
+        <div className="w-1/2 md:w-full h-full flex items-center justify-center my-6 md:my-24">
+          <Link className="flex items-center justify-center gap-x-2" href="/book">
+            <Button className="text-2xl md:text-6xl font-bold w-full h-full p-4">
               예약하기
             </Button>
           </Link>
