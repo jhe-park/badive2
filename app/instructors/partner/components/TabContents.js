@@ -35,12 +35,12 @@ export default function TabContents() {
   }, [pathname]);
 
   return (
-    <div className="w-full h-[1810px] flex flex-col items-center justify-start py-14">
-      <div className="w-2/5 flex justify-center items-center gap-16">
+    <div className="w-full h-full flex flex-col items-center justify-start py-14">
+      <div className="w-[95%] md:w-2/5 flex h-12 md:h-full justify-center items-center gap-4 md:gap-16">
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            className={`text-lg w-[200px] h-[50px] rounded-2xl 
+            className={`text-xs md:text-lg w-full h-8 md:w-[200px] md:h-[50px] rounded-2xl 
               ${activeTab === tab.id 
                 ? 'bg-[#42A5F5] text-white underline font-bold' 
                 : 'bg-white'}`}
@@ -64,9 +64,9 @@ export default function TabContents() {
           </button>
         ))}
       </div>
-      <div className="w-full flex flex-col items-center justify-center py-12">
-         <p className="text-[30px] ">Instructor</p>
-         <p className="text-[50px] font-bold">강사소개</p>
+      <div className="w-full flex flex-col items-center justify-center py-6 md:py-12 gap-y-2 md:gap-y-6">
+         <div className="text-2xl md:text-[30px]">Instructor</div>
+         <div className="text-4xl md:text-[50px] font-bold">강사소개</div>
       </div>
       <IntroductionCarousel />
     </div>

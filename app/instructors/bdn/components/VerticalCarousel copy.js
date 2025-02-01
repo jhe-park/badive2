@@ -40,7 +40,7 @@ export default function VerticalCarousel() {
   }, [emblaApi])
 
   return (
-    <div className="relative w-full h-1/2 mx-auto">
+    <div className="relative w-full h-full md:h-1/2 mx-auto">
       <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
         {images.map((_, index) => (
           <button
@@ -59,7 +59,7 @@ export default function VerticalCarousel() {
           {images.map((image, index) => (
             <div 
               key={index} 
-              className="relative flex-[0_0_100%] h-[400px] w-[600px]"
+              className="relative flex-[0_0_100%] h-[30vh] md:h-[400px] w-[300px] md:w-[600px]"
             >
               <Image
                 src={image.src}
