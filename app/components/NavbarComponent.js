@@ -116,9 +116,9 @@ export default function Navbar() {
 
   return (
     <nav ref={navRef} className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: isOpen ? '-100px' : '0' }}>
-      <div className="w-full px-8 flex justify-between h-full mx-auto">
+      <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
         {/* 로고 영역 */}
-        <div className="flex items-center justify-center flex-col pl-4">
+        <div className="flex items-center justify-center flex-col md:pl-4">
           <Link href="/">
             <Image src="/logo/logo.png" alt="Logo" width={80} height={40} className="hover:opacity-80 transition-opacity" />
           </Link>
@@ -227,7 +227,7 @@ export default function Navbar() {
                         <Link 
                           key={`${index}-${subindex}`}
                           href={subitem.href}
-                          className="block px-8 py-2 text-[14px] text-gray-300 hover:text-white hover:bg-gray-800"
+                          className="block px-4 md:px-8 py-2 text-[14px] text-gray-300 hover:text-white hover:bg-gray-800"
                         >
                           {subitem.title}
                         </Link>
