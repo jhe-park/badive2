@@ -56,7 +56,7 @@ export default function Contents4() {
             수업내용
           </div>
 
-          <div className="text-sm md:text-3xl w-full flex flex-col items-center justify-center space-y-2">
+          <div className="text-sm md:text-3xl w-full flex flex-col items-center justify-center space-y-2 px-4 md:px-0">
             <p> ※ 총 4일 과정</p>
             <p>※ DI 언더워터 댄스 강사(어드밴스드 언더워터 댄스 수료자 대상)</p>
           </div>
@@ -67,11 +67,10 @@ export default function Contents4() {
             업그레이드
           </div>
 
-          <div className="text-sm md:text-3xl w-full flex flex-col items-center justify-center space-y-2">
-            <p>언더워터 댄스 강사 과정 수료자는 추가적인 자격 조건을 만족하면, 아래의 강사 자격으로</p>
-            <p>업그레이드 할 수 있습니다.</p>
+          <div className="text-sm md:text-3xl w-full flex flex-col items-center justify-center space-y-2 px-4 md:px-0">            
+            <p>언더워터 댄스 강사 과정 수료자는 추가적인 자격 조건을 만족하면, 아래의 강사 자격으로 업그레이드 할 수 있습니다.</p>
           </div>
-          <div className="text-sm md:text-3xl w-full flex flex-col items-center justify-center space-y-2 mt-6">
+          <div className="text-sm md:text-3xl w-full flex flex-col items-center justify-center space-y-2 mt-6 px-4 md:px-0">
             <p>★ DIT 언더워터 댄스 트레이너</p>
           </div>
         </div>
