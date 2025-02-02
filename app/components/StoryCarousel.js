@@ -69,14 +69,16 @@ const MultiImageCarousel = () => {
   }, []);
 
   const handlePrev = () => {
-    const itemsPerView = windowWidth < 768 ? 2 : 5;
+    console.log("PREV")
+    const itemsPerView = windowWidth < 768 ? 1 : 5;
     setCurrentIndex((prev) =>
       prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    const itemsPerView = windowWidth < 768 ? 2 : 5;
+    console.log("NEXT")
+    const itemsPerView = windowWidth < 768 ? 1 : 5;
     setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
 
@@ -143,14 +145,14 @@ const MultiImageCarousel = () => {
       <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
         <button
           onClick={handlePrev}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
           aria-label="Previous slides"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={handleNext}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
           aria-label="Next slides"
         >
           <ChevronRight className="w-5 h-5" />
@@ -172,7 +174,7 @@ const MultiImageCarousel = () => {
                 style={{ width: windowWidth < 768 ? "50%" : "20%", padding: "0 10px" }}
                 onClick={() => handleImageClick(image)}
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-4/5 group">
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-36 md:h-4/5 group">
                   <Image
                     src={image.url}
                     alt={image.title}

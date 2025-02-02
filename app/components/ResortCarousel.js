@@ -1,28 +1,24 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { IoIosPlayCircle } from "react-icons/io";
 import SlideUp from "@/components/animation/SlideUp";
+import ReactPlayer from "react-player";
+import { IoMdClose } from "react-icons/io";
+import { BiFullscreen, BiExitFullscreen } from "react-icons/bi";
+import useModalOpen from '@/app/store/useModalOpen';
 
-const FourImageCarousel = () => {
+const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsToShow, setItemsToShow] = useState(4);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const { isOpen, setIsOpen } = useModalOpen();
+  const modalRef = useRef(null);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setItemsToShow(window.innerWidth < 768 ? 2 : 4);
-    };
-
-    // 초기 설정
-    handleResize();
-
-    // 리사이즈 이벤트 리스너 추가
-    window.addEventListener('resize', handleResize);
-
-    // 클린업 함수
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // 예시 이미지 데이터
   const images = [
     {
       id: 1,
@@ -50,79 +46,133 @@ const FourImageCarousel = () => {
     },
   ];
 
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handlePrev = () => {
+    const itemsPerView = windowWidth < 768 ? 1 : 4;
     setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, images.length - itemsToShow) : Math.max(0, prev - 1)
+      prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => 
-      prev >= images.length - itemsToShow ? 0 : prev + 1
-    );
+    const itemsPerView = windowWidth < 768 ? 1 : 4;
+    setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
 
+  const handleImageClick = (image) => {
+    if (image.link) {
+      window.open(image.link, '_blank');
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+    setIsOpen(false);
+  };
+
+  const toggleFullScreen = () => {
+    if (!isFullScreen) {
+      if (modalRef.current.requestFullscreen) {
+        modalRef.current.requestFullscreen();
+      } else if (modalRef.current.webkitRequestFullscreen) {
+        modalRef.current.webkitRequestFullscreen();
+      } else if (modalRef.current.msRequestFullscreen) {
+        modalRef.current.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+    setIsFullScreen(!isFullScreen);
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullScreen(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.msFullscreenElement
+      );
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   return (
-    <div className="relative w-full h-full px-[3vw] flex justify-center items-center">
-      {/* Main Container with Side Arrows */}
-      <div className="relative group h-full w-[80%] md:w-full flex items-center">
-        {/* Left Arrow */}
+    <div className="relative w-full h-full">
+      <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
         <button
           onClick={handlePrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors z-10"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
           aria-label="Previous slides"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
-
-        <SlideUp>
-          {/* Images Container */}
-          <div className="relative overflow-hidden h-full">
-            <div
-              className="flex transition-transform duration-300 ease-out gap-4 md:gap-6 h-full p-2"
-              style={{
-                transform: `translateX(-${currentIndex * (100 / itemsToShow)}%)`,
-              }}
-            >
-              {images.map((image) => (
-                <div 
-                  key={image.id} 
-                  className={`flex-none w-[calc(50%-8px)] md:w-[calc(25%-16px)] h-full`}
-                >
-                  <div className="aspect-video rounded-lg overflow-hidden h-full w-full">
-                    <a
-                      href={image.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full h-full"
-                    >
-                      <img
-                        src={image.url}
-                        alt={image.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer rounded-lg"
-                      />
-                    </a>
-
-                    <div className="text-sm md:text-[18px] resort-title text-center mt-2 bg-white bg-opacity-75 p-2 rounded flex justify-center items-center">
-                      {image.title}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </SlideUp>
-        {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors z-10"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
           aria-label="Next slides"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
+
+      <SlideUp>
+        <div className="relative overflow-hidden h-full pt-10 md:pt-5">
+          <div
+            className="flex transition-transform duration-300 ease-out h-full"
+            style={{
+              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 25)}%)`,
+            }}
+          >
+            {images.map((image) => (
+              <div
+                key={image.id}
+                className="flex-none h-full relative group hover:cursor-pointer"
+                style={{ width: windowWidth < 768 ? "50%" : "25%", padding: "0 10px" }}
+                onClick={() => handleImageClick(image)}
+              >
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-36 md:h-4/5 group">
+                  <Image
+                    src={image.url}
+                    alt={image.title}
+                    fill
+                    className="transition-transform duration-300 ease-out group-hover:scale-105"
+                  />
+                </div>
+                <div className="text-center h-1/5 flex justify-center items-center">
+                  <span className="text-sm md:text-[18px]">{image.title}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SlideUp>
+      
     </div>
   );
 };
 
-export default FourImageCarousel;
+export default MultiImageCarousel;

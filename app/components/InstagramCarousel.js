@@ -103,14 +103,14 @@ const InstagramCarousel = () => {
       <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
         <button
           onClick={handlePrev}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
           aria-label="Previous slides"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={handleNext}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
           aria-label="Next slides"
         >
           <ChevronRight className="w-5 h-5" />
