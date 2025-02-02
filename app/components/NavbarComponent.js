@@ -161,13 +161,18 @@ export default function Navbar() {
                 <Link 
                   href={item.href}
                   className="text-[16px] font-bold text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 after:delay-1000 hover:after:w-full hover:text-white"
+                  onClick={(e) => {
+                    if (item.title === "소속강사" || item.title === "커뮤니티") {
+                      e.preventDefault(); // 링크 작동 방지
+                    }
+                  }}
                 >
                   {item.title}
                 </Link>
 
                 {/* 통합 서브메뉴 패널 */}
                 {item.submenu && openSubmenu === index && (
-                  <div className="absolute bg-black/95 backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto">
+                  <div className="absolute bg-black/95 backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
                     {item.submenu.map((subitem, subindex) => (
                       <Link 
                         key={`${index}-${subindex}`}
@@ -208,6 +213,12 @@ export default function Navbar() {
                     <Link 
                       href={item.href}
                       className="flex-1 text-[16px]"
+                      onClick={(e) => {
+                        if (item.submenu) {
+                          e.preventDefault(); // 서브메뉴가 있는 경우 링크 작동 방지
+                          setOpenSubmenu(openSubmenu === index ? null : index); // 서브메뉴 토글
+                        }
+                      }}
                     >
                       {item.title}
                     </Link>
@@ -222,7 +233,7 @@ export default function Navbar() {
                   </div>
                   
                   {item.submenu && openSubmenu === index && (
-                    <div className="bg-gray-900">
+                    <div className="bg-gray-900 pl-6">
                       {item.submenu.map((subitem, subindex) => (
                         <Link 
                           key={`${index}-${subindex}`}
