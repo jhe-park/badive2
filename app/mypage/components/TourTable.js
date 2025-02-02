@@ -50,16 +50,19 @@ export default function TourTable(props) {
   
   return (
     <div className="w-full flex-col justify-center items-center space-y-5 h-full">
+      <div className="text-2xl font-bold w-full justify-center items-center text-center">투어 예약 조회</div>
+      <Divider className="w-full bg-black h-0.5 my-5"></Divider>
       {!isDetailOpen && (
         <div className="w-full flex flex-col justify-center items-center space-y-5">
           <div className="w-full flex justify-end items-center gap-2">
-            <Select  className="w-1/2 md:w-[10%]" selectedKeys={searchFilter} onChange={(e) => setSearchFilter(e.target.value)}>
+            <Select variant="bordered" className="w-1/2 md:w-[10%]" selectedKeys={searchFilter} onChange={(e) => setSearchFilter(e.target.value)}>
               <SelectItem key="제목" value="제목">제목</SelectItem>
               <SelectItem key="장소" value="장소">장소</SelectItem>
               <SelectItem key="강사" value="강사">강사</SelectItem>
               <SelectItem key="상태" value="상태">상태</SelectItem>
             </Select>
             <Input
+              variant="bordered"
               placeholder="검색"
               className="w-1/2 md:w-1/4 text-gray-500"
               startContent={<FaSearch></FaSearch>}

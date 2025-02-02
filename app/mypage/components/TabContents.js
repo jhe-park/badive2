@@ -31,16 +31,14 @@ export default function App() {
           <TourTable />
         </Tab>
         <Tab key="update" title="정보수정">
-          <Card shadow="none">
-            <ChangeInformation />
-          </Card>
+
+          <ChangeInformation />
+
         </Tab>
         <Tab key="delete" title="회원탈퇴">
-          <Card shadow="none">
-            <CardBody>
-              <SayGoodbye />
-            </CardBody>
-          </Card>
+
+          <SayGoodbye />
+
         </Tab>
       </Tabs>
     </div>

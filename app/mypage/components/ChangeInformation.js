@@ -7,6 +7,7 @@ import {
   SelectItem,
   Radio,
   RadioGroup,
+  Divider
 } from "@nextui-org/react";
 
 export default function App() {
@@ -24,8 +25,12 @@ export default function App() {
         setAction(`submit ${JSON.stringify(data)}`);
       }}
     >
+      <div className="text-2xl font-bold w-full justify-center items-center text-center">내 정보 수정</div>
+      <Divider className="w-full bg-black h-0.5"></Divider>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full gap-y-5">
+
         <div className="flex flex-col">
+
           {/* <div>비밀번호</div> */}
           <Input
             label="비밀번호"
