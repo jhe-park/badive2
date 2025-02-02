@@ -120,7 +120,7 @@ export default function App() {
         </div>
         <div className="flex flex-col">
           {/* <div>성별</div> */}
-          <RadioGroup label="성별" orientation="horizontal" className="w-full border-2 border-gray-200 rounded-xl p-2">
+          <RadioGroup label="성별" orientation="horizontal" className="w-full border-2 border-gray-200 rounded-xl p-4">
             <Radio value="male">남</Radio>
             <Radio value="female">여</Radio>
           </RadioGroup>
