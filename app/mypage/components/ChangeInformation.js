@@ -24,7 +24,7 @@ export default function App() {
         setAction(`submit ${JSON.stringify(data)}`);
       }}
     >
-      <div className="grid grid-cols-2 gap-x-5 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full">
         <div className="flex flex-col">
           <div>비밀번호</div>
           <Input

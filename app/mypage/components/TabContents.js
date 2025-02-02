@@ -23,7 +23,7 @@ export default function App() {
         </div>
       </div>
 
-      <Tabs aria-label="Options" className="w-full h-12 my-6" variant="underlined">
+      <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined">
         <Tab key="purchase" title="프로그램 예약 조회">
           <ProgramTable />
         </Tab>
