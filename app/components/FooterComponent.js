@@ -16,7 +16,7 @@ export default function Component() {
         {/* Main Content */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
           {/* Company Info */}
-          <div className="flex flex-col space-y-3 max-w-2xl">
+          <div className="flex flex-col space-y-3 max-w-2xl order-2">
             <div className="flex flex-wrap items-center gap-2 text-sm md:text-base">
               <span className="font-semibold">BDN DIVE</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
@@ -42,7 +42,7 @@ export default function Component() {
           </div>
 
           {/* Social Links */}
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4 order-1">
             {[
               { src: "/logo/youtube.png", alt: "youtube", href: "https://youtube.com/@bdndive?si=p72b0W3_Szqc_c7Y" },
               { src: "/logo/kakao.png", alt: "kakao", href: "" },
