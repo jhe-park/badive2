@@ -79,6 +79,7 @@ function IntroductionCarousel() {
                     expandedIndex !== index && isMobile ? 'line-clamp-6' : ''
                   }`}
                   dangerouslySetInnerHTML={{ __html: item.left.description }}
+                  style={{lineHeight: "1"}}
                 ></div>
                 <button
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}

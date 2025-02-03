@@ -44,15 +44,18 @@ function IntroductionCarousel() {
                 <div
                   className="text-sm md:text-[30px] text-center md:[&>p:not(:last-child)]:mb-8"
                   dangerouslySetInnerHTML={{ __html: item.left.description1 }}
+                  style={{lineHeight: "1"}}
                 ></div>
                 <div className="flex justify-between items-center">
                   <div
                     className="text-sm md:text-[30px] text-center"
                     dangerouslySetInnerHTML={{ __html: item.left.description2 }}
+                    style={{lineHeight: "1"}}
                   ></div>
                   <div
                     className="text-sm md:text-[30px] text-center"
                     dangerouslySetInnerHTML={{ __html: item.left.description3 }}
+                    style={{lineHeight: "1"}}
                   ></div>
                 </div>
               </div>
