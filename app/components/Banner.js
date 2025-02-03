@@ -50,7 +50,7 @@ export default function Banner() {
       <div className="bg-white w-full h-[40vh] md:h-[100vh] relative">
         <video
           ref={videoRef}
-          className="w-full h-full object-fill"
+          className="w-full h-full object-cover"
           autoPlay
           muted
           loop
