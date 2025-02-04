@@ -15,6 +15,10 @@ export default function Toast({ searchParams }) {
         if (searchParams?.error?.includes("You cannot login")) {
             toast.error("로그인 실패가 5회 초과하여 로그인이 불가합니다. 비밀번호를 변경해주세요.");                    
         }
+        if (searchParams?.message?.includes("success to change")) {
+            toast.success("비밀번호 변경이 완료되었습니다.");                    
+        }
+
 
 
     }, []);

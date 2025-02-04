@@ -29,6 +29,7 @@ export default function Login(props) {
             console.error('에러 발생:', error);
         }
         toast.success('비밀번호 찾기 이메일을 확인해주세요.');
+
     };
 
 

@@ -9,9 +9,11 @@ import Instagram from "@/app/components/Instagram";
 import Curriculum from "@/app/components/Curriculum";
 import Resort from "@/app/components/Resort";
 import SlideUp from "@/components/animation/SlideUp";
+import Toast from "@/components/Toast";
 export default async function Home() {
   return (
     <div className="flex w-full h-full flex-col items-center justify-start ">
+      
       <Banner></Banner>
       
       <Story></Story>

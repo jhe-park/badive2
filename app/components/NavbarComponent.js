@@ -39,7 +39,6 @@ export default function Navbar() {
     fetchUser();
   }, [pathname]); // pathname이 변경될 때마다 fetchUser 호출
 
-  console.log('user11:', user);
 
   // Add menu data structure
   const menuItems = [
