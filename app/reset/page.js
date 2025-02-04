@@ -40,6 +40,7 @@ export default function Reset() {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            
             <div className="flex h-full  w-full flex-col items-center justify-center gap-y-10 my-32">
                 <div className="flex flex-col items-center gap-y-5">
                     <div>
