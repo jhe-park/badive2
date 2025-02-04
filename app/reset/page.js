@@ -8,13 +8,22 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
+function SearchParamsComponent() {
+    const searchParams = useSearchParams();
+    return searchParams;
+}
+
 export default function Reset() {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const router = useRouter();
     const supabase = createClient();
-    const searchParams = useSearchParams();
 
+    const searchParams = (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SearchParamsComponent />
+        </Suspense>
+    );
 
     const handlePasswordChange = async () => {
         console.log('searchParams:', searchParams)
@@ -40,7 +49,6 @@ export default function Reset() {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            
             <div className="flex h-full  w-full flex-col items-center justify-center gap-y-10 my-32">
                 <div className="flex flex-col items-center gap-y-5">
                     <div>
