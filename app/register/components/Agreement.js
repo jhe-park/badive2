@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import useStep from "@/app/store/useStep";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import useMarketingAgreement from "@/app/store/useMarketingAgreement";
 export default function Agreement() {
   const router = useRouter();
   const { step, setStep } = useStep();
@@ -11,6 +12,7 @@ export default function Agreement() {
   const [privacyChecked, setPrivacyChecked] = useState(false);
   const [marketingChecked, setMarketingChecked] = useState(false);
   const [ageChecked, setAgeChecked] = useState(false);
+  const { marketingAgreement, setMarketingAgreement } = useMarketingAgreement();
 
   const isNextButtonEnabled = termsChecked && privacyChecked && ageChecked;
 
@@ -145,7 +147,10 @@ export default function Agreement() {
 
       <Checkbox
         isSelected={marketingChecked}
-        onChange={(e) => setMarketingChecked(e.target.checked)}
+        onChange={(e) => {
+          setMarketingChecked(e.target.checked);
+          setMarketingAgreement(e.target.checked);
+        }}
       >
         마케팅 목적의 개인정보 수집 및 이용 동의
         <span className=" font-bold">(선택)</span>

@@ -38,6 +38,7 @@ export const updateSession = async (request: NextRequest) => {
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
+    console.log('middlewareuser:', user)
 
     // protected routes
     if (request.nextUrl.pathname.startsWith("/protected") && user.error) {
@@ -48,14 +49,14 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/protected", request.url));
     }
 
-    // 추가된 코드: /inquiries 경로에 대한 리디렉션 처리
-    if (request.nextUrl.pathname.startsWith("/inquiries") && user.error) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-
     // 추가된 코드: /mypage 경로에 대한 리디렉션 처리
     if (request.nextUrl.pathname.startsWith("/mypage") && user.error) {
       return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    // 로그인 페이지에서 사용자가 이미 로그인되어 있는 경우 루트로 리디렉션
+    if (request.nextUrl.pathname === "/login" && !user.error) {
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
     return response;

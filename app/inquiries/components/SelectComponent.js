@@ -1,16 +1,83 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Divider, Select, SelectItem, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
-export default function SelectComponent() {
+import { createClient } from "@/utils/supabase/client";
+import { useProgramStore } from "@/app/store/useProgramStore";
+export default function SelectComponent({isSelectProgram, setIsSelectProgram, isSelectInstructor, setIsSelectInstructor}) {
   const [quantity, setQuantity] = useState(1);
+  const [program, setProgram] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState("");
+  const [region, setRegion] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [instructor, setInstructor] = useState([]);
+  const [selectedInstructor, setSelectedInstructor] = useState("");
+  const [data, setData] = useState([]);
+  const { programStore, setProgramStore } = useProgramStore();
   const router = useRouter();
+
+
 
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => Math.max(1, prev - 1));
 
+  const supabase = createClient();
+  const getProgram = async () => {
+    const { data, error } = await supabase
+      .from('program')
+      .select('*,instructor_id(*)');
+    if (error) {
+      console.error(error);
+    } else {
+      const uniqueTitles = [...new Set(data.map(item => item.title))];
+      setProgram(uniqueTitles);
+      setData(data);
+      setProgramStore(data);
+    }
+  };
+
+  useEffect(() => {
+    getProgram();
+  }, []);
+
+  const filterRegion = () => {
+    const filteredRegion = data.filter(item => item.title === selectedProgram);
+    const uniqueRegions = [...new Set(filteredRegion.map(item => item.region))];
+    setRegion(uniqueRegions);
+  }
+
+
+  useEffect(() => {
+    filterRegion();
+  }, [selectedProgram]);
+
+  const filterInstructor = () => {
+    const filteredInstructor = data.filter(item => item.title === selectedProgram && item.region === selectedRegion);
+    const uniqueInstructors = [...new Set(filteredInstructor.map(item => item.instructor_id.name))];
+    setInstructor(uniqueInstructors);
+  }
+
+  useEffect(() => {
+    filterInstructor();
+  }, [selectedRegion]);
+
+  
+
+  console.log('data:',data);
+  console.log('program:',program);
+  
+
+  console.log('selectedProgram:',selectedProgram);
+  console.log('region:',region);
+  console.log('selectedRegion:',selectedRegion);
+  console.log('instructor:',instructor);
+  console.log('selectedInstructor:',selectedInstructor);
+  
+
+
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
+
       <div className="text-center text-2xl md:text-4xl font-bold">
         스쿠버 다이빙 - 오픈워터 다이버
       </div>
@@ -19,22 +86,31 @@ export default function SelectComponent() {
       </div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
       <div className="w-full text-lg md:text-2xl font-bold">강습프로그램</div>
-      <Select className="w-full h-full text-xl">
-        <SelectItem>1</SelectItem>
-        <SelectItem>2</SelectItem>
-        <SelectItem>3</SelectItem>
+      <Select onChange={(e) => {setSelectedProgram(e.target.value); setIsSelectProgram(true)}} className="w-full h-full text-xl">
+        {program.map((item) => (
+          <SelectItem value={item} key={item}>{item}</SelectItem>
+        ))}
+
+
+
       </Select>
+
+
       <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>
-      <Select className="w-full h-full text-xl">
-        <SelectItem>1</SelectItem>
-        <SelectItem>2</SelectItem>
-        <SelectItem>3</SelectItem>
+      <Select onChange={(e) => setSelectedRegion(e.target.value)} className="w-full h-full text-xl">
+        {region.map((item) => (
+          <SelectItem value={item} key={item}>{item}</SelectItem>
+        ))}
+
       </Select>
+
       <div className="w-full text-lg md:text-2xl font-bold">강사</div>
-      <Select className="w-full h-full">
-        <SelectItem>1</SelectItem>
-        <SelectItem>2</SelectItem>
-        <SelectItem>3</SelectItem>
+      <Select onChange={(e) => {setSelectedInstructor(e.target.value); setIsSelectInstructor(true)}} className="w-full h-full text-xl">
+        {instructor.map((item) => (
+          <SelectItem value={item} key={item}>{item}</SelectItem>
+        ))}
+
+
       </Select>
 
       <div className="w-full text-lg md:text-2xl font-bold">인원선택</div>

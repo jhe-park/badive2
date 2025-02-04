@@ -4,9 +4,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import {RadioGroup, Radio} from "@heroui/radio";
 import { useDisclosure } from "@heroui/react";
 import SelectModal from "./SelectModal";
-const CalendarComponent = () => {
+import { useProgramStore } from "@/app/store/useProgramStore";
+import {Skeleton} from "@heroui/skeleton";
+import { Card } from "@heroui/card";
+import Image from "next/image";
+
+
+const CalendarComponent = ({isSelectProgram, setIsSelectProgram, isSelectInstructor, setIsSelectInstructor}) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const { programStore } = useProgramStore();
+
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -24,9 +32,15 @@ const CalendarComponent = () => {
   };
 
   const handleDateSelect = (day) => {
-    setSelectedDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-    );
+    const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    const dayOfWeek = selectedDate.getDay();
+    const startOfWeek = new Date(selectedDate);
+    startOfWeek.setDate(selectedDate.getDate() - dayOfWeek);
+    const endOfWeek = new Date(selectedDate);
+    endOfWeek.setDate(selectedDate.getDate() + (6 - dayOfWeek));
+
+    // 선택된 주의 시작과 끝 날짜를 설정
+    setSelectedDate({ start: startOfWeek, end: endOfWeek });
     onOpen();
   };
 
@@ -41,64 +55,111 @@ const CalendarComponent = () => {
     1
   ).getDay();
 
+  console.log('isSelectProgram:',isSelectProgram);
+  
+
   return (
-    <div className="col-span-1 flex flex-col items-center justify-start gap-y-2 md:gap-y-12 h-full">
-      <div className="flex justify-between items-center md:mb-4 w-full">
-        <button
-          onClick={handlePrevMonth}
-          className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
-        >
-          <ChevronLeft className="text-4xl md:text-9xl font-bold" />
-          <span className="text-sm md:text-2xl">이전달</span>
-        </button>
-        <div className="font-medium text-sm md:text-3xl underline my-6">
-          {currentDate.toLocaleString("default", { month: "long" })}{" "}
-          {currentDate.getFullYear()}
+    <div className={`col-span-1 flex flex-col items-center ${!isSelectProgram || !isSelectInstructor ? 'justify-center' : 'justify-start'} gap-y-2 md:gap-y-12 h-full`}>
+      {!isSelectProgram ? (
+        <div className=" w-48 h-48 md:w-1/2 md:h-1/2  flex items-center justify-center relative">
+          <Image src="/noimage/noimage.jpg" alt="Program Image" fill className="rounded-2xl" />
         </div>
-        <button
-          onClick={handleNextMonth}
-          className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
-        >
-          <span className="text-sm md:text-2xl">다음달</span>
-          <ChevronRight className="text-4xl md:text-9xl font-bold" />
-        </button>
-      </div>
-      <div className="grid grid-cols-7 gap-2 w-full">
-        {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
-          <div
-            key={day}
-            className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${
-              index === 0 ? "text-red-500" : ""
-            }`}
-          >
-            {day}
+
+        // <Card className="w-1/2 h-1/2 space-y-5 p-4" radius="lg ">
+        //   <Skeleton className="rounded-lg">
+        //     <div className="h-48 rounded-lg bg-default-300" />
+        //   </Skeleton>
+
+        //   <div className="space-y-3">
+
+        //     <Skeleton className="w-3/5 rounded-lg">
+        //       <div className="h-6 w-3/5 rounded-lg bg-default-200" />
+        //     </Skeleton>
+        //     <Skeleton className="w-4/5 rounded-lg">
+        //       <div className="h-6 w-4/5 rounded-lg bg-default-200" />
+        //     </Skeleton>
+        //     <Skeleton className="w-2/5 rounded-lg">
+        //       <div className="h-6 w-2/5 rounded-lg bg-default-300" />
+        //     </Skeleton>
+        //   </div>
+        // </Card>
+      ) : !isSelectInstructor ? (
+        programStore[0]?.images ? (
+          <div className="w-48 h-48 md:w-2/3 md:h-2/3 flex items-center justify-center relative">
+
+          <Image
+            src={programStore[0].images}
+            alt="Program Image"
+            fill
+            
+          />
           </div>
-        ))}
-        {Array.from({ length: firstDayOfMonth }, (_, i) => i).map((_, i) => (
-          <div key={`empty-${i}`} className="text-center text-gray-400"></div>
-        ))}
-        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
-          <div
-            key={day}
-            className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition ${
-              selectedDate?.getDate() === day &&
-              selectedDate?.getMonth() === currentDate.getMonth() &&
-              selectedDate?.getFullYear() === currentDate.getFullYear()
-                ? "bg-blue-500 text-white rounded-full"
-                : ""
-            }`}
-            onClick={() => handleDateSelect(day)}
-          >
-            {day}
+        ) : null
+      ) : (
+        <>
+          <div className="flex justify-between items-center md:mb-4 w-full">
+            <button
+              onClick={handlePrevMonth}
+              className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
+            >
+              <ChevronLeft className="text-4xl md:text-9xl font-bold" />
+              <span className="text-sm md:text-2xl">이전달</span>
+            </button>
+            <div className="font-medium text-sm md:text-3xl underline my-6">
+              {currentDate.toLocaleString("default", { month: "long" })}{" "}
+              {currentDate.getFullYear()}
+            </div>
+            <button
+              onClick={handleNextMonth}
+              className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
+            >
+              <span className="text-sm md:text-2xl">다음달</span>
+              <ChevronRight className="text-4xl md:text-9xl font-bold" />
+            </button>
           </div>
-        ))}
-      </div>
-      {/* {selectedDate && (
-        <div className="mt-4 text-center">
-          Selected date: {selectedDate.toLocaleDateString()}
-        </div>
-      )} */}
-      <div className="w-[90%] h-full items-center justify-start gap-y-6 flex flex-col">
+          <div className="grid grid-cols-7 gap-0 w-full">
+            {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
+              <div
+                key={day}
+                className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${
+                  index === 0 ? "text-red-500" : ""
+                }`}
+              >
+                {day}
+              </div>
+            ))}
+            {Array.from({ length: firstDayOfMonth }, (_, i) => i).map((_, i) => (
+              <div key={`empty-${i}`} className="text-center text-gray-400"></div>
+            ))}
+            {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
+              const isSelected =
+                selectedDate &&
+                selectedDate.start <= new Date(currentDate.getFullYear(), currentDate.getMonth(), day) &&
+                selectedDate.end >= new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+
+              const isStart = selectedDate && selectedDate.start.getDate() === day;
+              const isEnd = selectedDate && selectedDate.end.getDate() === day;
+
+              return (
+                <div
+                  key={day}
+                  className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition ${
+                    isSelected
+                      ? isStart
+                        ? "bg-blue-500 text-white rounded-l-full"
+                        : isEnd
+                        ? "bg-blue-500 text-white rounded-r-full"
+                        : "bg-blue-500 text-white rounded-none"
+                      : ""
+                  }`}
+                  onClick={() => handleDateSelect(day)}
+                >
+                  {day}
+                </div>
+              );
+            })}
+          </div>
+          <div className="w-[90%] h-full items-center justify-start gap-y-6 flex flex-col">
         <div className="w-full h-16 flex items-center justify-center border-2 border-[#0077B6] rounded-lg p-2">
           <RadioGroup>
             <Radio value="1">
@@ -112,6 +173,14 @@ const CalendarComponent = () => {
         </div>
       </div>
       <SelectModal isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}></SelectModal>
+        </>
+      )}
+      {/* {selectedDate && (
+        <div className="mt-4 text-center">
+          Selected date: {selectedDate.toLocaleDateString()}
+        </div>
+      )} */}
+
     </div>
   );
 };

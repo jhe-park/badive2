@@ -26,7 +26,6 @@ export default function Login(props) {
             const { data, error } = await supabase
                 .from('profiles')
                 .select('email')
-                .eq('email', email)
                 .eq('phone', phone)
                 .single();
             console.log("data:", data);
@@ -74,7 +73,7 @@ export default function Login(props) {
             </div>
             <div className="mt-2 flex w-[90%] md:w-1/3 flex-col gap-4 rounded-large bg-content1 px-8 py-6 border-2 border-gray-300">
                 <div className="flex flex-col gap-3">
-                    <Input
+                    {/* <Input
                         isRequired
                         label="아이디"
                         name="email"
@@ -83,7 +82,7 @@ export default function Login(props) {
                         variant="bordered"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
+                    /> */}
 
 
                     <Input

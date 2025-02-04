@@ -25,7 +25,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-
+import useMarketingAgreement from "@/app/store/useMarketingAgreement";
 
 export default function Information() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,7 +48,7 @@ export default function Information() {
   const [firstAddress, setFirstAddress] = useState("");
   const [secondAddress, setSecondAddress] = useState("");
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
-
+  const { marketingAgreement, setMarketingAgreement } = useMarketingAgreement();
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isPasswordChecked, setIsPasswordChecked] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
@@ -101,9 +101,11 @@ export default function Information() {
             marketingEmail: marketingEmail,
             postCode: postcode,
             firstAddress: firstAddress,
-            secondAddress: secondAddress
+            secondAddress: secondAddress,
+            marketingAgreement: marketingAgreement
           })
           .eq('id', signUpData.user.id);
+
 
         if (profileError) {
           toast.error("프로필 생성 중 오류가 발생했습니다.");

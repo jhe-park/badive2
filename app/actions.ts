@@ -82,7 +82,7 @@ export const signInAction = async (formData: FormData) => {
   .eq('email', email)
   .select();
 
-  return redirect("/");
+  return redirect("/?message=success to login");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {

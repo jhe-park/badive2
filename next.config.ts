@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [],
+    domains: ['jhedata.s3.ap-southeast-2.amazonaws.com'],
   },
   i18n: {
     locales: ['en', 'fr', 'es'],
