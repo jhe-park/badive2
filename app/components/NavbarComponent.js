@@ -4,12 +4,42 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from 'next/navigation';  // 상단에 import 추가
 import useModalOpen from '@/app/store/useModalOpen';
+import {createClient} from '@/utils/supabase/client';
 export default function Navbar() {
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const navRef = useRef(null);
   const { isOpen, setIsOpen } = useModalOpen();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 모바일 메뉴 상태 추가
+  const [user, setUser] = useState(null);
+  const supabase = createClient();
+  
+  
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        setUser(session.user);
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+      }
+    });
+
+    // Clean up the subscription on unmount
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, []);
+
+  const fetchUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [pathname]); // pathname이 변경될 때마다 fetchUser 호출
+
+  console.log('user11:', user);
 
   // Add menu data structure
   const menuItems = [
@@ -138,15 +168,35 @@ export default function Navbar() {
         <div className="hidden lg:flex flex-col items-end justify-center relative">
           {/* 상단 행: 로그인/회원가입/마이페이지 */}
           <div className="flex h-1/3 gap-6 justify-end items-center">
-            {["로그인", "회원가입", "마이페이지"].map((item, index) => (
-              <Link 
-                key={index}
-                href={`/${item === "로그인" ? "login" : item === "회원가입" ? "register" : "mypage"}`}
-                className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
-              >
-                {item}
-              </Link>
-            ))}
+            {user ? (
+              <>
+                <Link 
+                  href="/mypage"
+                  className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                >
+                  마이페이지
+                </Link>
+                <button
+                  onClick={() => {
+                    supabase.auth.signOut();
+                    setUser(null);
+                  }}
+                  className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              ["로그인", "회원가입"].map((item, index) => (
+                <Link 
+                  key={index}
+                  href={`/${item === "로그인" ? "login" : "register"}`}
+                  className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                >
+                  {item}
+                </Link>
+              ))
+            )}
           </div>
 
           {/* 하단 행: 메인 메뉴 */}
@@ -194,15 +244,24 @@ export default function Navbar() {
           <div className="lg:hidden absolute top-[100px] left-0 w-full bg-black/95 backdrop-blur-sm">
             {/* 모바일 로그인 메뉴 */}
             <div className="flex justify-center gap-6 py-4 border-b border-gray-700">
-              {["로그인", "회원가입", "마이페이지"].map((item, index) => (
+              {user ? (
                 <Link 
-                  key={index}
-                  href={`/${item === "로그인" ? "login" : item === "회원가입" ? "register" : "mypage"}`}
+                  href="/mypage"
                   className="text-[14px] text-gray-200 hover:text-white"
                 >
-                  {item}
+                  마이페이지
                 </Link>
-              ))}
+              ) : (
+                ["로그인", "회원가입"].map((item, index) => (
+                  <Link 
+                    key={index}
+                    href={`/${item === "로그인" ? "login" : "register"}`}
+                    className="text-[14px] text-gray-200 hover:text-white"
+                  >
+                    {item}
+                  </Link>
+                ))
+              )}
             </div>
             
             {/* 모바일 메인 메뉴 */}

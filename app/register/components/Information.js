@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useState, useEffect } from "react";
 import { Divider } from "@heroui/react";
 import {
   RadioGroup,
@@ -12,14 +13,182 @@ import {
 } from "@heroui/react";
 import useStep from "@/app/store/useStep";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import { toast, ToastContainer } from "react-toastify";
+import { programlist } from "./programlist";
+import DaumPostcode from 'react-daum-postcode';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+
+
 export default function Information() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birth, setBirth] = useState("");
+  const [license, setLicense] = useState("");
+  const [classWant1, setClassWant1] = useState("");
+  const [classWant2, setClassWant2] = useState("");
+  const [classWant3, setClassWant3] = useState("");
+  const [gender, setGender] = useState("");
+  const [marketingSms, setMarketingSms] = useState(false);
+  const [marketingEmail, setMarketingEmail] = useState(false);
+  const [address, setAddress] = useState("");
+  const [detailAddress, setDetailAddress] = useState("");
+  const [postcode, setPostcode] = useState("");
+  const [firstAddress, setFirstAddress] = useState("");
+  const [secondAddress, setSecondAddress] = useState("");
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isPasswordChecked, setIsPasswordChecked] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+  const supabase = createClient();
   const router = useRouter();
   const { step, setStep } = useStep();
-  const handleNext = () => {
-  setStep(step + 1);
-};
+  const handleNext = async () => {
+    if (!isEmailChecked) {
+      toast.error("이메일 중복확인을 해주세요.");
+    } else if (!isPasswordMatch) {
+      toast.error("패스워드가 일치하지 않습니다.");
+    } else if (!name) {
+      toast.error("이름을 입력해주세요.");
+    } else if (!phone) {
+      toast.error("휴대폰번호를 입력해주세요.");
+    } else if (!birth) {
+      toast.error("생년월일을 입력해주세요.");
+    } else if (!license) {
+      toast.error("보유한 라이센스를 입력해주세요.");
+    } else if (!classWant1 && !classWant2 && !classWant3) {
+      toast.error("희망하는 강습을 선택해주세요.");
+    } else if (!gender) {
+      toast.error("성별을 선택해주세요.");
+    } 
+    else {
+      try {
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+        });
+
+        if (signUpError) {
+          toast.error("회원가입 중 오류가 발생했습니다.");
+          console.error(signUpError);
+          return;
+        }
+
+        const { error: profileError } = await supabase.from('profiles')
+          .update({
+            email: email,
+            name: name,
+            phone: phone,
+            birth: birth,
+            license: license,
+            classWant1: classWant1,
+            classWant2: classWant2, 
+            classWant3: classWant3,
+            gender: gender,
+            marketingSms: marketingSms,
+            marketingEmail: marketingEmail,
+            postCode: postcode,
+            firstAddress: firstAddress,
+            secondAddress: secondAddress
+          })
+          .eq('id', signUpData.user.id);
+
+        if (profileError) {
+          toast.error("프로필 생성 중 오류가 발생했습니다.");
+          console.error(profileError);
+          return;
+        }
+
+        toast.success("회원가입이 완료되었습니다!");
+        window.scrollTo(0, 0);
+        setStep(step + 1);
+        
+
+      } catch (error) {
+        toast.error("회원가입 중 오류가 발생했습니다.");
+        console.error(error);
+      }
+    }
+
+  };
+
+  useEffect(() => {
+    if (password && passwordCheck) {
+      setIsPasswordMatch(password === passwordCheck);
+    }
+  }, [password, passwordCheck]);
+  console.log("isPasswordMatch",isPasswordMatch)
+
+  const handleCheckEmail = async () => {
+    const { data, error } = await supabase.from('profiles').select('email').eq('email', email);
+    if (error) {
+      console.error(error);
+    } else if (data.length === 0) {
+      toast.success("사용가능한 이메일입니다.");
+      setIsEmailChecked(true);
+    } else {
+      toast.error("이미 사용중인 이메일입니다.");
+    }
+
+  }
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      }
+      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    }
+
+    setPostcode(data.zonecode);
+    setFirstAddress(fullAddress);
+    setIsPostcodeOpen(false);
+    onClose();
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setIsPasswordMatch(e.target.value === passwordCheck);
+  };
+
+  const handlePasswordCheckChange = (e) => {
+    setPasswordCheck(e.target.value);
+    setIsPasswordMatch(password === e.target.value);
+  };
+
   return (
     <div className="flex flex-col gap-4 justify-center items-center w-full">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+
+      />
       <div className="flex flex-col gap-2">
         <p className="text-black text-5xl font-bold">필수입력 정보</p>
         <p className="text-black text-md">
@@ -27,18 +196,29 @@ export default function Information() {
         </p>
       </div>
       <Divider className="w-full h-0.5 bg-black" />
-      <div className="flex flex-col gap-2 w-[50vw]">
+      <div className="flex flex-col gap-2 w-[90%] md:w-[50vw] gap-y-4 ">
         <div className="flex flex-col items-start justify-start w-full">
-          <div>아이디</div>
+          <div>이메일</div>
           <div className="flex flex-row items-start justify-start w-full gap-x-4">
-            <Input className="w-full" placeholder="아이디를 입력해 주세요." />
-            <Button className="w-[10%]">중복확인</Button>
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} type="email" isRequired variant="bordered" className="w-full" placeholder="이메일 입력해 주세요." />
+            <Button onPress={handleCheckEmail} className="w-[10%]">중복확인</Button>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <div>패스워드</div>
           <div className="flex flex-col items-start justify-start w-full">
-            <Input className="w-full" placeholder="패스워드를 입력해 주세요." />
+            <Input
+              type="password"
+              variant="bordered"
+              className={`w-full ${isPasswordMatch ? 'border-red-500' : ''}`}
+              placeholder="패스워드를 입력해 주세요."
+              value={password}
+              isInvalid={!isPasswordMatch}
+              onChange={handlePasswordChange}
+            />
+            <p className={`text-[#F31260] ${isPasswordMatch ? 'hidden' : ''}`}>
+              패스워드가 일치하지 않습니다.
+            </p>
             <p>
               ※ 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합하여
               설정해주세요 (8~16자)
@@ -49,7 +229,7 @@ export default function Information() {
             </p>
             <p>
               ※ 사용 가능 특수 문자: !, ", #, $, %, (), *, +, ,, -, ., /, :,
-              &apos;, &lt;, =, &gt;, ?, @, ^, `, {}, [], ~
+              &apos;, &lt;, =, &gt;, ?, @, ^, `, { }, [], ~
             </p>
           </div>
         </div>
@@ -57,32 +237,44 @@ export default function Information() {
           <div>패스워드 확인</div>
           <div>
             <Input
+              type="password"
+              variant="bordered"
+              isInvalid={!isPasswordMatch}
+              className={`w-full `}
               placeholder="패스워드를 입력해 주세요."
+              value={passwordCheck}
               labelPlacement="outside"
+              onChange={handlePasswordCheckChange}
             />
           </div>
+          <p className={`text-[#F31260] ${isPasswordMatch ? 'hidden' : ''}`}>
+            패스워드가 일치하지 않습니다.
+          </p>
         </div>
         <div>
           <div>이름</div>
           <div>
             <Input
+              variant="bordered"
               placeholder="이름을 입력해 주세요."
               labelPlacement="outside"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
         </div>
         <div className="flex flex-col gap-2 justify-start items-start w-full">
           <div>휴대폰번호</div>
           <div className="flex flex-row gap-2 justify-start items-end w-full">
-            <Input placeholder="010-1234-5678" />
-            
+            <Input variant="bordered" placeholder="010-1234-5678" value={phone} onChange={(e) => setPhone(e.target.value)} />
+
           </div>
         </div>
         <div className="flex flex-col gap-2 justify-start items-start w-full">
           <div>생년월일</div>
           <div className="flex flex-row gap-2 justify-start items-end w-full">
-            <Input placeholder="1980-01-01" />
-            
+            <Input variant="bordered" placeholder="1980-01-01" value={birth} onChange={(e) => setBirth(e.target.value)} />
+
           </div>
           <div></div>
         </div>
@@ -90,7 +282,7 @@ export default function Information() {
         <div className="flex flex-col gap-2 justify-start items-start w-full">
           <div>보유한 라이센스</div>
           <div className="flex flex-row gap-2 justify-start items-end w-full">
-            <Input placeholder="" labelPlacement="outside" className="w-full" />
+            <Input variant="bordered" placeholder="보유한 라이센스 입력력" labelPlacement="outside" className="w-full" value={license} onChange={(e) => setLicense(e.target.value)} />
           </div>
         </div>
         <div>
@@ -98,95 +290,99 @@ export default function Information() {
           <div className="flex flex-col gap-2 justify-start items-end w-full">
             <div className="flex flex-row gap-2 justify-start items-center w-full">
               <span>01.</span>
-              <Select>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
+              <Select variant="bordered" isInvalid={!classWant1 && !classWant2 && !classWant3} selectedKeys={[classWant1]} onChange={(e) => setClassWant1(e.target.value)}>
+                {programlist.map((item, index) => (
+                  <SelectItem key={item} value={item}>{item}</SelectItem>
+                ))}
               </Select>
             </div>
             <div className="flex flex-row gap-2 justify-start items-center w-full">
               <span>02.</span>
-              <Select>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
+              <Select variant="bordered" isInvalid={!classWant1 && !classWant2 && !classWant3} selectedKeys={[classWant2]} onChange={(e) => setClassWant2(e.target.value)}>
+                {programlist.map((item, index) => (
+                  <SelectItem key={item} value={item}>{item}</SelectItem>
+                ))}
               </Select>
             </div>
             <div className="flex flex-row gap-2 justify-start items-center w-full">
               <span>03.</span>
-              <Select>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
+              <Select variant="bordered" isInvalid={!classWant1 && !classWant2 && !classWant3} selectedKeys={[classWant3]} onChange={(e) => setClassWant3(e.target.value)}>
+                {programlist.map((item, index) => (
+                  <SelectItem key={item} value={item}>{item}</SelectItem>
+                ))}
               </Select>
             </div>
-            <div className="flex w-full justify-start">
-              *한가지 이상 필수록 선택해주시기 바랍니다.
+            <div className={`text-[#F31260] flex w-full justify-start ${!classWant1 && !classWant2 && !classWant3 ? '' : 'hidden'}`}>
+              *한가지 이상 필수로 선택해주시기 바랍니다.
             </div>
           </div>
           <div className="flex flex-col gap-2 justify-start items-start w-full">
             <div>성별</div>
             <div>
-              <RadioGroup orientation="horizontal">
-                <Radio value="male">남성</Radio>
-                <Radio value="female">여성</Radio>
+              <RadioGroup orientation="horizontal" selectedKeys={[gender]} onChange={(e) => setGender(e.target.value)}>
+                <Radio key="male" value="male">남성</Radio>
+                <Radio key="female" value="female">여성</Radio>
               </RadioGroup>
             </div>
           </div>
-          <div className="flex flex-col gap-2 justify-start items-start w-full">
-            <div>광고 및 마케팅 수신 동의(선택)</div>
-            <div>
-              <CheckboxGroup
-                color="primary"
-                defaultValue={["email"]}
-                orientation="horizontal"
-              >
-                <Checkbox value="sms">문자 승인</Checkbox>
-                <Checkbox value="email">이메일 승인</Checkbox>
-              </CheckboxGroup>
-              <div className="flex w-full justify-start text-xs">
-                *수신 동의 시 BDN 소식을 빠르게 받아보실 수 있습니다.
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
       <div className="flex flex-col gap-2">
         <p className="text-black text-5xl font-bold">선택정보 입력</p>
       </div>
       <Divider className="w-full h-1 bg-black" />
-      <div className="flex flex-col gap-2 w-[50vw]">
-        <div className="flex flex-col items-start justify-start w-full">
-          <div>이메일</div>
-          <div className="flex flex-row items-center justify-start w-full gap-x-4">
-            <Input className="w-full" placeholder="이메일을 입력해 주세요." />
-            <div>@</div>
-            <Input className="w-full" placeholder="이메일을 입력해 주세요." />
-            <Select>
-              <SelectItem value="naver.com">naver.com</SelectItem>
-              <SelectItem value="gmail.com">gmail.com</SelectItem>
-              <SelectItem value="daum.net">daum.net</SelectItem>
-              <SelectItem value="manual">직접입력</SelectItem>
-            </Select>
+
+      <div className="flex flex-col gap-2 w-[90%] md:w-[50vw] gap-y-4">
+        <div className="flex flex-col gap-2 justify-start items-start w-full">
+          <div>광고 및 마케팅 수신 동의(선택)</div>
+          <div className="flex flex-row gap-4 justify-start items-start w-full">
+
+            <Checkbox onChange={(e) => setMarketingSms(e.target.checked)} isSelected={marketingSms} key="sms">문자 승인</Checkbox>
+            <Checkbox onChange={(e) => setMarketingEmail(e.target.checked)} isSelected={marketingEmail} key="email">이메일 승인</Checkbox>
+
+            
           </div>
+          <div className="flex w-full justify-start text-xs">
+              *수신 동의 시 BDN 소식을 빠르게 받아보실 수 있습니다.
+            </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div>주소</div>
           <div className="flex flex-col items-center justify-start w-full gap-x-4 gap-y-2">
             <div className="flex flex-row items-center justify-start w-full gap-x-4">
-              <Input className="w-full" placeholder="" />
-              <Button>주소 검색</Button>
+              <Input variant="bordered" className="w-full" placeholder="우편번호" value={postcode} readOnly onChange={(e) => setPostcode(e.target.value)} />
+              <Button onPress={onOpen}>주소 검색</Button>
             </div>
 
-            <Input className="w-full" placeholder="" />
-            <Input className="w-full" placeholder="" />
+            <Input variant="bordered" className="w-full" placeholder="주소" value={firstAddress} readOnly onChange={(e) => setFirstAddress(e.target.value)} />
+            <Input variant="bordered" className="w-full" placeholder="상세주소" value={secondAddress} onChange={(e) => setSecondAddress(e.target.value)} />
           </div>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalContent>
+              <ModalHeader>주소 검색</ModalHeader>
+              <ModalBody>
+                <DaumPostcode
+                  onComplete={handleComplete}
+                  autoClose={true}
+                  style={{ width: '100%', height: '400px' }}
+                />
+              </ModalBody>
+
+            </ModalContent>
+          </Modal>
         </div>
       </div>
 
       <div className="flex justify-center items-center gap-5 w-full">
-        <Button  className="w-1/4" color="" variant="bordered" type="button">
-          취소
+        <Button
+          className="w-1/4"
+          color=""
+          variant="bordered"
+          type="button"
+          onPress={() => setStep(step - 1)}
+        >
+          뒤로
         </Button>
         <Button
           onPress={handleNext}

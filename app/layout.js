@@ -6,7 +6,7 @@ import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
-import {HeroUIProvider} from "@heroui/react";
+import { HeroUIProvider } from "@heroui/react";
 import NavbarComponent from "@/app/components/NavbarComponent";
 import FooterComponent from "@/app/components/FooterComponent";
 import "@/app/globals.css";
@@ -43,6 +43,7 @@ export default function RootLayout({ children }) {
             <main className="min-h-screen flex flex-col items-center">
               <div className="w-full flex flex-col items-center">
                 <NavbarComponent />
+
                 <div className="flex flex-col gap-20 w-full ">{children}</div>
 
                 <FooterComponent></FooterComponent>

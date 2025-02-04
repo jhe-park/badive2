@@ -1,14 +1,18 @@
+'use client'
 import React from "react";
-
+import  useStep from "@/app/store/useStep";
 import HorizontalSteps from "./horizontal-steps";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import { PiNotePencil } from "react-icons/pi";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
 export default function Component() {
+  const { step, setStep } = useStep();
+  console.log('step:',step)
   return (
     <HorizontalSteps
-      defaultStep={0}
+      defaultStep={step}
+      currentStep={step}
       steps={[
         {
           title: "STEP01",

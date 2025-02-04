@@ -4,8 +4,9 @@ import React from "react";
 import { useControlledState } from "@react-stately/utils";
 import { m, LazyMotion, domAnimation } from "framer-motion";
 import { cn } from "@heroui/react";
-
+import useStep from "@/app/store/useStep";
 function CheckIcon(props) {
+  const { step, setStep } = useStep();
   return (
     <svg
       {...props}
@@ -106,10 +107,10 @@ const HorizontalSteps = React.forwardRef(
     console.log('stepIdx', currentStep)
 
     return (
-      <nav aria-label="Progress" className="flex justify-evenly w-full">
+      <nav aria-label="Progress" className="flex justify-center md:justify-evenly w-full">
         <ol
           className={cn(
-            "flex-row w-2/3 flex justify-between",
+            "flex-row w-[90%] md:w-2/3 flex justify-between",
             colors,
             className
           )}
@@ -153,7 +154,7 @@ const HorizontalSteps = React.forwardRef(
                       <div
                         aria-hidden="true"
                         className={cn(
-                          "pointer-events-none absolute left-6 top-1/2 flex  w-1/2 md:w-[15vw] -translate-y-1/2 translate-x-1/2 items-center sm:w-12"
+                          "pointer-events-none absolute left-6 top-1/2 flex  w-[10vw] md:w-[15vw] -translate-y-1/2 translate-x-1/2 items-center sm:w-12"
                         )}
                         style={{
                           // @ts-ignore

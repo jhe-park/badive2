@@ -48,6 +48,16 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/protected", request.url));
     }
 
+    // // 추가된 코드: /inquiries 경로에 대한 리디렉션 처리
+    // if (request.nextUrl.pathname.startsWith("/inquiries") && user.error) {
+    //   return NextResponse.redirect(new URL("/login", request.url));
+    // }
+
+    // 추가된 코드: /mypage 경로에 대한 리디렉션 처리
+    if (request.nextUrl.pathname.startsWith("/mypage") && user.error) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
     return response;
   } catch (e) {
     // If you are here, a Supabase client could not be created!

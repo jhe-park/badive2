@@ -43,17 +43,46 @@ export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = await createClient();
+  
+  const { data: profile } = await supabase
+  .from('profiles')
+  .select('failCount')
+  .eq('email', email)
+  .single();
 
+  if (profile?.failCount >= 6) {
+    return encodedRedirect("error", "/login", "You cannot login more than 6 times");
+  }
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
+    // options: {
+    //   expiresIn: 3600,
+    // },
   });
-
+  
   if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+    const newFailCount = (profile?.failCount || 0) + 1;
+    console.log("newFailCount", newFailCount);
+    const response=await supabase
+      .from('profiles')
+      .update({ failCount: newFailCount })
+      .eq('email', email)
+      .select();
+    console.log("response", response);
+    const params = new URLSearchParams({
+      error: error.message,
+      email: email,
+    });
+    return encodedRedirect("error", "/login", params.toString());
   }
+  const response=await supabase
+  .from('profiles')
+  .update({ failCount: 0 })
+  .eq('email', email)
+  .select();
 
-  return redirect("/protected");
+  return redirect("/");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
