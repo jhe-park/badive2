@@ -2,9 +2,26 @@ import React from "react";
 import Image from "next/image";
 import { Divider } from "@heroui/react";
 import OrderComponents from "./components/OrderComponents";
-export default function page() {
+import { createClient } from "@/utils/supabase/server";
+export default async function page() {
+  const supabase = await createClient();
+  const { data: reservationData } = await supabase.from('reservation').select('*');
+  const {data} = await supabase.auth.getUser();
+  const userData = data?.user;
+  console.log('userData:',userData);
+  let userReservations = [];
+  if (userData) {
+    userReservations = reservationData.filter(reservation => 
+      reservation.user_id === userData.id
+    );
+  }
+  console.log('userReservations:', userReservations);
+
+  
+  
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">
+
       <div className="w-full h-[30vh] md:h-[600px] flex items-center justify-center relative">
         <Image
           src={"/inquiries/inquiriesTop.png"}
@@ -18,7 +35,7 @@ export default function page() {
         <h1 className="text-2xl md:text-5xl font-bold text-start w-full">예약</h1>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>
         <div className="w-full h-full flex flex-col items-center justify-center gap-x-5">
-          <OrderComponents />
+          <OrderComponents userReservations={userReservations} />
           
         </div>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>

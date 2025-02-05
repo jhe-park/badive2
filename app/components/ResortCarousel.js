@@ -8,7 +8,7 @@ import ReactPlayer from "react-player";
 import { IoMdClose } from "react-icons/io";
 import { BiFullscreen, BiExitFullscreen } from "react-icons/bi";
 import useModalOpen from '@/app/store/useModalOpen';
-
+import { createClient } from "@/utils/supabase/client";
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -16,12 +16,29 @@ const MultiImageCarousel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [resortData, setResortData] = useState([]);
   const { isOpen, setIsOpen } = useModalOpen();
   const modalRef = useRef(null);
+
+
+  const supabase = createClient();
+
+  const getData = async () => {
+    const { data, error } = await supabase.from("resort").select("*");
+    if (error) {
+      console.log(error);
+    }
+    setResortData(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const images = [
     {
       id: 1,
+
       url: "/resort/resort1.png",
       title: "필리핀 세부 스컬 리조트",
       link: "http://www.skuldive.com",
@@ -68,10 +85,11 @@ const MultiImageCarousel = () => {
   };
 
   const handleImageClick = (image) => {
-    if (image.link) {
-      window.open(image.link, '_blank');
+    if (image.url) {
+      window.open(image.url, '_blank');
     }
   };
+
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -120,6 +138,8 @@ const MultiImageCarousel = () => {
     };
   }, []);
 
+  console.log('resortData:',resortData);
+
   return (
     <div className="relative w-full h-full">
       <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
@@ -147,16 +167,17 @@ const MultiImageCarousel = () => {
               transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 25)}%)`,
             }}
           >
-            {images.map((image) => (
+            {resortData.map((image) => (
               <div
                 key={image.id}
                 className="flex-none h-full relative group hover:cursor-pointer"
                 style={{ width: windowWidth < 768 ? "50%" : "25%", padding: "0 10px" }}
                 onClick={() => handleImageClick(image)}
+
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-36 md:h-4/5 group">
                   <Image
-                    src={image.url}
+                    src={image.image}
                     alt={image.title}
                     fill
                     className="transition-transform duration-300 ease-out group-hover:scale-105"

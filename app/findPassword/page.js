@@ -23,7 +23,7 @@ export default function Login(props) {
 
     const handleFindPassword = async () => {
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/reset-password`
+            redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}`
         });
         if (error) {
             console.error('에러 발생:', error);

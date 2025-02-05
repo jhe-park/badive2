@@ -5,10 +5,20 @@ import { FaRegShareFromSquare } from "react-icons/fa6";
 import { Chip } from "@heroui/react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
-export default function page({ params }) {
-  console.log('params:', params.id)
+import { createClient } from "@/utils/supabase/server";
+
+export default async function page({ params }) {
+  const supabase = await createClient();
+  const paramsdata = await params;
+  const tour_id = paramsdata.id;
+  const { data, error } = await supabase.from("tour").select("*").eq("id", tour_id).single();
+
+
   return (
+
+
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
+
       <div className="w-full h-[30vh] md:h-[800px] flex items-center justify-center relative">
         <Image
           src={"/divingtour/divingtour.png"}
@@ -22,14 +32,16 @@ export default function page({ params }) {
         <div className="w-full h-full flex flex-col items-center justify-center gap-y-5">
           <div className="text-2xl md:text-4xl font-bold flex items-center justify-center gap-x-2 md:flex-row flex-col gap-y-2">
             <Chip color="danger" size="large">
-              마감임박
+              {data.tag_name}
             </Chip>
             <div className="text-2xl md:text-4xl font-bold">
-              [01/10 ~01/17] 필리핀 코론 수중 프로필 촬영 다이빙 투어
+              {data.title}
+
             </div>
           </div>
+
           <div className="text-medium font-bold text-gray-500">
-            조회수: 10304
+            조회수: {data.view_count}
           </div>
           <div className="w-full flex items-center justify-end gap-x-2">
             <div className="flex flex-col items-center justify-center gap-x-2 cursor-pointer">
@@ -42,34 +54,10 @@ export default function page({ params }) {
             </div>
           </div>
           <div className="flex flex-col items-center justify-center gap-x-2 cursor-pointer w-full">
-            <img
-              src="/tourdetail/tourdetail1.png"
-              alt="tour1"
-              className="w-full h-auto object-cover"
-            />
-            <img
-              src="/tourdetail/tourdetail2.png"
-              alt="tour1"
-              className="w-full h-auto object-cover"
-            />
-            <img
-              src="/tourdetail/tourdetail3.png"
-              alt="tour1"
-              className="w-full h-auto object-cover"
-            />
-            <img
-              src="/tourdetail/tourdetail4.png"
-              alt="tour1"
-              className="w-full h-auto object-cover"
-            />
-            <img
-              src="/tourdetail/tourdetail5.png"
-              alt="tour1"
-              className="w-full h-auto object-cover"
-            />
+          <div className="w-full" dangerouslySetInnerHTML={{ __html: data.description }} />
           </div>
           <div className="w-1/2 md:w-full h-full  flex items-center justify-center my-6 md:m24">
-            <Link className="flex items-center justify-center gap-x-2" href='/book'>
+            <Link className="flex items-center justify-center gap-x-2" href={`/divingtours/reservation/${tour_id}`}>
               <Button className="text-2xl md:text-6xl font-bold w-full h-full p-4">예약하기</Button>
             </Link>
           </div>

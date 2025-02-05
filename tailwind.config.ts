@@ -17,6 +17,21 @@ const config = {
       colors: {
         primary: "#0077B6"
       },
+      keyframes: {
+        'scale-fade-in': {
+          '0%': { 
+            opacity: '0',
+            transform: 'scale(0.5)'
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'scale(1)'
+          },
+        }
+      },
+      animation: {
+        'scale-fade-in': 'scale-fade-in 0.5s ease-out forwards'
+      }
     },
   },
   plugins: [heroui()],

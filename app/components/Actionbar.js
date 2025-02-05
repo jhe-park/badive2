@@ -60,13 +60,14 @@ export default function Actionbar() {
         {
           label: "전화문의",
           src: "/floating/phone.png",
-          url:"/",
+          url:"tel:010-9999-9999",
           Icon: BsTelephoneForward,
+
         },
         {
           label: "카카오상담",
           src: "/floating/kakao.png",
-          url:"/",
+          url:"http://pf.kakao.com/_ClHKn",
           Icon: RiKakaoTalkFill,
         },
         { label: "TOP", src: "/floating/top.png", Icon: FaChevronUp },
