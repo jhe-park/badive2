@@ -35,7 +35,7 @@ export default async function page() {
         <h1 className="text-2xl md:text-5xl font-bold text-start w-full">예약</h1>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>
         <div className="w-full h-full flex flex-col items-center justify-center gap-x-5">
-          <OrderComponents userReservations={userReservations} />
+          <OrderComponents userReservations={userReservations} userData={userData} />
           
         </div>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>

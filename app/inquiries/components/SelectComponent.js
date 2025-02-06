@@ -20,6 +20,7 @@ export default function SelectComponent({
 
   isSelectInstructor,
   setIsSelectInstructor,
+  userData
 }) {
   const [program, setProgram] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState("");
@@ -95,10 +96,7 @@ export default function SelectComponent({
   }, [noParticipants]);
   
   const handlePaymentClick = () => {
-    
-      
-      router.push("/inquiries/complete");
-    
+      router.push(`/inquiries/complete?orderId=12312311&time_slot_id=62035&userId=${userData.id}&participants=1`);
   };
 
   return (

@@ -95,7 +95,6 @@ export default function TourTable({ profile }) {
     fetchTourData();
   }, [profile?.id, searchFilter, searchValue, page, pageSize, cancelTry]);
 
-  console.log("tourData:", tourData);
 
   const handleDetailOpen = (tour) => {
     setSelectedTour(tour);
@@ -121,12 +120,23 @@ export default function TourTable({ profile }) {
     const handleCancel = async () => {
       const { data, error } = await supabase
         .from("request")
-        .update({ status: "취소중" })
+        .update({ status: "취소완료" })
         .eq("id", selectedTour.id);
       if (error) {
         
         toast.error("투어 취소에 실패했습니다.");
       } else {
+        const { data: tourData, error: tourError } = await supabase
+          .from("tour")
+          .update({ 
+            current_participants: selectedTour.tour_id.current_participants - 1 
+          })
+          .eq("id", selectedTour.tour_id.id);
+
+        if (tourError) {
+          toast.error("참가자 수 업데이트에 실패했습니다.");
+          return;
+        }
         setCancelTry((prev) => prev + 1);
         toast.success("투어 취소가 신청 완료되었습니다.");
       }

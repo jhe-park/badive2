@@ -48,7 +48,7 @@ export default function App({ profile }) {
       ) : (
         <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined">
           <Tab key="purchase" title="프로그램 예약 조회">
-            <ProgramTable />
+            <ProgramTable profile={profile} />
 
         </Tab>
         <Tab key="tour" title="다이빙 투어 예약 조회">

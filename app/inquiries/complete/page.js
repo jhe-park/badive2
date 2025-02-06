@@ -4,10 +4,79 @@ import { Divider } from "@heroui/react";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
+import { createClient } from "@/utils/supabase/server";
+export default async function page({searchParams}) {
+  const {orderId, time_slot_id, userId, participants} = await searchParams;
 
-export default function page() {
+
+
+  const supabase = await createClient();
+  if(orderId) {
+    // 먼저 예약 존재 여부 확인
+    const { data: existingReservation } = await supabase
+      .from("reservation")
+      .select("*")
+      .eq("order_id", orderId)
+      .single();
+
+    if (!existingReservation) {
+      // 예약이 없는 경우에만 새로운 예약 생성
+      const { error: reservationError } = await supabase
+        .from("reservation")
+        .insert([
+          {
+            order_id: orderId,
+            time_slot_id: time_slot_id,
+            user_id: userId,
+            status: '예약확정',
+            participants: participants
+          }
+        ]);
+
+
+      if (reservationError) {
+        console.log("예약 생성 오류:", reservationError);
+        return;
+      }
+
+      // time_slot 테이블 업데이트
+      const { data: timeSlot } = await supabase
+        .from("timeslot")
+        .select("*")
+        .eq("id", time_slot_id)
+        .single();
+
+      console.log("timeSlot", timeSlot);
+
+      if (timeSlot) {
+        console.log("슬롯잇음")
+        const newParticipants = timeSlot.current_participants + 1;
+        const isFullyBooked = newParticipants >= timeSlot.max_participants;
+
+        const { error: updateError } = await supabase
+          .from("timeslot")
+          .update({ 
+            current_participants: newParticipants,
+            available: !isFullyBooked,
+            current_participants: timeSlot.current_participants + parseInt(participants),
+          
+          })
+
+          .eq("id", time_slot_id);
+        console.log("timeSlot", updateError);
+
+        if (updateError) {
+          console.log("타임슬롯 업데이트 오류:", updateError);
+        }
+      }
+    }
+  }
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">
+
+
+
       <div className="text-4xl font-bold w-full h-[calc(100vh-100px)] flex flex-col justify-center items-center gap-y-12">
         <FaCheckCircle 
           className="text-[100px] text-[#0077B6] animate-scale-fade-in"
