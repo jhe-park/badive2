@@ -17,7 +17,6 @@ export default async function page() {
     .select('*')
     .eq('email', user?.data?.user?.email)
     .single();
-  console.log('profile', profile)
   
   
 

@@ -23,6 +23,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
 export default function App({ profile }) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [action, setAction] = React.useState("");
@@ -39,6 +40,7 @@ export default function App({ profile }) {
   const [postCode, setPostCode] = React.useState("");
   const [firstAddress, setFirstAddress] = React.useState("");
   const [secondAddress, setSecondAddress] = React.useState("");
+  const router = useRouter();
   
 
   const supabase = createClient();
@@ -104,6 +106,8 @@ export default function App({ profile }) {
       }
 
       toast.success('정보가 성공적으로 수정되었습니다.');
+      router.refresh();
+      
     } catch (error) {
       toast.error('오류가 발생했습니다.');
       console.error(error);

@@ -10,9 +10,12 @@ import Curriculum from "@/app/components/Curriculum";
 import Resort from "@/app/components/Resort";
 import SlideUp from "@/components/animation/SlideUp";
 import ToastBegin from "@/app/components/ToastBegin";
+import WelcomePopup from "@/app/components/WelcomePopup";
+
 export default async function Home() {
   return (
     <div className="flex w-full h-full flex-col items-center justify-start ">
+      <WelcomePopup />
       <ToastBegin/>
       <Banner></Banner>
       

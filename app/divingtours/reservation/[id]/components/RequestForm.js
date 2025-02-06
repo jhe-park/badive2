@@ -25,7 +25,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
 
-export default function RequestForm({ className, tourData, ...props }) {
+export default function RequestForm({ className, tourData, user, ...props }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const supabase = createClient();
@@ -39,8 +39,9 @@ export default function RequestForm({ className, tourData, ...props }) {
   const [license, setLicense] = useState("");
   const [callTime, setCallTime] = useState("");
   const [email, setEmail] = useState("");
-
   const [agree, setAgree] = useState(false);
+
+
   const inputProps = {
     labelPlacement: "outside",
     classNames: {
@@ -48,6 +49,8 @@ export default function RequestForm({ className, tourData, ...props }) {
         "text-small font-medium text-default-700 group-data-[filled-within=true]:text-default-700",
     },
   };
+  console.log('user22:',user)
+
 
   const handleSubmit = () => {
     if (name === "") {
@@ -95,8 +98,11 @@ export default function RequestForm({ className, tourData, ...props }) {
           license,
           callTime,
           email,
+          user_id:user?.user?.id,
+          tour_id:tourData.id
         });
         
+
         if (error) {
           toast.error(error.message);
           return;
