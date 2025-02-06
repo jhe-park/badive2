@@ -49,6 +49,22 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/protected", request.url));
     }
 
+    // divingtours 경로에 대한 리디렉션 처리 추가
+    if (request.nextUrl.pathname.startsWith("/divingtours/reservation") && user.error) {
+      const returnUrl = request.nextUrl.pathname + request.nextUrl.search;
+      return NextResponse.redirect(
+        new URL(`/login?returnUrl=${encodeURIComponent(returnUrl)}`, request.url)
+      );
+    }
+
+    // instructors 경로에 대한 리디렉션 처리 추가
+    if (request.nextUrl.pathname.startsWith("/instructors/request") && user.error) {
+      const returnUrl = request.nextUrl.pathname + request.nextUrl.search;
+      return NextResponse.redirect(
+        new URL(`/login?returnUrl=${encodeURIComponent(returnUrl)}`, request.url)
+      );
+    }
+
     // 추가된 코드: /mypage 경로에 대한 리디렉션 처리
     if (request.nextUrl.pathname.startsWith("/mypage") && user.error) {
       return NextResponse.redirect(new URL("/login", request.url));

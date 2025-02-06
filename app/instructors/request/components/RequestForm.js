@@ -5,9 +5,6 @@ import { Input, Select, SelectItem } from "@heroui/react";
 import { cn } from "@heroui/react";
 import { ScrollShadow } from "@heroui/react";
 import { Divider } from "@heroui/react";
-import companyTypes from "./company-types";
-import states from "./states";
-import companyIndustries from "./company-industries";
 import { RadioGroup, Radio } from "@heroui/react";
 import { Button } from "@heroui/react";
 import { useState, useEffect } from "react";
@@ -25,7 +22,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
 
-export default function RequestForm({ className, tourData, ...props }) {
+export default function RequestForm({ className, ...props }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const supabase = createClient();
@@ -37,8 +34,10 @@ export default function RequestForm({ className, tourData, ...props }) {
   const [birth, setBirth] = useState("");
   const [region, setRegion] = useState("");
   const [license, setLicense] = useState("");
+  const [program, setProgram] = useState("");
   const [callTime, setCallTime] = useState("");
   const [email, setEmail] = useState("");
+
 
   const [agree, setAgree] = useState(false);
   const inputProps = {
@@ -75,8 +74,14 @@ export default function RequestForm({ className, tourData, ...props }) {
       return;
     }
 
+    if (program === "") {
+      toast.error("강습 가능한 강습프로그램을 입력해주세요");
+      return;
+    }
+
     if (callTime === "") {
       toast.error("통화가능시간을 입력해주세요");
+
       return;
     }
     if (email === "") {
@@ -96,7 +101,7 @@ export default function RequestForm({ className, tourData, ...props }) {
           callTime,
           email,
         });
-        
+
         if (error) {
           toast.error(error.message);
           return;
@@ -106,7 +111,7 @@ export default function RequestForm({ className, tourData, ...props }) {
           const params = {
             receiver: email,
             name: name,
-            title: tourData.title,
+            title: "BDN DIVE 강사모집 신청서",
             date: new Date().toISOString().split('T')[0]
           };
 
@@ -116,11 +121,11 @@ export default function RequestForm({ className, tourData, ...props }) {
           };
 
           const emailResponse = await axios.post(
-            'https://krlq3wpvv4lwwotsnrztvemeye0tuohg.lambda-url.ap-northeast-2.on.aws/send-email',
+            'https://w3y4gupftygq7uozhabvapcdxm0uixuj.lambda-url.ap-northeast-2.on.aws/send-email',
             null,
             {
-              params: params,
-              headers: headers
+              params,
+              headers
             }
           );
 
@@ -128,14 +133,16 @@ export default function RequestForm({ className, tourData, ...props }) {
             throw new Error('이메일 전송 실패');
           }
         } catch (error) {
+          console.error('이메일 전송 오류:', error);
           toast.error('이메일 전송 중 오류가 발생했습니다');
           return;
         }
 
-        console.log('신청완료');
-        router.push(`/divingtours/reservation/complete`);
+        console.log("신청완료");
+        router.push(`/instructors/request/complete`);
       };
       handleRequest();
+
     } else {
       onOpen();
     }
@@ -156,20 +163,26 @@ export default function RequestForm({ className, tourData, ...props }) {
         theme="light"
       />
       <div className="text-4xl font-bold leading-9 text-default-foreground">
-        {tourData.title} 신청하기
+      BDN DIVE 강사모집 신청서
       </div>
 
       <div className="py-4 text-default-500 bg-gray-100 rounded-lg p-6 w-full">
-        <p>※ 필리핀 코론 수중 프로필 촬영 다이빙 투어 신청서 작성 안내</p>
-        <p>이 신청서를 작성하신 분들만 다이빙 투어를 참가하실 수 있으십니다.</p>
+        <p>※ BDN DIVE 강사모집 신청서 작성 안내</p>
+
+        <p>BDN DIVE 강사모집에 신청해주셔서 감사드립니다.</p>
+
+        <p>작성하신 정보는 거짓없이 진실된 정보만 적어주시면 감사하겠습니다.</p>
+
         <p>
-          참석확정 여부는 00월 00일까지 카카오톡 or 문자로 연락드리도록
-          하겠습니다.
+          일정은 신청서를 확인 후 개별적으로 연락드릴 예정입니다.
+          참고부탁드립니다 감사합니다.
         </p>
+
         <p>
           <span className="text-red-500">*</span>는 필수항목 입니다.
         </p>
       </div>
+
 
       <div
         className={cn(
@@ -235,9 +248,9 @@ export default function RequestForm({ className, tourData, ...props }) {
         <Input
           className="col-span-12 md:col-span-6"
           variant="bordered"
-          label="지역(서울,경기,대전 등)"
+          label="강습가능한지역"
           name="location"
-          placeholder="지역을 입력해주세요"
+          placeholder="강습가능한지역을 입력해주세요"
           isRequired
           value={region}
           onChange={(e) => setRegion(e.target.value)}
@@ -253,6 +266,17 @@ export default function RequestForm({ className, tourData, ...props }) {
           value={license}
           onChange={(e) => setLicense(e.target.value)}
         />
+                <Input
+          className="col-span-12 md:col-span-6"
+          variant="bordered"
+          label="강습 가능한 강습프로그램(강습이 가능한 프로그램은 모두 적어주세요)"
+          name="program"
+          placeholder="강습 가능한 강습프로그램을 입력해주세요"
+          isRequired
+          value={program}
+          onChange={(e) => setProgram(e.target.value)}
+        />
+
 
         <Input
           className="col-span-12 md:col-span-6"

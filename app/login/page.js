@@ -15,6 +15,7 @@ export default async function Login(props) {
   const params = new URLSearchParams(searchParams.error);
   console.log('params', params)
   const email = params.get('email');
+  const returnUrl = searchParams.returnUrl || '/'; // returnUrl이 없으면 기본값으로 '/' 설정
   
   console.log('Email:', email);
   console.log('searchParams', searchParams.error);
@@ -65,7 +66,15 @@ export default async function Login(props) {
               </Link>
             </div>
           </div>
-          <SubmitButton className="w-full" color="primary" type="submit" formAction={signInAction}>
+          <SubmitButton 
+            className="w-full" 
+            color="primary" 
+            type="submit" 
+            formAction={async (formData) => {
+              'use server';
+              await signInAction(formData, returnUrl);
+            }}
+          >
             로그인
           </SubmitButton>
           <Link href="/register" className="w-full">

@@ -224,11 +224,11 @@ export default function SelectComponent({
       <div className="w-[90%] text-lg md:text-2xl font-bold">결제</div>
       <Divider className="w-[90%] bg-[#A6A6A6]"></Divider>
 
-      <div className="flex justify-between items-center w-[90%]">
+      {/* <div className="flex justify-between items-center w-[90%]">
         <div className="text-lg md:text-2xl">합계</div>
         <div className="text-lg md:text-2xl w-1/5 text-center">0원</div>
       </div>
-      <Divider className="w-[90%] bg-[#A6A6A6]"></Divider>
+      <Divider className="w-[90%] bg-[#A6A6A6]"></Divider> */}
       <div className="flex justify-between items-center w-[90%]">
         <div className="text-lg md:text-2xl">최종 결제 금액</div>
         <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">

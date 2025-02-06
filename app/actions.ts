@@ -39,7 +39,7 @@ export const signUpAction = async (formData: FormData) => {
   }
 };
 
-export const signInAction = async (formData: FormData) => {
+export const signInAction = async (formData: FormData,returnUrl: string) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = await createClient();
@@ -81,7 +81,9 @@ export const signInAction = async (formData: FormData) => {
   .update({ failCount: 0 })
   .eq('email', email)
   .select();
-
+  if(returnUrl){
+    return redirect(returnUrl);
+  }
   return redirect("/?message=success to login");
 };
 
