@@ -13,6 +13,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 모바일 메뉴 상태 추가
   const [user, setUser] = useState(null);
   const supabase = createClient();
+  const timeoutRef = useRef(null); // 타이머를 위한 ref 추가
   
   
   useEffect(() => {
@@ -36,9 +37,10 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    setOpenSubmenu(null);
+    setIsMobileMenuOpen(false);
     fetchUser();
-  }, [pathname]); // pathname이 변경될 때마다 fetchUser 호출
-
+  }, [pathname]);
 
   // Add menu data structure
   const menuItems = [
@@ -145,6 +147,30 @@ export default function Navbar() {
     };
   }, []);
 
+  const handleMouseEnter = (index) => {
+    // 이전 타이머가 있다면 클리어
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setOpenSubmenu(index);
+  };
+
+  const handleMouseLeave = () => {
+    // 2초 후에 서브메뉴를 닫음
+    timeoutRef.current = setTimeout(() => {
+      setOpenSubmenu(null);
+    }, 2000);
+  };
+
+  // cleanup을 위한 useEffect 추가
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <nav ref={navRef} className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: isOpen ? '-100px' : '0' }}>
       <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
@@ -206,12 +232,12 @@ export default function Navbar() {
               <div 
                 key={index} 
                 className="relative"
-                onMouseEnter={() => setOpenSubmenu(index)}
-                onMouseLeave={() => setOpenSubmenu(null)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
               >
                 <Link 
                   href={item.href}
-                  className="text-[16px] font-bold text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 after:delay-1000 hover:after:w-full hover:text-white"
+                  className="text-[16px] font-bold text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
                   onClick={(e) => {
                     if (item.title === "소속강사" || item.title === "커뮤니티") {
                       e.preventDefault(); // 링크 작동 방지
