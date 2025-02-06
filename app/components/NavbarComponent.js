@@ -84,50 +84,52 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    // Only apply hide/show effect on home page
-    if (pathname === '/') {
-      const navbar = document.querySelector('nav');
-      navbar.style.top = '-100px'; // Initially hide navbar
+    // document가 존재하는지 확인
+    if (typeof window !== 'undefined') {
+      // Only apply hide/show effect on home page
+      if (pathname === '/') {
+        const navbar = document.querySelector('nav');
+        if (navbar) {  // navbar가 존재하는지 확인
+          navbar.style.top = '-100px'; // Initially hide navbar
 
-      const handleScroll = () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > 0) {
-          navbar.style.top = '0';
-        } else {
-          navbar.style.top = '-100px';
+          const handleScroll = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 0) {
+              navbar.style.top = '0';
+            } else {
+              navbar.style.top = '-100px';
+            }
+          };
+
+          window.addEventListener('scroll', handleScroll);
+
+          return () => {
+            window.removeEventListener('scroll', handleScroll);
+          };
         }
+      } else {
+        // On other pages, always show navbar
+        const navbar = document.querySelector('nav');
+        if (navbar) {  // navbar가 존재하는지 확인
+          navbar.style.top = '0';
+        }
+      }
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {  // window 객체 확인 추가
+      const handleScrollPosition = () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        console.log('Scroll position:', scrollTop);
       };
 
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', handleScrollPosition);
 
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', handleScrollPosition); 
       };
-    } else {
-      // On other pages, always show navbar
-      const navbar = document.querySelector('nav');
-      navbar.style.top = '0';
     }
-  }, [pathname]); // Add pathname as dependency
-
-  useEffect(() => {
-    console.log('Current pathname:', pathname);  // pathname 로그 출력
-    // ... existing scroll handling code ...
-  }, [pathname]);  // pathname이 변경될 때마다 실행
-
-  
-
-  useEffect(() => {
-    const handleScrollPosition = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      console.log('Scroll position:', scrollTop);
-    };
-
-    window.addEventListener('scroll', handleScrollPosition);
-
-    return () => {
-      window.removeEventListener('scroll', handleScrollPosition); 
-    };
   }, []);
 
   useEffect(() => {
