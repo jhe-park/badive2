@@ -102,7 +102,7 @@ export default function SelectComponent({
     });
   }, [noParticipants]);
 
-  const handlePaymentClick = () => {
+  const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {
       toast.error("일정을 확인 후 체크박스를 클릭해주세요");
       return;
@@ -111,7 +111,12 @@ export default function SelectComponent({
       router.push("/login?returnUrl=/inquiries");
       return;
     }
-    onOpen();
+    
+    if (payment) {
+      onOpen();
+    } else {
+      toast.error("결제 모듈을 불러오는 중입니다. 잠시만 기다려주세요.");
+    }
   };
 
   //결제기능
@@ -406,7 +411,7 @@ export default function SelectComponent({
 
       <div className="w-full flex justify-center">
         <Button
-          onPress={handlePaymentClick}
+          onClick={handlePaymentClick}
           className="bg-[#0077B6] text-white w-full text-lg md:text-2xl h-12 md:h-16"
         >
           결제하기

@@ -97,8 +97,9 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
         schedule: groupedByDate[date].map(slot => {
           const remainingSpots = slot.max_participants - slot.current_participants;
           const isReserved = Array.isArray(userReservations) && userReservations.some(reservation => 
-            reservation.time_slot_id === slot.id
+            reservation.time_slot_id === slot.id && reservation.status !== '취소완료'
           );
+
           return {
             time: `${slot.start_time}~${slot.end_time}`,
             status: !slot.available || remainingSpots < selectedResult.noParticipants ? 2 
