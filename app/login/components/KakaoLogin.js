@@ -12,11 +12,14 @@ const KakaoLoginComponent = () => {
 
   const handleKakaoLogin = async () => {
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' 
+        ? 'http://localhost:3000' 
+        : 'https://www.bdndive.co.kr';
 
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "kakao",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${baseUrl}/auth/callback`,
         },
       });
 
