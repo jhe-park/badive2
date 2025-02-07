@@ -12,11 +12,18 @@ const GoogleLoginComponent = () => {
 
   const handleGoogleLogin = async () => {
     try {
+
+      const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' 
+        ? 'http://localhost:3000' 
+        : 'https://www.bdndive.co.kr';
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+
+          redirectTo: `${baseUrl}/auth/callback`
         }
+
       });
 
       if (error) {
