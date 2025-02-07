@@ -111,7 +111,7 @@ export default function SelectComponent({
       router.push("/login?returnUrl=/inquiries");
       return;
     }
-    
+
     if (payment) {
       onOpen();
     } else {
@@ -122,29 +122,30 @@ export default function SelectComponent({
   //결제기능
 
   useEffect(() => {
-    async function fetchPayment() {
-      try {
-        const tossPayments = await loadTossPayments(clientKey);
+    if (customerKey) {
+      async function fetchPayment() {
+        try {
+          const tossPayments = await loadTossPayments(clientKey);
 
-        // 회원 결제
-        // @docs https://docs.tosspayments.com/sdk/v2/js#tosspaymentspayment
-        const payment = tossPayments.payment({
-          customerKey,
-        });
-        // 비회원 결제
-        // const payment = tossPayments.payment({ customerKey: ANONYMOUS });
+          // 회원 결제
+          // @docs https://docs.tosspayments.com/sdk/v2/js#tosspaymentspayment
+          const payment = tossPayments.payment({
+            customerKey,
+          });
+          // 비회원 결제
+          // const payment = tossPayments.payment({ customerKey: ANONYMOUS });
 
-        setPayment(payment);
-      } catch (error) {
-        console.error("Error fetching payment:", error);
+          setPayment(payment);
+        } catch (error) {
+          console.error("Error fetching payment:", error);
+        }
       }
-    }
 
-    fetchPayment();
-    console.log("페이먼츠 로드 완료")
+      fetchPayment();
+      console.log("페이먼츠 로드 완료");
+    }
   }, []);
 
-  console.log("phone:", removeSpecialCharacters(profile.phone));
   // 결제함수
 
   async function requestPayment() {
@@ -424,8 +425,8 @@ export default function SelectComponent({
           결제하기
         </Button>
       </div>
-      <Modal 
-        isOpen={isOpen} 
+      <Modal
+        isOpen={isOpen}
         onOpenChange={(open) => {
           if (!open) {
             setSelectedPaymentMethod(null);
@@ -480,9 +481,9 @@ export default function SelectComponent({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button 
-                  color="danger" 
-                  variant="light" 
+                <Button
+                  color="danger"
+                  variant="light"
                   onPress={() => {
                     setSelectedPaymentMethod(null);
                     onClose();

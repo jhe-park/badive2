@@ -10,15 +10,35 @@ export default async function page() {
   const cookieStore = cookies();
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
-  console.log('user:', user)
+  console.log('user22:', user)
 
-  const { data: profile } = await supabase
+  let profile = await supabase
     .from('profiles')
     .select('*')
-    .eq('email', user?.data?.user?.email)
+    .eq('id', user?.data?.user?.id)
     .single();
+
   
   
+  
+  console.log('profile',profile)
+  if (!profile?.email) {
+    const {data, error} = await supabase
+      .from('profiles')
+      .update({ email: user?.data?.user?.email })
+      .eq('id', user?.data?.user?.id)
+    if (error) {
+      console.error('error:', error)
+    }
+    profile = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user?.data?.user?.id)
+    .single();
+
+
+  }
+
 
 
 
