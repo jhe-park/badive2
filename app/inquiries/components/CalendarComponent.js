@@ -22,7 +22,7 @@ const CalendarComponent = ({
   const [selectedDate, setSelectedDate] = useState(null);
   const { programStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
-
+  const [isAgree, setIsAgree] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleNextMonth = () => {

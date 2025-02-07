@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useProgramStore } from "@/app/store/useProgramStore";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
+import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 
 import {
   Modal,
@@ -14,13 +15,15 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
+import { ToastContainer, toast } from "react-toastify";
 export default function SelectComponent({
   isSelectProgram,
   setIsSelectProgram,
 
   isSelectInstructor,
   setIsSelectInstructor,
-  userData
+  userData,
+  profile,
 }) {
   const [program, setProgram] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState("");
@@ -32,7 +35,12 @@ export default function SelectComponent({
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const [data, setData] = useState([]);
   const [noParticipants, setNoParticipants] = useState(1);
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [payment, setPayment] = useState(null);
+
+  const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
+  const customerKey = userData?.id;
 
   const router = useRouter();
 
@@ -91,16 +99,175 @@ export default function SelectComponent({
       program: selectedResult.program,
       instructor: selectedResult.instructor,
       noParticipants: noParticipants,
-      
     });
   }, [noParticipants]);
-  
+
   const handlePaymentClick = () => {
-      router.push(`/inquiries/complete?orderId=12312311&time_slot_id=62035&userId=${userData.id}&participants=1`);
+    if (!selectedResult.isAgree) {
+      toast.error("일정을 확인 후 체크박스를 클릭해주세요");
+      return;
+    }
+    if (!userData) {
+      router.push("/login?returnUrl=/inquiries");
+      return;
+    }
+    onOpen();
   };
+
+  //결제기능
+
+  useEffect(() => {
+    async function fetchPayment() {
+      try {
+        const tossPayments = await loadTossPayments(clientKey);
+
+        // 회원 결제
+        // @docs https://docs.tosspayments.com/sdk/v2/js#tosspaymentspayment
+        const payment = tossPayments.payment({
+          customerKey,
+        });
+        // 비회원 결제
+        // const payment = tossPayments.payment({ customerKey: ANONYMOUS });
+
+        setPayment(payment);
+      } catch (error) {
+        console.error("Error fetching payment:", error);
+      }
+    }
+
+    fetchPayment();
+  }, [clientKey, customerKey]);
+
+  console.log("phone:", removeSpecialCharacters(profile.phone));
+  // 결제함수
+
+  async function requestPayment() {
+    //기본적으로 생성되는 searchParams말고 필요한건 여기다가 더 적자
+    const successUrlWithParams = `${window.location.origin}/inquiries/complete?time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+
+    switch (selectedPaymentMethod) {
+      case "CARD":
+        await payment.requestPayment({
+          method: "CARD",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+
+          card: {
+            useEscrow: false,
+            flowMode: "DEFAULT",
+            useCardPoint: false,
+            useAppCardOnly: false,
+          },
+        });
+        break;
+      case "TRANSFER":
+        await payment.requestPayment({
+          method: "TRANSFER",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          transfer: {
+            cashReceipt: {
+              type: "소득공제",
+            },
+            useEscrow: false,
+          },
+        });
+        break;
+      case "VIRTUAL_ACCOUNT":
+        await payment.requestPayment({
+          method: "VIRTUAL_ACCOUNT",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          virtualAccount: {
+            cashReceipt: {
+              type: "소득공제",
+            },
+            useEscrow: false,
+            validHours: 24,
+          },
+        });
+        break;
+      case "MOBILE_PHONE":
+        await payment.requestPayment({
+          method: "MOBILE_PHONE",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+        });
+        break;
+      case "CULTURE_GIFT_CERTIFICATE":
+        await payment.requestPayment({
+          method: "CULTURE_GIFT_CERTIFICATE",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+        });
+        break;
+      case "FOREIGN_EASY_PAY":
+        await payment.requestPayment({
+          method: "FOREIGN_EASY_PAY",
+          amount: {
+            value: selectedResult.totalPrice,
+            currency: "KRW",
+          },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: userData.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          foreignEasyPay: {
+            provider: "PAYPAL",
+            country: "KR",
+          },
+        });
+        break;
+    }
+  }
 
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="text-center text-2xl md:text-4xl font-bold">
         스쿠버 다이빙 - 오픈워터 다이버
       </div>
@@ -154,7 +321,6 @@ export default function SelectComponent({
 
       <div className="w-full text-lg md:text-2xl font-bold">인원선택</div>
       <div className="w-full flex items-center justify-end">
-
         <div className="relative flex items-center max-w-[8rem]">
           <button
             type="button"
@@ -176,7 +342,6 @@ export default function SelectComponent({
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M1 1h16"
-
               />
             </svg>
           </button>
@@ -211,12 +376,10 @@ export default function SelectComponent({
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M9 1v16M1 9h16"
-
               />
             </svg>
           </button>
         </div>
-
       </div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
       <div className="w-[90%] text-lg md:text-2xl font-bold">결제</div>
@@ -232,7 +395,9 @@ export default function SelectComponent({
         <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
           {selectedResult.totalPrice && (
             <>
-              <p className="text-lg md:text-2xl">{selectedResult.totalPrice.toString()}원</p>
+              <p className="text-lg md:text-2xl">
+                {selectedResult.totalPrice.toString()}원
+              </p>
               <p className="text-lg md:text-2xl">(vat포함)</p>
             </>
           )}
@@ -251,17 +416,60 @@ export default function SelectComponent({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">알림</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                결제 방식 선택
+              </ModalHeader>
               <ModalBody>
-                <p>
-                  일정을 확인 후 캘린더 하단의 체크박스를 클릭해주세요
-                </p>
-                
+                <div className="grid grid-cols-2 gap-4 ">
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("CARD");
+                      requestPayment();
+                      onClose();
+                    }}
+                  >
+                    <span className="text-3xl mb-2">💳</span>
+                    <span className="text-sm">카드결제</span>
+                  </Button>
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("VIRTUAL_ACCOUNT");
+                      requestPayment();
+                      onClose();
+                    }}
+                  >
+                    <span className="text-3xl mb-2">🏦</span>
+                    <span className="text-sm">가상계좌</span>
+                  </Button>
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("TRANSFER");
+                      requestPayment();
+                      onClose();
+                    }}
+                  >
+                    <span className="text-3xl mb-2">🏧</span>
+                    <span className="text-sm">계좌이체</span>
+                  </Button>
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("MOBILE_PHONE");
+                      requestPayment();
+                      onClose();
+                    }}
+                  >
+                    <span className="text-3xl mb-2">📱</span>
+                    <span className="text-sm">휴대폰결제</span>
+                  </Button>
+                </div>
               </ModalBody>
               <ModalFooter>
-
-                <Button color="primary" onPress={onClose}>
-                  확인
+                <Button color="danger" variant="light" onPress={onClose}>
+                  취소
                 </Button>
               </ModalFooter>
             </>
@@ -270,4 +478,12 @@ export default function SelectComponent({
       </Modal>
     </div>
   );
+}
+
+function generateRandomString() {
+  return window.btoa(Math.random().toString()).slice(0, 20);
+}
+
+function removeSpecialCharacters(str) {
+  return str.replace(/[^a-zA-Z0-9가-힣]/g, "");
 }

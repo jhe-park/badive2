@@ -7,8 +7,10 @@ export default async function page() {
   const supabase = await createClient();
   const { data: reservationData } = await supabase.from('reservation').select('*');
   const {data} = await supabase.auth.getUser();
+  const {data: profile} = await supabase.from('profiles').select('*').eq('id', data?.user?.id).single();
   const userData = data?.user;
   console.log('userData:',userData);
+  console.log('profile:',profile);
   let userReservations = [];
   if (userData) {
     userReservations = reservationData.filter(reservation => 
@@ -35,7 +37,7 @@ export default async function page() {
         <h1 className="text-2xl md:text-5xl font-bold text-start w-full">예약</h1>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>
         <div className="w-full h-full flex flex-col items-center justify-center gap-x-5">
-          <OrderComponents userReservations={userReservations} userData={userData} />
+          <OrderComponents userReservations={userReservations} userData={userData} profile={profile} />
           
         </div>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>
@@ -56,10 +58,8 @@ export default async function page() {
             <p>-예약금은 교육비 전액입니다. (수영장 이용료, 장비 대여비,라이센스 발급비 제외)</p>
             <p>-교육 당일 환불은 불가합니다.</p>
             <p>-교육이 시작된 이후 잔여 교육 환불은 불가합니다.</p>
-            <p>-교육 일정 변경은 14일 전까지 수수료 면제입니다.</p>
-            <p>-교육시작일 기준 14일 이내 취소시 90 % 환불</p>
-            <p>-교육시작일 기준 7일 이내 취소시 50% 환불</p>
-            <p>-교육시작일 기준 2일 이내 취소시 전액 환불 불가</p>
+            <p>-교육시작일 기준 7일 이내 취소시 100% 환불</p>
+            <p>-교육시작일 기준 1일 이내 취소시 전액 환불 불가</p>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import CalendarComponent from './CalendarComponent'
 import SelectComponent from './SelectComponent'
 
-export default function OrderComponents({ userReservations, userData }) {
+export default function OrderComponents({ userReservations, userData, profile }) {
   const [isSelectProgram, setIsSelectProgram] = useState(false);
   const [isSelectInstructor, setIsSelectInstructor] = useState(false);
 
@@ -12,7 +12,7 @@ export default function OrderComponents({ userReservations, userData }) {
       <CalendarComponent userReservations={userReservations} isSelectProgram={isSelectProgram} setIsSelectProgram={setIsSelectProgram} isSelectInstructor={isSelectInstructor} setIsSelectInstructor={setIsSelectInstructor} />
 
 
-      <SelectComponent isSelectProgram={isSelectProgram} setIsSelectProgram={setIsSelectProgram} isSelectInstructor={isSelectInstructor} setIsSelectInstructor={setIsSelectInstructor} userData={userData} />
+      <SelectComponent isSelectProgram={isSelectProgram} setIsSelectProgram={setIsSelectProgram} isSelectInstructor={isSelectInstructor} setIsSelectInstructor={setIsSelectInstructor} userData={userData} profile={profile} />
     </div>
   )
 }
