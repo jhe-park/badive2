@@ -8,6 +8,10 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Toast from "@/components/Toast";
 import TwoFactor from "./components/TwoFactor";
+import GoogleLoginComponent from "./components/GoogleLogin";
+import KakaoLoginComponent from "./components/KakaoLogin";
+
+
 export default async function Login(props) {
   const searchParams = await props.searchParams;
   console.log('searchParams', searchParams)
@@ -92,21 +96,18 @@ export default async function Login(props) {
           <Divider className="flex-1" />
         </div>
         <div className="flex justify-center items-center gap-5">
-          <button className="w-15 h-15 bg-white">
-            <Image src="/logo/google.png" alt="google" width={60} height={60} />
-          </button>
-          <button className="w-15 h-15 bg-white">
+          <GoogleLoginComponent />
+          <KakaoLoginComponent />
+          <button className="w-15 h-15 bg-white hover:scale-110 transition-all duration-300">
             <Image src="/logo/naver.png" alt="naver" width={60} height={60} />
           </button>
-          <button className="w-15 h-15 bg-white">
-            <Image src="/logo/kakao.png" alt="kakao" width={60} height={60} />
-          </button>
-          <button className="w-15 h-15 bg-white">
+          
+          {/* <button className="w-15 h-15 bg-white">
             <Image src="/logo/apple.png" alt="apple" width={60} height={60} />
           </button>
           <button className="w-15 h-15 bg-white">
             <Image src="/logo/facebook.png" alt="facebook" width={60} height={60} />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

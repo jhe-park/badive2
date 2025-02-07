@@ -9,8 +9,8 @@ export default async function page() {
   const {data} = await supabase.auth.getUser();
   const {data: profile} = await supabase.from('profiles').select('*').eq('id', data?.user?.id).single();
   const userData = data?.user;
-  console.log('userData:',userData);
-  console.log('profile:',profile);
+  // console.log('userData:',userData);
+  // console.log('profile:',profile);
   let userReservations = [];
   if (userData) {
     userReservations = reservationData.filter(reservation => 

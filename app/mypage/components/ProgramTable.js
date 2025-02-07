@@ -54,12 +54,18 @@ export default function ProgramTable({ profile }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const handleGetProgram = async () => {
+    if (!profile?.id) {
+      console.log("프로필 정보가 없습니다.");
+      return;
+    }
+
     let query = supabase
       .from("reservation")
       .select("*,time_slot_id(*, program_id(*), instructor_id(*))", {
+
         count: "exact",
       })
-      .eq("user_id", profile.id)
+      .eq("user_id", profile?.id)
       .not("time_slot_id", "is", null)
       .not("time_slot_id.program_id", "is", null)
       .not("time_slot_id.instructor_id", "is", null)

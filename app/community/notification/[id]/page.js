@@ -79,7 +79,7 @@ export default function NoticeDetailPage() {
           {/* 하단 버튼 */}
           <div className="mt-6 md:mt-12">
             <Link href="/community/notification">
-              <button className="w-[30%] md:w-[10%] h-12 md:h-[100px] text-lg md:text-3xl bg-gray-200 rounded hover:bg-gray-300 transition-colors ">
+              <button className="w-[30%] md:w-[10%] h-12 md:h-16 text-lg md:text-3xl bg-gray-200 rounded hover:bg-gray-300 transition-colors ">
                 {noticeData.category}
               </button>
             </Link>

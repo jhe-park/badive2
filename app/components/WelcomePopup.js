@@ -54,110 +54,122 @@ export default function WelcomePopup() {
       const left = 20;
       const top = 20;
       
-      const newWindow = window.open(
-        '',
-        'WelcomePopup',
-        `width=${width},height=${height},left=${left},top=${top}`
-      );
-      
-      // CSS 스타일 추가
-      const styleSheet = newWindow.document.createElement('style');
-      styleSheet.textContent = `
-        .popup-container {
-          display: flex;
-          width: 100%;
-          height: 100%;
-        }
-        .sidebar {
-          width: 30%;
-          background-color: white;
-          padding: 0;
-          border-right: 1px solid #ddd;
-          display: flex;
-          flex-direction: column;
-          font-weight: bold;
-        }
-        .tab-button {
-          width: 100%;
-          padding: 15px;
-          margin: 0;
-          border: none;
-          text-align: left;
-          cursor: pointer;
-          background-color: white;
-          transition: all 0.3s;
-          border-bottom: 1px solid #ddd;
-        }
-        .tab-button:hover {
-          background-color: #f8f9fa;
-        }
-        .tab-button.active {
-          background-color: #3b82f6;
-          color: white;
-        }
-        .content-area {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-        }
-        .banner-container {
-          height: 90%;
-          margin: 0;
-          padding: 0;
-          line-height: 0;
-        }
-        .banner-image {
-          width: 100%;
-          height: 100%;
-          object-fit: fill;
-          cursor: pointer;
-          transition: transform 0.3s;
-          display: block;
-        }
+      let newWindow;
+      try {
+        newWindow = window.open(
+          '',
+          'WelcomePopup',
+          `width=${width},height=${height},left=${left},top=${top}`
+        );
         
-        .controls {
-          height: 10%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 10px;
-          background-color: #f8f9fa;
-          font-size: 12px;
+        // 팝업이 차단되었거나 null인 경우 처리
+        if (!newWindow || !newWindow.document) {
+          console.log('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+          return;
         }
-        .checkbox-label {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-        }
-        input[type="checkbox"] {
-          margin: 0;
-          vertical-align: middle;
-        }
-        .close-button {
-          padding: 8px 16px;
-          background-color: #3b82f6;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 12px;
-        }
-        .close-button:hover {
-          background-color: #2563eb;
-        }
-      `;
-      newWindow.document.head.appendChild(styleSheet);
-      
-      newWindow.document.body.style.margin = '0';
-      newWindow.document.body.style.backgroundColor = 'white';
-      newWindow.document.title = '환영합니다';
-      
-      const container = newWindow.document.createElement('div');
-      newWindow.document.body.appendChild(container);
-      
-      setExternalWindow({ window: newWindow, container });
-      setIsOpen(true);
+
+        // CSS 스타일 추가
+        const styleSheet = newWindow.document.createElement('style');
+        styleSheet.textContent = `
+          .popup-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+          }
+          .sidebar {
+            width: 30%;
+            background-color: white;
+            padding: 0;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+          }
+          .tab-button {
+            width: 100%;
+            padding: 15px;
+            margin: 0;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            background-color: white;
+            transition: all 0.3s;
+            border-bottom: 1px solid #ddd;
+          }
+          .tab-button:hover {
+            background-color: #f8f9fa;
+          }
+          .tab-button.active {
+            background-color: #3b82f6;
+            color: white;
+          }
+          .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+          }
+          .banner-container {
+            height: 90%;
+            margin: 0;
+            padding: 0;
+            line-height: 0;
+          }
+          .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: block;
+          }
+          
+          .controls {
+            height: 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            background-color: #f8f9fa;
+            font-size: 12px;
+          }
+          .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+          input[type="checkbox"] {
+            margin: 0;
+            vertical-align: middle;
+          }
+          .close-button {
+            padding: 8px 16px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+          }
+          .close-button:hover {
+            background-color: #2563eb;
+          }
+        `;
+        newWindow.document.head.appendChild(styleSheet);
+        
+        newWindow.document.body.style.margin = '0';
+        newWindow.document.body.style.backgroundColor = 'white';
+        newWindow.document.title = '환영합니다';
+        
+        const container = newWindow.document.createElement('div');
+        newWindow.document.body.appendChild(container);
+        
+        setExternalWindow({ window: newWindow, container });
+        setIsOpen(true);
+      } catch (error) {
+        console.log('팝업 창을 열 수 없습니다:', error);
+        return;
+      }
     }
     
     // 컴포넌트 언마운트 시 창 닫기

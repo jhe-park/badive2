@@ -53,7 +53,7 @@ export default function NotificationTable() {
       </div>
 
       {/* Board Table */}
-      <table className="w-full border-t-2 border-gray-800 text-sm md:text-[30px]">
+      <table className="w-full border-t-2 border-gray-800 text-sm md:text-2xl">
         <thead>
           <tr className="bg-gray-50 ">
             <th className="py-2 px-4 text-left w-[10%]">NO.</th>
@@ -61,7 +61,7 @@ export default function NotificationTable() {
             <th className="py-2 px-4 text-left w-[15%] ">작성일</th>
           </tr>
         </thead>
-        <tbody className="text-xl md:text-[30px] ">
+        <tbody className="text-xl md:text-2xl ">
           {posts.map((post) => (
             <tr key={post.id} className="border-b hover:bg-gray-50 ">
               <td className="py-3 px-4">
@@ -74,12 +74,13 @@ export default function NotificationTable() {
               <td className="py-3 px-4">
                 <Link
                   href={`/community/notification/${post.id}`}
-                  className="hover:text-blue-600 text-sm md:text-lg"
+                  className="hover:text-blue-600 text-sm md:text-2xl"
                 >
                   {post.title}
                 </Link>
+
               </td>
-              <td className="py-3 px-4 text-gray-600 text-sm md:text-lg">{post.date}</td>
+              <td className="py-3 px-4 text-gray-600 text-sm md:text-2xl">{post.date}</td>
             </tr>
           ))}
         </tbody>

@@ -141,7 +141,8 @@ export default function SelectComponent({
     }
 
     fetchPayment();
-  }, [clientKey, customerKey]);
+    console.log("페이먼츠 로드 완료")
+  }, []);
 
   console.log("phone:", removeSpecialCharacters(profile.phone));
   // 결제함수
@@ -258,6 +259,12 @@ export default function SelectComponent({
         break;
     }
   }
+
+  useEffect(() => {
+    if (selectedPaymentMethod) {
+      requestPayment();
+    }
+  }, [selectedPaymentMethod]);
 
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
@@ -417,7 +424,15 @@ export default function SelectComponent({
           결제하기
         </Button>
       </div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal 
+        isOpen={isOpen} 
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedPaymentMethod(null);
+          }
+          onOpenChange(open);
+        }}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -430,8 +445,6 @@ export default function SelectComponent({
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
                       setSelectedPaymentMethod("CARD");
-                      requestPayment();
-                      onClose();
                     }}
                   >
                     <span className="text-3xl mb-2">💳</span>
@@ -441,8 +454,6 @@ export default function SelectComponent({
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
                       setSelectedPaymentMethod("VIRTUAL_ACCOUNT");
-                      requestPayment();
-                      onClose();
                     }}
                   >
                     <span className="text-3xl mb-2">🏦</span>
@@ -452,8 +463,6 @@ export default function SelectComponent({
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
                       setSelectedPaymentMethod("TRANSFER");
-                      requestPayment();
-                      onClose();
                     }}
                   >
                     <span className="text-3xl mb-2">🏧</span>
@@ -463,8 +472,6 @@ export default function SelectComponent({
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
                       setSelectedPaymentMethod("MOBILE_PHONE");
-                      requestPayment();
-                      onClose();
                     }}
                   >
                     <span className="text-3xl mb-2">📱</span>
@@ -473,7 +480,14 @@ export default function SelectComponent({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button 
+                  color="danger" 
+                  variant="light" 
+                  onPress={() => {
+                    setSelectedPaymentMethod(null);
+                    onClose();
+                  }}
+                >
                   취소
                 </Button>
               </ModalFooter>

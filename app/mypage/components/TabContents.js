@@ -36,10 +36,11 @@ export default function App({ profile }) {
             <Image src="/profile/profile.png" alt="profile" fill />
           </div>
           <div className="w-full md:w-48 flex flex-col p-2 justify-center items-center">
-            <p className="text-sm">{profile.name}님 안녕하세요</p>
-            <p className="text-xs">누적 포인트 : {profile.point}P</p>
+            <p className="text-sm">{profile?.name}님 안녕하세요</p>
+            <p className="text-xs">누적 포인트 : {profile?.point}P</p>
           </div>
         </div>
+
       </div>
       {loading ? (
         <div className="flex justify-center items-center h-full">

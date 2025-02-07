@@ -64,18 +64,25 @@ export default function App({ profile }) {
     onOpenChange(false); // 모달 닫기
   };
 
+
   React.useEffect(() => {
-    setName(profile.name);
-    setPhone(profile.phone);
-    setBirth(profile.birth);
-    setLicense(profile.license);
-    setClassWant1(profile.classWant1);
-    setClassWant2(profile.classWant2);
-    setClassWant3(profile.classWant3);
-    setGender(profile.gender);
-    setPostCode(profile.postCode);
-    setFirstAddress(profile.firstAddress);
-    setSecondAddress(profile.secondAddress);
+    if (!profile) {
+      console.log("프로필 정보가 없습니다.");
+      return;
+    }
+    setName(profile?.name||"");
+    setPhone(profile?.phone||"");
+    setBirth(profile?.birth||"");
+    setLicense(profile?.license||"");
+    setClassWant1(profile?.classWant1||"");
+    setClassWant2(profile?.classWant2||"");
+
+    setClassWant3(profile?.classWant3||"");
+    setGender(profile?.gender||"");
+    setPostCode(profile?.postCode||"");
+    setFirstAddress(profile?.firstAddress||"");
+    setSecondAddress(profile?.secondAddress||"");
+
 
 
   }, [profile]);
