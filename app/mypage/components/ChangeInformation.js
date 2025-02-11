@@ -40,6 +40,7 @@ export default function App({ profile }) {
   const [postCode, setPostCode] = React.useState("");
   const [firstAddress, setFirstAddress] = React.useState("");
   const [secondAddress, setSecondAddress] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const router = useRouter();
   
 
@@ -194,6 +195,22 @@ export default function App({ profile }) {
       </div>
       <Divider className="w-full bg-black h-0.5"></Divider>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full gap-y-5">
+      <div className="flex flex-col">
+          {/* <div>이름</div> */}
+
+          <Input
+            label="이메일"
+            name="username"
+            placeholder="abcd1234@naver.com"
+            type="text"
+            variant="bordered"
+            className="w-full col-span-1"
+            value={profile?.data?.email}
+            isDisabled={true}
+
+
+          />
+        </div>
         <div className="flex flex-col">
           {/* <div>이름</div> */}
 

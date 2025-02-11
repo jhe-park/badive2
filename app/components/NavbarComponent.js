@@ -170,6 +170,10 @@ export default function Navbar() {
       }
     };
   }, []);
+  
+  if(pathname.includes('admin')){
+    return null;
+  }
 
   return (
     <nav ref={navRef} className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: isOpen ? '-100px' : '0' }}>

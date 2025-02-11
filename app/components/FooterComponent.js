@@ -4,13 +4,19 @@ import React from "react";
 import { Chip, Divider } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
+
 export default function Component() {
+  const pathname = usePathname();
+  if(pathname.includes('admin')){
+    return null;
+  }
   return (
     <footer className="w-full bg-black text-white py-12">
       {/* Logo Section */}
       <div className="container mx-auto px-4">
         <div className="text-center text-4xl md:text-5xl font-bold mb-12 transition-colors">
-          BDN DIVE
+          제이에이치이 주식회사사
         </div>
 
         {/* Main Content */}

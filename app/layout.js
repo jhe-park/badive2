@@ -11,7 +11,7 @@ import NavbarComponent from "@/app/components/NavbarComponent";
 import FooterComponent from "@/app/components/FooterComponent";
 import "@/app/globals.css";
 import Image from "next/image";
-
+import AuthSession from "@/app/components/session-provider";
 import Actionbar from "@/app/components/Actionbar";
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -28,7 +28,6 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
@@ -39,20 +38,21 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <HeroUIProvider>
-            <main className="min-h-screen flex flex-col items-center">
-              <div className="w-full flex flex-col items-center">
-                <NavbarComponent />
+          <AuthSession>
+            <HeroUIProvider>
+              <main className="min-h-screen flex flex-col items-center">
+                <div className="w-full flex flex-col items-center">
+                  <NavbarComponent />
 
-                <div className="flex flex-col gap-20 w-full ">{children}</div>
-
-                <FooterComponent></FooterComponent>
+                  <div className="flex flex-col gap-20 w-full ">{children}</div>
+                  <FooterComponent></FooterComponent>
+                </div>
+              </main>
+              <div className="hidden md:block">
+                <Actionbar></Actionbar>
               </div>
-            </main>
-            <div className="hidden md:block">
-              <Actionbar></Actionbar>
-            </div>
-          </HeroUIProvider>
+            </HeroUIProvider>
+          </AuthSession>
         </ThemeProvider>
       </body>
     </html>
