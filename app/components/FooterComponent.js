@@ -24,7 +24,7 @@ export default function Component() {
           {/* Company Info */}
           <div className="flex flex-col space-y-3 max-w-2xl order-2">
             <div className="flex flex-wrap items-center gap-2 text-sm md:text-base">
-              <span className="font-semibold">BDN DIVE</span>
+              <span className="font-semibold">제이에이치이 주식회사사</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
               <span>박치양</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
