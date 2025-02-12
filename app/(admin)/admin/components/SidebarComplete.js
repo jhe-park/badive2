@@ -6,43 +6,43 @@ import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 import { sectionItemsWithTeams } from "./sidebar-items";
 import Sidebar from "./sidebar";
-
-/**
- * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
- * and use it as the active key for the Sidebar component.
- *
- * ```tsx
- * import {usePathname} from "next/navigation";
- *
- * const pathname = usePathname();
- * const currentPath = pathname.split("/")?.[1]
- *
- * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
- * ```
- */
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 export default function Component({ children, user }) {
   const [isHidden, setIsHidden] = React.useState(false);
+  const [pageTitle, setPageTitle] = React.useState("");
+  const pathname = usePathname();
+  const getPageTitle = () => {
+    if (pathname.includes("/admin/schedule")) return "스케쥴";
+    if (pathname.includes("/admin/sales")) return "매출현황";
+    if (pathname.includes("/admin/instructor")) return "강사관리";
+    if (pathname.includes("/admin/member")) return "회원관리";
+    if (pathname.includes("/admin/program")) return "프로그램";
+    if (pathname.includes("/admin/tour")) return "투어";
+    return "";
+  };
+  useEffect(() => {
+    setPageTitle(getPageTitle());
+  }, [pathname]);
 
   return (
-    <div className="flex h-full min-h-[48rem] w-full">
+    <div className="flex h-screen w-full">
       <div
         className={cn(
-          "relative flex h-full w-72 max-w-[288px] flex-1 flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out",
+          "relative flex h-screen w-72 max-w-[288px] flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out",
           {
             "-ml-72 -translate-x-72": isHidden,
           }
         )}
       >
         <div className="flex items-center gap-2 px-2">
-          <span className="text-2xl font-bold uppercase">BDN DIVE</span>
+          <Link href="/admin/main">
+            <span className="text-2xl font-bold uppercase">BDN DIVE</span>
+          </Link>
         </div>
         <Spacer y={8} />
         <div className="flex items-center gap-3 px-3">
-          <Avatar
-            isBordered
-            size="sm"
-            src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-          />
           <div className="flex flex-col">
             <p className="text-lg font-medium text-default-600">관리자</p>
             <p className="text-sm font-medium text-default-600">
@@ -55,20 +55,6 @@ export default function Component({ children, user }) {
         </ScrollShadow>
         <Spacer y={8} />
         <div className="mt-auto flex flex-col">
-          <Button
-            fullWidth
-            className="justify-start text-default-500 data-[hover=true]:text-foreground"
-            startContent={
-              <Icon
-                className="text-default-500"
-                icon="solar:info-circle-line-duotone"
-                width={24}
-              />
-            }
-            variant="light"
-          >
-            Help & Information
-          </Button>
           <Button
             className="justify-start text-default-500 data-[hover=true]:text-foreground"
             startContent={
@@ -84,8 +70,10 @@ export default function Component({ children, user }) {
           </Button>
         </div>
       </div>
-      <div className="w-full flex-1 flex-col p-4">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
+      <div className="w-full h-[90%] flex flex-col gap-y-4 mx-1 md:mx-4 ">
+        <header
+          className="flex items-center gap-3 rounded-medium border-small border-divider p-4 h-[10vh] w-full mt-4"
+        >
           <Button
             isIconOnly
             size="sm"
@@ -99,10 +87,12 @@ export default function Component({ children, user }) {
               width={24}
             />
           </Button>
-          <h2 className="text-medium font-medium text-default-700">Overview</h2>
+          <h2 className="text-2xl font-bold text-default-700">{pageTitle}</h2>
         </header>
-        <main className="mt-4 h-full w-full overflow-visible">
-          <div className="flex h-[90%] w-full flex-col gap-4 rounded-medium border-small border-divider" />
+        <main className="w-full h-[86vh]">
+          <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-y-auto scrollbar-hide p-6">
+            {children}
+          </div>
         </main>
       </div>
     </div>

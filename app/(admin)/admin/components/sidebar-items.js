@@ -84,137 +84,52 @@ export const items = [
 export const sectionItems = [
   {
     key: "overview",
-    title: "Overview",
+    title: "",
     items: [
       {
-        key: "home",
-        href: "#",
-        icon: "solar:home-2-linear",
-        title: "Home",
+        key: "schedule",
+        href: "/admin/schedule",
+        icon: "",
+        title: "스케쥴",
       },
       {
-        key: "projects",
-        href: "#",
-        icon: "solar:widget-2-outline",
-        title: "Projects",
-        endContent: (
-          <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
-        ),
+        key: "sales",
+        href: "/admin/sales",
+        icon: "",
+        title: "매출현황",
+        
       },
       {
-        key: "tasks",
-        href: "#",
-        icon: "solar:checklist-minimalistic-outline",
-        title: "Tasks",
-        endContent: (
-          <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
-        ),
+        key: "instructor",
+        href: "/admin/instructor",
+        icon: "",
+        title: "강사관리",
+        
       },
       {
-        key: "team",
-        href: "#",
-        icon: "solar:users-group-two-rounded-outline",
-        title: "Team",
+        key: "member",
+        href: "/admin/member",
+        icon: "",
+        title: "회원관리",
       },
       {
-        key: "tracker",
-        href: "#",
-        icon: "solar:sort-by-time-linear",
-        title: "Tracker",
-        endContent: (
-          <Chip size="sm" variant="flat">
-            New
-          </Chip>
-        ),
+        key: "program",
+        href: "/admin/program",
+        icon: "",
+        title: "프로그램",
+      },
+      {
+        key: "tour",
+        href: "/admin/tour",
+        icon: "",
+        title: "투어",
       },
     ],
-  },
-  {
-    key: "organization",
-    title: "Organization",
-    items: [
-      {
-        key: "cap_table",
-        href: "#",
-        title: "Cap Table",
-        icon: "solar:pie-chart-2-outline",
-        items: [
-          {
-            key: "shareholders",
-            href: "#",
-            title: "Shareholders",
-          },
-          {
-            key: "note_holders",
-            href: "#",
-            title: "Note Holders",
-          },
-          {
-            key: "transactions_log",
-            href: "#",
-            title: "Transactions Log",
-          },
-        ],
-      },
-      {
-        key: "analytics",
-        href: "#",
-        icon: "solar:chart-outline",
-        title: "Analytics",
-      },
-      {
-        key: "perks",
-        href: "/perks",
-        icon: "solar:gift-linear",
-        title: "Perks",
-        endContent: (
-          <Chip size="sm" variant="flat">
-            3
-          </Chip>
-        ),
-      },
-      {
-        key: "expenses",
-        href: "#",
-        icon: "solar:bill-list-outline",
-        title: "Expenses",
-      },
-      {
-        key: "settings",
-        href: "/settings",
-        icon: "solar:settings-outline",
-        title: "Settings",
-      },
-    ],
-  },
+  }
 ];
 
 export const sectionItemsWithTeams = [
-  ...sectionItems,
-  {
-    key: "your-teams",
-    title: "Your Teams",
-    items: [
-      {
-        key: "heroui",
-        href: "#",
-        title: "HeroUI",
-        startContent: <TeamAvatar name="Hero UI" />,
-      },
-      {
-        key: "tailwind-variants",
-        href: "#",
-        title: "Tailwind Variants",
-        startContent: <TeamAvatar name="Tailwind Variants" />,
-      },
-      {
-        key: "heroui-pro",
-        href: "#",
-        title: "HeroUI Pro",
-        startContent: <TeamAvatar name="HeroUI Pro" />,
-      },
-    ],
-  },
+  ...sectionItems
 ];
 
 export const brandItems = [
@@ -274,8 +189,8 @@ export const brandItems = [
     ],
   },
   {
-    key: "your-teams",
-    title: "Your Teams",
+    key: "",
+    title: "",
     items: [
       {
         key: "heroui",
@@ -360,31 +275,7 @@ export const sectionLongList = [
         icon: "solar:card-transfer-outline",
       },
     ],
-  },
-  {
-    key: "your-teams",
-    title: "Your Teams",
-    items: [
-      {
-        key: "heroui",
-        href: "#",
-        title: "HeroUI",
-        startContent: <TeamAvatar name="Hero UI" />,
-      },
-      {
-        key: "tailwind-variants",
-        href: "#",
-        title: "Tailwind Variants",
-        startContent: <TeamAvatar name="Tailwind Variants" />,
-      },
-      {
-        key: "heroui-pro",
-        href: "#",
-        title: "HeroUI Pro",
-        startContent: <TeamAvatar name="HeroUI Pro" />,
-      },
-    ],
-  },
+  }
 ];
 
 export const sectionNestedItems = [
