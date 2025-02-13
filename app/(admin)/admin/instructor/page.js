@@ -18,12 +18,12 @@ export default async function InstructorPage() {
     <div className="flex flex-col w-full h-full gap-y-6">
       <div className="flex flex-col md:flex-row gap-4 w-full">
         <div className="flex flex-row gap-4 w-full md:w-1/2 justify-start items-center">
-          <h1 className="text-lg font-bold w-24">소속강사</h1>
-          <Input isDisabled value={bdnInstructorCount} placeholder="" />
-        </div>
+          {/* <h1 className="text-lg font-bold w-24">소속강사</h1> */}
+          <Input label="소속강사" isDisabled value={bdnInstructorCount} placeholder="" />
+        </div> 
         <div className="flex flex-row gap-4 w-full md:w-1/2 justify-start items-center">
-          <h1 className="text-lg font-bold w-24">협력강사</h1>
-          <Input isDisabled value={nonBdnInstructorCount} placeholder="" />
+          {/* <h1 className="text-lg font-bold w-24">협력강사</h1> */}
+          <Input label="협력강사" isDisabled value={nonBdnInstructorCount} placeholder="" />
         </div>
       </div>
       <SearchTable></SearchTable>

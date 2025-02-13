@@ -14,7 +14,17 @@ import {
   getKeyValue,
   Pagination,
   Spinner,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 } from "@heroui/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/react";
+
 import { LuCirclePlus } from "react-icons/lu";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -55,15 +65,14 @@ export default function SearchTable() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 w-full px-4 mt-6 justify-between items-center">
-        <Button
-          className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
-          startContent={<LuCirclePlus className="text-white text-xl" />}
-          onPress={() => router.push("/admin/instructor/new")}
-        >
-          강사 등록
-        </Button>
-        <Input placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
+      <div className="flex flex-col md:flex-row gap-4 w-full px-4 ">
+        <Input label="총회원수" value="30"></Input>
+
+        <Input
+          placeholder="검색어를 입력해주세요"
+          label="검색"
+          endContent={<FaSearch />}
+        ></Input>
         <Select
           label="정렬기준"
           selectedKeys={[selectedSort]}
@@ -92,23 +101,35 @@ export default function SearchTable() {
       <div className="flex flex-col gap-4 w-full">
         <Table aria-label="Example table with dynamic content" shadow="none">
           <TableHeader>
+            <TableColumn key="no" className="text-center">
+              NO.
+            </TableColumn>
             <TableColumn key="name" className="text-center">
               이름
+            </TableColumn>
+            <TableColumn key="lesson" className="text-center">
+              희망강습
+            </TableColumn>
+            <TableColumn key="id" className="text-center">
+              아이디
             </TableColumn>
             <TableColumn key="birth" className="text-center">
               생년월일
             </TableColumn>
-            <TableColumn key="region" className="text-center">
-              지역
-            </TableColumn>
             <TableColumn key="gender" className="text-center">
               성별
+            </TableColumn>
+            <TableColumn key="region" className="text-center">
+              지역
             </TableColumn>
             <TableColumn key="phone" className="text-center">
               연락처
             </TableColumn>
-            <TableColumn key="role" className="text-center">
-              소속
+            <TableColumn key="payment" className="text-center">
+              결제금액
+            </TableColumn>
+            <TableColumn key="note" className="text-center">
+              비고
             </TableColumn>
           </TableHeader>
           <TableBody
@@ -120,11 +141,40 @@ export default function SearchTable() {
               <TableRow
                 className="hover:cursor-pointer hover:bg-gray-100"
                 key={item?.key}
-                onClick={() => router.push(`/admin/instructor/${item.id}`)}
+                onClick={(e) => {
+                  if (!e.target.closest(".select-wrapper")) {
+                    router.push(`/admin/member/${item.id}`);
+                  }
+                }}
               >
                 {(columnKey) => (
                   <TableCell className="text-center whitespace-nowrap">
-                    {getKeyValue(item, columnKey)}
+                    {columnKey === "lesson" ? (
+                      <div
+                        className="select-wrapper"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Popover placement="bottom" showArrow={true}>
+                          <PopoverTrigger>
+                            <Button variant="bordered" className="w-full">
+                              {item[columnKey]}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent>
+                            <div className="px-1 py-2">
+                              <div className="text-small font-bold">
+                                Popover Content
+                              </div>
+                              <div className="text-tiny">
+                                This is the popover content
+                              </div>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    ) : (
+                      getKeyValue(item, columnKey)
+                    )}
                   </TableCell>
                 )}
               </TableRow>

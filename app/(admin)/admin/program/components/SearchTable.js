@@ -59,9 +59,9 @@ export default function SearchTable() {
         <Button
           className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
           startContent={<LuCirclePlus className="text-white text-xl" />}
-          onPress={() => router.push("/admin/instructor/new")}
+          onPress={() => router.push("/admin/program/new")}
         >
-          강사 등록
+          프로그램 등록
         </Button>
         <Input placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
         <Select
@@ -92,43 +92,42 @@ export default function SearchTable() {
       <div className="flex flex-col gap-4 w-full">
         <Table aria-label="Example table with dynamic content" shadow="none">
           <TableHeader>
-            <TableColumn key="name" className="text-center">
+            <TableColumn key="no" className="text-center w-1/4">
+              No.
+            </TableColumn>
+            <TableColumn key="image" className="text-center w-1/4">
+              이미지
+            </TableColumn>
+            <TableColumn key="name" className="text-center w-1/4">
               이름
             </TableColumn>
-            <TableColumn key="birth" className="text-center">
-              생년월일
-            </TableColumn>
-            <TableColumn key="region" className="text-center">
-              지역
-            </TableColumn>
-            <TableColumn key="gender" className="text-center">
-              성별
-            </TableColumn>
-            <TableColumn key="phone" className="text-center">
-              연락처
-            </TableColumn>
-            <TableColumn key="role" className="text-center">
-              소속
+            <TableColumn key="manage" className="text-center w-1/4">
+              관리
             </TableColumn>
           </TableHeader>
           <TableBody
-            items={instructor}
-            isLoading={isLoading}
+            
+            
             loadingContent={<Spinner label="로딩중" className="text-xl" />}
           >
-            {(item) => (
-              <TableRow
-                className="hover:cursor-pointer hover:bg-gray-100"
-                key={item?.key}
-                onClick={() => router.push(`/admin/instructor/${item.id}`)}
-              >
-                {(columnKey) => (
-                  <TableCell className="text-center whitespace-nowrap">
-                    {getKeyValue(item, columnKey)}
-                  </TableCell>
-                )}
-              </TableRow>
-            )}
+            <TableRow>
+              <TableCell className="text-center">1</TableCell>
+              <TableCell className="text-center">이미지</TableCell>
+              <TableCell className="text-center">이름</TableCell>
+              <TableCell className="text-center"><Button color="primary" variant='solid' onClick={() => router.push("/admin/program/1")} >자세히보기</Button></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-center">1</TableCell>
+              <TableCell className="text-center">이미지</TableCell>
+              <TableCell className="text-center">이름</TableCell>
+              <TableCell className="text-center"><Button color="primary" variant='solid' onClick={() => router.push("/admin/program/1")} >자세히보기</Button></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-center">1</TableCell>
+              <TableCell className="text-center">이미지</TableCell>
+              <TableCell className="text-center">이름</TableCell>
+              <TableCell className="text-center"><Button color="primary" variant='solid' onClick={() => router.push("/admin/program/1")} >자세히보기</Button></TableCell>
+            </TableRow>
           </TableBody>
         </Table>
         <div className="flex justify-center items-center ">

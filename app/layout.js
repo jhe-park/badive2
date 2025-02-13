@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <AuthSession>
+          {/* <AuthSession> */}
             <HeroUIProvider>
               <main className="min-h-screen flex flex-col items-center">
                 <div className="w-full flex flex-col items-center">
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
                 <Actionbar></Actionbar>
               </div>
             </HeroUIProvider>
-          </AuthSession>
+          {/* </AuthSession> */}
         </ThemeProvider>
       </body>
     </html>
