@@ -35,9 +35,9 @@ function IntroductionCarousel() {
 
   return (
     <>
-      <div className="relative w-[90vw] overflow-hidden h-full md:h-full">
+      <div className="relative w-[90vw] overflow-hidden h-full md:h-[80vh]">
         <div
-          className="flex"
+          className="flex h-full"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
             transition: "transform 0.5s ease-in-out",
@@ -46,8 +46,8 @@ function IntroductionCarousel() {
           {items.map((item, index) => (
             <div key={index} className="flex min-w-full flex-col md:flex-row gap-y-2 md:gap-y-12">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
-              <div className="w-2/3 md:w-1/2 md:py-12 relative md:px-[8vw] md:pr-[8vw] md:pl-0 flex justify-center items-center order-1 md:order-2 justify-center w-full">
-                <div className="w-2/3 h-[30vh] md:h-full md:w-2/3 relative">
+              <div className="w-1/3 md:w-1/2 md:py-12 relative md:px-[8vw] md:pr-[8vw] md:pl-0 flex justify-center items-center order-1 md:order-2 justify-center w-full">
+                <div className="w-2/3 aspect-[4/3] relative h-full">
                   <Image
                     src={item.right.image}
                     fill

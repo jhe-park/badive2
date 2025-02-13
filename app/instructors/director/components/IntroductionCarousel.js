@@ -21,10 +21,10 @@ function IntroductionCarousel() {
 
   return (
     <>
-      <div className="relative w-[90vw] overflow-hidden h-full md:h-full">
+      <div className="relative w-[90vw] overflow-hidden h-full md:h-full md:min-h-[60vh]">
         {/* 캐러셀 컨텐츠 */}
         <div
-          className="flex"
+          className="flex h-full"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
             transition: "transform 0.5s ease-in-out",
@@ -50,12 +50,12 @@ function IntroductionCarousel() {
                   <div
                     className="text-sm md:text-[30px] text-center"
                     dangerouslySetInnerHTML={{ __html: item.left.description2 }}
-                    style={{lineHeight: "1"}}
+                    style={{lineHeight: "1.5"}}
                   ></div>
                   <div
                     className="text-sm md:text-[30px] text-center"
                     dangerouslySetInnerHTML={{ __html: item.left.description3 }}
-                    style={{lineHeight: "1"}}
+                    style={{lineHeight: "1.5"}}
                   ></div>
                 </div>
               </div>

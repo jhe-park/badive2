@@ -50,6 +50,22 @@ export const items = [
   },  
   {
     left: {
+      title: "이지연(제니) 강사",
+      subtitle: "서울, 경기 | 스쿠버다이빙 강습 가능  ",
+      description: `
+<p>-2023년 스쿠버다이빙 강사 자격 취득</p>
+<p>-2023 ~스쿠버다이빙 강사(로그수 300 이상)</p>
+<p>-2023 ~ 유튜브 채널 ‘제니인더워터’ 운영중</p>
+<p>-2023 ~ 모델, 인플루언서 활동중 </p>      
+      `,
+    },
+    right: { image: "/instructors/expert5right.png" },
+    small: "/instructors/expert5small.png",
+    smallTitle: "이지연강사(서울,경기)",
+
+  },  
+  {
+    left: {
       title: "고송미 강사",
       subtitle: "대구, 대전, 부산 | 스쿠버다이빙, 프리다이빙, 머메이드 강습 가능",
       description: `
