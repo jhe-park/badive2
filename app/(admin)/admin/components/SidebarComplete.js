@@ -9,8 +9,20 @@ import Sidebar from "./sidebar";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { RxHamburgerMenu } from "react-icons/rx";
+
 export default function Component({ children, user }) {
-  const [isHidden, setIsHidden] = React.useState(false);
+  const [isHidden, setIsHidden] = React.useState(window.innerWidth < 768);
+  
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsHidden(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
   const [pageTitle, setPageTitle] = React.useState("");
   const pathname = usePathname();
   const getPageTitle = () => {
@@ -20,6 +32,9 @@ export default function Component({ children, user }) {
     if (pathname.includes("/admin/member")) return "회원관리";
     if (pathname.includes("/admin/program")) return "프로그램";
     if (pathname.includes("/admin/tour")) return "투어";
+    if (pathname.includes("/admin/main")) return "관리자 홈";
+    if (pathname.includes("/admin/notice")) return "공지사항";
+    if (pathname.includes("/admin/resort")) return "리조트";
     return "";
   };
   useEffect(() => {
@@ -80,12 +95,13 @@ export default function Component({ children, user }) {
             variant="light"
             onPress={() => setIsHidden(!isHidden)}
           >
-            <Icon
+            {/* <Icon
               className="text-default-500"
               height={24}
               icon="solar:sidebar-minimalistic-outline"
               width={24}
-            />
+            /> */}
+            <RxHamburgerMenu className="text-black text-xl" />
           </Button>
           <h2 className="text-2xl font-bold text-default-700">{pageTitle}</h2>
         </header>

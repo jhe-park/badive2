@@ -124,6 +124,18 @@ export const sectionItems = [
         icon: "",
         title: "투어",
       },
+      {
+        key: "resort",
+        href: "/admin/resort",
+        icon: "",
+        title: "리조트",
+      },
+      {
+        key: "notice",
+        href: "/admin/notice",
+        icon: "",
+        title: "공지사항",
+      },
     ],
   }
 ];

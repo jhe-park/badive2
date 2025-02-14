@@ -1,0 +1,170 @@
+"use client";
+import React from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import {
+  Input,
+  Select,
+  SelectItem,
+  Button,
+  Textarea,
+  Chip,
+  DatePicker,
+} from "@heroui/react";
+import { LuCirclePlus } from "react-icons/lu";
+import { v4 as uuidv4 } from "uuid";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@heroui/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@heroui/react";
+import Tiptap from "./components/Tiptap";
+
+export default function InstructorNewPage() {
+  const {
+    isOpen: isOpenAddInstructor,
+    onOpen: onOpenAddInstructor,
+    onOpenChange: onOpenChangeAddInstructor,
+  } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedRole, setSelectedRole] = useState("bdn");
+  const [selectedProgram, setSelectedProgram] = useState(["scuba"]);
+  const [imageUrl, setImageUrl] = useState("");
+  const [certifications, setCertifications] = useState([]);
+  const [certification, setCertification] = useState("");
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleUploadImage = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // FileReader를 사용하여 로컬 이미지를 URL로 변환
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  console.log("selectedProgram:", selectedProgram);
+  console.log("imageUrl:", imageUrl);
+  return (
+    <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col md:flex-row gap-x-6 h-full gap-y-6 w-full justify-center items-center">
+        <div className="flex relative aspect-square h-[50vh]">
+          <Image
+            src={imageUrl || "/noimage/noimage.jpg"}
+            alt="program-image"
+            fill
+            className="rounded-2xl"
+          ></Image>
+
+          <input
+            type="file"
+            id="fileInput"
+            style={{ display: "none" }}
+            onChange={handleUploadImage}
+          />
+          <LuCirclePlus
+            onClick={() => document.getElementById("fileInput").click()}
+            className="text-white text-5xl absolute inset-0 m-auto hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
+          />
+        </div>
+        <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
+          <div className="w-full">
+            <Input
+              label="이름"
+              labelPlacement="inside"
+              placeholder="생년월일을 입력해주세요(ex.1990-01-01)"
+            ></Input>
+          </div>
+          <div className="w-full">
+            <Input
+              label="국가/지역"
+              labelPlacement="inside"
+              placeholder="국가/지역을 입력해주세요(ex.필리핀 코론)"
+            ></Input>
+          </div>
+          <div className="w-full">
+            <Input
+              label="대표자"
+              labelPlacement="inside"
+              placeholder="대표자를 입력해주세요(ex.이중재)"
+            ></Input>
+          </div>
+          <div className="w-full">
+            <Input
+              label="협력날짜"
+              labelPlacement="inside"
+              placeholder="협력날짜를 입력해주세요(ex.2024.10)"
+            ></Input>
+          </div>
+          <div className="w-full">
+            <Input
+              label="URL"
+              labelPlacement="inside"
+              placeholder="URL을 입력해주세요(ex.https://www.google.com)"
+            ></Input>
+          </div>
+
+          
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center items-center gap-y-6 mt-6">
+        
+       
+        <div className="w-full flex flex-col gap-y-2 mb-6">
+            
+        <Textarea label="비고" labelPlacement="inside" placeholder="비고를 입력해주세요"></Textarea>
+        </div>
+      </div>
+      <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+              <ModalBody>
+                <Select>
+                    <SelectItem>
+                        정은지강사
+                    </SelectItem>
+                    <SelectItem>
+                        이세원강사
+                    </SelectItem>
+                </Select>
+                <Input label="금액" labelPlacement="inside" placeholder="금액을 입력해주세요"/>
+                <Input label="지역" labelPlacement="inside" placeholder="지역을 입력해주세요"/>
+                <Input label="인원" labelPlacement="inside" placeholder="인원을 입력해주세요"/>
+                
+                
+              </ModalBody>
+              <ModalFooter>
+                
+                <Button color="primary" onPress={onClose}>
+                  저장
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </div>
+  );
+}
+
