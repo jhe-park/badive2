@@ -10,6 +10,7 @@ import Toast from "@/components/Toast";
 import TwoFactor from "./components/TwoFactor";
 import GoogleLoginComponent from "./components/GoogleLogin";
 import KakaoLoginComponent from "./components/KakaoLogin";
+import NaverLoginComponent from "./components/NaverLogin";
 
 
 export default async function Login(props) {
@@ -98,16 +99,8 @@ export default async function Login(props) {
         <div className="flex justify-center items-center gap-5">
           <GoogleLoginComponent />
           <KakaoLoginComponent />
-          <button className="w-15 h-15 bg-white hover:scale-110 transition-all duration-300">
-            <Image src="/logo/naver.png" alt="naver" width={60} height={60} />
-          </button>
+          <NaverLoginComponent />
           
-          {/* <button className="w-15 h-15 bg-white">
-            <Image src="/logo/apple.png" alt="apple" width={60} height={60} />
-          </button>
-          <button className="w-15 h-15 bg-white">
-            <Image src="/logo/facebook.png" alt="facebook" width={60} height={60} />
-          </button> */}
         </div>
       </div>
     </div>

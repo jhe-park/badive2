@@ -1,10 +1,12 @@
-'use client'
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
-import { usePathname } from 'next/navigation';  // 상단에 import 추가
-import useModalOpen from '@/app/store/useModalOpen';
-import {createClient} from '@/utils/supabase/client';
+import { usePathname } from "next/navigation"; // 상단에 import 추가
+import useModalOpen from "@/app/store/useModalOpen";
+import { createClient } from "@/utils/supabase/client";
+import { signOut } from "next-auth/react";
+
 export default function Navbar() {
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState(null);
@@ -14,25 +16,34 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const supabase = createClient();
   const timeoutRef = useRef(null); // 타이머를 위한 ref 추가
-  
-  
+
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        setUser(session.user);
-      } else if (event === 'SIGNED_OUT') {
-        setUser(null);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_IN") {
+          setUser(session.user);
+        } else if (event === "SIGNED_OUT") {
+          setUser(null);
+        }
       }
-    });
+    );
 
     // Clean up the subscription on unmount
     return () => {
       authListener?.unsubscribe();
     };
   }, []);
+  const handleSignOut = async () => {
+    supabase.auth.signOut();
+    setUser(null);
+    // 클라이언트 측에서 signOut 호출
+    await signOut();
+  };
 
   const fetchUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     setUser(user);
   };
 
@@ -46,7 +57,7 @@ export default function Navbar() {
   const menuItems = [
     {
       title: "회사소개",
-      href: "/about"
+      href: "/about",
     },
     {
       title: "소속강사",
@@ -54,8 +65,8 @@ export default function Navbar() {
       submenu: [
         { title: "BDN 소속강사", href: "/instructors/bdn" },
         { title: "BDN 메인촬영감독", href: "/instructors/director" },
-        { title: "BDN 협력강사", href: "/instructors/partner" }
-      ]
+        { title: "BDN 협력강사", href: "/instructors/partner" },
+      ],
     },
     {
       title: "강습프로그램",
@@ -64,72 +75,77 @@ export default function Navbar() {
         { title: "스쿠버다이빙", href: "/programs/scuberdiving" },
         { title: "프리다이빙", href: "/programs/freediving" },
         { title: "머메이드", href: "/programs/mermaid" },
-        { title: "언더워터 댄스", href: "/programs/underwater" }
-      ]
+        { title: "언더워터 댄스", href: "/programs/underwater" },
+      ],
     },
     {
       title: "예약/문의",
-      href: "/inquiries"
+      href: "/inquiries",
     },
     {
       title: "커뮤니티",
       href: "/community",
       submenu: [
         { title: "공지사항", href: "/community/notification" },
-        { title: "자주하는질문(Q&A)", href: "/community/faq" }
-      ]
+        { title: "자주하는질문(Q&A)", href: "/community/faq" },
+      ],
     },
     {
       title: "다이빙투어",
-      href: "/divingtours"
-    }
+      href: "/divingtours",
+    },
   ];
 
   useEffect(() => {
     // document가 존재하는지 확인
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Only apply hide/show effect on home page
-      if (pathname === '/') {
-        const navbar = document.querySelector('nav');
-        if (navbar) {  // navbar가 존재하는지 확인
-          navbar.style.top = '-100px'; // Initially hide navbar
+      if (pathname === "/") {
+        const navbar = document.querySelector("nav");
+        if (navbar) {
+          // navbar가 존재하는지 확인
+          navbar.style.top = "-100px"; // Initially hide navbar
 
           const handleScroll = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollTop =
+              window.pageYOffset || document.documentElement.scrollTop;
             if (scrollTop > 0) {
-              navbar.style.top = '0';
+              navbar.style.top = "0";
             } else {
-              navbar.style.top = '-100px';
+              navbar.style.top = "-100px";
             }
           };
 
-          window.addEventListener('scroll', handleScroll);
+          window.addEventListener("scroll", handleScroll);
 
           return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener("scroll", handleScroll);
           };
         }
       } else {
         // On other pages, always show navbar
-        const navbar = document.querySelector('nav');
-        if (navbar) {  // navbar가 존재하는지 확인
-          navbar.style.top = '0';
+        const navbar = document.querySelector("nav");
+        if (navbar) {
+          // navbar가 존재하는지 확인
+          navbar.style.top = "0";
         }
       }
     }
   }, [pathname]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {  // window 객체 확인 추가
+    if (typeof window !== "undefined") {
+      // window 객체 확인 추가
       const handleScrollPosition = () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        console.log('Scroll position:', scrollTop);
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        console.log("Scroll position:", scrollTop);
       };
 
-      window.addEventListener('scroll', handleScrollPosition);
+      window.addEventListener("scroll", handleScrollPosition);
 
       return () => {
-        window.removeEventListener('scroll', handleScrollPosition); 
+        window.removeEventListener("scroll", handleScrollPosition);
       };
     }
   }, []);
@@ -141,9 +157,9 @@ export default function Navbar() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -170,28 +186,52 @@ export default function Navbar() {
       }
     };
   }, []);
-  
-  if(pathname.includes('admin')){
+
+  if (pathname.includes("admin")) {
     return null;
   }
 
   return (
-    <nav ref={navRef} className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg" style={{ top: isOpen ? '-100px' : '0' }}>
+    <nav
+      ref={navRef}
+      className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg"
+      style={{ top: isOpen ? "-100px" : "0" }}
+    >
       <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
         {/* 로고 영역 */}
         <div className="flex items-center justify-center flex-col md:pl-4">
           <Link href="/">
-            <Image src="/logo/logo.png" alt="Logo" width={80} height={40} className="hover:opacity-80 transition-opacity" />
+            <Image
+              src="/logo/logo.png"
+              alt="Logo"
+              width={80}
+              height={40}
+              className="hover:opacity-80 transition-opacity"
+            />
           </Link>
         </div>
 
         {/* 햄버거 메뉴 버튼 (모바일) */}
-        <button 
+        <button
           className="lg:hidden flex items-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          <svg className="w-6 h-6 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-            <path d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
+          <svg
+            className="w-6 h-6 text-white"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              d={
+                isMobileMenuOpen
+                  ? "M6 18L18 6M6 6l12 12"
+                  : "M4 6h16M4 12h16M4 18h16"
+              }
+            ></path>
           </svg>
         </button>
 
@@ -201,7 +241,7 @@ export default function Navbar() {
           <div className="flex h-1/3 gap-6 justify-end items-center">
             {user ? (
               <>
-                <Link 
+                <Link
                   href="/mypage"
                   className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
                 >
@@ -209,8 +249,7 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={() => {
-                    supabase.auth.signOut();
-                    setUser(null);
+                    handleSignOut();
                   }}
                   className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
                 >
@@ -219,7 +258,7 @@ export default function Navbar() {
               </>
             ) : (
               ["로그인", "회원가입"].map((item, index) => (
-                <Link 
+                <Link
                   key={index}
                   href={`/${item === "로그인" ? "login" : "register"}`}
                   className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
@@ -233,17 +272,20 @@ export default function Navbar() {
           {/* 하단 행: 메인 메뉴 */}
           <div className="flex h-2/3 justify-end items-center gap-x-12">
             {menuItems.map((item, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="relative"
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
               >
-                <Link 
+                <Link
                   href={item.href}
                   className="text-[16px] font-bold text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
                   onClick={(e) => {
-                    if (item.title === "소속강사" || item.title === "커뮤니티") {
+                    if (
+                      item.title === "소속강사" ||
+                      item.title === "커뮤니티"
+                    ) {
                       e.preventDefault(); // 링크 작동 방지
                     }
                   }}
@@ -255,7 +297,7 @@ export default function Navbar() {
                 {item.submenu && openSubmenu === index && (
                   <div className="absolute bg-black/95 backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
                     {item.submenu.map((subitem, subindex) => (
-                      <Link 
+                      <Link
                         key={`${index}-${subindex}`}
                         href={subitem.href}
                         className="block text-sm text-gray-200 hover:text-white hover:bg-gray-800 py-2 px-4 whitespace-nowrap"
@@ -276,7 +318,7 @@ export default function Navbar() {
             {/* 모바일 로그인 메뉴 */}
             <div className="flex justify-center gap-6 py-4 border-b border-gray-700">
               {user ? (
-                <Link 
+                <Link
                   href="/mypage"
                   className="text-[14px] text-gray-200 hover:text-white"
                 >
@@ -284,7 +326,7 @@ export default function Navbar() {
                 </Link>
               ) : (
                 ["로그인", "회원가입"].map((item, index) => (
-                  <Link 
+                  <Link
                     key={index}
                     href={`/${item === "로그인" ? "login" : "register"}`}
                     className="text-[14px] text-gray-200 hover:text-white"
@@ -294,13 +336,13 @@ export default function Navbar() {
                 ))
               )}
             </div>
-            
+
             {/* 모바일 메인 메뉴 */}
             <div className="py-4">
               {menuItems.map((item, index) => (
                 <div key={index} className="relative">
                   <div className="flex justify-between items-center px-6 py-3 text-gray-200 hover:bg-gray-800">
-                    <Link 
+                    <Link
                       href={item.href}
                       className="flex-1 text-[16px]"
                       onClick={(e) => {
@@ -314,18 +356,20 @@ export default function Navbar() {
                     </Link>
                     {item.submenu && (
                       <button
-                        onClick={() => setOpenSubmenu(openSubmenu === index ? null : index)}
+                        onClick={() =>
+                          setOpenSubmenu(openSubmenu === index ? null : index)
+                        }
                         className="ml-2"
                       >
-                        {openSubmenu === index ? '▼' : '▶'}
+                        {openSubmenu === index ? "▼" : "▶"}
                       </button>
                     )}
                   </div>
-                  
+
                   {item.submenu && openSubmenu === index && (
                     <div className="bg-gray-900 pl-6">
                       {item.submenu.map((subitem, subindex) => (
-                        <Link 
+                        <Link
                           key={`${index}-${subindex}`}
                           href={subitem.href}
                           className="block px-4 md:px-8 py-2 text-[14px] text-gray-300 hover:text-white hover:bg-gray-800"

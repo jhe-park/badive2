@@ -40,6 +40,7 @@ export default function RootLayout({ children }) {
         >
           {/* <AuthSession> */}
             <HeroUIProvider>
+              <AuthSession>
               <main className="min-h-screen flex flex-col items-center">
                 <div className="w-full flex flex-col items-center">
                   <NavbarComponent />
@@ -51,6 +52,7 @@ export default function RootLayout({ children }) {
               <div className="hidden md:block">
                 <Actionbar></Actionbar>
               </div>
+              </AuthSession>
             </HeroUIProvider>
           {/* </AuthSession> */}
         </ThemeProvider>
