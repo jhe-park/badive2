@@ -44,6 +44,7 @@ export default function InstructorNewPage({ params }) {
   const [noLicense, setNoLicense] = useState(0);
   const [noTour, setNoTour] = useState(0);
   const [reservation, setReservation] = useState([]);
+  const [totalStudent, setTotalStudent] = useState(0);
   useEffect(() => {
     const fetchInstructor = async () => {
       const { data, error } = await supabase
@@ -77,10 +78,15 @@ export default function InstructorNewPage({ params }) {
     const fetchReservation = async () => {
       const { data, error } = await supabase
         .from("reservation")
-        .select("*,time_slot_id(*,instructor_id(*))")
-        .eq("time_slot_id.instructor_id.id", id)
-        .not("time_slot_id", "is", null)
+        .select("*,time_slot_id(*))")
+        .eq("instructor_id", id)
       setReservation(data);
+    if (data) {
+      const total = data.reduce((sum, item) => {
+        return sum + (parseInt(item.participants) || 0);
+      }, 0);
+      setTotalStudent(total);
+    }
     };
 
 
@@ -299,8 +305,8 @@ export default function InstructorNewPage({ params }) {
           </TableHeader>
           <TableBody>
             <TableRow key="1">
-              <TableCell className="text-center"  >123</TableCell>
-              <TableCell className="text-center">12</TableCell>
+              <TableCell className="text-center"  >{}</TableCell>
+              <TableCell className="text-center">{totalStudent}</TableCell>
               <TableCell className="text-center"  ><Input classNames={{input: "text-center"}} variant="flat" value={noLicense} onChange={(e) => setNoLicense(e.target.value)} ></Input></TableCell>
               <TableCell className="text-center" ><Input classNames={{input: "text-center"}} variant="flat" value={noTour} onChange={(e) => setNoTour(e.target.value)} ></Input></TableCell>
             </TableRow>
