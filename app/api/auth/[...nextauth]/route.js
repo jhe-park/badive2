@@ -6,8 +6,6 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
 const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || '';
-console.log('supabaseURL', supabaseURL)
-console.log('supabaseKey', supabaseKey)
 
 // Initialize Supabase client with service_role key
 const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
@@ -27,6 +25,12 @@ const handler = NextAuth({
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
+            // user, account, profile 중 하나라도 값이 있는지 확인
+            if (!user && !account && !profile) {
+                console.log('인증 정보가 없습니다');
+                return false;
+            }
+
             const { email } = user;
             // profiles 테이블에서 사용자 조회
             const { data, error } = await supabaseAdmin

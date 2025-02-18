@@ -151,7 +151,7 @@ export default function SelectComponent({
   async function requestPayment() {
     //기본적으로 생성되는 searchParams말고 필요한건 여기다가 더 적자
     const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
-
+    console.log("selectedPaymentMethod:", selectedPaymentMethod);
     switch (selectedPaymentMethod) {
       case "CARD":
         await payment.requestPayment({
@@ -164,7 +164,6 @@ export default function SelectComponent({
           customerEmail: profile.email,
           customerName: profile.name,
           customerMobilePhone: removeSpecialCharacters(profile.phone),
-
           card: {
             useEscrow: false,
             flowMode: "DEFAULT",

@@ -20,6 +20,7 @@ import {
 } from "@heroui/react";
 import { LuCirclePlus } from "react-icons/lu";
 import { v4 as uuidv4 } from "uuid";
+
 export default function InstructorNewPage({ params }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +46,9 @@ export default function InstructorNewPage({ params }) {
   const [noTour, setNoTour] = useState(0);
   const [reservation, setReservation] = useState([]);
   const [totalStudent, setTotalStudent] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+
   useEffect(() => {
     const fetchInstructor = async () => {
       const { data, error } = await supabase
@@ -86,6 +90,10 @@ export default function InstructorNewPage({ params }) {
         return sum + (parseInt(item.participants) || 0);
       }, 0);
       setTotalStudent(total);
+      const totalAmount = data.reduce((sum, item) => {
+        return sum + (parseInt(item.amount) || 0);
+      }, 0);
+      setTotalAmount(totalAmount);
     }
     };
 
@@ -305,7 +313,7 @@ export default function InstructorNewPage({ params }) {
           </TableHeader>
           <TableBody>
             <TableRow key="1">
-              <TableCell className="text-center"  >{}</TableCell>
+              <TableCell className="text-center"  >{totalAmount}</TableCell>
               <TableCell className="text-center">{totalStudent}</TableCell>
               <TableCell className="text-center"  ><Input classNames={{input: "text-center"}} variant="flat" value={noLicense} onChange={(e) => setNoLicense(e.target.value)} ></Input></TableCell>
               <TableCell className="text-center" ><Input classNames={{input: "text-center"}} variant="flat" value={noTour} onChange={(e) => setNoTour(e.target.value)} ></Input></TableCell>

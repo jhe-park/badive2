@@ -99,7 +99,9 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           callTime,
           email,
           user_id:user?.user?.id,
-          tour_id:tourData.id
+          tour_id:tourData.id,
+          status:"예약완료"
+          
         });
         
 
@@ -137,6 +139,20 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           toast.error('이메일 전송 중 오류가 발생했습니다');
           return;
         }
+
+        const { data: requestData, error: requestError } = await supabase
+          .from('tour')
+          .update({ 
+            current_participants: tourData.current_participants + 1 
+          })
+          .eq('id', tourData.id);
+
+        if (requestError) {
+          toast.error(requestError.message);
+          return;
+        }
+
+          
 
         console.log('신청완료');
         router.push(`/divingtours/reservation/complete`);
@@ -200,7 +216,7 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           className="col-span-12 md:col-span-6"
           label="연락처"
           name="contact"
-          placeholder="010-0000-0000"
+          placeholder="01000000000"
           isRequired
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -232,7 +248,7 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           variant="bordered"
           label="생년월일"
           name="age"
-          placeholder="1988-01-01"
+          placeholder="19880101"
           isRequired
           value={birth}
           onChange={(e) => setBirth(e.target.value)}

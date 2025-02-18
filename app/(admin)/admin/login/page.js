@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import { signInAction } from "@/app/actions";
 export default function Component() {
   const [isVisible, setIsVisible] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [returnUrl, setReturnUrl] = React.useState('/admin/main');
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -27,7 +28,9 @@ export default function Component() {
           className="flex flex-col gap-4"
           validationBehavior="native"
           action={async (formData) => {
-            signInAction(formData, returnUrl);
+            setIsLoading(true);
+            await signInAction(formData, returnUrl);
+            setIsLoading(false);
           }}
         >
           <Input
@@ -49,7 +52,12 @@ export default function Component() {
             variant="bordered"
           />
 
-          <Button className="w-full" color="primary" type="submit">
+          <Button 
+            className="w-full" 
+            color="primary" 
+            type="submit"
+            isLoading={isLoading}
+          >
             Log In
           </Button>
         </Form>
