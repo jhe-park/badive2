@@ -61,7 +61,8 @@ export default async function page({searchParams}) {
               status: '예약확정',
               participants: participants,
               payment_key: paymentKey,
-              instructor_id: instructor_id
+              instructor_id: instructor_id,
+              amount: amount
 
             }
           ]);
