@@ -18,7 +18,7 @@ const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
 });
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
-export const authOptions = {
+const handler = NextAuth({
     providers: [
         NaverProvider({
             clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID ?? "",
@@ -84,9 +84,6 @@ export const authOptions = {
             return true;
         }
     }
-};
-
-// NextAuth의 결과를 직접 내보냅니다.
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST };
