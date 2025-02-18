@@ -86,7 +86,7 @@ export const authOptions = {
     }
 };
 
-// authOptions를 직접 내보내지 않고, NextAuth의 결과를 내보냅니다.
+// NextAuth의 결과를 직접 내보냅니다.
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
