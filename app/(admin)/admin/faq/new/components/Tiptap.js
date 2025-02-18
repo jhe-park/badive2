@@ -1,11 +1,12 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import { useEffect } from "react";
 import { FaHeading } from "react-icons/fa";
 import { BsTypeH2 } from "react-icons/bs";
 import { FaBold, FaImage } from "react-icons/fa";
 
-export default function Tiptap() {
+export default function Tiptap({ answer, setAnswer }) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -15,8 +16,17 @@ export default function Tiptap() {
         },
       }),
     ],
-    content: "<p>내용을 입력하세요...</p>",
+    content: answer || "<p>내용을 입력하세요...</p>",
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.on('update', () => {
+        const html = editor.getHTML();
+        setAnswer(html);
+      });
+    }
+  }, [editor, setAnswer]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -36,7 +46,7 @@ export default function Tiptap() {
 
   return (
     <div className="border-2 border-gray-200 rounded-lg p-4">
-      <div className="mb-4 flex items-center bg-gray-50 p-2 rounded-lg">
+      {/* <div className="mb-4 flex items-center bg-gray-50 p-2 rounded-lg">
         <label className="cursor-pointer inline-block">
           <input
             type="file"
@@ -46,7 +56,7 @@ export default function Tiptap() {
           />
           <FaImage className="hover:bg-gray-200 p-2 rounded text-4xl" />
         </label>
-      </div>
+      </div> */}
       <EditorContent
         editor={editor}
         className="min-h-[30vh] prose max-w-none"

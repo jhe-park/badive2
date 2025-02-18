@@ -30,9 +30,9 @@ export default async function page({ params }) {
       </div>
       <div className="w-[90%] md:w-[calc(1320/1920*100%)] h-full flex flex-col items-center justify-center gap-y-5 my-12 md:my-24">
         <div className="w-full h-full flex flex-col items-center justify-center gap-y-5">
-          <div className="text-2xl md:text-4xl font-bold flex items-center justify-center gap-x-2 md:flex-row flex-col gap-y-2">
-            <Chip color="danger" size="large">
-              {data.tag_name}
+          <div className="text-2xl md:text-4xl font-bold flex items-center justify-center gap-x-2 md:gap-x-6 md:flex-row flex-col gap-y-2">
+            <Chip color={data.status === "마감임박" ? "danger" : "primary"} size="large">
+              {data.status}
             </Chip>
             <div className="text-2xl md:text-4xl font-bold">
               {data.title}

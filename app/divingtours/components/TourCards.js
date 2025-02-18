@@ -113,13 +113,13 @@ export default function TourCards() {
               key={tour.id}
               className="bg-white rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 relative"
             >
-              {tour.tag_name === "마감임박" && (
+              {tour?.status === "마감임박" && (
                 <Chip
                   color="danger"
                   startContent={<IoMdAlarm className="text-xl" />}
                   className="absolute top-[5%] left-[5%] z-20 px-3 py-2 font-bold"
                 >
-                  {tour.tag_name}
+                  {tour.status}
                 </Chip>
 
               )}
@@ -136,12 +136,13 @@ export default function TourCards() {
                     <div className="font-bold text-xl text-center overflow-hidden text-ellipsis ">
                       {tour.title}
                     </div>
-                    <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap">
-                      {tour.period}
-                    </div>
                     <div className="text-sm text-gray-600 text-center overflow-hidden text-ellipsis whitespace-nowrap">
                       {tour.description}
                     </div>
+                    <div className="text-sm text-gray-500 text-right overflow-hidden text-ellipsis whitespace-nowrap ">
+                      투어일자:{tour.date}
+                    </div>
+                    
                     <div className="flex justify-between items-center">
                       <span className="text-2xl font-bold text-gray-500">
                         모집종료
@@ -162,12 +163,13 @@ export default function TourCards() {
                     <div className="font-bold text-xl text-center overflow-hidden text-ellipsis">
                       {tour.title}
                     </div>
-                    <div className="text-sm text-gray-500 text-center overflow-hidden text-ellipsis ">
-                      {tour.date}
-                    </div>
                     <div className="text-sm text-gray-600 text-center overflow-hidden text-ellipsis ">
                       {tour.subtitle}
                     </div>
+                    <div className="w-full text-sm text-gray-500 text-center overflow-hidden text-ellipsis ">
+                      투어일자:{tour.date}
+                    </div>
+                    
                     <div className="flex justify-between items-center">
                       <span className="text-2xl font-bold text-blue-500">
                         {tour.current_participants}/{tour.max_participants}명

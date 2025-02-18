@@ -131,10 +131,16 @@ export const sectionItems = [
         title: "리조트",
       },
       {
-        key: "notice",
-        href: "/admin/notice",
+        key: "notification",
+        href: "/admin/notification",
         icon: "",
         title: "공지사항",
+      },
+      {
+        key: "faq",
+        href: "/admin/faq",
+        icon: "",
+        title: "FAQ",
       },
     ],
   }

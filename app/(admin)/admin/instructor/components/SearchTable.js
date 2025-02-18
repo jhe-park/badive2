@@ -20,12 +20,14 @@ import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import {debounce} from "lodash";
 export default function SearchTable() {
   const [selectedSort, setSelectedSort] = useState("name");
   const [instructor, setInstructor] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const router = useRouter();
 
   const pageSize = 10;
@@ -33,11 +35,17 @@ export default function SearchTable() {
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchInstructor = async () => {
-      const { data, error, count } = await supabase
+    const fetchInstructor = debounce(async () => {
+      let query = supabase
         .from("instructor")
         .select("*", { count: "exact" })
         .range((page - 1) * pageSize, page * pageSize - 1);
+
+      if (search) {
+        query = query.ilike(selectedSort, `%${search}%`);
+      }
+
+      const { data, error, count } = await query;
 
       if (error) {
         console.log("Error fetching instructor:", error);
@@ -46,9 +54,14 @@ export default function SearchTable() {
         setTotal(Math.ceil(count / pageSize));
         setIsLoading(false);
       }
-    };
+    }, 500); // 300ms 지연 시간
+
     fetchInstructor();
-  }, [page, pageSize]);
+
+    return () => {
+      fetchInstructor.cancel();
+    };
+  }, [page, pageSize, search, selectedSort]);
   console.log("total:", total);
   console.log("instructor:", instructor);
   console.log("selectedSort:", selectedSort);
@@ -63,9 +76,9 @@ export default function SearchTable() {
         >
           강사 등록
         </Button>
-        <Input placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
+        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
         <Select
-          label="정렬기준"
+          label="검색기준"
           selectedKeys={[selectedSort]}
           onChange={(e) => setSelectedSort(e.target.value)}
         >
@@ -110,27 +123,42 @@ export default function SearchTable() {
             <TableColumn key="role" className="text-center">
               소속
             </TableColumn>
+            <TableColumn key="etc" className="text-center">
+              관리
+            </TableColumn>
           </TableHeader>
           <TableBody
-            items={instructor}
             isLoading={isLoading}
             loadingContent={<Spinner label="로딩중" className="text-xl" />}
           >
-            {(item) => (
-              <TableRow
-                className="hover:cursor-pointer hover:bg-gray-100"
-                key={item?.key}
-                onClick={() => router.push(`/admin/instructor/${item.id}`)}
-              >
-                {(columnKey) => (
-                  <TableCell className="text-center whitespace-nowrap">
-                    {getKeyValue(item, columnKey)}
-                  </TableCell>
-                )}
+            {instructor.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.name}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.birth}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.region}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.gender}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.phone}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.role}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  <Button color="primary" onPress={() => router.push(`/admin/instructor/${item.id}`)}>자세히 보기</Button>
+                </TableCell>
               </TableRow>
-            )}
+            ))}
           </TableBody>
         </Table>
+        
         <div className="flex justify-center items-center ">
           <Pagination initialPage={1} page={page} total={total} />
         </div>
@@ -138,3 +166,4 @@ export default function SearchTable() {
     </>
   );
 }
+

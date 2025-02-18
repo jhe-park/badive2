@@ -38,7 +38,7 @@ export default function SearchTable() {
   useEffect(() => {
     const fetchFaq = debounce(async () => {
       let query = supabase
-        .from("resort")
+        .from("notification")
         .select("*", { count: "exact" })
         .order("created_at", { ascending: false })
         .range((page - 1) * pageSize, page * pageSize - 1);
@@ -67,9 +67,9 @@ export default function SearchTable() {
         <Button
           className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
           startContent={<LuCirclePlus className="text-white text-xl" />}
-          onPress={() => router.push("/admin/resort/new")}
+          onPress={() => router.push("/admin/notification/new")}
         >
-          리조트 등록
+          공지사항 등록
         </Button>
         <Input
           placeholder="검색어를 입력해주세요"
@@ -86,14 +86,8 @@ export default function SearchTable() {
           <SelectItem className="text-medium" value="title" key="title">
             제목
           </SelectItem>
-          <SelectItem className="text-medium" value="region" key="region">
-            지역
-          </SelectItem>
-          <SelectItem className="text-medium" value="ceo" key="ceo">
-            CEO
-          </SelectItem>
-          <SelectItem className="text-medium" value="date" key="date">
-            날짜
+          <SelectItem className="text-medium" value="content" key="content">
+            내용
           </SelectItem>
         </Select>
       </div>
@@ -106,22 +100,19 @@ export default function SearchTable() {
           <>
           <Table aria-label="Example table with dynamic content" shadow="none">
             <TableHeader>
-              <TableColumn key="no" className="text-center w-1/6">
+              <TableColumn key="no" className="text-center w-1/4">
               No.
             </TableColumn>
-            <TableColumn key="image" className="text-center w-1/6">
+            <TableColumn key="image" className="text-center w-1/4">
               제목
             </TableColumn>
-            <TableColumn key="region" className="text-center w-1/6">
-              지역
+            <TableColumn key="content" className="text-center w-1/4">
+              내용
             </TableColumn>
-            <TableColumn key="ceo" className="text-center w-1/6">
-              CEO
+            <TableColumn key="pinned" className="text-center w-1/4">
+              상단고정
             </TableColumn>
-            <TableColumn key="date" className="text-center w-1/6">
-              날짜
-            </TableColumn>
-            <TableColumn key="manage" className="text-center w-1/6">
+            <TableColumn key="manage" className="text-center w-1/4">
               관리
             </TableColumn>
           </TableHeader>
@@ -132,13 +123,17 @@ export default function SearchTable() {
               <TableRow key={index}>
                 <TableCell className="text-center">{index + 1}</TableCell>
                 <TableCell className="text-center">{item.title}</TableCell>
-                <TableCell className="text-center">{item.region}</TableCell>
-                <TableCell className="text-center">{item.ceo}</TableCell>
-                <TableCell className="text-center">{item.date}</TableCell>
+                <TableCell className="text-center">
+                  <div
+                    className="text-sm"
+                    dangerouslySetInnerHTML={{ __html: removeImgTags(item.description) }}
+                  ></div>
+                </TableCell>
+                <TableCell className="text-center">{item.pinned === "pinned" ? "고정" : "미고정"}</TableCell>
                 <TableCell className="text-center">
                   <Button
                     color="primary"
-                    onPress={() => router.push(`/admin/resort/${item.id}`)}
+                    onPress={() => router.push(`/admin/notification/${item.id}`)}
                   >
                     수정
                   </Button>

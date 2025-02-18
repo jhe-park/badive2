@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect,use } from "react";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -32,8 +32,9 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import Tiptap from "./components/Tiptap";
+import DateEdit from "./components/DateEdit";
 
-export default function InstructorNewPage() {
+export default function InstructorNewPage({params}) {
   const {
     isOpen: isOpenAddInstructor,
     onOpen: onOpenAddInstructor,
@@ -41,28 +42,113 @@ export default function InstructorNewPage() {
   } = useDisclosure();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDelete, setIsDelete] = useState(false);
   const [selectedRole, setSelectedRole] = useState("bdn");
   const [selectedProgram, setSelectedProgram] = useState(["scuba"]);
   const [imageUrl, setImageUrl] = useState("");
   const [certifications, setCertifications] = useState([]);
   const [certification, setCertification] = useState("");
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [region, setRegion] = useState("");
+  const [date, setDate] = useState("");
+  const [status, setStatus] = useState("모집중");
+  const [etc, setEtc] = useState("");
+  const [isSave, setIsSave] = useState(false);
+  const [price, setPrice] = useState(0);
+  const [max_participants, setMaxParticipants] = useState(10);
   const router = useRouter();
   const supabase = createClient();
+  const [description, setDescription] = useState("");
+  const {id} = use(params);
 
   const handleUploadImage = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    // FileReader를 사용하여 로컬 이미지를 URL로 변환
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
+    // Supabase 스토리지에 이미지 업로드
+    const { data, error } = await supabase.storage
+      .from("resort") // 'resort'는 스토리지 버킷 이름입니다.
+      .upload(`${uuidv4()}`, file);
+
+    if (error) {
+      console.error("Error uploading image:", error);
+      return;
+    }
+    console.log("data:", data);
+
+    // 업로드된 이미지의 URL 가져오기
+    const {
+      data: { publicUrl },
+      error: urlError,
+    } = supabase.storage.from("resort").getPublicUrl(data.path);
+    console.log("publicURL:", publicUrl);
+
+    if (urlError) {
+      console.error("Error getting public URL:", urlError);
+      return;
+    }
+
+    // 이미지 URL 설정
+    setImageUrl(publicUrl);
   };
 
-  console.log("selectedProgram:", selectedProgram);
-  console.log("imageUrl:", imageUrl);
+  const getData = async () => {
+    const {data, error} = await supabase.from("tour").select("*").eq("id", id).single();
+    if (error) {
+      console.error("Error getting data:", error);
+      return;
+    }
+    setTitle(data.title);
+    setSubtitle(data.subtitle);
+    setRegion(data.region);
+    setDate(data.date);
+    setStatus(data.status);
+    setEtc(data.etc);
+    setPrice(data.price);
+    setMaxParticipants(data.max_participants);
+    setDescription(data.description);
+    setImageUrl(data.image);
+    setIsLoading(false);
+    
+  }
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleSave = async () => {
+    const {data, error} = await supabase.from("tour").update({
+      title: title,
+      subtitle: subtitle,
+      region: region,
+      date: date,
+      status: status,
+      etc: etc,
+      price: price,
+      max_participants: max_participants,
+      image: imageUrl,
+      description: description,
+    }).eq("id", id);
+    setIsSave(true);
+    if (error) {  
+      console.error("Error saving data:", error);
+      return;
+    }
+
+
+    router.push("/admin/tour");
+  };
+  const handleDelete = async () => {
+    const {data, error} = await supabase.from("tour").delete().eq("id", id);
+    if (error) {
+      console.error("Error deleting data:", error);
+      return;
+    }
+    setIsDelete(true);
+    router.push("/admin/tour");
+  }
+  console.log('description:',description)
+
   return (
     <div className="flex flex-col w-full h-full">
       <div className="flex flex-col md:flex-row gap-x-6 h-full gap-y-6 w-full justify-center items-center">
@@ -90,27 +176,55 @@ export default function InstructorNewPage() {
             <Input
               label="제목"
               labelPlacement="inside"
-              placeholder="생년월일을 입력해주세요(ex.1990-01-01)"
+              placeholder="제목을 입력해주세요"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            ></Input>
+          </div>
+          <div className="w-full">
+            <Input
+              label="부제목"
+              labelPlacement="inside"
+              placeholder="부제목을 입력해주세요"
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
             <Input
               label="국가/지역"
               labelPlacement="inside"
-              placeholder="국가/지역을 입력해주세요(ex.필리핀 코론)"
+              placeholder="지역을 입력해주세요(ex.태국)"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
-            <DatePicker 
-              label="투어날짜"
+            <Input
+              label="최대인원"
               labelPlacement="inside"
-              placeholder="투어날짜를 선택해주세요"
-            />
+              placeholder="최대인원을 입력해주세요(ex.10)"
+              value={max_participants}
+              onChange={(e) => setMaxParticipants(e.target.value)}
+            ></Input>
           </div>
           <div className="w-full">
-            <Select label="상태" selectedKeys={["모집중"]}>
+            <Input
+              label="금액"
+              labelPlacement="inside"
+              placeholder="금액을 입력해주세요(ex.100000)"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            ></Input>
+          </div>
+          <div className="w-full">
+            <DateEdit date={date} setDate={setDate}></DateEdit>
+          </div>
+          <div className="w-full">
+            <Select label="상태" onChange={(e) => setStatus(e.target.value)} selectedKeys={[status]}>
               <SelectItem key="모집중" value="모집중">모집중</SelectItem>
               <SelectItem key="예약마감" value="예약마감">예약마감</SelectItem>
+              <SelectItem key="마감임박" value="마감임박">마감임박</SelectItem>
               <SelectItem key="투어종료" value="투어종료">투어종료</SelectItem>
             </Select>
           </div>
@@ -119,54 +233,26 @@ export default function InstructorNewPage() {
               label="비고"
               labelPlacement="inside"
               placeholder="비고를 입력해주세요"
+              value={etc}
+              onChange={(e) => setEtc(e.target.value)}
             ></Textarea>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col justify-center items-center gap-y-6 mt-6">
-        {/* <div className="w-full flex justify-end text-lg text-white">
-          <Button
-            startContent={<LuCirclePlus className="text-white text-lg" />}
-            color="primary"
-            onPress={onOpenAddInstructor}
-          >
-            강사등록
-          </Button>
-        </div> */}
-        {/* <div className="w-full flex flex-col gap-y-2">
-          <Table
-            classNames={{ wrapper: "p-0" }}
-            aria-label="Example static collection table"
-            shadow="none"
-            fullWidth
-          >
-            <TableHeader>
-              <TableColumn>이름</TableColumn>
-              <TableColumn>금액설정</TableColumn>
-              <TableColumn>지역설정</TableColumn>
-              <TableColumn>인원설정</TableColumn>
-            </TableHeader>
-            <TableBody>
-              <TableRow key="1">
-                <TableCell>이세원 강사</TableCell>
-                <TableCell>100,000원</TableCell>
-                <TableCell>서울</TableCell>
-                <TableCell>10명</TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>정은지 강사</TableCell>
-                <TableCell>100,000원</TableCell>
-                <TableCell>서울</TableCell>
-                <TableCell>10명</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div> */}
        
         <div className="w-full flex flex-col gap-y-2 mb-6">
             
-          <Tiptap></Tiptap>
+          <Tiptap description={description} setDescription={setDescription}></Tiptap>
+          <div className="w-full flex justify-end gap-x-2">
+            <Button isLoading={isSave} color="success" onPress={handleSave}>
+              수정
+            </Button>
+            <Button isLoading={isDelete} color="danger" onPress={handleDelete}>
+              삭제
+            </Button>
+          </div>
         </div>
       </div>
       <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>

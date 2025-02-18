@@ -2,7 +2,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaHeading } from "react-icons/fa";
 import { BsTypeH2 } from "react-icons/bs";
 import { FaBold, FaImage } from "react-icons/fa";
@@ -19,7 +19,7 @@ const ResizableImage = Image.extend({
       const img = document.createElement('img');
       img.src = node.attrs.src;
       img.style.width = node.attrs.width || '100%';
-      // img.style.maxWidth = '500px';
+      img.style.maxWidth = '500px';
       img.style.display = 'block';
 
       const createHandle = (position) => {
@@ -29,24 +29,23 @@ const ResizableImage = Image.extend({
         handle.style.background = 'black';
         handle.style.position = 'absolute';
         handle.style.cursor = 'nwse-resize';
-        handle.style.zIndex = '10';
 
         switch (position) {
           case 'top-left':
-            handle.style.top = '-5px';
-            handle.style.left = '-5px';
+            handle.style.top = '0';
+            handle.style.left = '0';
             break;
           case 'top-right':
-            handle.style.top = '-5px';
-            handle.style.right = '-5px';
+            handle.style.top = '0';
+            handle.style.right = '0';
             break;
           case 'bottom-left':
-            handle.style.bottom = '-5px';
-            handle.style.left = '-5px';
+            handle.style.bottom = '0';
+            handle.style.left = '0';
             break;
           case 'bottom-right':
-            handle.style.bottom = '-5px';
-            handle.style.right = '-5px';
+            handle.style.bottom = '0';
+            handle.style.right = '0';
             break;
         }
 
@@ -133,6 +132,7 @@ const uploadImageToSupabase = async (file) => {
 };
 
 export default function Tiptap({ description, setDescription }) {
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -143,25 +143,26 @@ export default function Tiptap({ description, setDescription }) {
       }),
       ResizableImage,
     ],
-    content: description || "<p>내용을 입력하세요...</p>",
+    content: description,
     onUpdate: ({ editor }) => {
-      let html = editor.getHTML();
-      // 상위 div에 w-full 클래스 추가
-      html = html.replace(/<div/, '<div class="w-full"');
-      setDescription(html);
+      setDescription(editor.getHTML());
     },
   });
 
   useEffect(() => {
     if (editor) {
+      editor.commands.setContent(description);
+    }
+  }, [description, editor]);
+
+  useEffect(() => {
+    if (editor) {
       editor.on('update', () => {
-        let html = editor.getHTML();
-        // 상위 div에 w-full 클래스 추가
-        html = html.replace(/<div/, '<div class="w-full"');
+        const html = editor.getHTML();
         setDescription(html);
       });
     }
-  }, [editor, setDescription]);
+  }, [editor]);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -193,7 +194,7 @@ export default function Tiptap({ description, setDescription }) {
       </div>
       <EditorContent
         editor={editor}
-        className="min-h-[30vh] prose flex flex-col items-center justify-start gap-y-2"
+        className="min-h-[30vh] prose max-w-none"
       />
     </div>
   );

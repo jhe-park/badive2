@@ -46,6 +46,14 @@ export default function InstructorNewPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [certifications, setCertifications] = useState([]);
   const [certification, setCertification] = useState("");
+  const [title, setTitle] = useState("");
+  const [region, setRegion] = useState("");
+  const [ceo, setCeo] = useState("");
+  const [date, setDate] = useState("");
+  const [url, setUrl] = useState("");
+  const [etc, setEtc] = useState("");
+  const [image, setImage] = useState("");
+  const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -53,16 +61,50 @@ export default function InstructorNewPage() {
     const file = event.target.files[0];
     if (!file) return;
 
-    // FileReader를 사용하여 로컬 이미지를 URL로 변환
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
+    // Supabase 스토리지에 이미지 업로드
+    const { data, error } = await supabase.storage
+      .from("resort") // 'resort'는 스토리지 버킷 이름입니다.
+      .upload(`${uuidv4()}`, file);
+
+    if (error) {
+      console.error("Error uploading image:", error);
+      return;
+    }
+    console.log("data:", data);
+
+    // 업로드된 이미지의 URL 가져오기
+    const {
+      data: { publicUrl },
+      error: urlError,
+    } = supabase.storage.from("resort").getPublicUrl(data.path);
+    console.log("publicURL:", publicUrl);
+
+    if (urlError) {
+      console.error("Error getting public URL:", urlError);
+      return;
+    }
+
+    // 이미지 URL 설정
+    setImageUrl(publicUrl);
+  };
+  const handleSave = async () => {
+    const {data, error} = await supabase.from("resort").insert({
+      title: title,
+      region: region,
+      ceo: ceo,
+      date: date,
+      url: url,
+      etc: etc,
+      image: imageUrl,
+    });
+    if (error) {
+      console.error("Error saving data:", error);
+      return;
+    }
+    console.log("data:", data);
+    router.push("/admin/resort");
   };
 
-  console.log("selectedProgram:", selectedProgram);
-  console.log("imageUrl:", imageUrl);
   return (
     <div className="flex flex-col w-full h-full">
       <div className="flex flex-col md:flex-row gap-x-6 h-full gap-y-6 w-full justify-center items-center">
@@ -90,28 +132,36 @@ export default function InstructorNewPage() {
             <Input
               label="이름"
               labelPlacement="inside"
-              placeholder="생년월일을 입력해주세요(ex.1990-01-01)"
+              placeholder="리조트 이름을 입력해주세요요"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
             <Input
               label="국가/지역"
               labelPlacement="inside"
-              placeholder="국가/지역을 입력해주세요(ex.필리핀 코론)"
+              placeholder="국가/지역을 입력해주세요"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
             <Input
               label="대표자"
               labelPlacement="inside"
-              placeholder="대표자를 입력해주세요(ex.이중재)"
+              placeholder="대표자를 입력해주세요"
+              value={ceo}
+              onChange={(e) => setCeo(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
             <Input
               label="협력날짜"
               labelPlacement="inside"
-              placeholder="협력날짜를 입력해주세요(ex.2024.10)"
+              placeholder="협력날짜를 입력해주세요(ex.20240511)"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -119,43 +169,61 @@ export default function InstructorNewPage() {
               label="URL"
               labelPlacement="inside"
               placeholder="URL을 입력해주세요(ex.https://www.google.com)"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             ></Input>
           </div>
-
-          
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-y-6 mt-6">
-        
-       
+      <div className="flex flex-col justify-center items-center  mt-6">
         <div className="w-full flex flex-col gap-y-2 mb-6">
-            
-        <Textarea label="비고" labelPlacement="inside" placeholder="비고를 입력해주세요"></Textarea>
+          <Textarea
+            label="비고"
+            labelPlacement="inside"
+            placeholder="비고를 입력해주세요"
+            value={etc}
+            onChange={(e) => setEtc(e.target.value)}
+          ></Textarea>
+        </div>
+        <div className="w-full flex justify-end">
+          <Button isLoading={isSave} color="primary" onPress={handleSave}>
+            저장
+          </Button>
         </div>
       </div>
-      <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>
+      <Modal
+        isOpen={isOpenAddInstructor}
+        onOpenChange={onOpenChangeAddInstructor}
+      >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                Modal Title
+              </ModalHeader>
               <ModalBody>
                 <Select>
-                    <SelectItem>
-                        정은지강사
-                    </SelectItem>
-                    <SelectItem>
-                        이세원강사
-                    </SelectItem>
+                  <SelectItem>정은지강사</SelectItem>
+                  <SelectItem>이세원강사</SelectItem>
                 </Select>
-                <Input label="금액" labelPlacement="inside" placeholder="금액을 입력해주세요"/>
-                <Input label="지역" labelPlacement="inside" placeholder="지역을 입력해주세요"/>
-                <Input label="인원" labelPlacement="inside" placeholder="인원을 입력해주세요"/>
-                
-                
+                <Input
+                  label="금액"
+                  labelPlacement="inside"
+                  placeholder="금액을 입력해주세요"
+                />
+                <Input
+                  label="지역"
+                  labelPlacement="inside"
+                  placeholder="지역을 입력해주세요"
+                />
+                <Input
+                  label="인원"
+                  labelPlacement="inside"
+                  placeholder="인원을 입력해주세요"
+                />
               </ModalBody>
               <ModalFooter>
-                
                 <Button color="primary" onPress={onClose}>
                   저장
                 </Button>
@@ -167,4 +235,3 @@ export default function InstructorNewPage() {
     </div>
   );
 }
-

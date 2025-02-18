@@ -1,21 +1,38 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-export default function NoticeDetailPage() {
-  const noticeData = {
-    title: "2025년 다마뮤 투어 공지합니다",
-    writer: "이중재",
-    date: "2024-11-15",
-    category: "목록",
-    content: {
-      programName: "필리핀 코론 Coron",
-      subTitle: "수중 프로필 다이빙 투어",
-      period: "투어 기간: 2025.01.10(금)~01.17(금)",
-      description: "전문강사, 전문 수중촬영작가와 함께 떠나는 다이빙 투어!",
-      withText: "with 멤버쉽(회), 고릴라(강사), 노블룩 고릭",
-    },
+import { format } from "date-fns";
+import { createClient } from "@/utils/supabase/server";
+import Description from "./components/Description";
+export default async function NoticeDetailPage({ params }) {
+  const { id:postingId } = await params;
+  
+  const supabase = await createClient();
+  const { data: noticeData, error } = await supabase
+    .from("notification")
+    .select("*")
+    .eq("id", postingId)
+    .single();
+  if (error) {
+    console.error("Error fetching notice data:", error);
+  }
+  
+  // const noticeData = {
+  //   title: "2025년 다마뮤 투어 공지합니다",
+  //   writer: "이중재",
+  //   date: "2024-11-15",
+  //   category: "목록",
+  //   content: {
+  //     programName: "필리핀 코론 Coron",
+  //     subTitle: "수중 프로필 다이빙 투어",
+  //     period: "투어 기간: 2025.01.10(금)~01.17(금)",
+  //     description: "전문강사, 전문 수중촬영작가와 함께 떠나는 다이빙 투어!",
+  //     withText: "with 멤버쉽(회), 고릴라(강사), 노블룩 고릭",
+  //   },
+  // };
+  const formatDate = (date) => {
+    return format(new Date(date), "yyyy-MM-dd");
   };
-
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
             <div className="w-full h-[30vh] md:h-[600px] flex items-center justify-center relative">
@@ -51,36 +68,20 @@ export default function NoticeDetailPage() {
               </div>
             </div>
             <div className="flex justify-end mt-2 text-sm md:text-lg text-[#777777]">
-              작성일: {noticeData.date}
+              작성일: {formatDate(noticeData.created_at)}
             </div>
             </div>
             
 
             {/* 콘텐츠 섹션 */}
-            <div className="p-6">
-              <div className="relative">
-                <div className="h-[50vh] md:h-[50vh] w-full bg-gradient-to-b from-blue-900 to-blue-700 rounded-lg overflow-hidden mb-6">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      {noticeData.content.programName}
-                    </h2>
-                    <h3 className="text-lg md:text-xl mb-6">
-                      {noticeData.content.subTitle}
-                    </h3>
-                    <p className="mb-4">{noticeData.content.period}</p>
-                    <p className="mb-2">{noticeData.content.description}</p>
-                    <p className="text-sm">{noticeData.content.withText}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Description noticeData={noticeData} />
           </div>
 
           {/* 하단 버튼 */}
           <div className="mt-6 md:mt-12">
             <Link href="/community/notification">
               <button className="w-[30%] md:w-[10%] h-12 md:h-16 text-lg md:text-3xl bg-gray-200 rounded hover:bg-gray-300 transition-colors ">
-                {noticeData.category}
+                목록
               </button>
             </Link>
           </div>

@@ -8,9 +8,9 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function page({searchParams}) {
-  const {orderId, time_slot_id, user_id, participants, paymentKey, amount} = searchParams;
+  const {orderId,instructor_id, time_slot_id, user_id, participants, paymentKey, amount} = searchParams;
 
-  console.log("받은 파라미터들:", {orderId, time_slot_id, user_id, participants, paymentKey,amount}); // 디버깅용
+  console.log("받은 파라미터들:", {orderId, time_slot_id, user_id, participants, paymentKey,amount,instructor_id}); // 디버깅용
 
   // 결제 확인 로직
   try {
@@ -60,7 +60,8 @@ export default async function page({searchParams}) {
               user_id: user_id,
               status: '예약확정',
               participants: participants,
-              payment_key: paymentKey
+              payment_key: paymentKey,
+              instructor_id: instructor_id
 
             }
           ]);

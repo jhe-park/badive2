@@ -5,7 +5,7 @@ import { PiCodesandboxLogo } from "react-icons/pi";
 import { LuCirclePlus } from "react-icons/lu";
 import { FaSearch } from "react-icons/fa";
 import SearchTable from "./components/SearchTable";
-export default async function NoticePage() {
+export default async function NotificationPage() {
   const supabase = await createClient();
   const { data: instructor, error: instructorError } = await supabase
     .from("instructor")

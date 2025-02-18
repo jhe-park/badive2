@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Input, Select, SelectItem, Button, Textarea,Chip } from "@heroui/react";
 import { LuCirclePlus } from "react-icons/lu";
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast } from 'react-toastify';
 export default function InstructorNewPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +16,15 @@ export default function InstructorNewPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [certifications, setCertifications] = useState([]);
   const [certification, setCertification] = useState("");
+  const [gender, setGender] = useState("");
+  const [birth, setBirth] = useState("");
+  const [region, setRegion] = useState("");
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [etc, setEtc] = useState("");
+  const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const supabase = createClient();
   
@@ -37,10 +47,69 @@ export default function InstructorNewPage() {
     }
   };
 
-  console.log('selectedProgram:',selectedProgram);
-  console.log('imageUrl:',imageUrl);
+  const handleSave = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("아이디를 이메일 형태로 입력해주세요");
+      return;
+    }
+    const birthRegex = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/;
+    if (!birthRegex.test(birth)) {
+      toast.error("생년월일은 YYYYmmdd 형식으로 입력해주세요 (예: 19900518)");
+      return;
+    }
+  
+    const phoneRegex = /^[0-9]{10,11}$/;
+    if (!phoneRegex.test(phone)) {
+      toast.error("연락처는 하이픈이나 공백 없이 입력해주세요 (예: 01012345678)");
+      return;
+    }
+
+    const programFlags = {
+      freediving: selectedProgram.includes("freediving"),
+      mermaid: selectedProgram.includes("mermaid"),
+      underwater: selectedProgram.includes("underwater"),
+      experience: selectedProgram.includes("experience"),
+      scuba: selectedProgram.includes("scuba"),
+    };
+
+    const { data, error } = await supabase.from("instructor").insert({
+      email,
+      name,
+      gender,
+      birth,
+      region,
+      phone,
+      etc,
+      profile_image: imageUrl,
+      role: selectedRole,
+      certifications: certifications,
+      ...programFlags,
+    });
+    if (error) {
+      console.log("Error saving data:", error);
+    } else {
+      setIsSave(true);
+      console.log("Data saved successfully:", data);
+      router.push("/admin/instructor");
+    }
+  };
+  
+  
   return (
     <div className="flex flex-col w-full h-full gap-y-6 overflow-y-auto scrollbar-hide">
+      <ToastContainer
+      position='top-center'
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme='light'
+      />
       <div className="flex flex-col md:flex-row h-full gap-y-6 w-full justify-center items-center">
         <div className="flex flex-col md:h-full gap-y-6 w-36 h-36 md:w-1/3 relative m-6 justify-center items-center">
           <Image
@@ -71,6 +140,8 @@ export default function InstructorNewPage() {
               label="아이디"
               labelPlacement="inside"
               placeholder="이메일 형태로 입력해주세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -78,6 +149,8 @@ export default function InstructorNewPage() {
               label="임시 비밀번호"
               labelPlacement="inside"
               placeholder="비밀번호를 입력해주세요"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -85,13 +158,26 @@ export default function InstructorNewPage() {
               label="이름"
               labelPlacement="inside"
               placeholder="이름을 입력해주세요"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            ></Input>
+          </div>
+          <div className="w-full">
+            <Input
+              label="성별"
+              labelPlacement="inside"
+              placeholder="성별을 입력해주세요"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
             <Input
               label="생년월일"
               labelPlacement="inside"
-              placeholder="생년월일을 입력해주세요(ex.1990-01-01)"
+              placeholder="생년월일을 입력해주세요(ex.19900518)"
+              value={birth}
+              onChange={(e) => setBirth(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -99,13 +185,17 @@ export default function InstructorNewPage() {
               label="지역"
               labelPlacement="inside"
               placeholder="지역을 입력해주세요"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
             <Input
               label="연락처"
               labelPlacement="inside"
-              placeholder="연락처를 입력해주세요(ex.010-1234-5678)"
+              placeholder="연락처를 입력해주세요(ex.01012345678)"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -127,6 +217,9 @@ export default function InstructorNewPage() {
               </SelectItem>
               <SelectItem value="experience" key="experience">
                 체험다이빙
+              </SelectItem>
+              <SelectItem value="underwater" key="underwater">
+                언더워터
               </SelectItem>
             </Select>
           </div>
@@ -169,13 +262,18 @@ export default function InstructorNewPage() {
             </div>
         </div>
         <div className="w-full flex flex-col gap-y-2">
-            
             <Textarea
               label="비고"
               placeholder="비고를 입력해주세요"
+              value={etc}
+              onChange={(e) => setEtc(e.target.value)}
             ></Textarea>
 
         </div>
+        <div className="flex justify-end mb-12 w-full">
+        <Button isLoading={isSave} color="primary" onPress={handleSave}>저장</Button>
+        </div>
+        
       </div>
     </div>
   );

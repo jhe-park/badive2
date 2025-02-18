@@ -31,7 +31,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import Tiptap from "./components/Tiptap";
-
+import { ToastContainer, toast } from "react-toastify";
 export default function InstructorNewPage() {
   const {
     isOpen: isOpenAddInstructor,
@@ -45,100 +45,52 @@ export default function InstructorNewPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [certifications, setCertifications] = useState([]);
   const [certification, setCertification] = useState("");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
-  const handleUploadImage = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+  const handleSaveFaq = async () => {
+    const { data, error } = await supabase
+      .from("faq")
+      .insert({ question, answer });
 
-    // FileReader를 사용하여 로컬 이미지를 URL로 변환
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
+    if (error) {
+      console.error("Error saving faq:", error);
+      // toast.error("FAQ 저장에 실패했습니다.");
+    } else {
+      setIsSave(true);
+      // toast.success("FAQ가 성공적으로 저장되었습니다.");
+      router.push("/admin/faq?result=success");
+    }
   };
 
-  console.log("selectedProgram:", selectedProgram);
-  console.log("imageUrl:", imageUrl);
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col h-full gap-y-6 w-full justify-center items-center">
-        <div className="flex relative aspect-square h-[50vh]">
-          <Image
-            src={imageUrl || "/noimage/noimage.jpg"}
-            alt="program-image"
-            fill
-            className="rounded-2xl"
-          ></Image>
 
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={handleUploadImage}
-          />
-          <LuCirclePlus
-            onClick={() => document.getElementById("fileInput").click()}
-            className="text-white text-5xl absolute inset-0 m-auto hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
-          />
-        </div>
+    <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col gap-y-6 w-full justify-center items-center">
+
         <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
           <div className="w-full">
             <Input
-              label="제목"
+              label="질문"
               labelPlacement="inside"
-              placeholder="생년월일을 입력해주세요(ex.1990-01-01)"
+              placeholder="질문을 입력해주세요"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
             ></Input>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-y-6 mt-6">
-        <div className="w-full flex justify-end text-lg text-white">
-          <Button
-            startContent={<LuCirclePlus className="text-white text-lg" />}
-            color="primary"
-            onPress={onOpenAddInstructor}
-          >
-            강사등록
-          </Button>
-        </div>
-        <div className="w-full flex flex-col gap-y-2">
-          <Table
-            classNames={{ wrapper: "p-0" }}
-            aria-label="Example static collection table"
-            shadow="none"
-            fullWidth
-          >
-            <TableHeader>
-              <TableColumn>이름</TableColumn>
-              <TableColumn>금액설정</TableColumn>
-              <TableColumn>지역설정</TableColumn>
-              <TableColumn>인원설정</TableColumn>
-            </TableHeader>
-            <TableBody>
-              <TableRow key="1">
-                <TableCell>이세원 강사</TableCell>
-                <TableCell>100,000원</TableCell>
-                <TableCell>서울</TableCell>
-                <TableCell>10명</TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>정은지 강사</TableCell>
-                <TableCell>100,000원</TableCell>
-                <TableCell>서울</TableCell>
-                <TableCell>10명</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
+      <div className="flex flex-col justify-center items-center mt-6">
        
         <div className="w-full flex flex-col gap-y-2 mb-6">
             
-          <Tiptap></Tiptap>
+          <Tiptap answer={answer} setAnswer={setAnswer}></Tiptap>
         </div>
+        <Button isLoading={isSave} color="primary" onPress={handleSaveFaq}>저장</Button>
       </div>
       <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>
         <ModalContent>
@@ -162,7 +114,7 @@ export default function InstructorNewPage() {
               </ModalBody>
               <ModalFooter>
                 
-                <Button color="primary" onPress={onClose}>
+                <Button  color="primary" onPress={onClose}>
                   저장
                 </Button>
               </ModalFooter>

@@ -20,38 +20,46 @@ import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { debounce } from "lodash";
+
 export default function SearchTable() {
-  const [selectedSort, setSelectedSort] = useState("name");
-  const [instructor, setInstructor] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("title");
+  const [faq, setFaq] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const [search, setSearch] = useState("");
 
-  const pageSize = 10;
+  const pageSize = 5;
 
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchInstructor = async () => {
-      const { data, error, count } = await supabase
-        .from("instructor")
+    const fetchFaq = debounce(async () => {
+      let query = supabase
+        .from("tour")
         .select("*", { count: "exact" })
+        .order("created_at", { ascending: false })
         .range((page - 1) * pageSize, page * pageSize - 1);
 
+      if (search) {
+        query = query.or(`${selectedFilter}.ilike.%${search}%`);
+      }
+
+      const { data, error, count } = await query;
+
       if (error) {
-        console.log("Error fetching instructor:", error);
+        console.log("Error fetching faq:", error);
       } else {
-        setInstructor(data);
+        setFaq(data);
         setTotal(Math.ceil(count / pageSize));
         setIsLoading(false);
       }
-    };
-    fetchInstructor();
-  }, [page, pageSize]);
-  console.log("total:", total);
-  console.log("instructor:", instructor);
-  console.log("selectedSort:", selectedSort);
+    }, 500); // 0.5초 지연
+
+    fetchFaq();
+  }, [page, pageSize, search, selectedFilter]);
 
   return (
     <>
@@ -67,89 +75,96 @@ export default function SearchTable() {
           placeholder="검색어를 입력해주세요"
           label="검색"
           endContent={<FaSearch />}
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
         ></Input>
         <Select
-          label="정렬기준"
-          selectedKeys={[selectedSort]}
-          onChange={(e) => setSelectedSort(e.target.value)}
+          label="검색기준"
+          selectedKeys={[selectedFilter]}
+          onChange={(e) => setSelectedFilter(e.target.value)}
         >
-          <SelectItem className="text-medium" value="name" key="name">
-            이름
-          </SelectItem>
-          <SelectItem className="text-medium" value="birth" key="birth">
-            생년월일
+          <SelectItem className="text-medium" value="title" key="title">
+            제목
           </SelectItem>
           <SelectItem className="text-medium" value="region" key="region">
             지역
           </SelectItem>
-          <SelectItem className="text-medium" value="gender" key="gender">
-            성별
+          <SelectItem className="text-medium" value="date" key="date">
+            날짜
           </SelectItem>
-          <SelectItem className="text-medium" value="phone" key="phone">
-            연락처
+          <SelectItem className="text-medium" value="status" key="status">
+            상태
           </SelectItem>
-          <SelectItem className="text-medium" value="role" key="role">
-            소속
-          </SelectItem>
+          
         </Select>
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <Table aria-label="Example table with dynamic content" shadow="none">
-          <TableHeader>
-            <TableColumn key="no" className="text-center w-1/7">
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full my-12">
+            <Spinner label="로딩중" className="text-xl" />
+          </div>
+        ) : (
+          <>
+          <Table aria-label="Example table with dynamic content" shadow="none">
+            <TableHeader>
+              <TableColumn key="no" className="text-center w-1/6">
               No.
             </TableColumn>
-            <TableColumn key="image" className="text-center w-1/7">
-              이미지
+            <TableColumn key="image" className="text-center w-1/6">
+              제목
             </TableColumn>
-            <TableColumn key="name" className="text-center w-1/7">
-              이름
+            <TableColumn key="region" className="text-center w-1/6">
+              지역
             </TableColumn>
-            <TableColumn key="manage" className="text-center w-1/7">
-              국가/지역
-            </TableColumn>
-            <TableColumn key="manage" className="text-center w-1/7">
+            
+            <TableColumn key="date" className="text-center w-1/6">
               날짜
             </TableColumn>
-            <TableColumn key="manage" className="text-center w-1/7">
+            <TableColumn key="status" className="text-center w-1/6">
               상태
             </TableColumn>
-            <TableColumn key="manage" className="text-center w-1/7">
+            <TableColumn key="manage" className="text-center w-1/6">
               관리
             </TableColumn>
           </TableHeader>
           <TableBody
             loadingContent={<Spinner label="로딩중" className="text-xl" />}
           >
-            <TableRow>
-              <TableCell className="text-center">1</TableCell>
-              <TableCell className="text-center">
+            {faq.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="text-center">{index + 1}</TableCell>
+                <TableCell className="text-center">{item.title}</TableCell>
+                <TableCell className="text-center">{item.region}</TableCell>
                 
-                <image src="/program4/contents1_1.png" mode="" className="w-12 h-12 object-cover"/>
-                
-                
-              </TableCell>
-              <TableCell className="text-center">필리판 코론</TableCell>
-              <TableCell className="text-center">필리판 코론</TableCell>
-              <TableCell className="text-center">2025-01-01~2025-01-05</TableCell>
-              <TableCell className="text-center">모집중</TableCell>
-              <TableCell className="text-center">
-                <Button
-                  color="primary"
-                  variant="solid"
-                  onPress={() => router.push("/admin/tour/1")}
-                >
-                  자세히보기
-                </Button>
-              </TableCell>
-            </TableRow>
-            
+                <TableCell className="text-center">{item.date}</TableCell>
+                <TableCell className="text-center">{item.status}</TableCell>
+                <TableCell className="text-center">
+                  <Button
+                    color="primary"
+                    onPress={() => router.push(`/admin/tour/${item.id}`)}
+                  >
+                    수정
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
-        </Table>
+          </Table>
+
         <div className="flex justify-center items-center ">
-          <Pagination initialPage={1} page={page} total={total} />
+          <Pagination initialPage={1} page={page} total={total} onChange={(e) => setPage(e)} />
         </div>
-      </div>
+        </>
+      )}
+      </div>  
     </>
   );
+}
+
+function removeImgTags(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const images = doc.querySelectorAll('img');
+  images.forEach(img => img.remove());
+  return doc.body.innerHTML;
 }
