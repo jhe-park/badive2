@@ -26,6 +26,7 @@ const handler = NextAuth({
     callbacks: {
         async signIn({ user, account, profile }) {
             // user, account, profile 중 하나라도 값이 있는지 확인
+            console.log("123444")
             if (!user && !account && !profile) {
                 console.log('인증 정보가 없습니다');
                 return false;
@@ -73,17 +74,17 @@ const handler = NextAuth({
             }
             console.log("로긴시도!")
             // 세션 생성 및 쿠키 설정을 위한 수정된 로그인 처리
-            const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-                email,
-                password: 'defaultPassword'
-            });
+            // const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+            //     email,
+            //     password: 'defaultPassword'
+            // });
             
-            console.log("로긴하자")
-            if (loginError) {
-                console.error('Login error:', loginError);
-                return false;
-            }
-            console.log("로긴성공!")
+            // console.log("로긴하자")
+            // if (loginError) {
+            //     console.error('Login error:', loginError);
+            //     return false;
+            // }
+            // console.log("로긴성공!")
 
             return true;
         }
