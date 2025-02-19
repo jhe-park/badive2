@@ -65,8 +65,6 @@ export default function MemberNewPage({params}) {
     } else {
       console.log("Reservation fetched successfully:", data);
       setReservation(data);
-      const total = data.reduce((sum, item) => sum + (item?.amount || 0), 0);
-      setTotalAmount(total);
     }
 
   };
@@ -109,8 +107,8 @@ export default function MemberNewPage({params}) {
     }
   };
 
-  console.log('selectedProgram:',selectedProgram);
-  console.log('imageUrl:',imageUrl);
+  
+  
   return (
     <div className="flex flex-col w-full min-h-screen gap-y-6 p-4">
       <div className="flex flex-col md:flex-row gap-y-6 w-full justify-center items-center">
@@ -214,12 +212,12 @@ export default function MemberNewPage({params}) {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-y-6 w-full">
-        <ProgramTable member={member}></ProgramTable>
+        <ProgramTable member={member} totalAmount={totalAmount} setTotalAmount={setTotalAmount}></ProgramTable>
         <TourTable member={member}></TourTable>
       </div>
       <div className="flex flex-col justify-center items-center w-full">
         <Textarea value={etc} onChange={(e)=>setEtc(e.target.value)} label="비고" placeholder="비고를 입력해주세요" />
-        <div className="flex justify-end items-center gap-y-6 mt-6 w-full">
+        <div className="flex justify-end items-center gap-y-6 mt-6 w-full mb-12">
             <Button isLoading={isSave} color="primary" onPress={handleSave}>저장</Button>
         </div>
         

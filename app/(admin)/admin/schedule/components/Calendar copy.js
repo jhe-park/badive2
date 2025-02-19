@@ -10,20 +10,7 @@ import { useSelectedResult } from "@/app/store/useSelectedResult";
 // import Image from "next/image";
 import { Skeleton } from "@heroui/skeleton";
 import { createClient } from "@/utils/supabase/client";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Image,
-  Divider,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Button,
-} from "@heroui/react";
+import { Card, CardBody, CardFooter, Image, Divider,Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button } from "@heroui/react";
 
 export default function Calendar() {
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -42,60 +29,59 @@ export default function Calendar() {
   const [filteredUserReservations, setFilteredUserReservations] =
     useState(null);
   const [timeslots, setTimeslots] = useState([]);
-  const [isSelected, setIsSelected] = useState(true);
-  const [selectedInstructorName, setSelectedInstructorName] = useState(null);
-  console.log("timeslots:", timeslots);
+
   const supabase = createClient();
   const instructorRef = useRef(null);
   console.log("selectedMonth:", selectedMonth);
   console.log("selectedInstructor:", selectedInstructor);
-  const getInstructors = async () => {
-    const { data: instructors, error: instructorsError } = await supabase
-      .from("instructor")
-      .select("*");
-    if (instructorsError) {
-      console.log("강사 조회 중 에러 발생:", instructorsError);
-      return;
-    }
-    if (instructors) {
-      setInstructors(instructors);
-    }
-  };
 
   useEffect(() => {
+    const getInstructors = async () => {
+      const { data: instructors, error: instructorsError } = await supabase
+        .from("instructor")
+        .select("*");
+      if (instructorsError) {
+        console.log("강사 조회 중 에러 발생:", instructorsError);
+        return;
+      }
+      if (instructors) {
+        setInstructors(instructors);
+      }
+    };
+
     getInstructors();
   }, []);
 
-  useEffect(() => {}, []);
-  const getReservations = async () => {
-    try {
-      const { data: reservation, error: reservationError } = await supabase
-        .from("reservation")
-        .select("*,time_slot_id(*,program_id(*)),user_id(*)")
-        .ilike("time_slot_id.date", `${selectedMonth}%`)
-        .not("time_slot_id", "is", null)
-        .neq("status", "취소완료");
-
-      if (reservationError) {
-        console.log("예약 조회 중 에러 발생:", reservationError);
-        return;
-      }
-      if (reservation) {
-        // const filteredReservation = reservation.filter(item => item.time_slot_id !== null);
-        setUserReservations(reservation);
-      }
-    } catch (err) {
-      console.log("예약 조회 중 에러 발생:", err);
-    }
-  };
   useEffect(() => {
+    const getReservations = async () => {
+      try {
+        const { data: reservation, error: reservationError } = await supabase
+          .from("reservation")
+          .select("*,time_slot_id(*,program_id(*)),user_id(*)")
+          .ilike("time_slot_id.date", `${selectedMonth}%`)
+          .not("time_slot_id", "is", null)
+          .neq("status", "취소완료");
+
+        if (reservationError) {
+          console.log("예약 조회 중 에러 발생:", reservationError);
+          return;
+        }
+        if (reservation) {
+          // const filteredReservation = reservation.filter(item => item.time_slot_id !== null);
+          setUserReservations(reservation);
+        }
+      } catch (err) {
+        console.log("예약 조회 중 에러 발생:", err);
+      }
+    };
+
     if (selectedMonth) {
       getReservations();
     }
   }, [selectedMonth]);
 
   useEffect(() => {
-    if (userReservations.length > 0 && instructors.length > 0) {
+    if (userReservations && instructors) {
       const updatedInstructors = instructors.map((instructor) => {
         const reservationCount = userReservations.filter(
           (reservation) =>
@@ -216,7 +202,13 @@ export default function Calendar() {
       setFilteredUserReservations(null);
     }
   }, [selectedInstructor, userReservations]);
-  console.log("instructors:", instructors);
+
+  //   console.log('filteredUserReservations:',filteredUserReservations);
+  //   console.log('instructors:',instructors);
+  //   console.log('timeslots:',timeslots);
+  //   console.log('userReservations:',userReservations);
+  console.log("selectedResult:", selectedResult);
+
   return (
     <div className="w-full h-full flex flex-col gap-4 items-center justify-start">
       <div className="flex w-full justify-start gap-x-4">
@@ -234,20 +226,14 @@ export default function Calendar() {
           ))}
         </Select>
         <Select
-          color={!selectedInstructorName ? "danger" : "default"}
-          selectedKeys={[selectedInstructorName]}
-          onChange={(e) => setSelectedInstructorName(e.target.value)}
+          selectedKeys={[selectedInstructor]}
+          onChange={(e) => setSelectedInstructor(e.target.value)}
           label="강사"
           className="w-full md:w-1/3"
           placeholder="강사 선택"
-          isRequired={true}
         >
           {instructors.map((instructor) => (
-            <SelectItem
-              onPress={() => handleInstructorClick(instructor)}
-              key={instructor.name}
-              value={instructor.name}
-            >
+            <SelectItem key={instructor.id} value={instructor.id}>
               {instructor.name}
             </SelectItem>
           ))}
@@ -293,8 +279,7 @@ export default function Calendar() {
             return (
               reservationDate.getFullYear() === currentDate.getFullYear() &&
               reservationDate.getMonth() === currentDate.getMonth() &&
-              reservationDate.getDate() === day &&
-              reservation.status !== "예약불가"
+              reservationDate.getDate() === day
             );
           });
 
@@ -335,41 +320,33 @@ export default function Calendar() {
           );
         })}
       </div>
-      <div className="w-full overflow-x-auto">
-        <Table
-          classNames={{
-            wrapper: "p-0 min-w-full whitespace-nowrap",
-          }}
-          aria-label="강사별 예약 현황"
-          shadow="none"
-        >
-          <TableHeader>
-            <TableColumn className="text-center w-[100px]">구분</TableColumn>
-            {instructors.map((instructor) => (
-              <TableColumn
-                key={instructor.id}
-                className="text-center w-[100px]"
-              >
-                {instructor.name}
-              </TableColumn>
-            ))}
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="text-center whitespace-nowrap">
-                예약건수
-              </TableCell>
-              {instructors.map((instructor) => (
-                <TableCell
-                  key={instructor.id}
-                  className="text-center whitespace-nowrap"
-                >
-                  {instructor.count}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
+      <div
+        ref={instructorRef}
+        className="gap-2 flex flex-col md:flex-row flex-wrap w-full md:w-[80%] justify-evenly items-center"
+      >
+        {instructors.map((item, index) => (
+          /* eslint-disable no-console */
+          <div
+            key={index}
+            className={`w-full md:w-[20%] h-20 md:h-32 rounded-lg p-2  flex flex-col justify-center items-start hover:cursor-pointer transition-all duration-300 ${
+              selectedInstructor?.id === item.id
+                ? "bg-primary text-white"
+                : "bg-gray-200 hover:bg-gray-300"
+            }`}
+            shadow="none"
+            onClick={() => handleInstructorClick(item)}
+          >
+            <div className="w-full text-center text-sm md:text-lg font-bold">
+              {item?.name}
+            </div>
+            <Divider
+              className={`w-full my-2 ${selectedInstructor?.id === item.id ? "bg-white" : ""}`}
+            />
+            <div className="w-full text-center text-bold text-sm md:text-lg">
+              {item?.count}
+            </div>
+          </div>
+        ))}
       </div>
 
       <SelectModal
@@ -382,9 +359,6 @@ export default function Calendar() {
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
-        isSelected={isSelected}
-        setIsSelected={setIsSelected}
-        getReservations={getReservations}
       />
     </div>
   );

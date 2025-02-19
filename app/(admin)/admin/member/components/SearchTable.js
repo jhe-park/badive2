@@ -78,10 +78,13 @@ export default function SearchTable() {
       if (reservationError) {
         console.log("Error fetching reservations:", reservationError);
       } else {
-        // 각 사용자별 amount 합계 계산
+        // 각 사용자별 amount 합계 계산 (취소완료 제외)
         const userTotalAmounts = reservationData.reduce((acc, reservation) => {
           const userId = reservation.user_id;
-          acc[userId] = (acc[userId] || 0) + (reservation.amount || 0);
+          // status가 '취소완료'가 아닌 경우에만 합산
+          if (reservation.status !== '취소완료') {
+            acc[userId] = (acc[userId] || 0) + (reservation.amount || 0);
+          }
           return acc;
         }, {});
 

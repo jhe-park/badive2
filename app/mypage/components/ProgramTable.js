@@ -62,7 +62,6 @@ export default function ProgramTable({ profile }) {
     let query = supabase
       .from("reservation")
       .select("*,time_slot_id(*, program_id(*), instructor_id(*))", {
-
         count: "exact",
       })
       .eq("user_id", profile?.id)
@@ -129,39 +128,40 @@ export default function ProgramTable({ profile }) {
   };
 
   const handleConfirmRequest = async (onClose) => {
+    //날짜 계산하기
+    // 프로그램 실행 날짜와 현재 날짜 가져오기
+    const programDate = new Date(selectedProgram.time_slot_id.date);
+    const today = new Date();
 
-//날짜 계산하기
-      // 프로그램 실행 날짜와 현재 날짜 가져오기
-      const programDate = new Date(selectedProgram.time_slot_id.date);
-      const today = new Date();
-      
-      // 날짜 차이 계산 (밀리초를 일로 변환)
-      const diffTime = programDate.getTime() - today.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // 날짜 차이 계산 (밀리초를 일로 변환)
+    const diffTime = programDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      // 지난 프로그램인 경우
-      if (diffDays < 0) {
-        toast.error("지난 프로그램은 환불이 불가능합니다.");
-        return;
-      }
+    // 지난 프로그램인 경우
+    if (diffDays < 0) {
+      toast.error("지난 프로그램은 환불이 불가능합니다.");
+      return;
+    }
 
-      // 1일 이내 취소
-      if (diffDays <= 1) {
-        toast.error("교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.");
-        return;
-      }
+    // 1일 이내 취소
+    if (diffDays <= 1) {
+      toast.error("교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.");
+      return;
+    }
 
-      // 환불 금액 계산
-      let refundAmount = selectedProgram.time_slot_id.program_id.price*selectedProgram.participants;
-      
-      if (diffDays <= 7) {
-        // 7일 이내: 100% 환불
-        refundAmount = refundAmount;
-      } else {
-        // 7일 초과: 100% 환불
-        console.log("100% 환불")
-      }
-      console.log("refundAmount:", refundAmount);
+    // 환불 금액 계산
+    let refundAmount =
+      selectedProgram.time_slot_id.program_id.price *
+      selectedProgram.participants;
+
+    if (diffDays <= 7) {
+      // 7일 이내: 100% 환불
+      refundAmount = refundAmount;
+    } else {
+      // 7일 초과: 100% 환불
+      console.log("100% 환불");
+    }
+    console.log("refundAmount:", refundAmount);
 
     onClose();
     onDetailOpenChange();
@@ -193,28 +193,21 @@ export default function ProgramTable({ profile }) {
       // 토스페이먼츠 결제 취소 요청
       const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
 
-      
-
       const encryptedSecretKey =
-      'Basic ' + Buffer.from(secretKey + ':').toString('base64');
+        "Basic " + Buffer.from(secretKey + ":").toString("base64");
       const url = `https://api.tosspayments.com/v1/payments/${selectedProgram.payment_key}/cancel`;
-      const paymentResponse = await fetch(
-        url,
-        {
+      const paymentResponse = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: encryptedSecretKey,
+          "Content-Type": "application/json",
+        },
 
-          method: "POST",
-          headers: {
-            Authorization: encryptedSecretKey,
-            "Content-Type": "application/json",
-            
-          },
-
-          body: JSON.stringify({
-            cancelReason: "사용자 예약 취소",
-            cancelAmount: refundAmount,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          cancelReason: "사용자 예약 취소",
+          cancelAmount: refundAmount,
+        }),
+      });
 
       if (!paymentResponse.ok) {
         console.log("결제 취소 실패:", paymentResponse);
@@ -225,7 +218,7 @@ export default function ProgramTable({ profile }) {
     }
   };
   console.log("currentPage:", currentPage);
-  console.log()
+  console.log();
 
   return (
     <div className="w-full flex-col justify-center items-center space-y-5 h-full">
@@ -308,7 +301,9 @@ export default function ProgramTable({ profile }) {
                       {item?.time_slot_id?.program_id?.title}
                     </TableCell>
                     <TableCell className="text-center whitespace-nowrap">
-                      {item?.time_slot_id?.date+" "+item?.time_slot_id?.start_time}
+                      {item?.time_slot_id?.date +
+                        " " +
+                        item?.time_slot_id?.start_time}
                     </TableCell>
                     <TableCell className="text-center whitespace-nowrap">
                       {item?.time_slot_id?.program_id?.region}
