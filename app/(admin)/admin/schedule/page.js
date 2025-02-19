@@ -8,6 +8,7 @@ export default function SchedulePage() {
     return (
         <div className='w-full h-full flex flex-col gap-4'>
             <Calendar />
+            
         </div>
     );
 };
