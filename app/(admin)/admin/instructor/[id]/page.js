@@ -165,12 +165,12 @@ export default function InstructorNewPage({ params }) {
     setIsDelete(true);
     const { data, error } = await supabase
       .from("instructor")
-      .delete()
+      .update({ available: false })
       .eq("id", id);
     if (error) {
-      console.log("Error deleting data:", error);
+      console.log("Error updating availability:", error);
     } else {
-      console.log("Data deleted successfully:", data);
+      console.log("Instructor availability updated successfully:", data);
       setIsDelete(true);
       router.push("/admin/instructor");
     }

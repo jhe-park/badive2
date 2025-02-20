@@ -75,7 +75,7 @@ export default function Component() {
 
         {/* Copyright */}
         <div className="text-center text-sm text-gray-400">
-          ⓒBDN DIVE., ALL RIGHTS RESERVED
+          ⓒBADIVE., ALL RIGHTS RESERVED
         </div>
       </div>
     </footer>

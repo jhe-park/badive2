@@ -12,14 +12,14 @@ export default function WelcomePopup() {
     tab1: {
       name: 'BDN 다이빙투어',
       banners: [
-        { id: 1, title: '봄 세일', link: 'http://www.bdndive.co.kr/divingtours', image: '/popup/banner1.png' },
+        { id: 1, title: '봄 세일', link: 'http://www.badive.co.kr/divingtours', image: '/popup/banner1.png' },
         
       ]
     },
     tab2: {
       name: 'BDN 강사모집',
       banners: [
-        { id: 3, title: '서비스 업데이트', link: 'http://www.bdndive.co.kr/instructors/request', image: '/popup/banner2.png' },
+        { id: 3, title: '서비스 업데이트', link: 'http://www.badive.co.kr/instructors/request', image: '/popup/banner2.png' },
         
 
 

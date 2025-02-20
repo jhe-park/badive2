@@ -14,7 +14,7 @@ const KakaoLoginComponent = () => {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' 
         ? 'http://localhost:3000' 
-        : 'https://www.bdndive.co.kr';
+        : 'https://www.badive.co.kr';
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "kakao",

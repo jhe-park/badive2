@@ -8,15 +8,15 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function page({searchParams}) {
-  const {orderId,instructor_id, time_slot_id, user_id, participants, paymentKey, amount} = searchParams;
+  const {orderId,instructor_id, time_slot_id, user_id, participants, paymentKey, amount,pay_type} = searchParams;
 
-  console.log("받은 파라미터들:", {orderId, time_slot_id, user_id, participants, paymentKey,amount,instructor_id}); // 디버깅용
+  console.log("받은 파라미터들:", {orderId, time_slot_id, user_id, participants, paymentKey,amount,instructor_id,pay_type}); // 디버깅용
 
   // 결제 확인 로직
   try {
     const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' 
       ? 'http://localhost:3000' 
-      : 'https://www.bdndive.co.kr';
+      : 'https://www.badive.co.kr';
       
     const response = await fetch(`${baseUrl}/api/payment`, {
       method: "POST",
@@ -62,7 +62,8 @@ export default async function page({searchParams}) {
               participants: participants,
               payment_key: paymentKey,
               instructor_id: instructor_id,
-              amount: amount
+              amount: amount,
+              pay_type: pay_type
 
             }
           ]);

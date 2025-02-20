@@ -111,7 +111,7 @@ export default function RequestForm({ className, ...props }) {
           const params = {
             receiver: email,
             name: name,
-            title: "BDN DIVE 강사모집 신청서",
+            title: "BADIVE 강사모집 신청서",
             date: new Date().toISOString().split('T')[0]
           };
 
@@ -163,13 +163,13 @@ export default function RequestForm({ className, ...props }) {
         theme="light"
       />
       <div className="text-4xl font-bold leading-9 text-default-foreground">
-      BDN DIVE 강사모집 신청서
+      BADIVE 강사모집 신청서
       </div>
 
       <div className="py-4 text-default-500 bg-gray-100 rounded-lg p-6 w-full">
-        <p>※ BDN DIVE 강사모집 신청서 작성 안내</p>
+        <p>※ BADIVE 강사모집 신청서 작성 안내</p>
 
-        <p>BDN DIVE 강사모집에 신청해주셔서 감사드립니다.</p>
+        <p>BADIVE 강사모집에 신청해주셔서 감사드립니다.</p>
 
         <p>작성하신 정보는 거짓없이 진실된 정보만 적어주시면 감사하겠습니다.</p>
 

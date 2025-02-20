@@ -184,7 +184,7 @@ const Sidebar = React.forwardRef(
               isCompact ? null : item.icon ? (
                 <Icon
                   className={cn(
-                    "text-default-500 group-data-[selected=true]:text-foreground",
+                    "text-default-500 group-data-[selected=true]:text-foreground ",
                     iconClassName,
                   )}
                   icon={item.icon}

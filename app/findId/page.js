@@ -65,7 +65,7 @@ export default function Login(props) {
             />
             <div className="flex flex-col items-center gap-y-5">
                 <div>
-                    <p className="font-bold text-5xl">BDN DIVE</p>
+                    <p className="font-bold text-5xl">BADIVE</p>
                 </div>
                 <div>
                     <p className="text-small text-default-500 text-[24px]">로그인</p>

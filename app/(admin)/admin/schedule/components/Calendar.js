@@ -52,7 +52,8 @@ export default function Calendar() {
   const getInstructors = async () => {
     const { data: instructors, error: instructorsError } = await supabase
       .from("instructor")
-      .select("*");
+      .select("*")
+      .eq("available", true);
     if (instructorsError) {
       console.log("강사 조회 중 에러 발생:", instructorsError);
       return;

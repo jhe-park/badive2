@@ -150,10 +150,10 @@ export default function SelectComponent({
 
   async function requestPayment() {
     //기본적으로 생성되는 searchParams말고 필요한건 여기다가 더 적자
-    const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+    const successUrlWithParams = `${window.location.origin}/inquiries/complete?pay_type=${selectedPaymentMethod}&instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
     console.log("selectedPaymentMethod:", selectedPaymentMethod);
     switch (selectedPaymentMethod) {
-      case "CARD":
+      case "card":
         await payment.requestPayment({
           method: "CARD",
           amount: { currency: "KRW", value: selectedResult.totalPrice },
@@ -172,7 +172,7 @@ export default function SelectComponent({
           },
         });
         break;
-      case "TRANSFER":
+      case "transfer":
         await payment.requestPayment({
           method: "TRANSFER",
           amount: { currency: "KRW", value: selectedResult.totalPrice },
@@ -191,7 +191,7 @@ export default function SelectComponent({
           },
         });
         break;
-      case "VIRTUAL_ACCOUNT":
+      case "virtual_account":
         await payment.requestPayment({
           method: "VIRTUAL_ACCOUNT",
           amount: { currency: "KRW", value: selectedResult.totalPrice },
@@ -211,7 +211,7 @@ export default function SelectComponent({
           },
         });
         break;
-      case "MOBILE_PHONE":
+      case "mobile_phone":
         await payment.requestPayment({
           method: "MOBILE_PHONE",
           amount: { currency: "KRW", value: selectedResult.totalPrice },
@@ -224,7 +224,7 @@ export default function SelectComponent({
           customerMobilePhone: removeSpecialCharacters(profile.phone),
         });
         break;
-      case "CULTURE_GIFT_CERTIFICATE":
+      case "culture_gift_certificate":
         await payment.requestPayment({
           method: "CULTURE_GIFT_CERTIFICATE",
           amount: { currency: "KRW", value: selectedResult.totalPrice },
@@ -237,7 +237,7 @@ export default function SelectComponent({
           customerMobilePhone: removeSpecialCharacters(profile.phone),
         });
         break;
-      case "FOREIGN_EASY_PAY":
+      case "foregin_easy_pay":
         await payment.requestPayment({
           method: "FOREIGN_EASY_PAY",
           amount: {
@@ -444,7 +444,7 @@ export default function SelectComponent({
                   <Button
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
-                      setSelectedPaymentMethod("CARD");
+                      setSelectedPaymentMethod("card");
                     }}
                   >
                     <span className="text-3xl mb-2">💳</span>
@@ -453,7 +453,7 @@ export default function SelectComponent({
                   <Button
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
-                      setSelectedPaymentMethod("VIRTUAL_ACCOUNT");
+                      setSelectedPaymentMethod("virtual_account");
                     }}
                   >
                     <span className="text-3xl mb-2">🏦</span>
@@ -462,7 +462,7 @@ export default function SelectComponent({
                   <Button
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
-                      setSelectedPaymentMethod("TRANSFER");
+                      setSelectedPaymentMethod("transfer");
                     }}
                   >
                     <span className="text-3xl mb-2">🏧</span>
@@ -471,7 +471,7 @@ export default function SelectComponent({
                   <Button
                     className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
                     onPress={() => {
-                      setSelectedPaymentMethod("MOBILE_PHONE");
+                      setSelectedPaymentMethod("mobile_phone");
                     }}
                   >
                     <span className="text-3xl mb-2">📱</span>

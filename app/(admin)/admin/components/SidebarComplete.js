@@ -53,7 +53,7 @@ export default function Component({ children, user }) {
       >
         <div className="flex items-center gap-2 px-2">
           <Link href="/admin/main">
-            <span className="text-2xl font-bold uppercase">BDN DIVE</span>
+            <span className="text-2xl font-bold uppercase">BADIVE</span>
           </Link>
         </div>
         <Spacer y={8} />

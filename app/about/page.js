@@ -13,7 +13,7 @@ export default function page() {
           fill
         />
         <div className="absolute bottom-[2vh] left-[2vw] flex flex-col justify-center items-start md:gap-y-6">
-          <div className="text-medium md:text-[48px] font-bold">BDN DIVE,</div>
+          <div className="text-medium md:text-[48px] font-bold">BADIVE,</div>
           <div className="text-sm md:text-[32px] ">스쿠버다이빙, 프리다이빙, 머메이드 </div>
           <div className="text-sm md:text-[32px] ">
             라이센스 및 강사교육을 하는 전문 교육기관{" "}
@@ -116,7 +116,7 @@ export default function page() {
 
         </div>
         <div className="flex md:hidden w-[90%] h-full justify-center items-center flex-col gap-y-2">
-          <p className="flex md:hidden text-lg font-bold">BDN DIVE 국내 상위 1% 다이빙 강사진</p>
+          <p className="flex md:hidden text-lg font-bold">BADIVE 국내 상위 1% 다이빙 강사진</p>
           <p className="flex md:hidden text-sm text-center line-clamp-6">
             “BDN 다이빙 강사진들은 수천회의 다이빙 경험과 다양한 다이빙
             환경에서의 실전 경험을 바탕으로, 초보강습부터 강사 라이센스

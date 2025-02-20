@@ -39,7 +39,8 @@ export default function SearchTable() {
       let query = supabase
         .from("instructor")
         .select("*", { count: "exact" })
-        .range((page - 1) * pageSize, page * pageSize - 1);
+        .range((page - 1) * pageSize, page * pageSize - 1)
+        .eq('available', true);
 
       if (search) {
         query = query.ilike(selectedSort, `%${search}%`);
