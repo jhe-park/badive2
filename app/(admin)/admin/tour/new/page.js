@@ -31,7 +31,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import Tiptap from "./components/Tiptap";
+import Tiptap from "@/components/Tiptap/Tiptap";
 import DateEdit from "./components/DateEdit";
 
 export default function InstructorNewPage() {

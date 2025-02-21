@@ -43,8 +43,12 @@ export default function InstructorNewPage() {
   const [selectedRole, setSelectedRole] = useState("bdn");
   const [selectedProgram, setSelectedProgram] = useState(["scuba"]);
   const [imageUrl, setImageUrl] = useState("");
+  const [title, setTitle] = useState("");
   const [certifications, setCertifications] = useState([]);
   const [certification, setCertification] = useState("");
+  const [instructor, setInstructor] = useState([]);
+  const [category, setCategory] = useState("스쿠버다이빙");
+  const categoryList=['스쿠버다이빙','프리다이빙','머메이드','언더워터','체험다이빙']
   const router = useRouter();
   const supabase = createClient();
 
@@ -52,12 +56,31 @@ export default function InstructorNewPage() {
     const file = event.target.files[0];
     if (!file) return;
 
-    // FileReader를 사용하여 로컬 이미지를 URL로 변환
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
+    // Supabase 스토리지에 이미지 업로드
+    const { data, error } = await supabase.storage
+      .from("program") // 'resort'는 스토리지 버킷 이름입니다.
+      .upload(`${uuidv4()}`, file);
+
+    if (error) {
+      console.error("Error uploading image:", error);
+      return;
+    }
+    console.log("data:", data);
+
+    // 업로드된 이미지의 URL 가져오기
+    const {
+      data: { publicUrl },
+      error: urlError,
+    } = supabase.storage.from("program").getPublicUrl(data.path);
+    console.log("publicURL:", publicUrl);
+
+    if (urlError) {
+      console.error("Error getting public URL:", urlError);
+      return;
+    }
+
+    // 이미지 URL 설정
+    setImageUrl(publicUrl);
   };
 
   console.log("selectedProgram:", selectedProgram);
@@ -89,8 +112,27 @@ export default function InstructorNewPage() {
             <Input
               label="제목"
               labelPlacement="inside"
-              placeholder="생년월일을 입력해주세요(ex.1990-01-01)"
+              placeholder="제목을 입력해주세요"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             ></Input>
+            
+          </div>
+          <div className="w-full">
+            <Select
+              label="카테고리"
+              labelPlacement="inside"
+              placeholder="카테고리를 입력해주세요"
+              selectedKeys={[category]}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {categoryList.map((item, index) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </Select>
+            
           </div>
         </div>
       </div>

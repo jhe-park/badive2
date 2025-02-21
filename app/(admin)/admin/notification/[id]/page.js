@@ -30,7 +30,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import Tiptap from "./components/Tiptap";
+import Tiptap from '@/components/Tiptap/Tiptap'
 import { ToastContainer, toast } from "react-toastify";
 
 export default function NotificationEditPage({params}) {

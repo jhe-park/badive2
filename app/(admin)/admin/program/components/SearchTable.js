@@ -20,38 +20,47 @@ import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { debounce } from "lodash";
+import Image from "next/image";
+
 export default function SearchTable() {
-  const [selectedSort, setSelectedSort] = useState("name");
-  const [instructor, setInstructor] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("title");
+  const [faq, setFaq] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const [search, setSearch] = useState("");
 
-  const pageSize = 10;
+  const pageSize = 5;
 
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchInstructor = async () => {
-      const { data, error, count } = await supabase
-        .from("instructor")
-        .select("*", { count: "exact" })
+    const fetchFaq = debounce(async () => {
+      let query = supabase
+        .from("program")
+        .select("*,instructor_id(*)", { count: "exact" })
+        .order("created_at", { ascending: false })
         .range((page - 1) * pageSize, page * pageSize - 1);
 
+      if (search) {
+        query = query.or(`${selectedFilter}.ilike.%${search}%`);
+      }
+
+      const { data, error, count } = await query;
+
       if (error) {
-        console.log("Error fetching instructor:", error);
+        console.log("Error fetching faq:", error);
       } else {
-        setInstructor(data);
+        setFaq(data);
         setTotal(Math.ceil(count / pageSize));
         setIsLoading(false);
       }
-    };
-    fetchInstructor();
-  }, [page, pageSize]);
-  console.log("total:", total);
-  console.log("instructor:", instructor);
-  console.log("selectedSort:", selectedSort);
+    }, 500); // 0.5초 지연
+
+    fetchFaq();
+  }, [page, pageSize, search, selectedFilter]);
 
   return (
     <>
@@ -63,77 +72,104 @@ export default function SearchTable() {
         >
           프로그램 등록
         </Button>
-        <Input placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
+        <Input
+          placeholder="검색어를 입력해주세요"
+          label="검색"
+          endContent={<FaSearch />}
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+        ></Input>
         <Select
-          label="정렬기준"
-          selectedKeys={[selectedSort]}
-          onChange={(e) => setSelectedSort(e.target.value)}
+          label="검색기준"
+          selectedKeys={[selectedFilter]}
+          onChange={(e) => setSelectedFilter(e.target.value)}
         >
-          <SelectItem className="text-medium" value="name" key="name">
-            이름
-          </SelectItem>
-          <SelectItem className="text-medium" value="birth" key="birth">
-            생년월일
+          <SelectItem className="text-medium" value="title" key="title">
+            제목
           </SelectItem>
           <SelectItem className="text-medium" value="region" key="region">
             지역
           </SelectItem>
-          <SelectItem className="text-medium" value="gender" key="gender">
-            성별
+          <SelectItem className="text-medium" value="region" key="region">
+            카테고리
           </SelectItem>
-          <SelectItem className="text-medium" value="phone" key="phone">
-            연락처
+          <SelectItem className="text-medium" value="region" key="region">
+            강사
           </SelectItem>
-          <SelectItem className="text-medium" value="role" key="role">
-            소속
-          </SelectItem>
+          
         </Select>
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <Table aria-label="Example table with dynamic content" shadow="none">
-          <TableHeader>
-            <TableColumn key="no" className="text-center w-1/4">
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full my-12">
+            <Spinner label="로딩중" className="text-xl" />
+          </div>
+        ) : (
+          <>
+          <Table aria-label="Example table with dynamic content" shadow="none">
+            <TableHeader>
+              <TableColumn key="no" className="text-center w-1/6">
               No.
             </TableColumn>
-            <TableColumn key="image" className="text-center w-1/4">
+            <TableColumn key="image" className="text-center w-1/6">
               이미지
             </TableColumn>
-            <TableColumn key="name" className="text-center w-1/4">
-              이름
+            <TableColumn key="title" className="text-center w-1/6">
+              제목
             </TableColumn>
-            <TableColumn key="manage" className="text-center w-1/4">
+            <TableColumn key="region" className="text-center w-1/6">
+              지역
+            </TableColumn>
+            <TableColumn key="category" className="text-center w-1/6">
+              카테고리
+            </TableColumn>
+            <TableColumn key="instructor" className="text-center w-1/6">
+              강사
+            </TableColumn>
+            <TableColumn key="manage" className="text-center w-1/6">
               관리
             </TableColumn>
           </TableHeader>
           <TableBody
-            
-            
             loadingContent={<Spinner label="로딩중" className="text-xl" />}
           >
-            <TableRow>
-              <TableCell className="text-center">1</TableCell>
-              <TableCell className="text-center">이미지</TableCell>
-              <TableCell className="text-center">이름</TableCell>
-              <TableCell className="text-center"><Button color="primary" variant='solid' onClick={() => router.push("/admin/program/1")} >자세히보기</Button></TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-center">1</TableCell>
-              <TableCell className="text-center">이미지</TableCell>
-              <TableCell className="text-center">이름</TableCell>
-              <TableCell className="text-center"><Button color="primary" variant='solid' onClick={() => router.push("/admin/program/1")} >자세히보기</Button></TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-center">1</TableCell>
-              <TableCell className="text-center">이미지</TableCell>
-              <TableCell className="text-center">이름</TableCell>
-              <TableCell className="text-center"><Button color="primary" variant='solid' onClick={() => router.push("/admin/program/1")} >자세히보기</Button></TableCell>
-            </TableRow>
+            {faq.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="text-center">{index + 1}</TableCell>
+                <TableCell className="text-center">
+                  <Image src={item.images} alt={item.title} width={100} height={100} />
+                </TableCell>
+                <TableCell className="text-center">{item.title}</TableCell>
+                <TableCell className="text-center">{item.region}</TableCell>
+                <TableCell className="text-center">{item.category}</TableCell>
+                <TableCell className="text-center">{item.instructor_id.name}</TableCell>
+                <TableCell className="text-center">
+                  <Button
+                    color="primary"
+                    onPress={() => router.push(`/admin/program/${item.id}`)}
+                  >
+                    수정
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
-        </Table>
+          </Table>
+
         <div className="flex justify-center items-center ">
-          <Pagination initialPage={1} page={page} total={total} />
+          <Pagination initialPage={1} page={page} total={total} onChange={(e) => setPage(e)} />
         </div>
-      </div>
+        </>
+      )}
+      </div>  
     </>
   );
+}
+
+function removeImgTags(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const images = doc.querySelectorAll('img');
+  images.forEach(img => img.remove());
+  return doc.body.innerHTML;
 }

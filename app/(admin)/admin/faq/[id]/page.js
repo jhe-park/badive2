@@ -29,7 +29,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import Tiptap from "./components/Tiptap";
+import Tiptap from "@/components/Tiptap/Tiptap";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function FaqEditPage({ params }) {
@@ -47,6 +47,7 @@ export default function FaqEditPage({ params }) {
   const [certification, setCertification] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [description, setDescription] = useState("");
   const [isSave, setIsSave] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const router = useRouter();
@@ -65,6 +66,7 @@ export default function FaqEditPage({ params }) {
       } else {
         setQuestion(data.question);
         setAnswer(data.answer);
+        setDescription(data.answer);
       }
     };
     fetchFaq();
@@ -120,7 +122,7 @@ export default function FaqEditPage({ params }) {
 
       <div className="flex flex-col justify-center items-center mt-6">
         <div className="w-full flex flex-col gap-y-2 mb-6">
-          <Tiptap answer={answer} setAnswer={setAnswer}></Tiptap>
+          <Tiptap description={description} setDescription={setDescription}></Tiptap>
         </div>
         <div className="flex flex-row gap-x-2 justify-end w-full">
           <Button isLoading={isSave} color="success" onPress={handleSaveFaq}>수정</Button>

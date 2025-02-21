@@ -2,13 +2,12 @@
 
 import { Input } from "@nextui-org/react";
 import { useState } from "react"
-import { FaChevronRight,FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
-const DateEdit: React.FC<{ date: string, setDate: (date: string) => void }> = ({ date, setDate }) => {
-  // const [date, setDate] = useState<string>("")
-  const [showCalendar, setShowCalendar] = useState<boolean>(false)
+const DateEdit = ({ date, setDate }) => {
+  const [showCalendar, setShowCalendar] = useState(false)
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDateChange = (e) => {
     setDate(e.target.value)
   }
 
@@ -16,7 +15,7 @@ const DateEdit: React.FC<{ date: string, setDate: (date: string) => void }> = ({
     setShowCalendar(!showCalendar)
   }
 
-  const selectDate = (selectedDate: Date) => {
+  const selectDate = (selectedDate) => {
     const year = selectedDate.getFullYear()
     const month = String(selectedDate.getMonth() + 1).padStart(2, "0")
     const day = String(selectedDate.getDate()).padStart(2, "0")
@@ -24,8 +23,8 @@ const DateEdit: React.FC<{ date: string, setDate: (date: string) => void }> = ({
     setShowCalendar(false)
   }
 
-  const Calendar: React.FC = () => {
-    const [currentMonth, setCurrentMonth] = useState<Date>(new Date())
+  const Calendar = () => {
+    const [currentMonth, setCurrentMonth] = useState(new Date())
 
     const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate()
     const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay()
