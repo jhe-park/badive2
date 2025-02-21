@@ -220,7 +220,7 @@ export default function Calendar() {
   console.log("instructors:", instructors);
   return (
     <div className="w-full h-full flex flex-col gap-4 items-center justify-start">
-      <div className="flex w-full justify-start gap-x-4">
+      <div className="flex flex-col md:flex-row w-full justify-start gap-x-4 gap-y-2">
         <Select
           selectedKeys={[selectedMonth]}
           onChange={(e) => setSelectedMonth(e.target.value)}

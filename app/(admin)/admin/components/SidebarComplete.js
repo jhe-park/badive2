@@ -43,7 +43,7 @@ export default function Component({ children, user }) {
   }, [pathname]);
 
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex h-screen w-full ">
       <div
         className={cn(
           "relative flex h-screen w-72 max-w-[288px] flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out",
@@ -86,7 +86,7 @@ export default function Component({ children, user }) {
           </Button>
         </div>
       </div>
-      <div className="w-full h-[100vh] flex flex-col gap-y-4 mx-1 md:mx-4 ">
+      <div className="w-[95%] md:w-full h-[100vh] flex flex-col gap-y-4 md:mx-4 mx-auto">
         <header
           className="flex items-center gap-3 rounded-medium border-small border-divider p-4 h-[10vh] w-full mt-4"
         >

@@ -132,13 +132,13 @@ export default function SearchTable() {
           >
             {faq.map((item, index) => (
               <TableRow key={index}>
-                <TableCell className="text-center">{index + 1}</TableCell>
-                <TableCell className="text-center">{item.title}</TableCell>
-                <TableCell className="text-center">{item.region}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{index + 1}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.title}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
                 
-                <TableCell className="text-center">{item.date}</TableCell>
-                <TableCell className="text-center">{item.status}</TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center whitespace-nowrap">{item.date}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.status}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">
                   <Button
                     color="primary"
                     onPress={() => router.push(`/admin/tour/${item.id}`)}

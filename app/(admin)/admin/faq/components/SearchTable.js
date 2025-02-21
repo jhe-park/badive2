@@ -123,17 +123,17 @@ export default function SearchTable() {
               >
                 {faq.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-center">{index + 1}</TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center whitespace-nowrap">{index + 1}</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">
                       {item.question}
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center whitespace-nowrap">
                       <div
                         className="text-sm"
                         dangerouslySetInnerHTML={{ __html: item.answer }}
                       ></div>
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center whitespace-nowrap">
                       <Button
                         color="primary"
                         onPress={() => router.push(`/admin/faq/${item.id}`)}

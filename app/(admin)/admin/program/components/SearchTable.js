@@ -31,21 +31,26 @@ export default function SearchTable() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const [programs, setPrograms] = useState([]);
 
   const pageSize = 5;
 
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchFaq = debounce(async () => {
+    const fetchPrograms = debounce(async () => {
       let query = supabase
         .from("program")
-        .select("*,instructor_id(*)", { count: "exact" })
+        .select("*,instructor:instructor_id(*)", { count: "exact" })
         .order("created_at", { ascending: false })
-        .range((page - 1) * pageSize, page * pageSize - 1);
-
+        .range((page - 1) * pageSize, page * pageSize - 1)
+        .not('instructor', 'is', null);
       if (search) {
-        query = query.or(`${selectedFilter}.ilike.%${search}%`);
+        if (selectedFilter === "instructor") {
+          query = query.eq('instructor.name', search);
+        } else {
+          query = query.or(`${selectedFilter}.ilike.%${search}%`);
+        }
       }
 
       const { data, error, count } = await query;
@@ -53,15 +58,16 @@ export default function SearchTable() {
       if (error) {
         console.log("Error fetching faq:", error);
       } else {
-        setFaq(data);
+        setPrograms(data);
         setTotal(Math.ceil(count / pageSize));
         setIsLoading(false);
       }
     }, 500); // 0.5초 지연
 
-    fetchFaq();
+    fetchPrograms();
   }, [page, pageSize, search, selectedFilter]);
-
+  console.log('selectedFilter', selectedFilter)
+  console.log('programs:', programs)
   return (
     <>
       <div className="flex flex-col md:flex-row gap-4 w-full px-4 mt-6 justify-between items-center">
@@ -90,10 +96,10 @@ export default function SearchTable() {
           <SelectItem className="text-medium" value="region" key="region">
             지역
           </SelectItem>
-          <SelectItem className="text-medium" value="region" key="region">
+          <SelectItem className="text-medium" value="category" key="category">
             카테고리
           </SelectItem>
-          <SelectItem className="text-medium" value="region" key="region">
+          <SelectItem className="text-medium" value="instructor" key="instructor">
             강사
           </SelectItem>
           
@@ -106,7 +112,7 @@ export default function SearchTable() {
           </div>
         ) : (
           <>
-          <Table aria-label="Example table with dynamic content" shadow="none">
+          <Table aria-label="Example table with dynamic content" shadow="none" className="whitespace-nowrap overflow-x-auto">
             <TableHeader>
               <TableColumn key="no" className="text-center w-1/6">
               No.
@@ -133,17 +139,17 @@ export default function SearchTable() {
           <TableBody
             loadingContent={<Spinner label="로딩중" className="text-xl" />}
           >
-            {faq.map((item, index) => (
+            {programs.map((item, index) => (
               <TableRow key={index}>
-                <TableCell className="text-center">{index + 1}</TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center whitespace-nowrap">{index + 1}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">
                   <Image src={item.images} alt={item.title} width={100} height={100} />
                 </TableCell>
-                <TableCell className="text-center">{item.title}</TableCell>
-                <TableCell className="text-center">{item.region}</TableCell>
-                <TableCell className="text-center">{item.category}</TableCell>
-                <TableCell className="text-center">{item.instructor_id.name}</TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center whitespace-nowrap ">{item.title}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.category}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.instructor?.name}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">
                   <Button
                     color="primary"
                     onPress={() => router.push(`/admin/program/${item.id}`)}

@@ -18,9 +18,11 @@ import {
 import { LuCirclePlus } from "react-icons/lu";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
+
 import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
+// import { createClient } from "@/utils/supabase/client";
+import {createClient} from '@/utils/supabase/client'
 
 export default function SearchTable() {
   const [selectedFilter, setSelectedFilter] = useState("title");

@@ -121,16 +121,16 @@ export default function SearchTable() {
           >
             {faq.map((item, index) => (
               <TableRow key={index}>
-                <TableCell className="text-center">{index + 1}</TableCell>
-                <TableCell className="text-center">{item.title}</TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center whitespace-nowrap">{index + 1}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.title}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">
                   <div
                     className="text-sm"
                     dangerouslySetInnerHTML={{ __html: removeImgTags(item.description) }}
                   ></div>
                 </TableCell>
-                <TableCell className="text-center">{item.pinned === "pinned" ? "고정" : "미고정"}</TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center whitespace-nowrap">{item.pinned === "pinned" ? "고정" : "미고정"}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">
                   <Button
                     color="primary"
                     onPress={() => router.push(`/admin/notification/${item.id}`)}

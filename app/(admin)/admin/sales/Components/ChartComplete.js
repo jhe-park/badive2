@@ -163,7 +163,7 @@ export default function ChartComplete() {
   console.log("tourInput:", tourInput);
   return (
     <div className="w-full h-full flex flex-col gap-4 ">
-      <div className="w-full flex flex-row gap-4">
+      <div className="w-full flex flex-col md:flex-row gap-4">
         <Select  label="시작년도" selectedKeys={[startYear]} onChange={(e) => setStartYear(e.target.value)} >
           <SelectItem key="2024" value="2024">2024년</SelectItem>
           <SelectItem key="2025" value="2025">2025년</SelectItem>
