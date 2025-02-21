@@ -25,7 +25,6 @@
     "@tiptap/pm": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
-    "@toast-ui/react-editor": "^3.2.3",
     "@tosspayments/tosspayments-sdk": "^2.3.4",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.0",
