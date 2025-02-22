@@ -41,13 +41,15 @@ export default function SearchTable() {
     const fetchPrograms = debounce(async () => {
       let query = supabase
         .from("program")
-        .select("*,instructor:instructor_id(*)", { count: "exact" })
+        .select("*, instructor_id(name)", { count: "exact" })
         .order("created_at", { ascending: false })
         .range((page - 1) * pageSize, page * pageSize - 1)
-        .not('instructor', 'is', null);
+        .not('instructor_id', 'is', null)
+        .eq('available', true);
+
       if (search) {
         if (selectedFilter === "instructor") {
-          query = query.eq('instructor.name', search);
+          query = query.ilike('instructor_id.name', `%${search}%`)
         } else {
           query = query.or(`${selectedFilter}.ilike.%${search}%`);
         }
@@ -148,13 +150,13 @@ export default function SearchTable() {
                 <TableCell className="text-center whitespace-nowrap ">{item.title}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">{item.category}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.instructor?.name}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.instructor_id?.name}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">
                   <Button
                     color="primary"
                     onPress={() => router.push(`/admin/program/${item.id}`)}
                   >
-                    수정
+                    자세히 보기
                   </Button>
                 </TableCell>
               </TableRow>

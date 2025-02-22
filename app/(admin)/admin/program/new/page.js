@@ -30,7 +30,8 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import Tiptap from "./components/Tiptap";
+import Tiptap from "@/components/Tiptap/Tiptap";
+import axios from "axios";
 
 export default function InstructorNewPage() {
   const {
@@ -47,10 +48,39 @@ export default function InstructorNewPage() {
   const [certifications, setCertifications] = useState([]);
   const [certification, setCertification] = useState("");
   const [instructor, setInstructor] = useState([]);
-  const [category, setCategory] = useState("스쿠버다이빙");
-  const categoryList=['스쿠버다이빙','프리다이빙','머메이드','언더워터','체험다이빙']
+  const [selectedCategory, setSelectedCategory] = useState("스쿠버다이빙");
+  const [selectedRegion, setSelectedRegion] = useState("서울");
+  const [selectedInstructor, setSelectedInstructor] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [selectedPerson, setSelectedPerson] = useState("");
+  const [isSave, setIsSave] = useState(false);
+  const categoryList = [
+    "스쿠버다이빙",
+    "프리다이빙",
+    "머메이드",
+    "언더워터",
+    "체험다이빙",
+  ];
+  const regionList = ["서울", "경기", "인천", "대전", "대구", "부산", "경남"];
+  const [tableData, setTableData] = useState([]);
   const router = useRouter();
   const supabase = createClient();
+
+  const getInstructor = async () => {
+    const { data, error } = await supabase
+      .from("instructor")
+      .select("*")
+      .eq("available", true);
+    if (error) {
+      console.error("Error getting instructor:", error);
+    } else {
+      setInstructor(data);
+    }
+  };
+
+  useEffect(() => {
+    getInstructor();
+  }, []);
 
   const handleUploadImage = async (event) => {
     const file = event.target.files[0];
@@ -83,8 +113,70 @@ export default function InstructorNewPage() {
     setImageUrl(publicUrl);
   };
 
-  console.log("selectedProgram:", selectedProgram);
-  console.log("imageUrl:", imageUrl);
+  const handleSaveInstructor = (onClose) => {
+    // tableData에 새로운 강사 정보를 추가합니다.
+    setTableData((prevData) => [
+      ...prevData,
+      {
+        instructor: selectedInstructor,
+        price: selectedPrice,
+        region: selectedRegion,
+        person: selectedPerson,
+      },
+    ]);
+    onClose();
+  };
+  const handleSaveProgram = async () => {
+    try {
+      setIsSave(true);
+      const newProgramData = tableData.map((item) => {
+        const instructorData = instructor.find(
+          (inst) => inst.name === item.instructor
+        );
+        return {
+          title,
+          category: selectedCategory,
+          images: imageUrl,
+          instructor_id: instructorData ? instructorData.id : null,
+          price: item.price,
+          region: item.region,
+          participants: item.person,
+        };
+      });
+
+      const { data, error } = await supabase
+        .from("program")
+        .insert(newProgramData)
+        .select('id')
+        
+      console.log('data:',data)
+      if (error) {
+        console.error("Error inserting program data:", error);
+      } else {
+        const completeData = data.id;
+        console.log('completeData:', completeData);
+
+        // 각 프로그램 데이터에 대해 axios 요청을 보냅니다.
+        newProgramData.forEach((programItem, index) => {
+          axios.get('https://sbnuq3lefmr32no276hqpr2rdm0wcmzf.lambda-url.ap-southeast-2.on.aws/create_timeslots/', {
+            params: {
+              instructor_id: parseInt(programItem.instructor_id),
+              program_id: parseInt(data[index].id),
+              max_participants: parseInt(programItem.participants)
+            }
+          });
+        });
+
+        setIsSave(true);
+        router.push("/admin/program");
+
+        console.log("Program data inserted successfully:", data);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full h-full">
       <div className="flex flex-col h-full gap-y-6 w-full justify-center items-center">
@@ -116,15 +208,14 @@ export default function InstructorNewPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             ></Input>
-            
           </div>
           <div className="w-full">
             <Select
               label="카테고리"
               labelPlacement="inside"
               placeholder="카테고리를 입력해주세요"
-              selectedKeys={[category]}
-              onChange={(e) => setCategory(e.target.value)}
+              selectedKeys={[selectedCategory]}
+              onChange={(e) => setSelectedCategory(e.target.value)}
             >
               {categoryList.map((item, index) => (
                 <SelectItem key={item} value={item}>
@@ -132,7 +223,6 @@ export default function InstructorNewPage() {
                 </SelectItem>
               ))}
             </Select>
-            
           </div>
         </div>
       </div>
@@ -149,62 +239,98 @@ export default function InstructorNewPage() {
         </div>
         <div className="w-full flex flex-col gap-y-2">
           <Table
-            classNames={{ wrapper: "p-0" }}
+            classNames={{ wrapper: "p-0 mb-12" }}
             aria-label="Example static collection table"
             shadow="none"
             fullWidth
           >
             <TableHeader>
-              <TableColumn>이름</TableColumn>
-              <TableColumn>금액설정</TableColumn>
-              <TableColumn>지역설정</TableColumn>
-              <TableColumn>인원설정</TableColumn>
+              <TableColumn className="text-center">이름</TableColumn>
+              <TableColumn className="text-center">금액설정</TableColumn>
+              <TableColumn className="text-center">지역설정</TableColumn>
+              <TableColumn className="text-center">인원설정</TableColumn>
             </TableHeader>
             <TableBody>
-              <TableRow key="1">
-                <TableCell>이세원 강사</TableCell>
-                <TableCell>100,000원</TableCell>
-                <TableCell>서울</TableCell>
-                <TableCell>10명</TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>정은지 강사</TableCell>
-                <TableCell>100,000원</TableCell>
-                <TableCell>서울</TableCell>
-                <TableCell>10명</TableCell>
-              </TableRow>
+              {tableData.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className="text-center">
+                    {item.instructor}
+                  </TableCell>
+                  <TableCell className="text-center">{item.price}</TableCell>
+                  <TableCell className="text-center">{item.region}</TableCell>
+                  <TableCell className="text-center">{item.person}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
-       
-        <div className="w-full flex flex-col gap-y-2 mb-6">
-            
-          <Tiptap></Tiptap>
+
+        <div className="flex gap-y-2 mb-12 justify-end w-full">
+          {/* <Tiptap></Tiptap> */}
+          <Button loading={isSave} color="primary" onPress={handleSaveProgram}>
+            저장
+          </Button>
         </div>
       </div>
-      <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>
+      <Modal
+        isOpen={isOpenAddInstructor}
+        onOpenChange={onOpenChangeAddInstructor}
+      >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                강사 정보
+              </ModalHeader>
               <ModalBody>
-                <Select>
-                    <SelectItem>
-                        정은지강사
+                <Select
+                  selectedKeys={[selectedInstructor]}
+                  onChange={(e) => setSelectedInstructor(e.target.value)}
+                  label="강사"
+                  labelPlacement="inside"
+                  placeholder="강사를 입력해주세요"
+                >
+                  {instructor.map((item, index) => (
+                    <SelectItem key={item.name} value={item.name}>
+                      {item.name}
                     </SelectItem>
-                    <SelectItem>
-                        이세원강사
-                    </SelectItem>
+                  ))}
                 </Select>
-                <Input label="금액" labelPlacement="inside" placeholder="금액을 입력해주세요"/>
-                <Input label="지역" labelPlacement="inside" placeholder="지역을 입력해주세요"/>
-                <Input label="인원" labelPlacement="inside" placeholder="인원을 입력해주세요"/>
-                
-                
+                <Input
+                  label="금액"
+                  labelPlacement="inside"
+                  placeholder="금액을 입력해주세요"
+                  value={selectedPrice}
+                  onChange={(e) => setSelectedPrice(e.target.value)}
+                />
+                <Select
+                  selectedKeys={[selectedRegion]}
+                  onChange={(e) => setSelectedRegion(e.target.value)}
+                  label="지역"
+                  labelPlacement="inside"
+                  placeholder="지역을 입력해주세요"
+                >
+                  {regionList.map((item, index) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Input
+                  label="인원"
+                  labelPlacement="inside"
+                  placeholder="인원을 입력해주세요"
+                  value={selectedPerson}
+                  onChange={(e) => setSelectedPerson(e.target.value)}
+                />
               </ModalBody>
               <ModalFooter>
-                
-                <Button color="primary" onPress={onClose}>
+                <Button
+                  color="primary"
+                  onPress={() => {
+                    handleSaveInstructor(onClose);
+                  }}
+                >
                   저장
                 </Button>
               </ModalFooter>

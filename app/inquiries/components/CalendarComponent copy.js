@@ -112,26 +112,27 @@ const CalendarComponent = ({
 
   return (
     <div
-      className={`col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}
+      className={`col-span-1 flex flex-col items-center justify-start} gap-y-2 md:gap-y-12 h-full`}
     >
       {!isSelectProgram ? (
         // <div className=" w-48 h-48 md:w-1/2 md:h-1/2  flex items-center justify-center relative">
         //   <Image src="/noimage/noimage.jpg" alt="Program Image" fill className="rounded-2xl" />
         // </div>
 
-        <Card className="w-[90%] md:w-2/3 h-[30vh] md:h-2/3 p-4 flex flex-col justify-between" radius="lg">
-          <Skeleton className="rounded-lg" style={{ height: '66.67%' }}>
-            <div className="h-full w-full rounded-lg bg-default-300" />
+        <Card className="w-[90%] flex flex-col items-center justify-center h-2/3 space-y-5 p-4" radius="lg ">
+          <Skeleton className="rounded-lg">
+            <div className="h-96 w-full rounded-lg bg-default-300" />
           </Skeleton>
-          <div className="space-y-3 flex flex-col justify-evenly h-1/3 pt-3 md:pt-0">
+
+          <div className="space-y-12">
             <Skeleton className="w-3/5 rounded-lg">
-              <div className="h-3 md:h-6 w-3/5 rounded-lg bg-default-200" />
+              <div className="h-6 w-3/5 rounded-lg bg-default-200" />
             </Skeleton>
             <Skeleton className="w-4/5 rounded-lg">
-              <div className="h-3 md:h-6 w-4/5 rounded-lg bg-default-200" />
+              <div className="h-6 w-4/5 rounded-lg bg-default-200" />
             </Skeleton>
             <Skeleton className="w-2/5 rounded-lg">
-              <div className="h-3 md:h-6 w-2/5 rounded-lg bg-default-300" />
+              <div className="h-6 w-2/5 rounded-lg bg-default-300" />
             </Skeleton>
           </div>
         </Card>
@@ -232,21 +233,12 @@ const CalendarComponent = ({
                 </div>
 
                 <div className="flex flex-col items-center justify-center gap-y-2 text-sm md:text-xl">
-                  <Checkbox
-                    size="lg"
-                    checked={selectedResult.isAgree}
-                    onChange={() =>
-                      setSelectedResult({
-                        ...selectedResult,
-                        isAgree: !selectedResult.isAgree,
-                      })
-                    }
-                  >
+                  <Checkbox  size="lg" checked={selectedResult.isAgree} onChange={() => setSelectedResult({...selectedResult, isAgree: !selectedResult.isAgree})}>
                     <p>※위 내용 일정으로 예약을 신청하시겠습니까?</p>
-                    <p className="font-bold">
-                      (예약이 확정된 이후에는 변경이 어려울 수 있습니다.)
-                    </p>
+                    <p className="font-bold">(예약이 확정된 이후에는 변경이 어려울 수 있습니다.)</p>
                   </Checkbox>
+        
+
                 </div>
               </>
             )}
@@ -256,6 +248,7 @@ const CalendarComponent = ({
             isOpen={isOpen}
             onOpen={onOpen}
             onOpenChange={onOpenChange}
+
           ></SelectModal>
         </>
       )}
