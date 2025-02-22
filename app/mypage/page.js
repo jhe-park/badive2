@@ -10,7 +10,6 @@ export default async function page() {
   const cookieStore = cookies();
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
-  console.log('user22:', user)
 
   let profile = await supabase
     .from('profiles')
@@ -21,7 +20,6 @@ export default async function page() {
   
   
   
-  console.log('profile',profile)
   if (!profile?.email) {
     const {data, error} = await supabase
       .from('profiles')

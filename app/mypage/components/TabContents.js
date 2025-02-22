@@ -44,7 +44,7 @@ export default function App({ profile }) {
       </div>
       {loading ? (
         <div className="flex justify-center items-center h-full">
-          <Spinner />
+          <Spinner label='로딩중' />
         </div>
       ) : (
         <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined">

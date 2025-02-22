@@ -59,7 +59,6 @@ export default function App({ profile }) {
 
   const handleComplete = (data) => {
     // 주소 검색 완료 시 처리 로직
-    console.log(data);
     setPostCode(data.zonecode); // 우편번호 설정
     setFirstAddress(data.address); // 기본주소 설정
     onOpenChange(false); // 모달 닫기
@@ -71,18 +70,18 @@ export default function App({ profile }) {
       console.log("프로필 정보가 없습니다.");
       return;
     }
-    setName(profile?.name||"");
-    setPhone(profile?.phone||"");
-    setBirth(profile?.birth||"");
-    setLicense(profile?.license||"");
-    setClassWant1(profile?.classWant1||"");
-    setClassWant2(profile?.classWant2||"");
+    setName(profile?.data.name||"");
+    setPhone(profile?.data.phone||"");
+    setBirth(profile?.data.birth||"");
+    setLicense(profile?.data.license||"");
+    setClassWant1(profile?.data.classWant1||"");
+    setClassWant2(profile?.data.classWant2||"");
 
-    setClassWant3(profile?.classWant3||"");
-    setGender(profile?.gender||"");
-    setPostCode(profile?.postCode||"");
-    setFirstAddress(profile?.firstAddress||"");
-    setSecondAddress(profile?.secondAddress||"");
+    setClassWant3(profile?.data.classWant3||"");
+    setGender(profile?.data.gender||"");
+    setPostCode(profile?.data.postCode||"");
+    setFirstAddress(profile?.data.firstAddress||"");
+    setSecondAddress(profile?.data.secondAddress||"");
 
 
 

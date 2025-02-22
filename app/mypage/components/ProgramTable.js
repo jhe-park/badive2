@@ -53,8 +53,9 @@ export default function ProgramTable({ profile }) {
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+
   const handleGetProgram = async () => {
-    if (!profile?.id) {
+    if (!profile?.data.id) {
       console.log("프로필 정보가 없습니다.");
       return;
     }
@@ -64,7 +65,7 @@ export default function ProgramTable({ profile }) {
       .select("*,time_slot_id(*, program_id(*), instructor_id(*))", {
         count: "exact",
       })
-      .eq("user_id", profile?.id)
+      .eq("user_id", profile?.data.id)
       .not("time_slot_id", "is", null)
       .not("time_slot_id.program_id", "is", null)
       .not("time_slot_id.instructor_id", "is", null)
@@ -99,7 +100,7 @@ export default function ProgramTable({ profile }) {
 
     const { data, count, error } = await query;
     if (error) {
-      console.error("Error fetching programs:", error);
+      console.log("Error fetching programs:", error);
       return;
     }
     setProgram(data);
@@ -218,7 +219,7 @@ export default function ProgramTable({ profile }) {
     }
   };
   console.log("currentPage:", currentPage);
-  console.log();
+  console.log("program:", program);
 
   return (
     <div className="w-full flex-col justify-center items-center space-y-5 h-full">

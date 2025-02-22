@@ -62,10 +62,9 @@ export default function TourTable({ profile }) {
       let query = supabase
         .from("request")
         .select("*,tour_id(*)", { count: "exact" })
-        .eq("user_id", profile?.id)
+        .eq("user_id", profile?.data.id)
         .not("tour_id", "is", null);
-      console.log("searchValue:", searchValue);
-      console.log("searchFilter:", searchFilter);
+      
       if (searchValue) {
         if (searchFilter === "제목") {
           query = query
