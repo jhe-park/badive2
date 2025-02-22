@@ -104,7 +104,7 @@ export default function App({ profile }) {
           firstAddress: firstAddress,
           secondAddress: secondAddress
         })
-        .eq('email', profile.email);
+        .eq('email', profile?.data.email);
 
       if (error) {
         toast.error('정보 수정에 실패했습니다.');
