@@ -38,9 +38,6 @@ export default function SelectComponent({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [payment, setPayment] = useState(null);
-  const [widgets, setWidgets] = useState(null);
-  const [ready, setReady] = useState(false);
-  const [paymentMethodWidget, setPaymentMethodWidget] = useState(null);
 
   const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   const customerKey = userData?.id;
@@ -105,9 +102,6 @@ export default function SelectComponent({
     });
   }, [noParticipants]);
 
-  
-  
-
   const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {
       toast.error("일정을 확인 후 체크박스를 클릭해주세요");
@@ -118,42 +112,159 @@ export default function SelectComponent({
       return;
     }
 
-    try {
-      const uuid = generateRandomString();
-      const { error } = await supabase.from('pending_sessions').insert({
-        uuid: uuid,
-        selected_data: selectedResult,
-        user_data:userData,
-        profile:profile
-      });
-
-      if (error) throw error;
-
-      router.push(`/inquiries/checkout?session=${uuid}`);
-    } catch (error) {
-      console.log('Error creating pending session:', error);
-      toast.error('결제 진행 중 오류가 발생했습니다.');
+    if (payment) {
+      onOpen();
+    } else {
+      toast.error("결제 모듈을 불러오는 중입니다. 잠시만 기다려주세요.");
     }
   };
 
-  const handleConfirmPayment = async () => {
-    try {
-      const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+  //결제기능
 
-      await widgets?.requestPayment({
-        orderId: generateRandomString(),
-        orderName: selectedResult.program,
-        customerName: profile.name,
-        customerEmail: profile.email,
-        customerMobilePhone: removeSpecialCharacters(profile.phone),
-        successUrl: successUrlWithParams,
-        failUrl: window.location.origin + "/inquiries/fail",
-      });
-    } catch (error) {
-      console.error("Payment request failed:", error);
-      toast.error("결제 요청 중 오류가 발생했습니다.");
+  useEffect(() => {
+    if (customerKey) {
+      async function fetchPayment() {
+        try {
+          const tossPayments = await loadTossPayments(clientKey);
+
+          // 회원 결제
+          // @docs https://docs.tosspayments.com/sdk/v2/js#tosspaymentspayment
+          const payment = tossPayments.payment({
+            customerKey,
+          });
+          // 비회원 결제
+          // const payment = tossPayments.payment({ customerKey: ANONYMOUS });
+
+          setPayment(payment);
+        } catch (error) {
+          console.error("Error fetching payment:", error);
+        }
+      }
+
+      fetchPayment();
+      console.log("페이먼츠 로드 완료");
     }
-  };
+  }, []);
+
+  // 결제함수
+
+  async function requestPayment() {
+    //기본적으로 생성되는 searchParams말고 필요한건 여기다가 더 적자
+    const successUrlWithParams = `${window.location.origin}/inquiries/complete?pay_type=${selectedPaymentMethod}&instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+    console.log("selectedPaymentMethod:", selectedPaymentMethod);
+    switch (selectedPaymentMethod) {
+      case "card":
+        await payment.requestPayment({
+          method: "CARD",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          card: {
+            useEscrow: false,
+            flowMode: "DEFAULT",
+            useCardPoint: false,
+            useAppCardOnly: false,
+          },
+        });
+        break;
+      case "transfer":
+        await payment.requestPayment({
+          method: "TRANSFER",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          transfer: {
+            cashReceipt: {
+              type: "소득공제",
+            },
+            useEscrow: false,
+          },
+        });
+        break;
+      case "virtual_account":
+        await payment.requestPayment({
+          method: "VIRTUAL_ACCOUNT",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          virtualAccount: {
+            cashReceipt: {
+              type: "소득공제",
+            },
+            useEscrow: false,
+            validHours: 24,
+          },
+        });
+        break;
+      case "mobile_phone":
+        await payment.requestPayment({
+          method: "MOBILE_PHONE",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+        });
+        break;
+      case "culture_gift_certificate":
+        await payment.requestPayment({
+          method: "CULTURE_GIFT_CERTIFICATE",
+          amount: { currency: "KRW", value: selectedResult.totalPrice },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: profile.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+        });
+        break;
+      case "foregin_easy_pay":
+        await payment.requestPayment({
+          method: "FOREIGN_EASY_PAY",
+          amount: {
+            value: selectedResult.totalPrice,
+            currency: "KRW",
+          },
+          orderId: generateRandomString(),
+          orderName: selectedResult.program,
+          successUrl: successUrlWithParams,
+          failUrl: window.location.origin + "/fail",
+          customerEmail: userData.email,
+          customerName: profile.name,
+          customerMobilePhone: removeSpecialCharacters(profile.phone),
+          foreignEasyPay: {
+            provider: "PAYPAL",
+            country: "KR",
+          },
+        });
+        break;
+    }
+  }
+
+  useEffect(() => {
+    if (selectedPaymentMethod) {
+      requestPayment();
+    }
+  }, [selectedPaymentMethod]);
 
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
@@ -313,26 +424,75 @@ export default function SelectComponent({
           결제하기
         </Button>
       </div>
-
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedPaymentMethod(null);
+          }
+          onOpenChange(open);
+        }}
+      >
         <ModalContent>
-          <ModalHeader>결제 진행</ModalHeader>
-          <ModalBody>
-            <div id="payment-widget-modal" className="w-full" />
-            <div id="agreement-widget-modal" className="w-full" />
-          </ModalBody>
-          <ModalFooter>
-            <div className="w-full flex justify-center">
-              <Button
-                className="w-full "
-                color="primary"
-                onPress={handleConfirmPayment}
-                disabled={!ready}
-              >
-                결제하기
-              </Button>
-            </div>
-          </ModalFooter>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                결제 방식 선택
+              </ModalHeader>
+              <ModalBody>
+                <div className="grid grid-cols-2 gap-4 ">
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("card");
+                    }}
+                  >
+                    <span className="text-3xl mb-2">💳</span>
+                    <span className="text-sm">카드결제</span>
+                  </Button>
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("virtual_account");
+                    }}
+                  >
+                    <span className="text-3xl mb-2">🏦</span>
+                    <span className="text-sm">가상계좌</span>
+                  </Button>
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("transfer");
+                    }}
+                  >
+                    <span className="text-3xl mb-2">🏧</span>
+                    <span className="text-sm">계좌이체</span>
+                  </Button>
+                  <Button
+                    className="flex flex-col items-center justify-center h-full p-6 bg-[#eee] hover:bg-gray-200 rounded-lg hover:scale-105 transition-all duration-300 hover:border-2 hover:border-blue-500"
+                    onPress={() => {
+                      setSelectedPaymentMethod("mobile_phone");
+                    }}
+                  >
+                    <span className="text-3xl mb-2">📱</span>
+                    <span className="text-sm">휴대폰결제</span>
+                  </Button>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="danger"
+                  variant="light"
+                  onPress={() => {
+                    setSelectedPaymentMethod(null);
+                    onClose();
+                  }}
+                >
+                  취소
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </div>

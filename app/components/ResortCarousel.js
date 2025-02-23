@@ -75,13 +75,15 @@ const MultiImageCarousel = () => {
   const handlePrev = () => {
     const itemsPerView = windowWidth < 768 ? 1 : 4;
     setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
+      prev === 0 ? Math.max(0, resortData.length - itemsPerView) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
     const itemsPerView = windowWidth < 768 ? 1 : 4;
-    setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
+    setCurrentIndex((prev) => 
+      prev >= resortData.length - itemsPerView ? 0 : prev + 1
+    );
   };
 
   const handleImageClick = (image) => {

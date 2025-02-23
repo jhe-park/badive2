@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const { paymentKey, orderId, amount, customerData } = await request.json();
-    const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
+    const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY_DEV;
     // 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
     // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
     // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
