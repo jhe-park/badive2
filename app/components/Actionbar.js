@@ -43,7 +43,7 @@ export default function Actionbar() {
   }, []);
 
   return isVisible ? (
-    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in">
+    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50">
       {[
         {
           label: "소속강사",

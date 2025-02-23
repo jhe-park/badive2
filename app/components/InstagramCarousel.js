@@ -106,14 +106,14 @@ const InstagramCarousel = () => {
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
           aria-label="Previous slides"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-5 h-5 z-10" />
         </button>
         <button
           onClick={handleNext}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
           aria-label="Next slides"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5 z-10" />
         </button>
       </div>
 
@@ -132,12 +132,12 @@ const InstagramCarousel = () => {
                 className="flex-none w-1/2 md:w-1/5 h-full relative"
                 style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full">
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">
                   <Image
                     src={image.url}
                     alt={image.title}
                     fill
-                    className="transition-transform duration-300 ease-out hover:scale-105"
+                    className="transition-transform duration-300 ease-out group-hover:scale-105"
                   />
                   {/* Play Button */}
                   <button

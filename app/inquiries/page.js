@@ -81,7 +81,7 @@ export default async function page() {
               />
             </div>
             <div className="text-sm md:text-2xl font-bold">
-              BDN 카카오톡 채널 : BDN 000
+              BADIVE 카카오톡 채널 : @BADIVE
             </div>
             <div className="text-xs md:text-xl">평일 문의/상담: 9:00~18:00 </div>
           </div>
@@ -99,20 +99,7 @@ export default async function page() {
             </div>
             <div className="text-xs md:text-xl">평일 문의/상담: 9:00~18:00 </div>
           </div>
-          <div className="w-full md:w-1/3 h-full  flex flex-col items-center justify-center gap-y-2 bg-white py-2 md:py-0">
-            <div className="h-12 w-12 md:h-24 md:w-24  relative">
-              <Image
-                src={"/inquiries/toktok.png"}
-                alt="scuberdiving"
-                fill
-                className="object-cover z-10"
-              />
-            </div>
-            <div className="text-sm md:text-2xl font-bold">
-              BDN 카카오톡 채널 : BDN 000
-            </div>
-            <div className="text-xs md:text-xl">평일 문의/상담: 9:00~18:00 </div>
-          </div>
+          
         </div>
       </div>
     </div>

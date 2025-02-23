@@ -126,7 +126,7 @@ export default function page() {
           </p>
         </div>
       </div>
-      <div className="w-[90%] h-full  md:h-[1212px] pb-10 flex flex-col">
+      <div className="w-[90%] h-full  md:min-h-[1212px] pb-10 flex flex-col">
         <h1 className="text-2xl md:text-5xl font-bold">전국 지역 다이빙 강습 가능</h1>
         <div className="mt-5">
           <p className="text-medium md:text-xl">
@@ -146,7 +146,7 @@ export default function page() {
           <RegionTabs></RegionTabs>
         </div>
       </div>
-      <div className="w-[90%] h-[60vh] md:h-[1000px] md:p-10 flex flex-col justify-center items-start">
+      <div className="w-[90%] h-[60vh] md:min-h-[1000px] md:p-10 flex flex-col justify-center items-start">
         <h1 className="text-2xl md:text-5xl font-bold">
           깊은 바다로 떠나는 잊을 수 없는 여행
         </h1>

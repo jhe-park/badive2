@@ -31,29 +31,75 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
 
   // Supabase에 tourInput 업데이트 함수
   const updateTourInput = async (value) => {
-    const { error } = await supabase
-      .from('tour_input')
-      .update({ amount:value })
-      .eq('date', selectedMonth); // 적절한 조건으로 변경하세요
+    try {
+      // 먼저 해당 월의 데이터가 있는지 확인
+      const { data: existingData } = await supabase
+        .from('tour_input')
+        .select('*')
+        .eq('date', selectedMonth)
+        .single();
 
-    if (error) {
-      console.log("Error updating tour input:", error);
+      if (existingData) {
+        // 데이터가 있으면 업데이트
+        const { error } = await supabase
+          .from('tour_input')
+          .update({ amount: value })
+          .eq('date', selectedMonth);
+        
+        if (error) throw error;
+      } else {
+        // 데이터가 없으면 새로 생성
+        const { error } = await supabase
+          .from('tour_input')
+          .insert([{ date: selectedMonth, amount: value }]);
+        
+        if (error) throw error;
+      }
+    } catch (error) {
+      console.error("Error handling tour input:", error);
     }
   };
 
-  // debounce를 사용하여 입력 변경 시 Supabase 업데이트
-  const debouncedUpdateTourInput = useCallback(
-    debounce((value) => {
-      updateTourInput(value);
-    }, 300), // 300ms 지연
-    []
+  // debounce된 업데이트 함수 생성
+  const debouncedUpdate = useCallback(
+    debounce(async (value) => {
+      await updateTourInput(value);
+    }, 500),
+    [selectedMonth] // selectedMonth가 변경될 때마다 함수 재생성
   );
 
-  // tourInput이 변경될 때마다 debouncedUpdateTourInput 호출
-  useEffect(() => {
-    debouncedUpdateTourInput(tourInput);
-  }, [tourInput, debouncedUpdateTourInput]);
+  // Input의 onChange 핸들러 수정
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setTourInput(newValue);
+    debouncedUpdate(newValue);
+  };
 
+  // selectedMonth가 변경될 때마다 해당 월의 데이터 가져오기
+  useEffect(() => {
+    const fetchTourInput = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('tour_input')
+          .select('amount')
+          .eq('date', selectedMonth)
+          .single();
+        
+        if (error) throw error;
+        if (data) {
+          setTourInput(data.amount.toString());
+        } else {
+          setTourInput(''); // 데이터가 없으면 입력값 초기화
+        }
+      } catch (error) {
+        console.error("Error fetching tour input:", error);
+      }
+    };
+
+    fetchTourInput();
+  }, [selectedMonth]);
+
+  console.log("selectedMonth",selectedMonth)
   return (
     <div className="container mx-auto whitespace-nowrap overflow-x-auto">
       <table className="w-full border border-gray-300 text-left rounded-2xl ">
@@ -97,7 +143,7 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
             <td className="border px-4 py-2 text-center font-bold">
               <Input
                 value={tourInput}
-                onChange={(e) => setTourInput(e.target.value)}
+                onChange={handleInputChange}
                 classNames={{ wrapper: "text-center", input: "text-center" }}
                 variant='solid'
                 placeholder='금액 입력'

@@ -4,7 +4,7 @@ export default function Experts() {
   return (
     <div className="w-full h-[40vh] md:h-[100vh] md:h-[100vh] flex flex-col justify-start items-start gap-y-5 px-[2vw] py-[1vw]">
       <div className="flex gap-x-5 justify-center md:justify-start items-center w-full">
-        <p className="text-2xl md:text-[36px] font-bold text-center md:text-start">소속강사</p>
+        <p className="text-2xl md:text-[36px] font-bold text-center md:text-start">BADIVE 소속강사</p>
       </div>
       <SlideUp>
       <div className="w-full h-full flex gap-2">

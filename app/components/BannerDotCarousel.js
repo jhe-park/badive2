@@ -17,7 +17,7 @@ const BannerDotCarousel = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 1000);
+    }, 2500);
 
     return () => clearInterval(timer);
   }, []);
@@ -36,7 +36,7 @@ const BannerDotCarousel = () => {
             key={slide.id}
             className={`absolute w-full h-full transition-opacity duration-500 flex items-center justify-center text-white text-2xl font-bold  ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
           >
-            <img src={slide.image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover opacity-50" />
+            <img src={slide.image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
             
           </div>
         ))}

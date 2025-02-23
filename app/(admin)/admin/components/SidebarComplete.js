@@ -10,10 +10,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { RxHamburgerMenu } from "react-icons/rx";
-
+import { signOut } from "next-auth/react";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 export default function Component({ children, user }) {
   const [isHidden, setIsHidden] = React.useState(window.innerWidth < 768);
-  
+  const supabase = createClient();
+  const router = useRouter();
   React.useEffect(() => {
     const handleResize = () => {
       setIsHidden(window.innerWidth < 768);
@@ -22,6 +25,8 @@ export default function Component({ children, user }) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  
   
   const [pageTitle, setPageTitle] = React.useState("");
   const pathname = usePathname();
@@ -36,11 +41,19 @@ export default function Component({ children, user }) {
     if (pathname.includes("/admin/notification")) return "공지사항";
     if (pathname.includes("/admin/resort")) return "리조트";
     if (pathname.includes("/admin/faq")) return "FAQ";
+    if (pathname.includes("/admin/login")) return "로그인";
     return "";
   };
   useEffect(() => {
     setPageTitle(getPageTitle());
   }, [pathname]);
+
+  const handleSignOut = async () => {
+    supabase.auth.signOut();
+    // 클라이언트 측에서 signOut 호출
+    await signOut();
+    router.push("/admin/login");
+  };
 
   return (
     <div className="flex h-screen w-full ">
@@ -81,6 +94,7 @@ export default function Component({ children, user }) {
               />
             }
             variant="light"
+            onPress={handleSignOut}
           >
             Log Out
           </Button>
