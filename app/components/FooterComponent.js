@@ -20,10 +20,10 @@ export default function Component() {
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
+        <div className="flex flex-col md:flex-row justify-center md:justify-between items-center md:items-center gap-8 mb-12">
           {/* Company Info */}
-          <div className="flex flex-col space-y-3 max-w-2xl order-2">
-            <div className="flex flex-wrap items-center gap-2 text-sm md:text-base">
+          <div className="flex flex-col justify-center items-center space-y-3 max-w-2xl order-2 w-full md:w-1/2">
+            <div className="flex flex-wrap justify-center items-center gap-2 text-sm md:text-base">
               <span className="font-semibold">제이에이치이 주식회사</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
               <span>박치양</span>
@@ -33,13 +33,16 @@ export default function Component() {
             <div className="text-sm text-gray-400">
               (도로명;서울특별시 강서구 마곡중앙6로 66 506호)
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-sm">
+            <div className="flex flex-wrap justify-center items-center gap-2 text-sm">
               <span>사업자 등록번호 : 396-81-03251</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
               <span>통신판매업 신고번호: 제2024-서울강서-2139호</span>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <span>전화번호: 02-6953-4432</span>
+
+              <Divider orientation="vertical" className="h-4 bg-gray-400" />
+              <span>업무협약 및 제휴 추가:jhe.company1@gmail.com</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
               <span className="hover:text-blue-400 cursor-pointer transition-colors">
                 개인정보 처리방침
@@ -48,7 +51,7 @@ export default function Component() {
           </div>
 
           {/* Social Links */}
-          <div className="flex flex-wrap justify-center gap-4 order-1">
+          <div className="flex flex-wrap justify-center gap-4 order-1 w-full md:w-1/2">
             {[
               { src: "/logo/youtube.png", alt: "youtube", href: "https://youtube.com/@bdndive?si=p72b0W3_Szqc_c7Y" },
               { src: "/logo/kakao.png", alt: "kakao", href: "" },
