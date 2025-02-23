@@ -95,7 +95,7 @@ export default function CheckoutPage({ searchParams }) {
   }, [selectedResult, widgets]);
   console.log("selectedResult:", selectedResult);
   const handlePaymentClick = async () => {
-    const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+    const successUrlWithParams = `${window.location.origin}/inquiries/complete?program_id=${selectedResult.program_id}&instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
     try {
       await widgets.requestPayment({
