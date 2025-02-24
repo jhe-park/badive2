@@ -5,7 +5,7 @@ import styles from './Complete.module.css';
 
 export default function Complete() {
   return (
-    <div className="flex flex-col items-center justify-center gap-y-6">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex flex-col items-center justify-center gap-y-6">
       <FaCheckCircle className={`text-[100px] text-[#0077B6] ${styles.popIn}`}></FaCheckCircle>{" "}
       <div className="text-5xl font-bold">가입을 축하합니다!</div>
       <div className="text-xl">

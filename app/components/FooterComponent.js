@@ -12,7 +12,7 @@ export default function Component() {
     return null;
   }
   return (
-    <footer className="w-full bg-black text-white py-12">
+    <footer className="footer w-full bg-black text-white py-12">
       {/* Logo Section */}
       <div className="container mx-auto px-4">
         <div className="text-center text-4xl md:text-5xl font-bold mb-12 transition-colors">

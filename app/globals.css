@@ -4,8 +4,39 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-  font-family: 'NanumSquare';
+@font-face {
+  font-family: 'MICE Gothic';
+  src: url('/fonts/MICEGothic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MICE Gothic';
+  src: url('/fonts/MICEGothic Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation-9Black';
+  src: url('/fonts/Freesentation-9Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ELAND_Choice_M';
+  src: url('/fonts/ELAND_Choice_M.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+
+.footer {
+  font-family: 'Freesentation-9Black';
+}
+body {
+  font-family: 'MICE Gothic', 'NanumSquare', sans-serif;
 }
 
 @keyframes blink {
@@ -25,3 +56,6 @@
   width: 100%;
   z-index: 1000;
 }
+
+
+

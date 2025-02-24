@@ -121,7 +121,7 @@ export default function Component({ children, user }) {
           <h2 className="text-2xl font-bold text-default-700">{pageTitle}</h2>
         </header>
         <main className="w-full h-full mb-4 overflow-y-auto">
-          <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-auto scrollbar-hide p-6">
+          <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-auto scrollbar-hide p-6">
             {children}
           </div>
         </main>

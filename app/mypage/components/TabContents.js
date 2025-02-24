@@ -27,7 +27,7 @@ export default function App({ profile }) {
 
 
   return (
-    <div className="flex w-full h-full flex-col">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full h-full flex-col">
       <div className="w-full bg-black"></div>
       <div className="flex justify-between items-center mt-24">
         <div className="w-full font-bold text-2xl ">MY PAGE</div>

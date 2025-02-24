@@ -243,7 +243,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/mypage"
-                  className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
                 >
                   마이페이지
                 </Link>
@@ -251,7 +251,7 @@ export default function Navbar() {
                   onClick={() => {
                     handleSignOut();
                   }}
-                  className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
                 >
                   로그아웃
                 </button>
@@ -261,7 +261,7 @@ export default function Navbar() {
                 <Link
                   key={index}
                   href={`/${item === "로그인" ? "login" : "register"}`}
-                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
+                  className=" text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
                 >
                   {item}
                 </Link>

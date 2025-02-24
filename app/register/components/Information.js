@@ -177,7 +177,7 @@ export default function Information() {
   };
 
   return (
-    <div className="flex flex-col gap-4 justify-center items-center w-full">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex flex-col gap-4 justify-center items-center w-full">
       <ToastContainer
         position="top-center"
         autoClose={2000}
