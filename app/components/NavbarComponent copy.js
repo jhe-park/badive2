@@ -131,7 +131,7 @@ export default function Navbar() {
               <Link 
                 key={index}
                 href={`/${item === "로그인" ? "login" : item === "회원가입" ? "register" : "mypage"}`}
-                className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
               >
                 {item}
               </Link>
@@ -149,7 +149,7 @@ export default function Navbar() {
               >
                 <Link 
                   href={item.href}
-                  className="text-[16px] font-bold text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 after:delay-1000 hover:after:w-full hover:text-white"
+                  className="text-[16px] font-bold text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 after:delay-1000 hover:after:w-full hover:text-gray-500"
                 >
                   {item.title}
                 </Link>
