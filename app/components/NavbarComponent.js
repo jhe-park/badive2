@@ -194,7 +194,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="nav w-full fixed z-5 bg-black/95 backdrop-blur-sm h-[100px] shadow-lg"
+      className="nav w-full fixed z-5 bg-white backdrop-blur-sm h-[100px] shadow-lg text-black"
       style={{ top: isOpen ? "-100px" : "0" }}
     >
       <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
@@ -261,7 +261,7 @@ export default function Navbar() {
                 <Link
                   key={index}
                   href={`/${item === "로그인" ? "login" : "register"}`}
-                  className="text-[12px] text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
                 >
                   {item}
                 </Link>
@@ -280,7 +280,7 @@ export default function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className="text-[16px] font-bold text-gray-200 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white"
+                  className="text-[16px] font-bold text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
                   onClick={(e) => {
                     if (
                       item.title === "소속강사" ||
@@ -295,12 +295,12 @@ export default function Navbar() {
 
                 {/* 통합 서브메뉴 패널 */}
                 {item.submenu && openSubmenu === index && (
-                  <div className="absolute bg-black/95 backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
+                  <div className="absolute bg-white backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
                     {item.submenu.map((subitem, subindex) => (
                       <Link
                         key={`${index}-${subindex}`}
                         href={subitem.href}
-                        className="block text-sm text-gray-200 hover:text-white hover:bg-gray-800 py-2 px-4 whitespace-nowrap"
+                        className="block text-sm text-black hover:text-gray-500 py-2 px-4 whitespace-nowrap"
                       >
                         {subitem.title}
                       </Link>

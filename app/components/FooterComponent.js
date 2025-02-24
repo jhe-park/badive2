@@ -38,7 +38,7 @@ export default function Component() {
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
               <span>통신판매업 신고번호: 제2024-서울강서-2139호</span>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-2 text-sm justify-center">
               <span>전화번호: 02-6953-4432</span>
 
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
