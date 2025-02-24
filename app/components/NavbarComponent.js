@@ -194,7 +194,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="nav w-full fixed z-5 bg-white backdrop-blur-sm h-[100px] shadow-lg text-black"
+      className="nav w-full fixed z-5 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
       style={{ top: isOpen ? "-100px" : "0" }}
     >
       <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
@@ -217,7 +217,7 @@ export default function Navbar() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           <svg
-            className="w-6 h-6 text-white"
+            className="w-6 h-6 text-black"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -314,13 +314,13 @@ export default function Navbar() {
 
         {/* 모바일 메뉴 */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-[100px] left-0 w-full bg-black/95 backdrop-blur-sm">
+          <div className="lg:hidden absolute top-[100px] left-0 w-full bg-white/80 backdrop-blur-sm">
             {/* 모바일 로그인 메뉴 */}
-            <div className="flex justify-center gap-6 py-4 border-b border-gray-700">
+            <div className="flex justify-center gap-6 py-4 border-b border-gray-500">
               {user ? (
                 <Link
                   href="/mypage"
-                  className="text-[14px] text-gray-200 hover:text-white"
+                  className="text-[14px] text-black hover:text-gray-500"
                 >
                   마이페이지
                 </Link>
@@ -329,7 +329,7 @@ export default function Navbar() {
                   <Link
                     key={index}
                     href={`/${item === "로그인" ? "login" : "register"}`}
-                    className="text-[14px] text-gray-200 hover:text-white"
+                    className="text-[14px] text-black hover:text-gray-500"
                   >
                     {item}
                   </Link>
@@ -341,7 +341,7 @@ export default function Navbar() {
             <div className="py-4">
               {menuItems.map((item, index) => (
                 <div key={index} className="relative">
-                  <div className="flex justify-between items-center px-6 py-3 text-gray-200 hover:bg-gray-800">
+                  <div className="flex justify-between items-center px-6 py-3 text-black ">
                     <Link
                       href={item.href}
                       className="flex-1 text-[16px]"
@@ -367,12 +367,12 @@ export default function Navbar() {
                   </div>
 
                   {item.submenu && openSubmenu === index && (
-                    <div className="bg-gray-900 pl-6">
+                    <div className="bg-white/80 pl-6">
                       {item.submenu.map((subitem, subindex) => (
                         <Link
                           key={`${index}-${subindex}`}
                           href={subitem.href}
-                          className="block px-4 md:px-8 py-2 text-[14px] text-gray-300 hover:text-white hover:bg-gray-800"
+                          className="block px-4 md:px-8 py-2 text-[14px] text-black hover:text-gray-500 "
                         >
                           {subitem.title}
                         </Link>

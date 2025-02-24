@@ -152,11 +152,11 @@ export default function TourCards() {
                 </div>
               ) : (
                 <div onClick={() => handleClick(tour)} className="cursor-pointer">
-                  <div className="relative">
+                  <div className="relative w-full h-full flex justify-center items-center">
                     <img
                       src={tour.image}
                       alt={tour.title}
-                      className={`w-full aspect-[4/3] object-cover`}
+                      className={`w-[80%] md:w-full aspect-[4/3] object-cover rounded-lg`}
                     />
                   </div>
                   <div className="p-4 flex flex-col items-center justify-center gap-y-2">
