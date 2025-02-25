@@ -42,7 +42,7 @@ export default function Component() {
               <span>전화번호: 02-6953-4432</span>
 
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
-              <span>업무협약 및 제휴 추가:jhe.company1@gmail.com</span>
+              <span>업무협약 및 제휴:jhe.company1@gmail.com</span>
               <Divider orientation="vertical" className="h-4 bg-gray-400" />
               <span className="hover:text-blue-400 cursor-pointer transition-colors">
                 개인정보 처리방침

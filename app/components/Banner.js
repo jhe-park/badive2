@@ -50,7 +50,7 @@ export default function Banner() {
       <div className="bg-white w-full h-[40vh] md:h-[100vh] relative">
         <video
           ref={videoRef}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-fill"
           autoPlay
           muted
           loop
@@ -62,9 +62,9 @@ export default function Banner() {
           Your browser does not support the video tag.
         </video>
         <div className="absolute bottom-[8%] md:bottom-[10%] left-[0%] md:left-[5%] text-white px-4 py-2 rounded flex gap-2 md:gap-8 justify-center items-start flex-col">
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-2 md:gap-4">
             <Button
-              className="text-black bg-white font-bold text-md md:text-2xl relative group h-10 md:w-36 md:h-16 opacity-25 hover:opacity-100"
+              className="text-black bg-white font-bold text-xs md:text-2xl relative group h-6 md:w-36 md:h-16 opacity-25 hover:opacity-100"
               color=""
               variant="solid"
             >
@@ -72,7 +72,7 @@ export default function Banner() {
               <span className="relative">자세히보기</span>
             </Button>
             <Button
-              className="text-black bg-white font-bold text-md md:text-2xl relative group  h-10 md:w-36 md:h-16 opacity-25 hover:opacity-100"
+              className="text-black bg-white font-bold text-xs md:text-2xl relative group  h-6 md:w-36 md:h-16 opacity-25 hover:opacity-100"
               color=""
               variant="flat"
             >
@@ -81,9 +81,9 @@ export default function Banner() {
             </Button>
             <button onClick={togglePlayPause}>
               {isPlaying ? (
-                <FaPauseCircle className="text-3xl md:text-6xl opacity-25 hover:opacity-100" />
+                <FaPauseCircle className="text-2xl md:text-6xl opacity-25 hover:opacity-100" />
               ) : (
-                <FaPlayCircle className="text-3xl md:text-6xl opacity-25 hover:opacity-100" />
+                <FaPlayCircle className="text-2xl md:text-6xl opacity-25 hover:opacity-100" />
               )}
             </button>
           </div>

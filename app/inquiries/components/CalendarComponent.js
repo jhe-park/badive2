@@ -246,6 +246,9 @@ const CalendarComponent = ({
                     <p className="font-bold">
                       (예약이 확정된 이후에는 변경이 어려울 수 있습니다.)
                     </p>
+                    <p className="font-bold">
+                      (단체예약문의는 카카오톡 채널 or 전화로 문의 주시면 예약이 가능합니다.)
+                    </p>
                   </Checkbox>
                 </div>
               </>

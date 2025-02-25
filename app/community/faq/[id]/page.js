@@ -28,7 +28,7 @@ export default function NoticeDetailPage() {
         <div className="absolute bottom-[40%] left-[30%] gap-y-2 flex flex-col">
           <div className="text-[24px] font-medium text-white">공지사항</div>
           <div className="text-[50px] text-white font-bold">
-            <p>공지사항 다양한 BDN 정보와</p>
+            <p>공지사항 다양한 BADIVE 정보와</p>
             <p>새로운 소식을 만나보세요.</p>
           </div>
         </div>

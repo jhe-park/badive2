@@ -1,5 +1,6 @@
 import React from "react";
 import SlideUp from "@/components/animation/SlideUp";
+import Link from "next/link";
 export default function Experts() {
   return (
     <div className="w-full h-[40vh] md:h-[100vh] md:h-[100vh] flex flex-col justify-start items-start gap-y-5 px-[2vw] py-[1vw]">
@@ -31,9 +32,11 @@ export default function Experts() {
               alt="Expert 3"
               className="w-full h-full transition-transform duration-300 transform hover:scale-110"
             />
+            <Link href="/instructors/bdn">
             <div className="text-sm md:text-[32px] font-bold absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-12 md:h-36 bg-black bg-opacity-75 text-white flex justify-center items-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               강사소개
             </div>
+            </Link>
           </div>
         </div>
         <div className="w-1/3 h-full flex flex-col justify-center items-center gap-2">

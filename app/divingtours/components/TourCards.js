@@ -156,7 +156,7 @@ export default function TourCards() {
                     <img
                       src={tour.image}
                       alt={tour.title}
-                      className={`w-[80%] md:w-full aspect-[4/3] object-cover rounded-lg`}
+                      className={`w-[80%] md:w-[80%] aspect-[4/3] object-cover rounded-lg`}
                     />
                   </div>
                   <div className="p-4 flex flex-col items-center justify-center gap-y-2">

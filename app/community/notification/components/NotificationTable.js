@@ -89,7 +89,7 @@ export default function NotificationTable() {
       </div>
 
       {/* Board Table */}
-      <table className="w-full border-t-2 border-gray-800 text-sm md:text-2xl">
+      <table className="w-full border-t-2 border-gray-800 text-sm md:text-xl">
         <thead>
           <tr className="bg-gray-50 ">
             <th className="py-2 px-4 text-left w-[10%]">NO.</th>
@@ -113,19 +113,19 @@ export default function NotificationTable() {
                 </tr>
               ))
             : pinnedPosts.map((post) => (
-                <tr key={post.id} className="border-b hover:bg-gray-50 ">
+                <tr key={post.id} className="border-b hover:bg-gray-50 text-xl ">
                   <td className="py-3 px-4">
                     <span className="text-blue-500">📌</span>
                   </td>
                   <td className="py-3 px-4">
                     <Link
                       href={`/community/notification/${post.id}`}
-                      className="hover:text-blue-600 text-sm md:text-2xl"
+                      className="hover:text-blue-600 text-sm md:text-xl"
                     >
                       {post.title}
                     </Link>
                   </td>
-                  <td className="py-3 px-4 text-gray-600 text-sm md:text-2xl">
+                  <td className="py-3 px-4 text-gray-600 text-sm md:text-xl">
                     {formatDate(post.created_at)}
                   </td>
                 </tr>
@@ -137,12 +137,12 @@ export default function NotificationTable() {
                 <td className="py-3 px-4">
                   <Link
                     href={`/community/notification/${post.id}`}
-                    className="hover:text-blue-600 text-sm md:text-2xl"
+                    className="hover:text-blue-600 text-sm md:text-xl"
                   >
                     {post.title}
                   </Link>
                 </td>
-                <td className="py-3 px-4 text-gray-600 text-sm md:text-2xl">
+                <td className="py-3 px-4 text-gray-600 text-sm md:text-xl">
                   {formatDate(post.created_at)}
                 </td>
               </tr>

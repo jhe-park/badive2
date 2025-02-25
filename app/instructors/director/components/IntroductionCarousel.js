@@ -21,7 +21,7 @@ function IntroductionCarousel() {
 
   return (
     <>
-      <div className="relative w-[90vw] overflow-hidden h-full md:h-full md:min-h-[60vh]">
+      <div className="relative w-[66vw] overflow-hidden h-full md:h-full md:min-h-[60vh]">
         {/* 캐러셀 컨텐츠 */}
         <div
           className="flex h-full"
@@ -65,7 +65,7 @@ function IntroductionCarousel() {
                   <Image
                     src={item.right.image}
                     fill
-                    className="object-cover rounded-2xl"
+                    className="object-contain rounded-2xl"
                     alt="expert1"
                   ></Image>
                 </div>

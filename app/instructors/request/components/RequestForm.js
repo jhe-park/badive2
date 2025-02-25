@@ -147,7 +147,7 @@ export default function RequestForm({ className, ...props }) {
   };
 
   return (
-    <div className="w-[90vw] md:w-[60vw] flex flex-col items-center justify-center gap-y-12">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-[90vw] md:w-[60vw] flex flex-col items-center justify-center gap-y-12">
       <ToastContainer
         position="top-center"
         autoClose={2000}

@@ -41,7 +41,7 @@ export default function FAQTable() {
     setOpenIndex(openIndex === index ? -1 : index);
   };
   return (
-    <div className="w-full mx-auto my-12">
+    <div className="w-full mx-auto mt-12 mb-36">
       {/* Search Bar */}
       <div className="mb-6 flex justify-end items-center">
         <div className="relative w-full md:w-1/3">
@@ -58,7 +58,7 @@ export default function FAQTable() {
 
       {/* FAQ Accordion */}
       <div className="w-full mx-auto ">
-        <h1 className="text-xl md:text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
+        <h1 className="text-lg md:text-4xl font-bold mb-6 pb-2 border-b border-t border-gray-500 h-24 text-center my-6 flex items-center justify-center">
           자주 묻는 질문 FAQ
         </h1>
 
@@ -84,14 +84,14 @@ export default function FAQTable() {
                   onClick={() => toggleAccordion(index)}
                   className="w-full flex justify-between items-center py-4 text-left hover:bg-gray-50 transition-colors"
                 >
-                  <span className=" flex items-center text-sm md:text-3xl font-bold text-black">
-                    <span className="mr-2 font-bold text-sm md:text-4xl">Q</span>
+                  <span className=" flex items-center text-sm md:text-2xl font-bold text-black">
+                    <span className="mr-2 font-bold text-sm md:text-2xl">Q</span>
                     {item.question}
                   </span>
                   {openIndex === index ? (
-                    <ChevronUp className=" text-gray-500 text-sm md:text-4xl" />
+                    <ChevronUp className=" text-gray-500 text-sm md:text-2xl" />
                   ) : (
-                    <ChevronDown className=" text-gray-500 text-sm md:text-4xl" />
+                    <ChevronDown className=" text-gray-500 text-sm md:text-2xl" />
                   )}
                 </button>
 
@@ -105,7 +105,7 @@ export default function FAQTable() {
                       dangerouslySetInnerHTML={{
                         __html: item.answer.replace(/\n/g, "<br/>"),
                       }}
-                      className="text-sm md:text-2xl"
+                      className="text-sm md:text-xl"
                     />
                   </div>
                 </div>

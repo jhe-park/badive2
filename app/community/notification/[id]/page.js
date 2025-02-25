@@ -45,12 +45,12 @@ export default async function NoticeDetailPage({ params }) {
         <div className="absolute md:bottom-[40%] md:left-[30%] top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 gap-y-2 flex flex-col items-center md:items-start w-full">
           <div className="text-medium md:text-[24px] font-medium text-white">공지사항</div>
           <div className="text-2xl md:text-[50px] text-white font-bold text-center md:text-left w-full" style={{lineHeight: "1.5"}}>
-            <p>공지사항 다양한 BDN 정보와</p>
+            <p>공지사항 다양한 BADIVE 정보와</p>
             <p>새로운 소식을 만나보세요.</p>
           </div>
         </div>
       </div>
-      <div className="w-[90%] md:w-[calc(1320/1920*100%)] h-full flex flex-col items-center justify-center gap-y-5 my-12 md:my-24">
+      <div className="w-[90%] md:w-[66vw] h-full flex flex-col items-center justify-center gap-y-5 my-12 md:my-24">
         <div className="w-full mx-auto p-4">
           {/* 공지사항 카드 */}
           <div className="bg-white  overflow-hidden border-b border-gray-500">

@@ -61,7 +61,7 @@ export default function Navbar() {
     },
     {
       title: "소속강사",
-      href: "/instructors",
+      href: "/instructors/bdn",
       submenu: [
         { title: "BDN 소속강사", href: "/instructors/bdn" },
         { title: "BDN 메인촬영감독", href: "/instructors/director" },
@@ -84,7 +84,7 @@ export default function Navbar() {
     },
     {
       title: "커뮤니티",
-      href: "/community",
+      href: "/community/notification",
       submenu: [
         { title: "공지사항", href: "/community/notification" },
         { title: "자주하는질문(Q&A)", href: "/community/faq" },
@@ -243,7 +243,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/mypage"
-                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
+                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
                 >
                   마이페이지
                 </Link>
@@ -251,7 +251,7 @@ export default function Navbar() {
                   onClick={() => {
                     handleSignOut();
                   }}
-                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
+                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
                 >
                   로그아웃
                 </button>
@@ -261,7 +261,7 @@ export default function Navbar() {
                 <Link
                   key={index}
                   href={`/${item === "로그인" ? "login" : "register"}`}
-                  className=" text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
+                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {item}
                 </Link>
@@ -280,27 +280,20 @@ export default function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className="text-[16px] font-bold text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-gray-500"
-                  onClick={(e) => {
-                    if (
-                      item.title === "소속강사" ||
-                      item.title === "커뮤니티"
-                    ) {
-                      e.preventDefault(); // 링크 작동 방지
-                    }
-                  }}
+                  className="text-[16px] font-bold text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                  
                 >
                   {item.title}
                 </Link>
 
-                {/* 통합 서브메뉴 패널 */}
+                {/* 서브메뉴 */}
                 {item.submenu && openSubmenu === index && (
                   <div className="absolute bg-white backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
                     {item.submenu.map((subitem, subindex) => (
                       <Link
                         key={`${index}-${subindex}`}
                         href={subitem.href}
-                        className="block text-sm text-black hover:text-gray-500 py-2 px-4 whitespace-nowrap"
+                        className="block text-sm text-black py-2 px-4 whitespace-nowrap"
                       >
                         {subitem.title}
                       </Link>

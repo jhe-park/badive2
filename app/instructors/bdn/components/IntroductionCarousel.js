@@ -41,7 +41,7 @@ function IntroductionCarousel() {
   };
   return (
     <>
-      <div className="relative w-[90vw] overflow-hidden h-full md:h-full">
+      <div className="relative w-[90vw] md:w-[66vw] overflow-hidden h-full md:h-full">
         {/* 캐러셀 컨텐츠 */}
         <div
           className="flex"
@@ -52,14 +52,14 @@ function IntroductionCarousel() {
         >
           {/* 모든 슬라이드를 한번에 렌더링 */}
           {items.map((item, index) => (
-            <div key={index} className="flex min-w-full flex-col md:flex-row gap-y-2 md:gap-y-12">
+            <div key={index} className="flex min-w-full flex-col md:flex-row gap-y-2 md:gap-y-12 ">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
               <div className="w-2/3 md:w-1/2 md:py-12 relative md:px-[8vw] md:pr-[8vw] md:pl-0 flex justify-center items-center order-1 md:order-2 justify-center w-full">
                 <div className="w-2/3 h-[30vh] md:h-full md:w-2/3 relative">
                   <Image
                     src={item.right.image}
                     fill
-                    className="object-cover rounded-2xl"
+                    className="object-contain rounded-2xl"
                     alt="expert1"
                   ></Image>
                 </div>

@@ -20,11 +20,11 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[80vh] md:h-[1314px] flex flex-col justify-center items-center gap-y-5 pt-6 md:py-24">
-        <h1 className="w-full font-bold text-2xl md:text-[50px] text-center mb-5">
+      <div className="w-full md:w-[66vw] h-[80vh] md:h-[1314px] flex flex-col justify-center items-center gap-y-5 pt-6 md:py-24">
+        <h1 className="w-full font-bold text-2xl md:text-[50px] text-center mb-5 md:mb-20">
           "Professionals with Years of Diving Experience
         </h1>
-        <div className="h-full  flex items-center w-[75vw] justify-center">
+        <div className="h-full  flex items-center w-full justify-center">
           <div className="w-1/4 h-full flex flex-col">
             <div className="w-full h-1/4 relative">
               <Image
@@ -126,9 +126,9 @@ export default function page() {
           </p>
         </div>
       </div>
-      <div className="w-[90%] h-full  md:min-h-[1212px] pb-10 flex flex-col">
-        <h1 className="text-2xl md:text-5xl font-bold">전국 지역 다이빙 강습 가능</h1>
-        <div className="mt-5">
+      <div className="w-[90%] md:w-[66vw] h-full  md:min-h-[1212px] pb-10 flex flex-col">
+        <h1 className="text-2xl md:text-5xl font-bold md:px-10">전국 지역 다이빙 강습 가능</h1>
+        <div className="mt-5 md:px-10">
           <p className="text-medium md:text-xl">
             “BDN은 대한민국 어디서든 다이빙을 배울 수 있는 기회를 제공합니다.
           </p>
@@ -146,11 +146,11 @@ export default function page() {
           <RegionTabs></RegionTabs>
         </div>
       </div>
-      <div className="w-[90%] h-[60vh] md:min-h-[1000px] md:p-10 flex flex-col justify-center items-start">
-        <h1 className="text-2xl md:text-5xl font-bold">
+      <div className="w-[90%] md:w-[66vw] h-[60vh] md:min-h-[1000px] flex flex-col justify-center items-start">
+        <h1 className="text-2xl md:text-5xl font-bold md:px-10">
           깊은 바다로 떠나는 잊을 수 없는 여행
         </h1>
-        <div className="w-full h-full md:h-[540px] flex flex-col md:flex-row justify-center items-center mt-4 md:mt-12 px-0 md:px-[5vw] ">
+        <div className="w-full h-full md:h-[540px] flex flex-col md:flex-row justify-center items-center mt-4 md:mt-12 px-0 md:px-10">
           <div className="w-full md:w-1/2 h-full grid grid-cols-4 gap-0">
             {[...Array(12)].map((_, index) => (
               <div key={index} className="relative w-full h-full p-0">
@@ -163,7 +163,7 @@ export default function page() {
               </div>
             ))}
           </div>
-          <div className="w-full md:w-1/2 h-full flex flex-col gap-4 p-4 justify-center items-start px-[1vw] md:px-[5vw] gap-y-4 md:gap-y-12">
+          <div className="w-full md:w-1/2 h-full flex flex-col gap-4 p-4 justify-center items-start px-[1vw] md:px-[2vw] gap-y-4 md:gap-y-12">
             <div className="text-2xl md:text-[55px] font-bold" style={{ lineHeight: '1.5' }}>Safe dives, Enjoy Diving!</div>
             <div className="text-medium md:text-[30px] " style={{ lineHeight: '1.5' }}>
               “BDN은 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브

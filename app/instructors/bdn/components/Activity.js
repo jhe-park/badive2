@@ -37,7 +37,6 @@ export default function Activity() {
           <div className="w-[80%] md:w-[50vw] h-full flex flex-col md:flex-row items-center justify-center text-black z-10 gap-y-6 md:gap-x-10">
             <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center relative">
               <VerticalCarousel images={selectedItems} index={index} setIndex={setIndex}></VerticalCarousel>
-
             </div>
 
             <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center pb-12">
