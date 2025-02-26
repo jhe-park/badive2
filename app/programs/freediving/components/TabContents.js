@@ -12,16 +12,16 @@ export default function TabContents() {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const tabs = [
-    "베이직 프리다이버",
-    "프리다이버",
-    "어드밴스드 프리다이버",
-    "마스터 프리다이버",
+    "풀 프리다이버(레벨1)",
+    "프리다이버(레벨2)",
+    "어드밴스드 프리다이버(레벨3)",
+    "마스터 프리다이버(레벨4)",
   ];
 
   const renderContent = () => {
     switch (selectedTab) {
       case 0:
-        return <Frame />;
+        return <Contents1 />;
       case 1:
         return <Contents2 />;
       case 2:

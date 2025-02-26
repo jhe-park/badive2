@@ -1,143 +1,382 @@
 import React from "react";
 import Image from "next/image";
-import { Divider } from "@nextui-org/react";
-import { FaRegCheckCircle } from "react-icons/fa";
-import Link from "next/link";
-import { Button } from "@nextui-org/react";
-export default function Contents1() {
+import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import { Button } from "@heroui/react";
+export default function () {
+  const data = {
+    title: "스쿠버 다이빙",
+    image: "/programnew/scuberdiving1.png",
+    subtitle: "체험다이빙",
+    description: "라이센스 없이 가능한 다이빙 체험!",
+    lines: [
+      {
+        image: "/programnew/icon4.png",
+        text: "라이센스 없어도 가능한 체험 코스 ",
+        highlight: "",
+      },
+      {
+        image: "/programnew/icon5.png",
+        text: "만 10세부터~ 60세까지 참가 가능",
+        highlight: "",
+      },
+      {
+        image: "/programnew/icon6.png",
+        text: "전문강사 인솔하에 안전한 다이빙 체험 ",
+        highlight: "",
+      },
+    ],
+    condition:"",
+    guide: [
+      {
+        title: "-장소(수영장):",
+        description: "강사와 협의 후 결정",
+      },
+      {
+        title: "-준비물:",
+        description: "수영복, 세면도구, 수건, 수모(수영 모자)",
+      },
+      {
+        title: "-포함사항:",
+        description: "교육비, 자격증 발급(교재비 포함)",
+      },
+      {
+        title: "-불포함사항:",
+        description: "입장료, 장비대여&공기통대여, 체험강습비",
+      },
+    ],
+  };
   return (
-    <div className="w-[80vw] h-full flex flex-col items-center justify-center">
-      <div className="w-full h-[400px] md:h-[800px] flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 h-full flex  items-center justify-center py-6 md:py-24">
-          <div className="relative w-full md:w-2/3 h-48 md:h-full">
-            <Image
-              src={"/program/contents1_1.png"}
-              alt="scubadiving"
-              fill
-              className="object-cover"
-            />
+    <div
+      style={{ fontFamily: "Hakgyoansim" }}
+      className="w-[90vw] md:w-[66vw] h-full flex flex-col items-center justify-center pt-24"
+    >
+      <div className="w-full h-full py-12 md:mpy-0 md:aspect-[1280/655] flex flex-col items-center justify-center relative">
+        <div className="absolute inset-0 z-0">
+          <Image src="/programnew/upper.png" alt="frame" fill />
+        </div>
+        <div className="ml-[12vw] w-1/3 aspect-[555/126] flex flex-col items-center justify-center relative">
+          <Image src="/programnew/bubble1.png" alt="frame" fill />
+        </div>
+
+        <div className="flex flex-col items-center justify-center z-10">
+          <p className="text-[24px] md:text-[64px] font-bold">
+            이제 안전한 다이빙을 원한다면
+          </p>
+          <p className="text-[24px] md:text-[64px] font-bold">
+            <span className="text-[#0054CA]">바다이브</span>와 함께 !{" "}
+          </p>
+        </div>
+      </div>
+
+      <div className="font-bold w-full flex items-center justify-center text-[20px] md:text-[64px]  mt-12 mb-7 md:mt-36 md:mb-20">
+        바다이브에서만 볼 수 있는
+        <span className="text-[#0054CA]">특별 혜택</span>!
+      </div>
+
+      <div className="w-full flex flex-col items-center justify-center gap-y-12">
+        <div className="w-full h-full md:aspect-[1280/559] flex flex-col md:flex-row justify-between items-center md:p-12">
+          <div className="w-full  md:w-[55%] flex flex-col items-start justify-evenly h-full">
+            <div className="flex flex-col justify-center items-center md:items-start w-full">
+              <div className="text-[20px] md:text-[32px] ">
+                해양실습의 선택 조건!
+              </div>
+              <div className="text-[24px] md:text-[64px] font-bold text-[#0053C9]">
+                해양실습 보험 가입
+              </div>
+            </div>
+
+            <div className="text-[16px] md:text-[32px] flex flex-col justify-center items-center md:items-start w-full">
+              <p>바다이브에서만 가능한 안전한 해양실습 보험 가입!</p>
+              <p>'스포츠 안전 공제 보험'을 바다이브 회원이신</p>
+              <p>모든 회원분들에게 가입 후 교육을 진행합니다.</p>
+            </div>
+            <div className="text-[10px] md:text-[20px] text-[#7A7A7A] flex flex-col justify-center items-center w-full text-center md:text-start">
+              <p className="text-center md:text-start w-full">
+                *오픈워터다이버 강습 필수 참여
+              </p>
+            </div>
+          </div>
+          <div className="relative w-[60%] aspect-[1/1] md:w-[400px] md:h-[400px] ">
+            <Image src="/programnew/insurance.png" alt="frame" fill />
           </div>
         </div>
-        <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center gap-y-2 md:gap-y-5">
-          <div className="text-lg md:text-5xl">Experience Diving</div>
-          <div className="text-2xl md:text-7xl font-bold">체험다이빙</div>
-          <Divider className="w-1/2 h-1 bg-black"></Divider>
-          <div className="text-sm md:text-3xl md:text-5xl text-center md:text-start">
-            수중세계를 경험해보고 싶으신 분들을 위한 프로그램
+        <div className="w-full h-full md:aspect-[1280/500] flex flex-col md:flex-row justify-between items-center md:p-12">
+          <div className="relative w-[60%] aspect-[1/1] md:w-[400px] md:h-[400px] order-2 md:order-1">
+            <Image src="/programnew/exercise.png" alt="frame" fill />
+          </div>
+          <div className="w-full md:w-[55%] flex flex-col items-center md:items-start justify-evenly h-full md:order-2">
+            <div className="flex flex-col justify-center items-center md:items-start">
+              <div className="text-[20px] md:text-[32px] ">
+                차별화된 체계적인 교육 실습 !{" "}
+              </div>
+              <div className="text-[24px] md:text-[64px] font-bold text-[#0053C9]">
+                수영장 실습 3회!{" "}
+              </div>
+            </div>
+
+            <div className="text-[16px] md:text-[32px] flex flex-col justify-center items-center md:items-start">
+              <p>바다이브에서는 더욱 확실한 </p>
+              <p>기초 교육을 위해 수영장 실습 3회 진행 !</p>
+              <p>바다이브 회원분들은 기초적인 수영장 교육을</p>
+              <p>더욱 체계적으로 받으실 수 있습니다. </p>
+            </div>
+          </div>
+        </div>
+        <div className="w-full aspect-[1280/600] flex flex-col md:flex-row justify-between items-center md:p-12">
+          <div className="w-full md:w-[55%] flex flex-col items-center md:items-start justify-evenly h-full ">
+            <div className="flex flex-col justify-center items-center md:items-start">
+              <div className="text-[20px] md:text-[32px] ">
+                다양하게 다이빙을 즐기기 위한 투어 !
+              </div>
+              <div className="text-[24px] md:text-[64px] font-bold text-[#0053C9]">
+                매월 정기투어 진행!
+              </div>
+            </div>
+
+            <div className="text-[16px] md:text-[32px] flex flex-col justify-center items-center md:items-start">
+              <p className="text-center md:text-left">
+                매월 라이센스를 보유한 회원분들을 대상으로 한 펀다이빙 정기투어
+                !
+              </p>
+              <p className="text-center md:text-left">
+                안전한 다이빙을 위한 수영장 실습 교육투어 진행!
+              </p>
+              <p className="text-center md:text-left">
+                바다이브에서는 매월 바다이브 회원들을 대상으로 정기투어와
+                교육투어를 진행합니다.
+              </p>
+            </div>
+          </div>
+          <div className="relative w-[60%] aspect-[1/1] md:w-[400px] md:h-[400px] order-2 md:order-2">
+            <Image src="/programnew/tour.png" alt="frame" fill />
+          </div>
+        </div>
+        <div className="w-full aspect-[1280/650] flex flex-col md:flex-row justify-between items-center md:p-12">
+          <div className="relative w-[60%] aspect-[1/1] md:w-[400px] md:h-[400px] order-2 md:order-1">
+            <Image src="/programnew/incheon.png" alt="frame" fill />
+          </div>
+          <div className="w-full md:w-[55%] flex flex-col items-center md:items-start justify-evenly h-full md:order-2">
+            <div className="flex flex-col justify-center items-center md:items-start">
+              <div className="text-[20px] md:text-[32px] ">
+                더욱 즐거운 다이빙을 하기 위한 연습!{" "}
+              </div>
+              <div className="text-[24px] md:text-[64px] font-bold text-[#0053C9]">
+                인천 수영장 개인연습 가능!
+              </div>
+            </div>
+
+            <div className="text-[16px] md:text-[32px] gap-y-4 flex flex-col justify-center items-center md:items-start">
+              <p className="text-center md:text-left">
+                바다이브에서는 회원분들을 위해 개인연습이 가능하도록 인천
+                수영장을 개방합니다.
+              </p>
+              <p className="text-center md:text-left">
+                다이빙 풀 입장 예약을 하시면 언제든지 수영장에서 개인연습이
+                가능합니다.{" "}
+              </p>
+              <p className="text-[10px] md:text-[20px] text-[#7A7A7A]">
+                ※ 협회 연회비, 수영장입장료, 장비렌탈, 강사입장료 별도
+              </p>
+              <p className="text-[10px] md:text-[20px] text-[#0077B6]">
+                자세히 보러가기 →
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div
-        className="w-full my-6 md:my-12 h-full md:h-[380px] flex flex-col items-center justify-evenly gap-y-5 p-2 md:p-0"
-        style={{
-          backgroundImage: "url(/program/contents1_2.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="text-2xl md:text-5xl font-bold text-center md:text-start">
-          라이센스 없이 다이빙이 가능한 체험코스 !
-        </div>
-        <div className="text-sm md:text-3xl text-center md:text-start">
-          누구나 상관없이{" "}
-          <span className="font-bold">전문 강사의 직접 감독</span>하에 안전하게
-          다이빙 가능 !
-        </div>
-        <div className="text-sm md:text-3xl text-center md:text-start">
-          <span className="font-bold">※스쿠버다이빙 라이센스(자격증)</span> 없는
-          분들도 전부 다 가능
+      <div className="w-full bg-[#BAEBFF] h-full md:aspect-[1280/800] flex justify-between items-center flex-col mt-12 md:mt-0 py-12 md:py-6">
+        <div className="w-full flex flex-col items-center justify-center h-full font-bold text-[24px] md:text-[64px] text-center gap-y-10 md:gap-y-20">
+          <div className="text-center w-full">
+            바다이브만의 장점{" "}
+            <span className="text-[#0054CA]">한눈에 보기</span>
+          </div>
+          <div className="w-[80%] aspect-[948/433] flex flex-col md:flex-row items-center justify-between gap-x-6">
+            <div className="w-full md:w-1/3 flex flex-col items-center justify-between gap-y-7">
+              <div className="flex flex-col items-center justify-between text-white bg-[#4793FF] w-full aspect-[3/2] rounded-3xl p-6">
+                <div className="flex flex-col items-start justify-start w-full">
+                  <div className="text-[15px] md:text-[20px] font-medium">
+                    독보적인 강습 프로그램{" "}
+                  </div>
+                  <div className="text-[20px] md:text-[30px] font-bold">
+                    교육실습 무조건 3회!{" "}
+                  </div>
+                </div>
+                <div className="flex  items-center justify-end w-full">
+                  <div className="w-16 aspect-[75/85] relative">
+                    <Image src="/programnew/show1.png" alt="frame" fill />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col items-center justify-between text-white bg-[#0053C9] w-full aspect-[3/2] rounded-3xl p-6">
+                <div className="flex flex-col items-start justify-start w-full">
+                  <div className="text-[15px] md:text-[20px] font-medium">
+                    가격이 부담된다면 !
+                  </div>
+                  <div className="text-[20px] md:text-[30px] font-bold">
+                    무료클래스 진행 !
+                  </div>
+                </div>
+                <div className="flex  items-center justify-end w-full">
+                  <HiOutlineArrowNarrowRight className="text-white text-[30px] " />
+                </div>
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 flex flex-col items-center justify-between gap-y-7 mt-7 md:mt-0">
+              <div className="flex flex-col items-center justify-between text-white bg-[#0053C9] w-full aspect-[3/2] rounded-3xl p-6">
+                <div className="flex flex-col items-start justify-start w-full">
+                  <div className="text-[15px] md:text-[20px] font-medium">
+                    체계적인 강습
+                  </div>
+                  <div className="text-[20px] md:text-[30px] font-bold">
+                    전문적인 강사들 보유{" "}
+                  </div>
+                </div>
+                <div className="flex  items-center justify-end w-full">
+                  <HiOutlineArrowNarrowRight className="text-white text-[30px] " />
+                </div>
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 flex flex-col items-center justify-between gap-y-7 mt-7 md:mt-0">
+              <div className="flex flex-col items-center justify-between text-white bg-[#0053C9] w-full aspect-[3/2] rounded-3xl p-6">
+                <div className="flex flex-col items-start justify-start w-full">
+                  <div className="text-[15px] md:text-[20px] font-medium">
+                    더욱 나아진 다이빙을 위해
+                  </div>
+                  <div className="text-[20px] md:text-[30px] font-bold">
+                    개인연습 수영장 보유
+                  </div>
+                </div>
+                <div className="flex  items-center justify-end w-full">
+                  <HiOutlineArrowNarrowRight className="text-white text-[30px] " />
+                </div>
+              </div>
+              <div className="flex flex-col items-center justify-between text-white bg-[#4793FF] w-full aspect-[3/2] rounded-3xl p-6">
+                <div className="flex flex-col items-start justify-start w-full">
+                  <div className="text-[15px] md:text-[20px] font-medium">
+                    색다른 다이빙 투어{" "}
+                  </div>
+                  <div className="text-[20px] md:text-[30px] font-bold">
+                    월 정기투어 진행 !
+                  </div>
+                </div>
+                <div className="flex  items-center justify-end w-full">
+                  <div className="w-16 aspect-[69/78] relative">
+                    <Image src="/programnew/show2.png" alt="frame" fill />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="w-full h-full md:h-[600px] my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-2xl md:text-5xl font-bold">체험다이빙 코스 안내</div>
-        <Divider className="w-full h-1 bg-black"></Divider>
-        <div className="text-sm md:text-3xl">라이센스 관계 없이 체험가능</div>
-        <div className="text-sm md:text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
-          <FaRegCheckCircle />
-          체험 다이빙은 라이선스(자격증) 이 없어도 가능한 체험 코스입니다.
-        </div>
-        <div className="text-sm md:text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
-          <FaRegCheckCircle />만 10세부터 만 60세까지 참가할 수 있습니다.
-        </div>
-        <div className="text-sm md:text-3xl flex justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5">
-          <FaRegCheckCircle />
-          다이빙 전문 강사의 인솔하에 초보자도 안전하게 다이빙 가능합니다.
-        </div>
-      </div>
-      <div className="w-full h-full my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-2xl md:text-5xl font-bold">체험다이빙 코스 </div>
-        <Divider className="w-full h-1 bg-black  md:mt-12"></Divider>
-
-        <div className="text-sm md:text-3xl flex flex-col justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5 gap-y-5 overflow-hidden py-6 md:mt-12">
-          <div>• 만 10세 이상부터 체험할 수 있으며 체험 비용이 발생합니다.</div>
-          <div>
-            • 호흡기 지급과 전문적인 스쿠버 다이빙 교육으로 물에 대한 공포증이
-            있거나 수영을 하지 못해도 체험 가능합니다.
-          </div>
-          <div>• 체험 다이빙 전 명단과 동의서를 작성 후 체험을 진행합니다.</div>
-          <div>
-            • 체험 다이빙 후 개인샤워 용품은 개별적으로 준비 부탁드립니다.{" "}
-          </div>
-          <div>
-            • 체험 다이빙 일정은 담당 강사와 협의 후에 확정 후 진행됩니다.{" "}
-          </div>
-        </div>
+      <div className="w-full flex flex-col items-center justify-center h-full font-bold text-[64px] text-center mt-20 mb-12 md:mt-40 md:mb-20">
+        <p className="text-[24px] md:text-[64px]">
+          바다이브 <span className="text-[#0054CA]">{data.title}</span>
+          <br className="md:hidden" /> 강습 프로그램
+        </p>
       </div>
 
-      <div className="w-full h-full my-6 md:my-12 flex flex-col items-center justify-evenly gap-y-5">
-        <div className="text-2xl md:text-5xl font-bold">체험다이빙 코스 주의사항</div>
-        <Divider className="w-full h-1 bg-black  md:mt-12"></Divider>
-
-        <div className="text-sm md:text-3xl flex flex-col justify-center items-center gap-x-2 bg-[#BBD1EA] rounded-lg p-5 w-4/5 gap-y-1 overflow-hidden py-6 md:mt-12">
-          <div>
-            • 만 19세 미만 청소년은 프로그램 이용 시 반드시 보호자가 동행하시기
-            바랍니다.
+      <div className="w-full flex flex-col md:flex-row items-center justify-center h-full font-bold text-[64px] text-center mb-6 md:mt-40 md:mb-20">
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center gap-y-10">
+          <div className="w-[90vw] md:w-[500px] aspect-[500/400] relative">
+            <Image className="rounded-3xl" src={data.image} alt="frame" fill />
           </div>
           <div>
-            • 임산부, 노약자, 심혈관계 질환자, 고막 이상자, 호흡기 질환자 등은
-            체험이 불가능 합니다.
-          </div>
-          <div>
-            • 기침 등 호흡기 증상, 발열, 두통 등의 증상이 있다면 체험을
-            자제해주시고, 주최 측 판단으로 체험이 제한될 수 있습니다.
-          </div>
-          <div>
-            • 안전과 해상안전법에 따라 음주시 체험은 불가합니다. 음주로 인한
-            당일 체험 취소는 환불되지 않습니다.{" "}
-          </div>
-          <div>• 당일 체험을 희망할 시 고객센터에 문의 부탁드립니다.</div>
-          <div>• 기상악화로인해 스케줄이 변동되거나 취소될 수 있습니다. </div>
-          <div className="text-red-500">
-            • 체험 다이빙 할 때는 담당 강사에 인솔하에 안전하게 진행되며, 담당
-            강사의 지시를 따르지 않고,{" "}
-          </div>
-          <div className="text-red-500">
-            • 개별행동·단독행동으로 발생한 사고는 업체가 책임지지 않습니다.{" "}
+            <div className="text-[24px] md:text-[50px] font-bold text-[#0053C9]">
+              {data.subtitle}
+            </div>
+            <div className="text-[18px] md:text-[36px] font-medium ">
+              {data.description}
+            </div>
           </div>
         </div>
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center gap-y-10 md:gap-y-20">
+          <div className="flex flex-col items-start justify-center gap-y-4 md:gap-y-10 w-full mt-6 md:mt-0 font-medium">
+            {data.lines.map((item, index) => (
+              <div key={index} className="text-[18px] md:text-[36px] flex flex-row items-center justify-center gap-x-4 w-full">
+                <img
+                  src={item.image}
+                  alt="frame"
+                  className="w-10 h-10"
+                />
+                <p>{item.text} <span className="text-[#0077B6]">{item.highlight}</span></p>
+              </div>
+            ))}
 
-        <div className="text-sm md:text-3xl flex flex-col justify-evenly items-start gap-x-2 rounded-lg md:p-5 w-[80%] md:w-4/6 gap-y-2 px-2 md:px-12 border-2 border-black mt-6 md:mt-12 py-6">
-          <div>
-            <span className="font-bold">- 장소(수영장):</span> 강사와 협의 후 결정
+            
           </div>
-          <div>
-            <span className="font-bold">- 준비물:</span> 수영복, 세면도구, 수건
-          </div>
-          <div>
-            <span className="font-bold">- 포함사항:</span> 교육비
-          </div>
-          <div>
-            <span className="font-bold">- 불포함사항:</span> 입장료,
-            장비풀세트&공기탱크 대여비, 체험강습비, 자격증 발급비, 해양실습비
+          <div className="flex flex-col items-center justify-center ">
+            <div className="text-[12px] md:text-[20px] text-[#7A7A7A] font-medium">
+              {data.condition}
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="w-1/2 md:w-full h-full  flex items-center justify-center my-6 md:m24">
-          <Link className="flex items-center justify-center gap-x-2" href='/book'>
-          <Button className="text-2xl md:text-6xl font-bold w-full h-full p-4">예약하기</Button>
-          </Link>
+      <div className="w-full flex flex-col items-center justify-center h-full font-bold text-[64px] text-center md:mt-20 bg-[#BAEBFF] py-12">
+        <div className="text-[24px] md:text-[64px] font-bold">
+          실제 강습 받으신 회원님의
+          <br className="md:hidden" />
+          <span className="text-[#0054CA]">솔직 리뷰</span>!
+        </div>
+        <div className="text-[16px] md:text-[35px]">
+          회원리뷰 <span className="text-[#FF9D00]">4.9</span> 실제 회원님들이
+          <br className="md:hidden" />
+          추천하시는 바다이브 강습 !{" "}
+        </div>
+        <div className="w-full flex flex-col md:flex-row items-start justify-center">
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-[90vw] md:w-[500px] aspect-[500/250] relative md:-mr-20 ">
+              <Image src="/programnew/chatbubble1.png" alt="frame" fill />
+            </div>
+            <div className="w-[90vw] md:w-[500px] aspect-[500/250] relative md:-mr-20 ">
+              <Image src="/programnew/chatbubble2.png" alt="frame" fill />
+            </div>
+          </div>
+          <div className="flex flex-col items-center justify-center md:mt-[125px]">
+            <div className="w-[90vw] md:w-[500px] aspect-[500/250] relative md:-mr-20 ">
+              <Image src="/programnew/chatbubble3.png" alt="frame" fill />
+            </div>
+            <div className="w-[90vw] md:w-[500px] aspect-[500/250] relative md:-mr-20 ">
+              <Image src="/programnew/chatbubble4.png" alt="frame" fill />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full h-full md:aspect-[1280/1400] flex flex-col items-center justify-center font-bold text-[64px] mt-8 md:mt-16">
+        <div className="w-[90%] md:w-[60%] aspect-[832/1200] relative">
+          <Image src="/programnew/phone.png" alt="frame" fill />
+        </div>
+      </div>
+
+      <div className="w-full h-full md:aspect-[1280/693] flex flex-col items-center justify-evenly text-[24px] md:text-[64px] mt-30 bg-[#BAEBFF] py-12 md:py-0 px-4 md:px-0 mb-12 md:mb-0 mt-12 md:mt-0">
+        <div className="text-[24px] md:text-[64px] font-bold">
+          강습 받기 전,{" "}
+          <span className="text-[#0053C9]">필수로 알아야 할 사항 ! </span>
+        </div>
+        <div className="flex flex-col items-start justify-start text-[20px] md:text-[40px]">
+          {data.guide.map((item, index) => (
+            <div key={index}>
+              <span className="text-[20px] md:text-[40px] text-[#0053C9] font-bold">
+                {item.title}
+              </span>{" "}
+              {item.description}
+            </div>
+          ))}
+          {/* <div><span className="text-[20px] md:text-[40px] text-[#0053C9] font-bold">준비물:</span> 수영복, 세면도구, 수건, 수모(수영 모자)</div>
+            <div><span className="text-[20px] md:text-[40px] text-[#0053C9] font-bold">포함사항:</span> 교육비, 자격증 발급(교재비 포함)</div>
+            <div><span className="text-[20px] md:text-[40px] text-[#0053C9] font-bold">불포함사항:</span> 입장료, 장비대여&공기통대여, 해양실습 </div> */}
+        </div>
+        <div className="text-[12px] md:text-[20px] text-[#7A7A7A]">
+          ＊ 모든 강습은 개인에 따라 일정이 추가 되거나 변경될 수 있습니다.
+        </div>
+        <div className="w-full flex items-center justify-center mt-6 md:mt-0">
+        <Button className="font-bold w-[50%] md:w-[20%] py-4 md:py-12 bg-[#0053C9] text-white rounded-3xl text-[20px] md:text-[40px]">
+            예약하기
+          </Button>
         </div>
       </div>
     </div>
