@@ -6,6 +6,7 @@ import Contents3 from "./Contents3";
 import Contents4 from "./Contents4";
 import Contents5 from "./Contents5";
 import Contents6 from "./Contents6";
+import Frame from "./Frame";
 
 export default function TabContents() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -20,7 +21,7 @@ export default function TabContents() {
   const renderContent = () => {
     switch (selectedTab) {
       case 0:
-        return <Contents1 />;
+        return <Frame />;
       case 1:
         return <Contents2 />;
       case 2:

@@ -1,6 +1,7 @@
 import React from "react";
 import TabContents from "./components/TabContents";
 import Image from "next/image";
+import Frame from "./components/Frame";
 export default function page() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
@@ -16,6 +17,7 @@ export default function page() {
         <div className="text-2xl md:text-5xl font-bold">프리다이빙</div>
       </div>
       <TabContents></TabContents>
+      {/* <Frame></Frame> */}
 
     </div>
   );
