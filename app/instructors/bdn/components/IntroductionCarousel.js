@@ -68,9 +68,9 @@ function IntroductionCarousel() {
 
               {/* 왼쪽 섹션 - 모바일에서는 아래로 */}
               <div className="w-full md:w-[60%] md:py-12 relative  md:pl-24 md:pr-0 flex flex-col justify-start items-center gap-y-2 md:gap-y-6 order-2 md:order-1">
-                <div className="hidden md:block absolute top-0 left-0 text-[200px] font-bold text-gray-200 opacity-20">
+                {/* <div className="hidden md:block absolute top-0 left-0 text-[200px] font-bold text-gray-200 opacity-20">
                   01
-                </div>
+                </div> */}
                 <div className="text-2xl md:text-[45px] font-bold text-center md:text-left">{item.left.title}</div>
                 <div className="text-lg md:mt-6 md:text-[25px] text-center md:text-left" style={{ color: "#902020" }}>
                   {item.left.subtitle}
