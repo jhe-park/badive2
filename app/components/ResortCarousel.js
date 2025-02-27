@@ -11,12 +11,13 @@ import useModalOpen from '@/app/store/useModalOpen';
 import { createClient } from "@/utils/supabase/client";
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [resortData, setResortData] = useState([]);
   const [windowWidth, setWindowWidth] = useState(0);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [resortData, setResortData] = useState([]);
   const { isOpen, setIsOpen } = useModalOpen();
   const modalRef = useRef(null);
 
@@ -72,18 +73,27 @@ const MultiImageCarousel = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handlePrev = () => {
-    const itemsPerView = windowWidth < 768 ? 1 : 3;
-    setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, resortData.length - itemsPerView) : Math.max(0, prev - 1)
-    );
+    setCurrentIndex((prev) => {
+      const maxIndex = isMobile ? resortData.length - 2 : resortData.length - 3;
+      return prev === 0 ? maxIndex : Math.max(0, prev - 1);
+    });
   };
 
   const handleNext = () => {
-    const itemsPerView = windowWidth < 768 ? 1 : 3;
-    setCurrentIndex((prev) => 
-      prev >= resortData.length - itemsPerView ? 0 : prev + 1
-    );
+    const maxIndex = isMobile ? resortData.length - 2 : resortData.length - 3;
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const handleImageClick = (image) => {
@@ -143,43 +153,40 @@ const MultiImageCarousel = () => {
   console.log('resortData:',resortData);
 
   return (
-    <div className="relative w-full">
-      <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
+    <div className="relative w-full ">
+      <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
           aria-label="Previous slides"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-5 h-5 z-10" />
         </button>
         <button
           onClick={handleNext}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
           aria-label="Next slides"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5 z-10" />
         </button>
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden ">
           <div
-            className="flex transition-transform duration-300 ease-out"
+            className="flex transition-transform duration-300 ease-out mt-10 md:mt-0"
             style={{
-              transform: `translateX(-${currentIndex * (100 / (windowWidth < 768 ? 2 : 3))}%)`,
+              transform: `translateX(-${currentIndex * (100 / (isMobile ? 2 : 3))}%)`,
             }}
           >
-            {resortData.map((image) => (
+            {resortData.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none"
-                style={{ 
-                  width: windowWidth < 768 ? '350px' : '400px',
-                  padding: '0 10px'
-                }}
+                className="flex-none w-1/2 md:w-1/3 h-full relative md:h-[250px]"
+                style={{ padding: index !== resortData.length - 1 ? '0 10px' : '0' }}
                 onClick={() => handleImageClick(image)}
               >
-                <div className="h-[250px] bg-gray-100 rounded-lg overflow-hidden relative w-full group">
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">
                   <Image
                     src={image.image}
                     alt={image.title}
@@ -188,7 +195,7 @@ const MultiImageCarousel = () => {
                   />
                 </div>
                 <div className="mt-4 text-center">
-                  <span className="text-base md:text-lg font-medium">{image.title}</span>
+                  <span className="text-sm md:text-lg font-medium">{image.title}</span>
                 </div>
               </div>
             ))}

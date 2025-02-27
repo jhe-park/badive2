@@ -79,7 +79,7 @@ export default function WelcomePopup() {
           {/* 배너 영역 */}
           <div className="flex-1 flex flex-col h-full order-2 md:order-1">
             {tabs[activeTab].banners.map((banner) => (
-              <div key={banner.id} className="h-[90%] aspect-square mx-auto">
+              <div key={banner.id} className="h-[90%] aspect-square w-full">
                 <img
                   src={banner.image}
                   alt={banner.title}

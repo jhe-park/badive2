@@ -8,8 +8,8 @@ export default function Curriculum() {
         <p className="text-2xl md:text-[35px] font-bold">BADIVE 교육과정</p>
       </div>
       <SlideUp>
-        <div className="w-full aspect-[1280/550] flex gap-2 justify-center items-center">
-          <div className="w-1/3 h-[550px]  flex justify-center items-center relative gap-2">
+        <div className="w-full h-36 md:h-auto aspect-[1280/550] flex gap-2 justify-center items-center">
+          <div className="w-1/3 h-full md:h-[550px]  flex justify-center items-center relative gap-2">
             <div className="w-full h-full  overflow-hidden relative group">
               <img
                 src="/curriculum/curriculum1.png"
@@ -23,7 +23,7 @@ export default function Curriculum() {
               </Link>
             </div>
           </div>
-          <div className="w-1/3 h-[550px]  flex justify-center items-center relative gap-2">
+          <div className="w-1/3 h-full md:h-[550px]  flex justify-center items-center relative gap-2">
             <div className="w-full h-full  overflow-hidden relative group">
               <img
                 src="/curriculum/curriculum2.png"
@@ -37,7 +37,7 @@ export default function Curriculum() {
               </Link>
             </div>
           </div>
-          <div className="w-1/3 h-[550px]  flex justify-center items-center relative gap-2">
+          <div className="w-1/3 h-full md:h-[550px]  flex justify-center items-center relative gap-2">
             <div className="w-full h-full  overflow-hidden relative group">
               <img
                 src="/curriculum/curriculum3.png"

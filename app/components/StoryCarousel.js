@@ -69,7 +69,6 @@ const MultiImageCarousel = () => {
   }, []);
 
   const handlePrev = () => {
-    console.log("PREV")
     const itemsPerView = windowWidth < 768 ? 2 : 4;
     setCurrentIndex((prev) =>
       prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
@@ -77,7 +76,6 @@ const MultiImageCarousel = () => {
   };
 
   const handleNext = () => {
-    console.log("NEXT")
     const itemsPerView = windowWidth < 768 ? 2 : 4;
     setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
@@ -142,7 +140,7 @@ const MultiImageCarousel = () => {
 
   return (
     <div className="relative w-full">
-      <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
+      <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
@@ -170,11 +168,11 @@ const MultiImageCarousel = () => {
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-[350px] relative"
+                className="flex-none w-1/2 md:w-1/3 relative"
                 style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
                 onClick={() => handleImageClick(image)}
               >
-                <div className="relative w-full h-[250px] bg-gray-100 rounded-lg overflow-hidden group">
+                <div className="relative w-full h-32 md:h-[200px] bg-gray-100 rounded-lg overflow-hidden group mt-10 md:mt-0">
                   <Image
                     src={image.url}
                     alt={image.title}
@@ -204,7 +202,7 @@ const MultiImageCarousel = () => {
             ref={modalRef}
             className="relative  w-full h-full flex items-center justify-center"
           >
-            <div className='text-red-500'>11111</div>
+            <div className='text-red-500'></div>
             <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
               <button className="" onClick={toggleFullScreen}>
                   {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}

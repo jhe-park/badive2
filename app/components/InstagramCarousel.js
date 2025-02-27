@@ -100,7 +100,7 @@ const InstagramCarousel = () => {
   return (
     <div className="relative w-full aspect-[1280/500]">
       {/* Navigation Buttons */}
-      <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
+      <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
@@ -119,7 +119,7 @@ const InstagramCarousel = () => {
 
       {/* Images Container */}
       <SlideUp >
-        <div className="relative overflow-hidden aspect-[1280/500] ">
+        <div className="relative overflow-hidden aspect-[1280/500] mt-10 md:mt-0 ">
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
