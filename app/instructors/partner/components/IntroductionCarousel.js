@@ -3,7 +3,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
 import Image from "next/image";
 import { items } from "./items";
-
+import { Divider } from "@heroui/react";
 function IntroductionCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -35,19 +35,19 @@ function IntroductionCarousel() {
 
   return (
     <>
-      <div className="relative w-[66vw] overflow-hidden h-full md:h-[80vh]">
+      <div className="relative w-[90vw] md:w-[1280px] overflow-hidden h-full md:h-full">
         <div
-          className="flex h-full"
+          className="flex"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
             transition: "transform 0.5s ease-in-out",
           }}
         >
           {items.map((item, index) => (
-            <div key={index} className="flex min-w-full flex-col md:flex-row gap-y-2 md:gap-y-12">
+            <div key={index} className="flex min-w-full flex-col md:flex-row gap-y-2 md:gap-y-12 md:gap-x-4">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
-              <div className="w-1/3 md:w-1/2 md:py-12 relative md:px-[8vw] md:pr-[8vw] md:pl-0 flex justify-center items-center order-1 md:order-2 justify-center w-full">
-                <div className="w-2/3 aspect-[4/3] relative h-full">
+              <div className="w-full md:w-fit md:py-12 relative md:pl-0 flex justify-center items-center order-1 md:order-2">
+                <div className="w-[300px] h-[500px] relative">
                   <Image
                     src={item.right.image}
                     fill
@@ -58,19 +58,21 @@ function IntroductionCarousel() {
               </div>
 
               {/* 왼쪽 섹션 - 모바일에서는 아래로 */}
-              <div className="w-full md:w-1/2 md:py-12 relative px-[8vw] md:pl-[8vw] md:pr-0 flex flex-col justify-center items-center gap-y-2 md:gap-y-12 order-2 md:order-1">
+              <div className="w-full md:w-[60%] md:py-12 relative md:pl-24 md:pr-0 flex flex-col justify-start items-center gap-y-2 md:gap-y-6 order-2 md:order-1">
                 <div className="hidden md:block absolute top-0 left-0 text-[200px] font-bold text-gray-200 opacity-20">
                   01
                 </div>
-                <div className="text-2xl md:text-[100px] font-bold text-center md:text-left">{item.left.title}</div>
-                <div className="text-lg md:mt-6 md:text-[32px] text-center md:text-left" style={{ color: "#902020" }}>
+                <div className="text-2xl md:text-[45px] font-bold text-center md:text-left">{item.left.title}</div>
+                <div className="text-lg md:mt-6 md:text-[25px] text-center md:text-left" style={{ color: "#902020" }}>
                   {item.left.subtitle}
                 </div>
+                <Divider className="w-[250px] bg-[#B27400]" orientation="horizontal" />
                 <div
-                  className={`text-sm md:text-[30px] text-center md:[&>p:not(:last-child)]:mb-8 ${
+                  className={`text-sm md:text-[20px] text-center ${
                     expandedIndex !== index && isMobile ? 'line-clamp-6' : ''
                   }`}
                   dangerouslySetInnerHTML={{ __html: item.left.description }}
+                  style={{lineHeight: "1.5"}}
                 />
                 <button
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}

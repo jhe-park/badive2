@@ -21,7 +21,7 @@ export default function Activity() {
 
   return (
     <div className="w-full h-full md:h-[1046px] flex relative flex-col items-center">
-      <div className="hidden md:block absolute top-0 left-0 w-1/3 h-full bg-black z-1"></div>
+      <div className="hidden md:block absolute top-0 left-0 w-[calc(50vw-320px)] h-full bg-black z-1"></div>
       <div className="flex flex-col items-center justify-center w-full md:gap-y-6">
         <div className="text-2xl md:text-[30px] text-black">activity</div>
         <div className="text-4xl md:text-[60px] font-bold text-black">강사활동</div>
