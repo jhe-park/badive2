@@ -161,7 +161,7 @@ export default function SelectComponent({
     }
   };
   useEffect(() => {
-    setSelectedResult({instructor:"",program:"",region:"",noParticipants:0})
+    setSelectedResult({instructor:"",program:"",region:"",noParticipants:1})
   }, []);
   console.log("selectedResult:", selectedResult);
   return (
