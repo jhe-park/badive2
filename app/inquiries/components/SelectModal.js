@@ -19,32 +19,33 @@ import React, { useState, useEffect } from "react";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
 import { createClient } from "@/utils/supabase/client";
 import useModalOpen from "@/app/store/useModalOpen";
+import { ToastContainer, toast } from "react-toastify";
 
-
-
-
-export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenChangeProps, onClose:onCloseProps, userReservations }) {
+export default function SelectModal({
+  isOpen: isOpenProps,
+  onOpenChange: onOpenChangeProps,
+  onClose: onCloseProps,
+  userReservations,
+}) {
   const [selectedCell, setSelectedCell] = useState(null);
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { isOpen, setIsOpen } = useModalOpen();
   const [data, setData] = useState([]);
   const supabase = createClient();
 
-
   useEffect(() => {
     setIsOpen(isOpenProps);
   }, [isOpenProps]);
 
-
   const getSchedule = async () => {
     try {
-      console.log('Fetching schedule with:', {
+      console.log("Fetching schedule with:", {
         instructor_id: selectedResult?.instructor_id,
-        program_id: selectedResult?.program_id
+        program_id: selectedResult?.program_id,
       });
-      
+
       if (!selectedResult?.instructor_id || !selectedResult?.program_id) {
-        console.log('필수 ID 값이 없습니다');
+        console.log("필수 ID 값이 없습니다");
         return;
       }
 
@@ -54,27 +55,25 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
         .eq("instructor_id", selectedResult.instructor_id)
         .eq("program_id", selectedResult.program_id)
         .in("date", selectedResult.date)
-        .order('date', { ascending: true })
-        
-
+        .order("date", { ascending: true });
 
       if (error) {
-        console.error('데이터 조회 에러:', error);
+        console.error("데이터 조회 에러:", error);
         return;
       }
-      
-      console.log('조회된 데이터:', data);
+
+      console.log("조회된 데이터:", data);
       setData(data);
     } catch (err) {
-      console.error('예외 발생:', err);
+      console.error("예외 발생:", err);
     }
   };
 
   const formatData = (rawData) => {
     // unique_id에서 날짜와 시간을 추출하여 정렬
     const sortedData = [...rawData].sort((a, b) => {
-      const [, , dateA, timeA] = a.unique_id.split('_');
-      const [, , dateB, timeB] = b.unique_id.split('_');
+      const [, , dateA, timeA] = a.unique_id.split("_");
+      const [, , dateB, timeB] = b.unique_id.split("_");
       const dateTimeA = new Date(`${dateA} ${timeA}`);
       const dateTimeB = new Date(`${dateB} ${timeB}`);
       return dateTimeA - dateTimeB;
@@ -89,26 +88,36 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
       return acc;
     }, {});
 
-    const formattedData = Object.keys(groupedByDate).map(date => {
-      const weekday = new Date(date).toLocaleDateString('ko-KR', { weekday: 'short' });
+    const formattedData = Object.keys(groupedByDate).map((date) => {
+      const weekday = new Date(date).toLocaleDateString("ko-KR", {
+        weekday: "short",
+      });
       return {
         date: date,
         weekday: weekday,
-        schedule: groupedByDate[date].map(slot => {
-          const remainingSpots = slot.max_participants - slot.current_participants;
-          const isReserved = Array.isArray(userReservations) && userReservations.some(reservation => 
-            reservation.time_slot_id === slot.id && reservation.status !== '취소완료'
-          );
+        schedule: groupedByDate[date].map((slot) => {
+          const remainingSpots =
+            slot.max_participants - slot.current_participants;
+          const isReserved =
+            Array.isArray(userReservations) &&
+            userReservations.some(
+              (reservation) =>
+                reservation.time_slot_id === slot.id &&
+                reservation.status !== "취소완료"
+            );
 
           return {
             time: `${slot.start_time}~${slot.end_time}`,
-            status: !slot.available || remainingSpots < selectedResult.noParticipants ? 2 
-                   : isReserved ? 1  
-                   : 0,
+            status:
+              !slot.available || remainingSpots < selectedResult.noParticipants
+                ? 2
+                : isReserved
+                  ? 1
+                  : 0,
             remainingSpots: remainingSpots,
-            available: slot.available
+            available: slot.available,
           };
-        })
+        }),
       };
     });
 
@@ -123,7 +132,7 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
 
   // data가 업데이트될 때마다 포맷된 데이터 생성
   const formattedSchedule = data.length > 0 ? formatData(data) : [];
-  
+
   // dummyData 대신 formattedSchedule 사용
   const tableData = formattedSchedule;
 
@@ -131,15 +140,17 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
     if (status === 0) {
       setSelectedCell(key);
       // selectedResult에 slot_id, slot_start_time, slot_end_time, slot_date, price 추가
-      const selectedSlot = data.find(slot => 
-        slot.date === tableData[dateIndex].date && 
-        `${slot.start_time}~${slot.end_time}` === tableData[dateIndex].schedule[timeIndex].time
+      const selectedSlot = data.find(
+        (slot) =>
+          slot.date === tableData[dateIndex].date &&
+          `${slot.start_time}~${slot.end_time}` ===
+            tableData[dateIndex].schedule[timeIndex].time
       );
-      
+
       if (selectedSlot) {
         const selectedDate = tableData[dateIndex].date;
         const selectedWeekday = tableData[dateIndex].weekday;
-        const formattedDate = `${selectedDate.slice(5).replace('-', '/')}(${selectedWeekday})`;
+        const formattedDate = `${selectedDate.slice(5).replace("-", "/")}(${selectedWeekday})`;
 
         setSelectedResult({
           ...selectedResult,
@@ -148,11 +159,11 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
           slot_end_time: selectedSlot.end_time,
           slot_date: formattedDate,
           price: selectedSlot.program_id.price, // price 값 추가
-          totalPrice: selectedSlot.program_id.price * selectedResult.noParticipants // totalPrice 계산
+          totalPrice:
+            selectedSlot.program_id.price * selectedResult.noParticipants, // totalPrice 계산
         });
       }
     }
-
   };
 
   const generateTimeSlots = () => {
@@ -175,13 +186,27 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
   // console.log('userReservations11:', userReservations)
   return (
     <>
-      <Modal isOpen={isOpenProps} onOpenChange={onOpenChangeProps} size='full'>
+      <Modal isOpen={isOpenProps} onOpenChange={onOpenChangeProps} size="full">
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <ModalContent className="max-h-[80vh]">
           {(onClose) => (
             <>
               <ModalHeader className="">
                 <div className="flex md:flex-row flex-col justify-between w-full gap-y-2">
-                  <div className="text-lg md:text-2xl font-bold">{selectedResult.instructor}</div>
+                  <div className="text-lg md:text-2xl font-bold">
+                    {selectedResult.instructor}
+                  </div>
                   <div className="flex items-center gap-2 pr-6">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-[#A9D6E5]"></div>
@@ -200,23 +225,31 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
               </ModalHeader>
               <ModalBody className="overflow-y-auto">
                 <div className="overflow-x-auto">
-                  <Table 
-                    aria-label="Schedule table" 
-                    shadow="none" 
+                  <Table
+                    aria-label="Schedule table"
+                    shadow="none"
                     removeWrapper
                     className="border-collapse border border-gray-300"
                   >
                     <TableHeader>
-                      <TableColumn className="text-sm md:text-lg text-center w-1/8 border border-gray-300">시간/요일</TableColumn>
+                      <TableColumn className="text-sm md:text-lg text-center w-1/8 border border-gray-300">
+                        시간/요일
+                      </TableColumn>
                       {tableData.map((slot, index) => (
-                        <TableColumn key={index} className="text-sm md:text-lg text-center w-1/8 border border-gray-300">
-                          {`${slot.date.slice(5).replace('-', '/')}(${slot.weekday})`}
+                        <TableColumn
+                          key={index}
+                          className="text-sm md:text-lg text-center w-1/8 border border-gray-300"
+                        >
+                          {`${slot.date.slice(5).replace("-", "/")}(${slot.weekday})`}
                         </TableColumn>
                       ))}
                     </TableHeader>
                     <TableBody>
                       {tableData[0]?.schedule.map((schedule, timeIndex) => (
-                        <TableRow key={timeIndex} className="text-center overflow-x-auto">
+                        <TableRow
+                          key={timeIndex}
+                          className="text-center overflow-x-auto"
+                        >
                           <TableCell className="text-center text-sm md:text-lg z-50 border border-gray-300">
                             {schedule.time}
                           </TableCell>
@@ -227,12 +260,14 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
                                 ${selectedCell === `${timeIndex}-${dateIndex}` ? "bg-[#CAD593]" : ""} 
                                 ${slot.schedule[timeIndex].status === 0 ? "cursor-pointer" : "cursor-not-allowed"}
                                 border border-gray-300`}
-                              onClick={() => handleCellClick(
-                                `${timeIndex}-${dateIndex}`, 
-                                slot.schedule[timeIndex].status,
-                                dateIndex,
-                                timeIndex
-                              )}
+                              onClick={() =>
+                                handleCellClick(
+                                  `${timeIndex}-${dateIndex}`,
+                                  slot.schedule[timeIndex].status,
+                                  dateIndex,
+                                  timeIndex
+                                )
+                              }
                             >
                               &nbsp;
                             </TableCell>
@@ -250,7 +285,7 @@ export default function SelectModal({ isOpen:isOpenProps, onOpenChange:onOpenCha
                     if (selectedCell && selectedResult.slot_id) {
                       onClose();
                     } else {
-                      alert('예약할 시간을 선택해주세요.');
+                      toast.error("예약할 시간을 선택해주세요.");
                     }
                   }}
                 >

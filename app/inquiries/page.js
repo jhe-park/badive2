@@ -33,7 +33,7 @@ export default async function page() {
         />
         <div className="absolute bottom-[40%] left-[30%] gap-y-2 flex flex-col"></div>
       </div>
-      <div className="w-[90%] md:w-[66vw] h-full flex flex-col items-center justify-center gap-y-6 md:gap-y-12 py-12">
+      <div className="w-[90%] md:w-[1280px] h-full flex flex-col items-center justify-center gap-y-6 md:gap-y-12 py-12">
         <h1 className="text-2xl md:text-5xl font-bold text-start w-full">예약</h1>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>
         <div className="w-full h-full flex flex-col items-center justify-center gap-x-5">

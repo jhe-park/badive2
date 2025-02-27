@@ -93,20 +93,17 @@ const CalendarComponent = ({
     1
   ).getDay();
 
-  console.log("programStore:", programStore);
-  console.log("selectedResult:", selectedResult);
-
   const findSelectedProgram = () => {
     const selectedProgram = programStore.find(
       (item) =>
-        item.title === selectedResult.program &&
-        item.instructor_id.name === selectedResult.instructor
+        item.title === selectedResult?.program &&
+        item.instructor_id.name === selectedResult?.instructor
     );
     if (selectedProgram) {
       if (selectedProgram?.id && selectedProgram?.instructor_id?.id) {
         if (
-          selectedResult.program_id !== selectedProgram.id ||
-          selectedResult.instructor_id !== selectedProgram.instructor_id.id
+          selectedResult?.program_id !== selectedProgram.id ||
+          selectedResult?.instructor_id !== selectedProgram.instructor_id.id
         ) {
           setSelectedResult({
             ...selectedResult,
@@ -120,7 +117,7 @@ const CalendarComponent = ({
 
   useEffect(() => {
     findSelectedProgram();
-  }, [selectedResult.program, selectedResult.instructor]);
+  }, [selectedResult?.program, selectedResult?.instructor]);
 
 
   console.log('isSelectedInstructor:', isSelectInstructor)
@@ -164,7 +161,7 @@ const CalendarComponent = ({
               <ChevronRight className="text-4xl md:text-9xl font-bold" />
             </button>
           </div>
-          <div className="grid grid-cols-7 gap-0 w-full">
+          <div className="grid grid-cols-7 gap-0 w-full border-1 p-6 border-gray-300 rounded-lg">
             {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
               <div
                 key={day}
@@ -184,38 +181,40 @@ const CalendarComponent = ({
               )
             )}
             {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
+              const currentDateObj = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                day
+              );
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              const isPastDate = currentDateObj < today;
+
               const isSelected =
                 selectedDate &&
-                selectedDate.start <=
-                  new Date(
-                    currentDate.getFullYear(),
-                    currentDate.getMonth(),
-                    day
-                  ) &&
-                selectedDate.end >=
-                  new Date(
-                    currentDate.getFullYear(),
-                    currentDate.getMonth(),
-                    day
-                  );
+                selectedDate.start <= currentDateObj &&
+                selectedDate.end >= currentDateObj;
 
-              const isStart =
-                selectedDate && selectedDate.start.getDate() === day;
+              const isStart = selectedDate && selectedDate.start.getDate() === day;
               const isEnd = selectedDate && selectedDate.end.getDate() === day;
 
               return (
                 <div
                   key={day}
-                  className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition ${
+                  className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center ${
+                    isPastDate 
+                      ? "text-gray-300 cursor-not-allowed" 
+                      : "cursor-pointer hover:bg-gray-200"
+                  } transition ${
                     isSelected
                       ? isStart
-                        ? "bg-blue-500 text-white rounded-l-full"
+                        ? "bg-blue-500 text-white rounded-l-lg px-2"
                         : isEnd
-                          ? "bg-blue-500 text-white rounded-r-full"
-                          : "bg-blue-500 text-white rounded-none"
+                          ? "bg-blue-500 text-white rounded-r-lg px-2"
+                          : "bg-blue-500 text-white px-2"
                       : ""
                   }`}
-                  onClick={() => handleDateSelect(day)}
+                  onClick={() => !isPastDate && handleDateSelect(day)}
                 >
                   {day}
                 </div>
@@ -223,12 +222,12 @@ const CalendarComponent = ({
             })}
           </div>
           <div className="w-[90%] h-full items-center justify-start gap-y-6 flex flex-col">
-            {selectedResult.slot_date && (
+            {selectedResult?.slot_date && (
               <>
                 <div className="w-full h-16 flex items-center justify-center border-2 border-[#0077B6] rounded-lg p-2">
                   <span className="text-sm md:text-3xl">
-                    {selectedResult.slot_date} {selectedResult.slot_start_time}~
-                    {selectedResult.slot_end_time} {selectedResult.instructor}
+                    {selectedResult?.slot_date} {selectedResult?.slot_start_time}~
+                    {selectedResult?.slot_end_time} {selectedResult?.instructor}
                   </span>
                 </div>
 

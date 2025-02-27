@@ -160,7 +160,10 @@ export default function SelectComponent({
       toast.error("결제 요청 중 오류가 발생했습니다.");
     }
   };
-
+  useEffect(() => {
+    setSelectedResult({instructor:"",program:"",region:"",noParticipants:0})
+  }, []);
+  console.log("selectedResult:", selectedResult);
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
       <ToastContainer
@@ -312,10 +315,10 @@ export default function SelectComponent({
       <div className="flex justify-between items-center w-[90%]">
         <div className="text-lg md:text-2xl">최종 결제 금액</div>
         <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
-          {selectedResult.totalPrice && (
+          {selectedResult?.totalPrice && (
             <>
               <p className="text-lg md:text-2xl">
-                {selectedResult.totalPrice.toString()}원
+                {selectedResult?.totalPrice.toString()}원
               </p>
               <p className="text-lg md:text-2xl">(vat포함)</p>
             </>

@@ -10,6 +10,7 @@ import { Checkbox } from "@heroui/react";
 import { Card } from "@heroui/card";
 import Image from "next/image";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
+import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 
 const CalendarComponent = ({
   isSelectProgram,
@@ -24,7 +25,18 @@ const CalendarComponent = ({
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const [isAgree, setIsAgree] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
 
+  useEffect(() => {
+    if (selectedResult?.program) {
+      const program = programStore.find(item => item.title === selectedResult.program);
+      console.log("program111:", program)
+      if (program?.images) {
+        setSelectedImageUrl(program.images);
+      }
+    }
+  }, [selectedResult, programStore])
+  console.log("selectedImageUrl:", selectedImageUrl)
   const handleNextMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
@@ -110,36 +122,24 @@ const CalendarComponent = ({
     findSelectedProgram();
   }, [selectedResult.program, selectedResult.instructor]);
 
+
+  console.log('isSelectedInstructor:', isSelectInstructor)
   return (
     <div
-      className={`col-span-1 flex flex-col items-center justify-start} gap-y-2 md:gap-y-12 h-full`}
+      className={`col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}
     >
       {!isSelectProgram ? (
         // <div className=" w-48 h-48 md:w-1/2 md:h-1/2  flex items-center justify-center relative">
         //   <Image src="/noimage/noimage.jpg" alt="Program Image" fill className="rounded-2xl" />
         // </div>
 
-        <Card className="w-[90%] flex flex-col items-center justify-center h-2/3 space-y-5 p-4" radius="lg ">
-          <Skeleton className="rounded-lg">
-            <div className="h-96 w-full rounded-lg bg-default-300" />
-          </Skeleton>
-
-          <div className="space-y-12">
-            <Skeleton className="w-3/5 rounded-lg">
-              <div className="h-6 w-3/5 rounded-lg bg-default-200" />
-            </Skeleton>
-            <Skeleton className="w-4/5 rounded-lg">
-              <div className="h-6 w-4/5 rounded-lg bg-default-200" />
-            </Skeleton>
-            <Skeleton className="w-2/5 rounded-lg">
-              <div className="h-6 w-2/5 rounded-lg bg-default-300" />
-            </Skeleton>
-          </div>
-        </Card>
+        <div className="w-full h-full flex items-center justify-center">
+          <Image src='/inquiries/logo.png' alt='logo' width={500} height={500}></Image>
+        </div>
       ) : !isSelectInstructor ? (
-        programStore[0]?.images ? (
+        selectedImageUrl ? (
           <div className="w-48 h-48 md:w-[90%] md:h-2/3 flex items-center justify-center relative">
-            <Image src={programStore[0].images} alt="Program Image" fill />
+            <Image src={selectedImageUrl} alt="Program Image" fill />
           </div>
         ) : null
       ) : (
@@ -233,12 +233,24 @@ const CalendarComponent = ({
                 </div>
 
                 <div className="flex flex-col items-center justify-center gap-y-2 text-sm md:text-xl">
-                  <Checkbox  size="lg" checked={selectedResult.isAgree} onChange={() => setSelectedResult({...selectedResult, isAgree: !selectedResult.isAgree})}>
+                  <Checkbox
+                    size="lg"
+                    checked={selectedResult.isAgree}
+                    onChange={() =>
+                      setSelectedResult({
+                        ...selectedResult,
+                        isAgree: !selectedResult.isAgree,
+                      })
+                    }
+                  >
                     <p>※위 내용 일정으로 예약을 신청하시겠습니까?</p>
-                    <p className="font-bold">(예약이 확정된 이후에는 변경이 어려울 수 있습니다.)</p>
+                    <p className="font-bold">
+                      (하단 예약 주의사항과 환불규정을 꼭 확인 후 결제해주시기 바랍니다.)
+                    </p>
+                    <p className="font-bold">
+                      (단체예약문의는 카카오톡 채널 or 전화로 문의 주시면 예약이 가능합니다.)
+                    </p>
                   </Checkbox>
-        
-
                 </div>
               </>
             )}
@@ -248,7 +260,6 @@ const CalendarComponent = ({
             isOpen={isOpen}
             onOpen={onOpen}
             onOpenChange={onOpenChange}
-
           ></SelectModal>
         </>
       )}
