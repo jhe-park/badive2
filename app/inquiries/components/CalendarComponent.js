@@ -133,22 +133,9 @@ const CalendarComponent = ({
         //   <Image src="/noimage/noimage.jpg" alt="Program Image" fill className="rounded-2xl" />
         // </div>
 
-        <Card className="w-[90%] md:w-2/3 h-[30vh] md:h-2/3 p-4 flex flex-col justify-between" radius="lg">
-          <Skeleton className="rounded-lg" style={{ height: '66.67%' }}>
-            <div className="h-full w-full rounded-lg bg-default-300" />
-          </Skeleton>
-          <div className="space-y-3 flex flex-col justify-evenly h-1/3 pt-3 md:pt-0">
-            <Skeleton className="w-3/5 rounded-lg">
-              <div className="h-3 md:h-6 w-3/5 rounded-lg bg-default-200" />
-            </Skeleton>
-            <Skeleton className="w-4/5 rounded-lg">
-              <div className="h-3 md:h-6 w-4/5 rounded-lg bg-default-200" />
-            </Skeleton>
-            <Skeleton className="w-2/5 rounded-lg">
-              <div className="h-3 md:h-6 w-2/5 rounded-lg bg-default-300" />
-            </Skeleton>
-          </div>
-        </Card>
+        <div className="w-full h-full flex items-center justify-center">
+          <Image src='/inquiries/logo.png' alt='logo' width={500} height={500}></Image>
+        </div>
       ) : !isSelectInstructor ? (
         selectedImageUrl ? (
           <div className="w-48 h-48 md:w-[90%] md:h-2/3 flex items-center justify-center relative">
@@ -258,7 +245,7 @@ const CalendarComponent = ({
                   >
                     <p>※위 내용 일정으로 예약을 신청하시겠습니까?</p>
                     <p className="font-bold">
-                      (예약이 확정된 이후에는 변경이 어려울 수 있습니다.)
+                      (하단 예약 주의사항과 환불규정을 꼭 확인 후 결제해주시기 바랍니다.)
                     </p>
                     <p className="font-bold">
                       (단체예약문의는 카카오톡 채널 or 전화로 문의 주시면 예약이 가능합니다.)

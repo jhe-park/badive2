@@ -16,7 +16,7 @@ export default function Component() {
       {/* Logo Section */}
       <div className="container mx-auto px-4">
         <div className="text-center text-4xl md:text-5xl font-bold mb-12 transition-colors">
-          BADIVE
+          바다이브
         </div>
 
         {/* Main Content */}
