@@ -281,7 +281,7 @@ export default function SelectComponent({
         theme="light"
       />
       <div className="text-center text-2xl md:text-4xl font-bold">
-        스쿠버 다이빙 - 오픈워터 다이버
+        강습 프로그램 선택하기
       </div>
       <div className="text-center text-sm md:text-xl">
         스쿠버 다이빙의 첫걸음 오픈워터 다이버 강습 프로그램
