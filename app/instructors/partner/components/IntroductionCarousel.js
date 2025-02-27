@@ -122,7 +122,7 @@ function IntroductionCarousel() {
                 className="object-cover rounded-full"
               />
             </div>
-            <div className="w-full text-xs md:text-2xl text-center">{item.smallTitle}</div>
+            <div className="w-full text-xs md:text-[18px] text-center">{item.smallTitle}</div>
           </div>
         ))}
       </div>

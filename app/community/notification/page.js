@@ -19,7 +19,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="w-[90%] md:w-[66vw] h-full flex flex-col items-center justify-center gap-y-5">
+      <div className="w-[90%] md:w-[1280px] h-full md:aspect-[1280/1240] flex flex-col items-center justify-center gap-y-5">
         <NotificationTable></NotificationTable>
       </div>
     </div>

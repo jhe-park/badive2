@@ -50,7 +50,7 @@ export default async function NoticeDetailPage({ params }) {
           </div>
         </div>
       </div>
-      <div className="w-[90%] md:w-[66vw] h-full flex flex-col items-center justify-center gap-y-5 my-12 md:my-24">
+      <div className="w-[90%] md:w-[1280px] h-full  flex flex-col items-center justify-center gap-y-5 my-12 md:my-24">
         <div className="w-full mx-auto p-4">
           {/* 공지사항 카드 */}
           <div className="bg-white  overflow-hidden border-b border-gray-500">

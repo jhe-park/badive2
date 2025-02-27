@@ -18,6 +18,8 @@ function RegionTabs() {
     { id: 6, name: 'DIT서면풀장', image: '/about/location6.png', region: '부산' },
     { id: 7, name: '북항마리나', image: '/about/location7.png', region: '부산' },
     { id: 8, name: '송도해양레포츠', image: '/about/location8.png', region: '경남' },
+    { id: 8, name: 'K26', image: '/about/location9.png', region: '경기' },
+    { id: 8, name: '패스나인', image: '/about/location10.png', region: '대구' },
   ];
 
   // 선택된 지역에 따라 위치 필터링
@@ -31,7 +33,7 @@ function RegionTabs() {
         {regions.map((region, index) => (
           <React.Fragment key={index}>
             <div
-              className={`w-1/4 md:flex-1 h-6 md:h-20 justify-center items-center flex cursor-pointer hover:bg-gray-200 transition-colors ${
+              className={`w-1/4 md:flex-1 h-6 md:h-12 justify-center items-center flex cursor-pointer hover:bg-gray-200 transition-colors ${
                 selectedTab === region ? 'text-blue-500 font-bold' : ''
               }`}
               onClick={() => setSelectedTab(region)}
@@ -55,7 +57,7 @@ function RegionTabs() {
                 className="object-cover rounded-lg" 
               />
             </div>
-            <p className="mt-2 text-medium md:text-3xl font-medium">{location.name}</p>
+            <p className="mt-2 text-medium md:text-[26px] font-medium">{location.name}</p>
           </div>
         ))}
       </div>

@@ -129,7 +129,7 @@ const InstagramCarousel = () => {
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/4 h-full relative"
+                className="flex-none w-1/2 md:w-1/3 h-full relative"
                 style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">

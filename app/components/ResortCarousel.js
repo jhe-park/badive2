@@ -143,7 +143,7 @@ const MultiImageCarousel = () => {
   console.log('resortData:',resortData);
 
   return (
-    <div className="relative w-full ">
+    <div className="relative w-full">
       <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
@@ -162,38 +162,39 @@ const MultiImageCarousel = () => {
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden aspect-[1280/250] pt-10 md:pt-0">
+        <div className="relative overflow-hidden">
           <div
-            className="flex transition-transform duration-300 ease-out h-full"
+            className="flex transition-transform duration-300 ease-out"
             style={{
-              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 33.333)}%)`,
+              transform: `translateX(-${currentIndex * (100 / (windowWidth < 768 ? 2 : 3))}%)`,
             }}
           >
             {resortData.map((image) => (
               <div
                 key={image.id}
-                className="flex-none h-full relative group hover:cursor-pointer"
-                style={{ width: windowWidth < 768 ? "50%" : "33.333%", padding: "0 10px" }}
+                className="flex-none"
+                style={{ 
+                  width: windowWidth < 768 ? '350px' : '400px',
+                  padding: '0 10px'
+                }}
                 onClick={() => handleImageClick(image)}
-
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-36 md:h-4/5 group">
+                <div className="h-[250px] bg-gray-100 rounded-lg overflow-hidden relative w-full group">
                   <Image
                     src={image.image}
                     alt={image.title}
                     fill
-                    className="transition-transform duration-300 ease-out group-hover:scale-105"
+                    className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover"
                   />
                 </div>
-                <div className="text-center h-1/5 flex justify-center items-center">
-                  <span className="text-sm md:text-[18px]">{image.title}</span>
+                <div className="mt-4 text-center">
+                  <span className="text-base md:text-lg font-medium">{image.title}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </SlideUp>
-      
     </div>
   );
 };

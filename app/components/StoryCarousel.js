@@ -141,7 +141,7 @@ const MultiImageCarousel = () => {
   }, []);
 
   return (
-    <div className="relative w-full ">
+    <div className="relative w-full">
       <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
@@ -160,28 +160,27 @@ const MultiImageCarousel = () => {
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden h-full pt-10 md:pt-0">
+        <div className="relative overflow-hidden">
           <div
-            className="flex transition-transform duration-300 ease-out h-full"
+            className="flex transition-transform duration-300 ease-out"
             style={{
-              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 25)}%)`,
+              transform: `translateX(-${currentIndex * (100 / (windowWidth < 768 ? 2 : 4))}%)`,
             }}
           >
-            {images.map((image) => (
+            {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none h-[calc(236/400*100%)] relative group"
-                style={{ width: windowWidth < 768 ? "50%" : "25%", padding: "0 10px" }}
+                className="flex-none w-[350px] relative"
+                style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
                 onClick={() => handleImageClick(image)}
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-36 md:h-4/5 group">
+                <div className="relative w-full h-[250px] bg-gray-100 rounded-lg overflow-hidden group">
                   <Image
                     src={image.url}
                     alt={image.title}
                     fill
-                    className="transition-transform duration-300 ease-out group-hover:scale-105"
+                    className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover"
                   />
-                  {/* Play Button */}
                   <button
                     className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                     aria-label={`Play ${image.title}`}
@@ -190,8 +189,7 @@ const MultiImageCarousel = () => {
                     <IoIosPlayCircle className="w-10 h-10 md:w-20 md:h-20" />
                   </button>
                 </div>
-                {/* Title below the image */}
-                <div className="text-center h-1/5 flex justify-center items-center mt-2">
+                <div className="text-center mt-2">
                   <span className="text-sm md:text-[18px]">{image.title}</span>
                 </div>
               </div>
