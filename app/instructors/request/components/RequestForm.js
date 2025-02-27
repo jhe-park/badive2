@@ -89,8 +89,9 @@ export default function RequestForm({ className, ...props }) {
     }
 
     if (agree) {
+      console.log("agree:", agree)
       const handleRequest = async () => {
-        const { data, error } = await supabase.from("request").insert({
+        const { data, error } = await supabase.from("requestInstructor").insert({
           name,
           phone,
           gender,
@@ -118,26 +119,21 @@ export default function RequestForm({ className, ...props }) {
             accept: "application/json",
             "content-type": "application/x-www-form-urlencoded",
           };
+          
+            const emailResponse = await axios.post(
+              "https://w3y4gupftygq7uozhabvapcdxm0uixuj.lambda-url.ap-northeast-2.on.aws/send-email",
+              null,
+              {
+                params,
+                headers,
+              }
+            );
 
-          const emailResponse = await axios.post(
-            "https://w3y4gupftygq7uozhabvapcdxm0uixuj.lambda-url.ap-northeast-2.on.aws/send-email",
-            null,
-            {
-              params,
-              headers,
-            }
-          );
-
-          if (emailResponse.status !== 200) {
-            throw new Error("이메일 전송 실패");
-          }
         } catch (error) {
-          console.error("이메일 전송 오류:", error);
+          
           toast.error("이메일 전송 중 오류가 발생했습니다");
-          return;
         }
 
-        console.log("신청완료");
         router.push(`/instructors/request/complete`);
       };
       handleRequest();

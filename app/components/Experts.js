@@ -3,12 +3,12 @@ import SlideUp from "@/components/animation/SlideUp";
 import Link from "next/link";
 export default function Experts() {
   return (
-    <div className="w-full h-[40vh] md:h-[100vh] md:h-[100vh] flex flex-col justify-start items-start gap-y-5 px-[2vw] py-[1vw]">
-      <div className="flex gap-x-5 justify-center md:justify-start items-center w-full">
+    <div className="w-full md:w-[66vw] h-auto aspect-[1280/1000] flex flex-col justify-evenly items-start">
+      <div className="flex gap-x-5 justify-center md:justify-start items-center w-full mb-4">
         <p className="text-2xl md:text-[36px] font-bold text-center md:text-start">BADIVE 소속강사</p>
       </div>
       <SlideUp>
-      <div className="w-full h-full flex gap-2">
+      <div className="w-full aspect-[1280/810] flex gap-2">
         <div className="w-1/3 h-full flex flex-col justify-center items-center gap-2">
           <div className="w-full h-full bg-green-500 overflow-hidden">
             <img

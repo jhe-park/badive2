@@ -114,9 +114,9 @@ export default function CheckoutPage({ searchParams }) {
   };
 
   return (
-    <div className="wrapper w-screen h-screen flex justify-center items-center px-4 md:px-12">
-      <div className="w-full flex-1 flex-col items-center justify-center">
-        <div id="payment-method" className="w-100" style={{ display: isLoading ? 'none' : 'block' }} />
+    <div className="wrapper pt-[100px] w-[100vw] h-full flex justify-center items-center px-4 md:px-12">
+      <div className="w-full flex-col items-center justify-center h-full my-12 ">
+        <div id="payment-method" className="w-100 h-[60vh] overflow-y-auto" style={{ display: isLoading ? 'none' : 'block' }} />
         <div id="agreement" className="w-100" style={{ display: isLoading ? 'none' : 'block' }} />
         {/* {isLoading ? (
           <div className="max-w-[600px] mx-auto space-y-6">

@@ -87,20 +87,20 @@ const InstagramCarousel = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prev) => {
-      const maxIndex = isMobile ? images.length - 2 : images.length - 5;
+      const maxIndex = isMobile ? images.length - 2 : images.length - 4;
       return prev === 0 ? maxIndex : Math.max(0, prev - 1);
     });
   };
 
   const handleNext = () => {
-    const maxIndex = isMobile ? images.length - 2 : images.length - 5;
+    const maxIndex = isMobile ? images.length - 2 : images.length - 4;
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full aspect-[1280/500]">
       {/* Navigation Buttons */}
-      <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
+      <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
@@ -118,18 +118,18 @@ const InstagramCarousel = () => {
       </div>
 
       {/* Images Container */}
-      <SlideUp>
-        <div className="relative overflow-hidden h-full pt-12 md:pt-5">
+      <SlideUp >
+        <div className="relative overflow-hidden aspect-[1280/500] ">
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (100 / (isMobile ? 2 : 5))}%)`,
+              transform: `translateX(-${currentIndex * (100 / (isMobile ? 2 : 4))}%)`,
             }}
           >
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/5 h-full relative"
+                className="flex-none w-1/2 md:w-1/4 h-full relative"
                 style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">

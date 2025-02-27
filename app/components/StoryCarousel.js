@@ -70,7 +70,7 @@ const MultiImageCarousel = () => {
 
   const handlePrev = () => {
     console.log("PREV")
-    const itemsPerView = windowWidth < 768 ? 1 : 5;
+    const itemsPerView = windowWidth < 768 ? 2 : 4;
     setCurrentIndex((prev) =>
       prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
     );
@@ -78,7 +78,7 @@ const MultiImageCarousel = () => {
 
   const handleNext = () => {
     console.log("NEXT")
-    const itemsPerView = windowWidth < 768 ? 1 : 5;
+    const itemsPerView = windowWidth < 768 ? 2 : 4;
     setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
 
@@ -141,8 +141,8 @@ const MultiImageCarousel = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-full">
-      <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
+    <div className="relative w-full ">
+      <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
@@ -160,18 +160,18 @@ const MultiImageCarousel = () => {
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden h-full pt-10 md:pt-5">
+        <div className="relative overflow-hidden h-full pt-10 md:pt-0">
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 20)}%)`,
+              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 25)}%)`,
             }}
           >
             {images.map((image) => (
               <div
                 key={image.id}
-                className="flex-none h-full relative group"
-                style={{ width: windowWidth < 768 ? "50%" : "20%", padding: "0 10px" }}
+                className="flex-none h-[calc(236/400*100%)] relative group"
+                style={{ width: windowWidth < 768 ? "50%" : "25%", padding: "0 10px" }}
                 onClick={() => handleImageClick(image)}
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-36 md:h-4/5 group">
@@ -191,7 +191,7 @@ const MultiImageCarousel = () => {
                   </button>
                 </div>
                 {/* Title below the image */}
-                <div className="text-center h-1/5 flex justify-center items-center">
+                <div className="text-center h-1/5 flex justify-center items-center mt-2">
                   <span className="text-sm md:text-[18px]">{image.title}</span>
                 </div>
               </div>

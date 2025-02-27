@@ -16,6 +16,8 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { ToastContainer, toast } from "react-toastify";
+import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
+
 export default function SelectComponent({
   isSelectProgram,
   setIsSelectProgram,
@@ -41,6 +43,8 @@ export default function SelectComponent({
   const [widgets, setWidgets] = useState(null);
   const [ready, setReady] = useState(false);
   const [paymentMethodWidget, setPaymentMethodWidget] = useState(null);
+  const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
+
 
   const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   const customerKey = userData?.id;
@@ -67,7 +71,7 @@ export default function SelectComponent({
 
   useEffect(() => {
     getProgram();
-  }, []);
+  }, [selectedProgram,selectedRegion,selectedInstructor]);
 
   const filterRegion = () => {
     const filteredRegion = data?.filter(
@@ -179,8 +183,13 @@ export default function SelectComponent({
       <div className="w-full text-lg md:text-2xl font-bold">강습프로그램</div>
       <Select
         onChange={(e) => {
+          setSelectedImageUrl("")
+          setSelectedResult({})
           setSelectedProgram(e.target.value);
           setIsSelectProgram(true);
+          setSelectedRegion("")
+          setSelectedInstructor("")
+          setIsSelectInstructor(false)
           setSelectedResult({ ...selectedResult, program: e.target.value });
         }}
         className="w-full h-full text-xl"
@@ -194,7 +203,13 @@ export default function SelectComponent({
 
       <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>
       <Select
-        onChange={(e) => setSelectedRegion(e.target.value)}
+        selectedKeys={[selectedRegion]}
+        onChange={(e) => {
+          setSelectedInstructor("")
+          setSelectedRegion(e.target.value)
+          setIsSelectInstructor(false)
+          setSelectedResult({ ...selectedResult, region: e.target.value })
+        }}
         className="w-full h-full text-xl"
       >
         {region.map((item) => (
@@ -207,6 +222,7 @@ export default function SelectComponent({
       <div className="w-full text-lg md:text-2xl font-bold">강사</div>
       <Select
         onChange={(e) => {
+          
           setSelectedInstructor(e.target.value);
           setIsSelectInstructor(true);
           setSelectedResult({ ...selectedResult, instructor: e.target.value });

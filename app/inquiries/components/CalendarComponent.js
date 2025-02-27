@@ -10,6 +10,7 @@ import { Checkbox } from "@heroui/react";
 import { Card } from "@heroui/card";
 import Image from "next/image";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
+import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 
 const CalendarComponent = ({
   isSelectProgram,
@@ -24,7 +25,18 @@ const CalendarComponent = ({
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const [isAgree, setIsAgree] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
 
+  useEffect(() => {
+    if (selectedResult?.program) {
+      const program = programStore.find(item => item.title === selectedResult.program);
+      console.log("program111:", program)
+      if (program?.images) {
+        setSelectedImageUrl(program.images);
+      }
+    }
+  }, [selectedResult, programStore])
+  console.log("selectedImageUrl:", selectedImageUrl)
   const handleNextMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
@@ -110,6 +122,8 @@ const CalendarComponent = ({
     findSelectedProgram();
   }, [selectedResult.program, selectedResult.instructor]);
 
+
+  console.log('isSelectedInstructor:', isSelectInstructor)
   return (
     <div
       className={`col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}
@@ -136,9 +150,9 @@ const CalendarComponent = ({
           </div>
         </Card>
       ) : !isSelectInstructor ? (
-        programStore[0]?.images ? (
+        selectedImageUrl ? (
           <div className="w-48 h-48 md:w-[90%] md:h-2/3 flex items-center justify-center relative">
-            <Image src={programStore[0].images} alt="Program Image" fill />
+            <Image src={selectedImageUrl} alt="Program Image" fill />
           </div>
         ) : null
       ) : (

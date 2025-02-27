@@ -73,14 +73,14 @@ const MultiImageCarousel = () => {
   }, []);
 
   const handlePrev = () => {
-    const itemsPerView = windowWidth < 768 ? 1 : 4;
+    const itemsPerView = windowWidth < 768 ? 1 : 3;
     setCurrentIndex((prev) =>
       prev === 0 ? Math.max(0, resortData.length - itemsPerView) : Math.max(0, prev - 1)
     );
   };
 
   const handleNext = () => {
-    const itemsPerView = windowWidth < 768 ? 1 : 4;
+    const itemsPerView = windowWidth < 768 ? 1 : 3;
     setCurrentIndex((prev) => 
       prev >= resortData.length - itemsPerView ? 0 : prev + 1
     );
@@ -143,8 +143,8 @@ const MultiImageCarousel = () => {
   console.log('resortData:',resortData);
 
   return (
-    <div className="relative w-full h-full">
-      <div className="absolute right-0 -top-2 md:-top-10 flex gap-2">
+    <div className="relative w-full ">
+      <div className="absolute right-0 -top-2 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
@@ -162,18 +162,18 @@ const MultiImageCarousel = () => {
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden h-full pt-10 md:pt-5">
+        <div className="relative overflow-hidden aspect-[1280/250] pt-10 md:pt-0">
           <div
             className="flex transition-transform duration-300 ease-out h-full"
             style={{
-              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 25)}%)`,
+              transform: `translateX(-${currentIndex * (windowWidth < 768 ? 50 : 33.333)}%)`,
             }}
           >
             {resortData.map((image) => (
               <div
                 key={image.id}
                 className="flex-none h-full relative group hover:cursor-pointer"
-                style={{ width: windowWidth < 768 ? "50%" : "25%", padding: "0 10px" }}
+                style={{ width: windowWidth < 768 ? "50%" : "33.333%", padding: "0 10px" }}
                 onClick={() => handleImageClick(image)}
 
               >
