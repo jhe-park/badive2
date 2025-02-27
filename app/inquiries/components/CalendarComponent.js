@@ -11,7 +11,7 @@ import { Card } from "@heroui/card";
 import Image from "next/image";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
-
+import useCalendarClick from "@/app/store/useCalendarClick";
 const CalendarComponent = ({
   isSelectProgram,
   setIsSelectProgram,
@@ -26,6 +26,13 @@ const CalendarComponent = ({
   const [isAgree, setIsAgree] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
+  const { calendarClick, setCalendarClick } = useCalendarClick();
+
+  useEffect(() => {
+    if (!selectedResult?.date) {
+      setSelectedDate(null);
+    }
+  }, [selectedResult?.date]);
 
   useEffect(() => {
     if (selectedResult?.program) {
@@ -50,6 +57,7 @@ const CalendarComponent = ({
   };
 
   const handleDateSelect = (day) => {
+    setCalendarClick(calendarClick + 1)
     const selectedDate = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
@@ -120,7 +128,6 @@ const CalendarComponent = ({
   }, [selectedResult?.program, selectedResult?.instructor]);
 
 
-  console.log('isSelectedInstructor:', isSelectInstructor)
   return (
     <div
       className={`col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}

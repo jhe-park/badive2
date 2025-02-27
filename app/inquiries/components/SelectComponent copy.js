@@ -94,13 +94,13 @@ export default function SelectComponent({
     filterInstructor();
   }, [selectedRegion]);
 
-  useEffect(() => {
-    setSelectedResult({
-      program: selectedResult.program,
-      instructor: selectedResult.instructor,
-      noParticipants: noParticipants,
-    });
-  }, [noParticipants]);
+  // useEffect(() => {
+  //   setSelectedResult({
+  //     program: selectedResult.program,
+  //     instructor: selectedResult.instructor,
+  //     noParticipants: noParticipants,
+  //   });
+  // }, [noParticipants]);
 
   const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {

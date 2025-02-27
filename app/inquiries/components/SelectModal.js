@@ -20,7 +20,7 @@ import { useSelectedResult } from "@/app/store/useSelectedResult";
 import { createClient } from "@/utils/supabase/client";
 import useModalOpen from "@/app/store/useModalOpen";
 import { ToastContainer, toast } from "react-toastify";
-
+import useCalendarClick from "@/app/store/useCalendarClick";
 export default function SelectModal({
   isOpen: isOpenProps,
   onOpenChange: onOpenChangeProps,
@@ -31,6 +31,7 @@ export default function SelectModal({
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { isOpen, setIsOpen } = useModalOpen();
   const [data, setData] = useState([]);
+  const { calendarClick, setCalendarClick } = useCalendarClick();
   const supabase = createClient();
 
   useEffect(() => {
@@ -128,7 +129,7 @@ export default function SelectModal({
     if (selectedResult?.date?.length > 0) {
       getSchedule();
     }
-  }, [selectedResult]);
+  }, [selectedResult, calendarClick]);
 
   // data가 업데이트될 때마다 포맷된 데이터 생성
   const formattedSchedule = data.length > 0 ? formatData(data) : [];

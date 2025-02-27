@@ -45,7 +45,6 @@ export default function SelectComponent({
   const [paymentMethodWidget, setPaymentMethodWidget] = useState(null);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
 
-
   const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   const customerKey = userData?.id;
 
@@ -59,21 +58,22 @@ export default function SelectComponent({
     const { data, error } = await supabase
       .from("program")
       .select("*,instructor_id(*)")
-      .eq('available',true);
+      .eq("available", true);
 
     if (error) {
-      console.error(error);
+      console.log(error);
     } else {
       const uniqueTitles = [...new Set(data.map((item) => item.title))];
       setProgram(uniqueTitles);
       setData(data);
       setProgramStore(data);
+      console.log("Loaded program data:", data);
     }
   };
 
   useEffect(() => {
     getProgram();
-  }, [selectedProgram,selectedRegion,selectedInstructor]);
+  }, [selectedProgram, selectedRegion, selectedInstructor]);
 
   const filterRegion = () => {
     const filteredRegion = data?.filter(
@@ -111,8 +111,20 @@ export default function SelectComponent({
     });
   }, [noParticipants]);
 
-  
-  
+  useEffect(() => {
+    if (selectedResult?.program_id && programStore?.length > 0) {
+      const matchedProgram = programStore.find(
+        (program) => program.id === selectedResult.program_id
+      );
+
+      if (matchedProgram) {
+        setSelectedResult({
+          ...selectedResult,
+          category: matchedProgram.category,
+        });
+      }
+    }
+  }, [selectedResult?.program_id, programStore]);
 
   const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {
@@ -126,19 +138,19 @@ export default function SelectComponent({
 
     try {
       const uuid = generateRandomString();
-      const { error } = await supabase.from('pending_sessions').insert({
+      const { error } = await supabase.from("pending_sessions").insert({
         uuid: uuid,
         selected_data: selectedResult,
-        user_data:userData,
-        profile:profile
+        user_data: userData,
+        profile: profile,
       });
 
       if (error) throw error;
 
       router.push(`/inquiries/checkout?session=${uuid}`);
     } catch (error) {
-      console.log('Error creating pending session:', error);
-      toast.error('결제 진행 중 오류가 발생했습니다.');
+      console.log("Error creating pending session:", error);
+      toast.error("결제 진행 중 오류가 발생했습니다.");
     }
   };
 
@@ -156,14 +168,42 @@ export default function SelectComponent({
         failUrl: window.location.origin + "/inquiries/fail",
       });
     } catch (error) {
-      console.error("Payment request failed:", error);
+      console.log("Payment request failed:", error);
       toast.error("결제 요청 중 오류가 발생했습니다.");
     }
   };
-  useEffect(() => {
-    setSelectedResult({instructor:"",program:"",region:"",noParticipants:1})
-  }, []);
+
+  const handleInstructorSelect = (e) => {
+    const selectedName = e.target.value;
+    setSelectedInstructor(selectedName);
+    setIsSelectInstructor(true);
+
+    const selectedInstructorData = data.find(
+      (item) =>
+        item.title === selectedProgram &&
+        item.region === selectedRegion &&
+        item.instructor_id?.name === selectedName
+    );
+    console.log("selectedInstructorData:", selectedInstructorData);
+
+    console.log('instructor_id11:',selectedInstructorData.instructor_id.id)
+    const newResult = {
+      ...selectedResult,
+      instructor: selectedName,
+      instructor_id: selectedInstructorData.instructor_id.id,
+      program_id: selectedInstructorData.id,
+      totalPrice: selectedInstructorData.price || 0,
+      slot_id: null,
+      date:null
+    };
+
+    setSelectedResult(newResult);
+    console.log("newResult:", newResult);
+    console.log("Updated Result:", newResult);
+  };
+
   console.log("selectedResult:", selectedResult);
+
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
       <ToastContainer
@@ -178,24 +218,40 @@ export default function SelectComponent({
         pauseOnHover
         theme="light"
       />
-      <div className="text-center text-2xl md:text-4xl font-bold">
-        스쿠버 다이빙 - 오픈워터 다이버
-      </div>
-      <div className="text-center text-sm md:text-xl">
-        스쿠버 다이빙의 첫걸음 오픈워터 다이버 강습 프로그램
-      </div>
+      {selectedResult?.category && (
+        <>
+          <div className="text-center text-2xl md:text-4xl font-bold">
+            {selectedResult?.category}
+          </div>
+          <div className="text-center text-sm md:text-xl">
+            {selectedResult?.program}
+          </div>
+        </>
+      )}
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
       <div className="w-full text-lg md:text-2xl font-bold">강습프로그램</div>
       <Select
+        label="프로그램명"
+        aria-label="강습프로그램 선택"
         onChange={(e) => {
-          setSelectedImageUrl("")
-          setSelectedResult({})
+          setSelectedImageUrl("");
           setSelectedProgram(e.target.value);
           setIsSelectProgram(true);
-          setSelectedRegion("")
-          setSelectedInstructor("")
-          setIsSelectInstructor(false)
-          setSelectedResult({ ...selectedResult, program: e.target.value });
+          setSelectedRegion("");
+          setSelectedInstructor("");
+          setIsSelectInstructor(false);
+          setNoParticipants(1);
+          setSelectedResult({
+            program: e.target.value,
+            noParticipants: 1,
+            program_id: null,
+            instructor_id: null,
+            instructor: "",
+            region: "",
+            category: null,
+            totalPrice: null,
+            date:null
+          });
         }}
         className="w-full h-full text-xl"
       >
@@ -208,12 +264,19 @@ export default function SelectComponent({
 
       <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>
       <Select
+        label="지역명"
+        aria-label="지역 선택"
         selectedKeys={[selectedRegion]}
         onChange={(e) => {
-          setSelectedInstructor("")
-          setSelectedRegion(e.target.value)
-          setIsSelectInstructor(false)
-          setSelectedResult({ ...selectedResult, region: e.target.value })
+          setSelectedInstructor("");
+          setSelectedRegion(e.target.value);
+          setIsSelectInstructor(false);
+          setSelectedResult({
+            ...selectedResult,
+            region: e.target.value,
+            instructor: "",
+            date:null
+          });
         }}
         className="w-full h-full text-xl"
       >
@@ -226,12 +289,10 @@ export default function SelectComponent({
 
       <div className="w-full text-lg md:text-2xl font-bold">강사</div>
       <Select
-        onChange={(e) => {
-          
-          setSelectedInstructor(e.target.value);
-          setIsSelectInstructor(true);
-          setSelectedResult({ ...selectedResult, instructor: e.target.value });
-        }}
+        label="강사명"
+        aria-label="강사 선택"
+        selectedKeys={selectedInstructor ? [selectedInstructor] : []}
+        onChange={handleInstructorSelect}
         className="w-full h-full text-xl"
       >
         {instructor.map((item) => (
