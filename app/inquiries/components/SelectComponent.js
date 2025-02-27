@@ -58,7 +58,9 @@ export default function SelectComponent({
   const getProgram = async () => {
     const { data, error } = await supabase
       .from("program")
-      .select("*,instructor_id(*)");
+      .select("*,instructor_id(*)")
+      .eq('available',true);
+
     if (error) {
       console.error(error);
     } else {
