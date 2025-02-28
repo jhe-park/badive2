@@ -110,7 +110,6 @@ export default function InstructorNewPage() {
         <div className="w-full flex flex-col gap-y-2 mb-6">
             
           <Tiptap description={description} setDescription={setDescription}></Tiptap>
-          <ToastEditor></ToastEditor>
         </div>
         <div className="w-full flex flex-row gap-x-2 justify-end mb-12">
         <Button isLoading={isSave} color="primary" onPress={handleSaveFaq}>저장</Button>
