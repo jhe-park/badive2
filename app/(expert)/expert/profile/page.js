@@ -54,8 +54,28 @@ export default function InstructorNewPage() {
   const { expertInformation } = useExpertStore();
   const [program, setProgram] = useState([]);
 
+  const fetchReservation = async () => {
+    const { data, error } = await supabase
+      .from("reservation")
+      .select("*,time_slot_id(*))")
+      .eq("instructor_id", instructorId);
+    setReservation(data);
+    if (data) {
+      const total = data.reduce((sum, item) => {
+        return sum + (parseInt(item.participants) || 0);
+      }, 0);
+      setTotalStudent(total);
+      const totalAmount = data.reduce((sum, item) => {
+        return sum + (parseInt(item.amount) || 0);
+      }, 0);
+      setTotalAmount(totalAmount);
+    }
+  };
+
   useEffect(() => {
+
     if (expertInformation) {
+      fetchReservation();
       setEmail(expertInformation?.email);
       setPassword(expertInformation?.password);
       setName(expertInformation?.name);
@@ -65,6 +85,9 @@ export default function InstructorNewPage() {
       setPhone(expertInformation?.phone);
       setInstructorId(expertInformation?.id);
       setImageUrl(expertInformation?.profile_image);
+      setNoLicense(expertInformation?.no_license);
+      setNoTour(expertInformation?.no_tour);
+
       setCertifications(
         expertInformation?.certifications
           ? JSON.parse(expertInformation.certifications)
@@ -120,7 +143,7 @@ export default function InstructorNewPage() {
         gender,
         birth,
         region,
-        phone,        
+        phone,
         profile_image: imageUrl,
       })
       .eq("id", instructorId);
@@ -181,10 +204,10 @@ export default function InstructorNewPage() {
           <div className="flex flex-row h-full gap-y-6 w-full">
             <div className="flex flex-col h-full gap-y-6 w-1/3 relative m-6">
               <Image
-                src={expertInformation?.profile_image || "/noimage/noimage.jpg"}
+                src={imageUrl}
                 alt="instructor-profile"
                 width={100}
-                height={100}
+                height={100}  
                 className="rounded-2xl w-full h-full object-cover"
               ></Image>
 

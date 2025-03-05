@@ -156,7 +156,7 @@ export default function SelectComponent({
 
   const handleConfirmPayment = async () => {
     try {
-      const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+      const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id.join(',')}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
       await widgets?.requestPayment({
         orderId: generateRandomString(),

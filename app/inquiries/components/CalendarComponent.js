@@ -195,7 +195,7 @@ const CalendarComponent = ({
               );
               const today = new Date();
               today.setHours(0, 0, 0, 0);
-              const isPastDate = currentDateObj < today;
+              const isPastDate = currentDateObj <= today;
 
               const isSelected =
                 selectedDate &&

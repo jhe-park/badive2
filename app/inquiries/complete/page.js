@@ -76,7 +76,7 @@ export default async function page({ searchParams }) {
           .insert([
             {
               order_id: orderId,
-              time_slot_id: time_slot_id,
+              time_slot_id: time_slot_id.split(',')[0],
               user_id: user_id,
               status: "예약확정",
               participants: participants,
@@ -93,75 +93,78 @@ export default async function page({ searchParams }) {
         }
 
         // time_slot 테이블 업데이트
-        const { data: timeSlot } = await supabase
-          .from("timeslot")
-          .select("*")
-          .eq("id", time_slot_id)
-          .single();
-
-        console.log("timeSlot", timeSlot);
-
-        if (timeSlot) {
-          console.log("슬롯잇음");
-          const newParticipants = timeSlot.current_participants + 1;
-          const isFullyBooked = newParticipants >= timeSlot.max_participants;
-
-          const { error: updateError } = await supabase
+        const timeSlotIds = time_slot_id.split(',');
+        
+        for (const slotId of timeSlotIds) {
+          const { data: timeSlot } = await supabase
             .from("timeslot")
-            .update({
-              current_participants: newParticipants,
-              available: !isFullyBooked,
-              current_participants:
-                timeSlot.current_participants + parseInt(participants),
-            })
-            .eq("id", time_slot_id);
+            .select("*")
+            .eq("id", slotId)
+            .single();
 
-          if (updateError) {
-            console.log("타임슬롯 업데이트 오류:", updateError);
-          } else {
-            console.log("타임슬롯 업데이트 성공");
+          console.log("timeSlot", timeSlot);
 
-            const { data: userData } = await supabase
-              .from("profiles")
-              .select("*")
-              .eq("id", user_id)
-              .single();
+          if (timeSlot) {
+            console.log("슬롯잇음");
+            const newParticipants = timeSlot.current_participants + 1;
+            const isFullyBooked = newParticipants >= timeSlot.max_participants;
 
-            const { data: programData } = await supabase
-              .from("program")
-              .select("*,instructor_id(*)")
-              .eq("id", program_id)
-              .single();
+            const { error: updateError } = await supabase
+              .from("timeslot")
+              .update({
+                current_participants: timeSlot.current_participants + parseInt(participants),
+                available: !isFullyBooked,
+              })
+              .eq("id", slotId);
 
-            if (userData.phone) {
-              console.log("전화번호가 있습니다.");
-              // 알림톡 전송
-              try {
-                const response = await axios.post(
-                  "https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk",
-                  {
-                    phone: userData.phone,
-                    name: userData.name,
-                    program: programData.title,
-                    region: programData.region,
-                    instructor: programData.instructor_id.name,
-                    date: timeSlot.date + timeSlot.start_time,
-                  },
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                      accept: "application/json",
-                    },
-                  }
-                );
-                console.log("알림톡 전송 성공:", response.data);
-              } catch (error) {
-                console.error("알림톡 전송 실패:", error);
-              }
+            if (updateError) {
+              console.log(`타임슬롯 ${slotId} 업데이트 오류:`, updateError);
             } else {
-              console.log("전화번호가 없습니다.");
+              console.log(`타임슬롯 ${slotId} 업데이트 성공`);
+
+              const { data: userData } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", user_id)
+                .single();
+
+              const { data: programData } = await supabase
+                .from("program")
+                .select("*,instructor_id(*)")
+                .eq("id", program_id)
+                .single();
+
+              
             }
           }
+        }
+        if (userData.phone) {
+          console.log("전화번호가 있습니다.");
+          // 알림톡 전송
+          try {
+            const response = await axios.post(
+              "https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk",
+              {
+                phone: userData.phone,
+                name: userData.name,
+                program: programData.title,
+                region: programData.region,
+                instructor: programData.instructor_id.name,
+                date: timeSlot.date + timeSlot.start_time,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  accept: "application/json",
+                },
+              }
+            );
+            console.log("알림톡 전송 성공:", response.data);
+          } catch (error) {
+            console.error("알림톡 전송 실패:", error);
+          }
+        } else {
+          console.log("전화번호가 없습니다.");
         }
       }
     }

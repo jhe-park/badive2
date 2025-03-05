@@ -29,17 +29,11 @@ export default function Component({ children, user }) {
   const [pageTitle, setPageTitle] = React.useState("");
   const pathname = usePathname();
   const getPageTitle = () => {
-    if (pathname.includes("/admin/schedule")) return "스케쥴";
-    if (pathname.includes("/admin/sales")) return "매출현황";
-    if (pathname.includes("/admin/instructor")) return "강사관리";
-    if (pathname.includes("/admin/member")) return "회원관리";
-    if (pathname.includes("/admin/program")) return "프로그램";
-    if (pathname.includes("/admin/tour")) return "투어";
-    if (pathname.includes("/admin/main")) return "관리자 홈";
-    if (pathname.includes("/admin/notification")) return "공지사항";
-    if (pathname.includes("/admin/resort")) return "리조트";
-    if (pathname.includes("/admin/faq")) return "FAQ";
-    if (pathname.includes("/admin/login")) return "로그인";
+    if (pathname.includes("/expert/profile")) return "프로필";
+    if (pathname.includes("/expert/schedule")) return "스케쥴";
+    if (pathname.includes("/expert/sales")) return "매출현황";
+    if (pathname.includes("/expert/member")) return "회원관리";
+    if (pathname.includes("/expert/login")) return "강사페이지";
     return "";
   };
   useEffect(() => {
@@ -50,7 +44,7 @@ export default function Component({ children, user }) {
     supabase.auth.signOut();
     // 클라이언트 측에서 signOut 호출
     await signOut();
-    router.push("/admin/login");
+    router.push("/expert/login");
   };
 
   const getSession = async () => {
@@ -59,7 +53,7 @@ export default function Component({ children, user }) {
       const { data: instructorData, error: instructorError } = await supabase
         .from("instructor")
         .select("*")
-        .eq("email", data.session.user.email)
+        .eq("email", data?.session?.user?.email)
         .single();
       setExpertInformation(instructorData);
     }
@@ -87,7 +81,9 @@ export default function Component({ children, user }) {
         <div className="flex items-center gap-3 px-3">
           <div className="flex flex-row items-center gap-2">
             <div className="w-10 h-10 rounded-full overflow-hidden relative">
-              <Image src={expertInformation?.profile_image || "/noimage/noimage.jpg"} alt="profile" fill className="object-cover "/>
+              {expertInformation?.profile_image && (
+                <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />
+              )}
             </div>
             <div>
             <p className="text-lg text-default-600 font-bold text-center">{expertInformation?.name}</p>

@@ -1,14 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, use } from "react";
 import { Button, Input, Checkbox, Link, Form } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { signInAction } from "@/app/actions";
-export default function Component() {
+import { ToastContainer, toast } from "react-toastify";
+
+export default function Component({ searchParams }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [returnUrl, setReturnUrl] = React.useState('/expert/main');
+  const [returnUrl, setReturnUrl] = React.useState("/expert/main");
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const searchParamsData = use(searchParams);
+  console.log("searchParamsData:", searchParamsData);
+
+  useEffect(() => {
+    if (searchParamsData.error) {
+      toast.error(searchParamsData.error);
+    }
+  }, [searchParamsData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -17,6 +27,18 @@ export default function Component() {
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-6">
         <p className="pb-4 text-center text-3xl font-semibold">
           강사 로그인
@@ -52,9 +74,9 @@ export default function Component() {
             variant="bordered"
           />
 
-          <Button 
-            className="w-full" 
-            color="primary" 
+          <Button
+            className="w-full"
+            color="primary"
             type="submit"
             isLoading={isLoading}
           >

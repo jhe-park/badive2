@@ -56,14 +56,17 @@ export const signInAction = async (formData: FormData,returnUrl: string) => {
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
-    // options: {
-    //   expiresIn: 3600,
-    // },
   });
+  
+  
+  if (error?.code === "invalid_credentials") {
+    const errorMessage = encodeURIComponent("이메일 또는 비밀번호가 일치하지 않습니다.");
+    return redirect(`/expert/login?error=${errorMessage}`);
+  }
   
   if (error) {
     const newFailCount = (profile?.failCount || 0) + 1;
-    console.log("newFailCount", newFailCount);
+    
     const response=await supabase
       .from('profiles')
       .update({ failCount: newFailCount })

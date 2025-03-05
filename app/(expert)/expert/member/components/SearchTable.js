@@ -57,6 +57,7 @@ export default function SearchTable() {
       query = query.ilike(selectedSort, `%${searchTerm}%`);
     }
 
+
     const { data, error, count } = await query;
 
     if (error) {
@@ -118,10 +119,7 @@ export default function SearchTable() {
     };
   }, [page, pageSize, search, selectedSort]);
 
-  console.log("total:", total);
-  console.log("member:", member);
-  console.log("selectedSort:", selectedSort);
-  console.log('member:',member)
+
   return (
     <>
       <div className="flex flex-col md:flex-row gap-4 w-full px-4 ">
@@ -257,7 +255,7 @@ export default function SearchTable() {
                 </TableCell>
                 <TableCell className="text-center whitespace-nowrap">
                   <Button onPress={() => {
-                    router.push(`/admin/member/${item.id}`);
+                    router.push(`/expert/member/${item.id}`);
                   }} color='primary' className="w-full">
                     비고
                   </Button>
