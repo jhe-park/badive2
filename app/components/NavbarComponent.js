@@ -187,7 +187,7 @@ export default function Navbar() {
     };
   }, []);
 
-  if (pathname.includes("admin")) {
+  if (pathname.includes("admin") || pathname.includes("expert")) {
     return null;
   }
 

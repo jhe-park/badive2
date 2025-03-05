@@ -102,6 +102,23 @@ export const updateSession = async (request: NextRequest) => {
         return NextResponse.redirect(new URL("/admin/login", request.url));
       }
     }
+
+    if (
+      request.nextUrl.pathname.startsWith("/expert") &&
+      request.nextUrl.pathname !== "/expert/login"
+    ) {
+      if (user.error) {
+        return NextResponse.redirect(new URL("/expert/login", request.url));
+      }
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.data.user.id)
+        .single();
+      if (!profile || profile.role !== "expert") {
+        return NextResponse.redirect(new URL("/expert/login", request.url));
+      }
+    }
     // // 관리자 로그인 페이지에서 사용자가 이미 로그인되어 있는 경우 루트로 리디렉션
     // if (request.nextUrl.pathname.startsWith("/admin")) {
     //   // /admin/login 경로는 예외 처리

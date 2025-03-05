@@ -21,6 +21,9 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "BADIVE",
   description: "BADIVE",
+  icons: {
+		icon: "/favicon/favicon.png",
+	},
 };
 
 const geistSans = Geist({
