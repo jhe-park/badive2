@@ -40,22 +40,43 @@ const MultiImageCarousel = () => {
     },
     {
       id: 3,
-      url: "/story/story3.png",
+      url: "",
       title: "",
-      link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
+      link: "",
     },
     {
       id: 4,
-      url: "/story/story4.png",
+      url: "",
       title: "",
-      link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
+      link: "",
     },
     {
       id: 5,
-      url: "/story/story5.png",
+      url: "",
       title: "",
-      link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
+      link: "",
     },
+    {
+      id: 6,
+      url: "",
+      title: "",
+      link: "",
+    },
+    {
+      id: 7,
+      url: "",
+      title: "",
+      link: "",
+    },
+    {
+      id: 8,
+      url: "",
+      title: "",
+      link: "",
+    },
+
+
+    
   ];
 
   // 컴포넌트 마운트 시 window width 설정
@@ -194,7 +215,7 @@ const MultiImageCarousel = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
+      <div className="hidden md:flex absolute right-3 md:right-0 -top-0 md:-top-16 gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
@@ -227,12 +248,16 @@ const MultiImageCarousel = () => {
                 onClick={() => handleImageClick(image)}
               >
                 <div className="relative w-full h-32 md:h-[200px] bg-gray-100 rounded-lg overflow-hidden group mt-10 md:mt-0">
-                  <Image
-                    src={image.url}
-                    alt={image.title}
-                    fill
-                    className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover"
-                  />
+                  {image.url ? (
+                    <Image
+                      src={image.url}
+                      alt={image.title}
+                      fill
+                      className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-black"></div>
+                  )}
                   <button
                     className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                     aria-label={`Play ${image.title}`}

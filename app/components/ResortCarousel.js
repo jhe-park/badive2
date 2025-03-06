@@ -185,7 +185,7 @@ const MultiImageCarousel = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
+      <div className="hidden md:flex absolute right-3 md:right-0 -top-0 md:-top-16 gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
