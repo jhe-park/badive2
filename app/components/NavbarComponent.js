@@ -293,7 +293,7 @@ export default function Navbar() {
 
                 {/* 서브메뉴 */}
                 {item.submenu && openSubmenu === index && (
-                  <div className="absolute bg-white backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
+                  <div className="absolute bg-white/80 backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
                     {item.submenu.map((subitem, subindex) => (
                       <Link
                         key={`${index}-${subindex}`}

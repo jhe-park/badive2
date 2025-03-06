@@ -9,24 +9,68 @@ export default function WelcomePopup() {
   // 탭 데이터
   const tabs = {
     tab1: {
-      name: "BDN 다이빙투어",
+      name: "인천수영장오픈안내내",
       banners: [
         {
           id: 1,
-          title: "봄 세일",
-          link: "http://www.badive.co.kr/divingtours",
-          image: "/popup/banner1.png",
+          title: "인천수영장오픈안내",
+          link: "",
+          image: "/popup/popup1.png",
         },
       ],
     },
     tab2: {
-      name: "BDN 강사모집",
+      name: "인천수영장 개인연습",
+      banners: [
+        {
+          id: 2,
+          title: "인천수영장 개인연습",
+          link: "",
+          image: "/popup/popup2.png",
+        },
+      ],
+    },
+    tab3: {
+      name: "바다이브 OPEN 이벤트",
       banners: [
         {
           id: 3,
-          title: "서비스 업데이트",
-          link: "http://www.badive.co.kr/instructors/request",
-          image: "/popup/banner2.png",
+          title: "바다이브 OPEN 이벤트",
+          link: "",
+          image: "/popup/popup3.png",
+        },
+      ],
+    },
+    tab4: {
+      name: "바다이브 무료클래스",
+      banners: [
+        {
+          id: 4,
+          title: "바다이브 무료클래스",
+          link: "",
+          image: "/popup/popup4.png",
+        },
+      ],
+    },
+    tab5: {
+      name: "바다이스 세부 다이빙투어",
+      banners: [
+        {
+          id: 5,
+          title: "바다이스 세부 다이빙투어",
+          link: "",
+          image: "/popup/popup5.png",
+        },
+      ],
+    },
+    tab6: {
+      name: "바다이브 강사모집",
+      banners: [
+        {
+          id: 6,
+          title: "바다이브 강사모집",
+          link: "/instructors/request",
+          image: "/popup/popup6.png",
         },
       ],
     },
@@ -74,51 +118,51 @@ export default function WelcomePopup() {
 
   return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]">
-      <div className="bg-white rounded-lg shadow-lg w-[800px] h-[600px] max-w-[90vw] max-h-[90vh]">
-        <div className="flex flex-col-reverse md:flex-row w-full h-full rounded-lg overflow-hidden">
+      <div className="bg-white rounded-lg shadow-lg w-[460px] max-w-[90vw] max-h-[90vh]">
+        <div className="flex flex-col w-full h-full rounded-lg overflow-hidden">
           {/* 배너 영역 */}
-          <div className="flex-1 flex flex-col h-full order-2 md:order-1">
+          <div className="h-[600px] w-full">
             {tabs[activeTab].banners.map((banner) => (
-              <div key={banner.id} className="h-[90%] aspect-square w-full">
+              <div key={banner.id} className="h-full w-full">
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-full object-cover cursor-pointer"
+                  className="w-full h-full object-fill cursor-pointer"
                   onClick={() => handleBannerClick(banner.link)}
                 />
               </div>
             ))}
-
-            {/* 하단 컨트롤 */}
-            <div className="h-[10%] flex justify-between items-center px-2.5 text-medium">
-              <Checkbox
-                type="checkbox"
-                className="m-0"
-                onChange={(e) => handleClose(e.target.checked)}
-              >
-                <span>일주일 동안 보지 않기</span>
-              </Checkbox>
-              <Button
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-medium"
-                onPress={() => handleClose(false)}
-              >
-                닫기
-              </Button>
-            </div>
           </div>
 
-          {/* 탭 영역 - 모바일에서는 가로로, PC에서는 세로로 */}
-          <div className="w-full md:w-[20%] h-[60px] md:h-full flex flex-row md:flex-col font-bold order-1 md:order-2">
+          {/* 탭 영역 - 3x2 배열 */}
+          <div className="grid grid-cols-3 grid-rows-2 gap-1">
             {Object.entries(tabs).map(([tabId, tabData]) => (
               <Button
                 key={tabId}
-                className={`flex-1 py-2 md:py-4 px-4 h-full text-center md:text-left cursor-pointer transition-all duration-300 bg-white rounded-none
+                className={`flex-1 py-2 px-4 text-center cursor-pointer transition-all duration-300 bg-white rounded-none
                   ${activeTab === tabId ? "bg-blue-500 text-white" : "hover:bg-gray-50"}`}
                 onPress={() => setActiveTab(tabId)}
               >
                 {tabData.name}
               </Button>
             ))}
+          </div>
+
+          {/* 하단 컨트롤 */}
+          <div className="flex justify-between items-center px-2.5 text-medium py-2">
+            <Checkbox
+              type="checkbox"
+              className="m-0"
+              onChange={(e) => handleClose(e.target.checked)}
+            >
+              <span>일주일 동안 보지 않기</span>
+            </Checkbox>
+            <Button
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-medium"
+              onPress={() => handleClose(false)}
+            >
+              닫기
+            </Button>
           </div>
         </div>
       </div>
