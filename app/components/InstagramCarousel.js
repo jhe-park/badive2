@@ -9,6 +9,8 @@ import SlideUp from "@/components/animation/SlideUp";
 const InstagramCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -97,8 +99,60 @@ const InstagramCarousel = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.clientX;
+    const diff = startX - currentX;
+    if (diff > 50) {
+      handleNext();
+      setIsDragging(false);
+    } else if (diff < -50) {
+      handlePrev();
+      setIsDragging(false);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = startX - currentX;
+    if (diff > 50) {
+      handleNext();
+      setIsDragging(false);
+    } else if (diff < -50) {
+      handlePrev();
+      setIsDragging(false);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
   return (
-    <div className="relative w-full aspect-[1280/500]">
+    <div
+      className="relative w-full aspect-[1280/500]"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Navigation Buttons */}
       <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
         <button

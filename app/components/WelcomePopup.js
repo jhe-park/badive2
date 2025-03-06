@@ -121,13 +121,13 @@ export default function WelcomePopup() {
       <div className="bg-white rounded-lg shadow-lg w-[460px] max-w-[90vw] max-h-[90vh]">
         <div className="flex flex-col w-full h-full rounded-lg overflow-hidden">
           {/* 배너 영역 */}
-          <div className="h-[600px] w-full">
+          <div className="h-[60vh] md:h-[600px] w-full">
             {tabs[activeTab].banners.map((banner) => (
               <div key={banner.id} className="h-full w-full">
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-full object-fill cursor-pointer"
+                  className="w-full h-full object-fill cursor-pointer "
                   onClick={() => handleBannerClick(banner.link)}
                 />
               </div>
@@ -135,13 +135,14 @@ export default function WelcomePopup() {
           </div>
 
           {/* 탭 영역 - 3x2 배열 */}
-          <div className="grid grid-cols-3 grid-rows-2 gap-1">
+          <div className="grid grid-cols-3 grid-rows-2 gap-1 ">
             {Object.entries(tabs).map(([tabId, tabData]) => (
               <Button
                 key={tabId}
                 className={`flex-1 py-2 px-4 text-center cursor-pointer transition-all duration-300 bg-white rounded-none
                   ${activeTab === tabId ? "bg-blue-500 text-white" : "hover:bg-gray-50"}`}
                 onPress={() => setActiveTab(tabId)}
+                style={{ wordWrap: "break-word", whiteSpace: "normal", minHeight: "50px" }}
               >
                 {tabData.name}
               </Button>

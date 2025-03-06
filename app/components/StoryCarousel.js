@@ -21,6 +21,8 @@ const MultiImageCarousel = () => {
   const { isOpen, setIsOpen } = useModalOpen();
   // 모달 컨테이너에 대한 ref 추가
   const modalRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
 
   // 예시 이미지 데이터
   const images = [
@@ -138,8 +140,60 @@ const MultiImageCarousel = () => {
     };
   }, []);
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.clientX;
+    const diff = startX - currentX;
+    if (diff > 50) {
+      handleNext();
+      setIsDragging(false);
+    } else if (diff < -50) {
+      handlePrev();
+      setIsDragging(false);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = startX - currentX;
+    if (diff > 50) {
+      handleNext();
+      setIsDragging(false);
+    } else if (diff < -50) {
+      handlePrev();
+      setIsDragging(false);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}

@@ -40,7 +40,7 @@ export default function TabContents() {
 
   return (
     <>
-      <div className="w-[90vw] overflow-x-auto scrollbar-hide">
+      <div className="w-[90vw] overflow-x-auto overflow-y-hidden scrollbar-hide">
         <div className="min-w-max h-12 md:h-24 flex items-center bg-[#F8F8F8]">
           {tabs.map((tab, index) => (
             <React.Fragment key={index}>

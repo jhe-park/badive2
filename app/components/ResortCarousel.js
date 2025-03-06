@@ -21,6 +21,8 @@ const MultiImageCarousel = () => {
   const { isOpen, setIsOpen } = useModalOpen();
   const modalRef = useRef(null);
 
+  const touchStartRef = useRef(null);
+  const touchEndRef = useRef(null);
 
   const supabase = createClient();
 
@@ -150,10 +152,39 @@ const MultiImageCarousel = () => {
     };
   }, []);
 
+  const handleTouchStart = (e) => {
+    touchStartRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartRef.current || !touchEndRef.current) return;
+
+    const distance = touchStartRef.current - touchEndRef.current;
+    const minSwipeDistance = 50; // 스와이프 인식 최소 거리
+
+    if (distance > minSwipeDistance) {
+      handleNext();
+    } else if (distance < -minSwipeDistance) {
+      handlePrev();
+    }
+
+    touchStartRef.current = null;
+    touchEndRef.current = null;
+  };
+
   console.log('resortData:',resortData);
 
   return (
-    <div className="relative w-full ">
+    <div
+      className="relative w-full"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="absolute right-3 md:right-0 -top-0 md:-top-16 flex gap-2">
         <button
           onClick={handlePrev}
@@ -184,14 +215,15 @@ const MultiImageCarousel = () => {
                 key={image.id}
                 className="flex-none w-1/2 md:w-1/3 h-full relative md:h-full"
                 style={{ padding: index !== resortData.length - 1 ? '0 10px' : '0' }}
-                onClick={() => handleImageClick(image)}
+                
               >
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group md:h-[250px]">
                   <Image
                     src={image.image}
                     alt={image.title}
                     fill
-                    className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover"
+                    className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover hover:cursor-pointer"
+                    onClick={() => handleImageClick(image)}
                   />
                 </div>
                 <div className="mt-4 text-center">
