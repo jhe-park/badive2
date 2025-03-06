@@ -39,7 +39,7 @@ export const signUpAction = async (formData: FormData) => {
   }
 };
 
-export const signInAction = async (formData: FormData,returnUrl: string) => {
+export const signInAction = async (formData: FormData,returnUrl: string,origin: string) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = await createClient();
@@ -57,11 +57,18 @@ export const signInAction = async (formData: FormData,returnUrl: string) => {
     email,
     password,
   });
+  console.log("error", error);
   
   
   if (error?.code === "invalid_credentials") {
     const errorMessage = encodeURIComponent("이메일 또는 비밀번호가 일치하지 않습니다.");
-    return redirect(`/expert/login?error=${errorMessage}`);
+    if(origin === '/expert/login'){
+      return redirect(`/expert/login?error=${errorMessage}`);
+    }else if(origin === '/admin/login'){
+      return redirect(`/admin/login?error=${errorMessage}`);
+    }else{
+      return redirect(`/login?error=${errorMessage}`);
+    }
   }
   
   if (error) {

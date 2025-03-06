@@ -194,7 +194,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="nav w-full fixed z-50 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
+      className="nav w-full fixed z-5 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
       style={{ 
         top: pathname === "/" && !isMobileMenuOpen ? 
           (isOpen ? "-100px" : "0") : "0"

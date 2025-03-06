@@ -44,7 +44,6 @@ export default function InstructorNewPage() {
   const [etc, setEtc] = useState("");
   const [isSave, setIsSave] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-
   const [noLicense, setNoLicense] = useState(0);
   const [noTour, setNoTour] = useState(0);
   const [reservation, setReservation] = useState([]);
@@ -54,12 +53,13 @@ export default function InstructorNewPage() {
   const { expertInformation } = useExpertStore();
   const [program, setProgram] = useState([]);
 
-  const fetchReservation = async () => {
+  const fetchReservation = async (expertInformationId) => {
     const { data, error } = await supabase
       .from("reservation")
       .select("*,time_slot_id(*))")
-      .eq("instructor_id", instructorId);
+      .eq("instructor_id", expertInformationId);
     setReservation(data);
+    
     if (data) {
       const total = data.reduce((sum, item) => {
         return sum + (parseInt(item.participants) || 0);
@@ -71,11 +71,18 @@ export default function InstructorNewPage() {
       setTotalAmount(totalAmount);
     }
   };
+  console.log('instructorId:',instructorId)
+  console.log('totalAmount',totalAmount )
+  console.log('totalStudent',totalStudent )
+  console.log('expertInformation:',expertInformation)
 
   useEffect(() => {
 
+    
+
     if (expertInformation) {
-      fetchReservation();
+      fetchReservation(expertInformation?.id);
+      
       setEmail(expertInformation?.email);
       setPassword(expertInformation?.password);
       setName(expertInformation?.name);
@@ -332,7 +339,7 @@ export default function InstructorNewPage() {
               </TableHeader>
               <TableBody>
                 <TableRow key="1">
-                  <TableCell className="text-center">{totalAmount}</TableCell>
+                  <TableCell className="text-center">{totalAmount?.toLocaleString()}</TableCell>
                   <TableCell className="text-center">{totalStudent}</TableCell>
                   <TableCell className="text-center">{noLicense}</TableCell>
                   <TableCell className="text-center">{noTour}</TableCell>

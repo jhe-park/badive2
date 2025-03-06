@@ -11,19 +11,20 @@ import TwoFactor from "./components/TwoFactor";
 import GoogleLoginComponent from "./components/GoogleLogin";
 import KakaoLoginComponent from "./components/KakaoLogin";
 import NaverLoginComponent from "./components/NaverLogin";
-
+import ToastComponent from "./components/ToastComponent";
 
 export default async function Login(props) {
+
+  
   const searchParams = await props.searchParams;
-  console.log('searchParams', searchParams)
   // URLSearchParams를 사용하여 문자열을 파싱합니다.
   const params = new URLSearchParams(searchParams.error);
-  console.log('params', params)
+  
   const email = params.get('email');
   const returnUrl = searchParams.returnUrl || '/'; // returnUrl이 없으면 기본값으로 '/' 설정
   
-  console.log('Email:', email);
-  console.log('searchParams', searchParams.error);
+  const origin='/login'
+  
   return (
     <div className="flex h-full  w-full flex-col items-center justify-center gap-y-10 my-32">
       <Toast searchParams={searchParams} />
@@ -38,7 +39,7 @@ export default async function Login(props) {
       <div className="mt-2 flex w-[90%] md:w-1/3 flex-col gap-4 rounded-large bg-content1 px-8 py-6 border-2 border-gray-300">
         <form className="flex flex-col gap-3" action={async (formData) => {
           'use server';
-          await signInAction(formData, returnUrl);
+          await signInAction(formData, returnUrl,origin);
         }}>
           <Input
             isRequired

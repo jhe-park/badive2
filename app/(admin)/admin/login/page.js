@@ -14,6 +14,7 @@ export default function Component() {
     event.preventDefault();
     console.log("handleSubmit");
   };
+  const origin='/admin/login'
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
@@ -29,7 +30,7 @@ export default function Component() {
           validationBehavior="native"
           action={async (formData) => {
             setIsLoading(true);
-            await signInAction(formData, returnUrl);
+            await signInAction(formData, returnUrl,origin);
             setIsLoading(false);
           }}
         >

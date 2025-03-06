@@ -6,9 +6,8 @@ import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 export default function Toast({ searchParams }) {
     const router = useRouter();
-    console.log('searchParams11', searchParams)
     useEffect(() => {       
-        console.log('1234')
+        
         if (searchParams?.error?.includes("Invalid+login+credentials")) {            
             toast.error("비밀번호 혹은 아이디가 올바르지 않습니다");                    
         }
@@ -18,6 +17,10 @@ export default function Toast({ searchParams }) {
         if (searchParams?.message?.includes("success to change")) {
             toast.success("비밀번호 변경이 완료되었습니다.");                    
         }
+        else{
+            toast.error(searchParams?.error);                    
+        }
+        
 
 
 
