@@ -29,31 +29,31 @@ const MultiImageCarousel = () => {
     {
       id: 1,
       url: "/story/story1.png",
-      title: "2024.03 필리핀 말라파스쿠아",
-      link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
+      title: "",
+      link: "https://youtu.be/Yh6g_HIf_5c?si=W73qT2PGaRYa6CG0",
     },
     {
       id: 2,
       url: "/story/story2.png",
-      title: "2024.08 필리핀 세부 막탄(with 예지원)",
-      link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
+      title: "",
+      link: "https://youtu.be/kkawdlfI9e0?si=WkAmf1_w1cXQuFKq",
     },
     {
       id: 3,
       url: "/story/story3.png",
-      title: "2024.10 필리핀 보홀 1편",
+      title: "",
       link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
     },
     {
       id: 4,
       url: "/story/story4.png",
-      title: "2024.10 필리핀 보홀 2편",
+      title: "",
       link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
     },
     {
       id: 5,
       url: "/story/story5.png",
-      title: "2024.12 필리핀 코론",
+      title: "",
       link: "https://youtu.be/QHiJo0-lPqY?si=Vp30bSrXu35iDuG0",
     },
   ];

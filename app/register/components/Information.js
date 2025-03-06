@@ -70,6 +70,7 @@ export default function Information() {
       toast.error("보유한 라이센스를 입력해주세요.");
     } else if (!gender) {
       toast.error("성별을 선택해주세요.");
+    
     } else {
       try {
         const { data: signUpData, error: signUpError } =
@@ -298,6 +299,23 @@ export default function Information() {
           </div>
           <div></div>
         </div>
+        <div className="flex flex-col gap-2 justify-start items-start w-full">
+          <div>성별</div>
+          <div>
+            <RadioGroup
+              orientation="horizontal"
+              selectedKeys={[gender]}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <Radio key="male" value="male">
+                남성
+              </Radio>
+              <Radio key="female" value="female">
+                여성
+              </Radio>
+            </RadioGroup>
+          </div>
+        </div>
 
         <div className="flex flex-col gap-2 justify-start items-start w-full">
           <div>보유한 라이센스</div>
@@ -367,23 +385,7 @@ export default function Information() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 justify-start items-start w-full">
-          <div>성별</div>
-          <div>
-            <RadioGroup
-              orientation="horizontal"
-              selectedKeys={[gender]}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <Radio key="male" value="male">
-                남성
-              </Radio>
-              <Radio key="female" value="female">
-                여성
-              </Radio>
-            </RadioGroup>
-          </div>
-        </div>
+        
         <div className="flex flex-col gap-2 justify-start items-start w-full">
           <div>광고 및 마케팅 수신 동의(선택)</div>
           <div className="flex flex-row gap-4 justify-start items-start w-full">

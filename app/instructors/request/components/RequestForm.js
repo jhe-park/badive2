@@ -162,16 +162,14 @@ export default function RequestForm({ className, ...props }) {
 
       <div className="py-4 text-default-500 bg-gray-100 rounded-lg p-6 w-full">
         <p>※ BADIVE 강사모집 신청서 작성 안내</p>
-
+        <br/>
         <p>BADIVE 강사모집에 신청해주셔서 감사드립니다.</p>
-
         <p>작성하신 정보는 거짓없이 진실된 정보만 적어주시면 감사하겠습니다.</p>
-
         <p>
           일정은 신청서를 확인 후 개별적으로 연락드릴 예정입니다.
           참고부탁드립니다 감사합니다.
         </p>
-
+        <br/>
         <p>
           <span className="text-red-500">*</span>는 필수항목 입니다.
         </p>
@@ -349,6 +347,7 @@ const PrivacyContent = () => (
     <p>
       ○ <strong>개인정보의 보유 및 이용기간</strong>: 1년
     </p>
+    <br/>
 
     <p>
       <strong>□ 동의하지 않을 권리 및 미동의시 불이익</strong>
@@ -358,12 +357,18 @@ const PrivacyContent = () => (
       있으나 동의하지 않을 경우 <strong>강사모집 신청 접수</strong>가 거부될 수
       있습니다.
     </p>
+    <br/>
+    <br/>
+
 
     <p>
       본인은 BDN DIVE 강사모집 신청함에 있어 상기 내용에 대하여 충분히 인지
       하였으며, 기관의 개인정보 수집 및 이용, 준수사항 및 동의서 일체에{" "}
       <strong>동의</strong> 합니다.
     </p>
+    <br/>
+
+    <br/>
 
     <p>
       <strong>위 내용에 모두 동의하시겠습니까?</strong>

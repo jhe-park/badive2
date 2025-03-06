@@ -182,7 +182,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
       </div>
 
       <div className="py-4 text-default-500 bg-gray-100 rounded-lg p-6 w-full">
-        <p>※ 필리핀 코론 수중 프로필 촬영 다이빙 투어 신청서 작성 안내</p>
         <p>이 신청서를 작성하신 분들만 다이빙 투어를 참가하실 수 있으십니다.</p>
         <p>
           참석확정 여부는 00월 00일까지 카카오톡 or 문자로 연락드리도록
@@ -354,7 +353,7 @@ const PrivacyContent = () => (
     </p>
     <br />
     <p>
-      본인은 BDN 필리핀 코론 수중 프로필 촬영 다이빙 투어를 신청함에 있어 상기
+      본인은 BADIVE 다이빙투어를 신청함에 있어 상기
       내용에 대하여 충분히 인지 하였으며, 기관의 개인정보 수집 및 이용, 준수사항
       및 동의서 일체에 동의 합니다.
     </p>

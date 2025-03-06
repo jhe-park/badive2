@@ -7,7 +7,7 @@ import SayGoodbye from "./SayGoodbye";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { useState, useEffect } from "react";
-
+import { Skeleton } from "@heroui/react";
 export default function App({ profile }) {
   const supabase = createClient();
   const [user, setUser] = useState(null);
@@ -24,10 +24,11 @@ export default function App({ profile }) {
     loadData();
   }, []);
 
-
-
   return (
-    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full h-full flex-col">
+    <div
+      style={{ fontFamily: "Freesentation-9Black" }}
+      className="flex w-full h-full flex-col"
+    >
       <div className="w-full bg-black"></div>
       <div className="flex justify-between items-center mt-24">
         <div className="w-full font-bold text-2xl ">MY PAGE</div>
@@ -40,30 +41,66 @@ export default function App({ profile }) {
             <p className="text-xs">누적 포인트 : {profile?.data?.point}P</p>
           </div>
         </div>
-
       </div>
       {loading ? (
-        <div className="flex justify-center items-center h-full">
-          <Spinner label='로딩중' />
+        <div className="flex flex-col gap-3 justify-center items-center gap-y-6">
+          <div className="max-w-[50vw] w-full flex items-center gap-3">
+            <div>
+              <Skeleton className="flex rounded-full w-12 h-12" />
+            </div>
+            <div className="w-full flex flex-col gap-2">
+              <Skeleton className="h-3 w-3/5 rounded-lg" />
+              <Skeleton className="h-3 w-4/5 rounded-lg" />
+            </div>
+          </div>
+          <div className="max-w-[50vw] w-full flex items-center gap-3">
+            <div>
+              <Skeleton className="flex rounded-full w-12 h-12" />
+            </div>
+            <div className="w-full flex flex-col gap-2">
+              <Skeleton className="h-3 w-3/5 rounded-lg" />
+              <Skeleton className="h-3 w-4/5 rounded-lg" />
+            </div>
+          </div>
+          <div className="max-w-[50vw] w-full flex items-center gap-3">
+            <div>
+              <Skeleton className="flex rounded-full w-12 h-12" />
+            </div>
+            <div className="w-full flex flex-col gap-2">
+              <Skeleton className="h-3 w-3/5 rounded-lg" />
+              <Skeleton className="h-3 w-4/5 rounded-lg" />
+            </div>
+          </div>
+          <div className="max-w-[50vw] w-full flex items-center gap-3">
+            <div>
+              <Skeleton className="flex rounded-full w-12 h-12" />
+            </div>
+            <div className="w-full flex flex-col gap-2">
+              <Skeleton className="h-3 w-3/5 rounded-lg" />
+              <Skeleton className="h-3 w-4/5 rounded-lg" />
+            </div>
+          </div>
         </div>
       ) : (
-        <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined">
+        <Tabs
+          aria-label="Options"
+          className="w-full h-12 mt-6 md:my-6"
+          variant="underlined"
+        >
           <Tab key="purchase" title="프로그램 예약 조회">
             <ProgramTable profile={profile} />
-
-        </Tab>
-        <Tab key="tour" title="다이빙 투어 예약 조회">
-          <TourTable profile={profile} />
-        </Tab>
-        <Tab key="update" title="정보수정">
-          <ChangeInformation profile={profile} />
-        </Tab>
-        <Tab key="delete" title="회원탈퇴">
-          <SayGoodbye />
-        </Tab>
-      </Tabs>
+          </Tab>
+          <Tab key="tour" title="다이빙 투어 예약 조회">
+            <TourTable profile={profile} />
+          </Tab>
+          <Tab key="update" title="정보수정">
+            <ChangeInformation profile={profile} />
+          </Tab>
+          <Tab key="delete" title="회원탈퇴">
+            <SayGoodbye />
+          </Tab>
+        </Tabs>
       )}
     </div>
   );
 }
-
