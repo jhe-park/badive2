@@ -31,7 +31,7 @@ export default function Activity() {
           <div className="my-12 md:my-0 text-2xl md:text-[40px] font-bold">준비중입니다</div>
         </div>
       ) : (
-        <div className="w-[1280px] h-full flex flex-col items-center justify-center">
+        <div className="w-full md:w-[1280px] h-full flex flex-col items-center justify-center">
           <div className="block md:hidden absolute bottom-0 left-0 w-1/4 h-full bg-black z-1"></div>
 
           <div className="w-[80%] md:w-full h-full flex flex-col md:flex-row items-center justify-center text-black z-10 gap-y-6 md:gap-x-10">

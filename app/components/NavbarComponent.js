@@ -194,12 +194,17 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="nav w-full fixed z-5 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
-      style={{ top: isOpen ? "-100px" : "0" }}
+      className="nav w-full fixed z-50 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
+      style={{ 
+        top: pathname === "/" && !isMobileMenuOpen ? 
+          (isOpen ? "-100px" : "0") : "0"
+      }}
     >
       <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
         {/* 로고 영역 */}
-        <div className="flex items-center justify-center flex-col md:pl-4">
+
+        <div className="flex items-center justify-center flex-col md:pl-4 z-50">
+          
           <Link href="/">
             <Image
               src="/logo/logo.png"

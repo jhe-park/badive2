@@ -4,10 +4,15 @@ import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
 import Image from "next/image";
 import { items } from "./items";
 import { Divider } from "@heroui/react";
+
 function IntroductionCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
 
   useEffect(() => {
     setIsMobile(!window.matchMedia('(min-width: 768px)').matches);
@@ -28,14 +33,39 @@ function IntroductionCarousel() {
     setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
   };
 
-  // 페이지 직접 이동 함수 추가
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
 
+  const handleTouchStart = (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    const diffX = startX - currentX;
+    if (diffX > 50) {
+      nextSlide();
+    } else if (diffX < -50) {
+      prevSlide();
+    }
+    isDragging = false;
+  };
+
   return (
     <>
-      <div className="relative w-[90vw] md:w-[1280px] overflow-hidden h-full md:h-full">
+      <div
+        className="relative w-[90vw] md:w-[1280px] overflow-hidden h-full md:h-full"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div
           className="flex"
           style={{

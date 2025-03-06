@@ -14,6 +14,21 @@ export default function Banner() {
     console.log("isPlaying:", isPlaying);
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            console.log("Auto-play was prevented:", error);
+          });
+      }
+    }
+  }, [videoRef, selectMode]);
+
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -54,6 +69,8 @@ export default function Banner() {
           autoPlay
           muted
           loop
+          playsInline={true}
+          webkit-playsinline="true"
           key={selectMode}
           onCanPlay={handleCanPlay}
           onWaiting={handleWaiting}

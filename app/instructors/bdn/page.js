@@ -5,8 +5,10 @@ import Activity from "./components/Activity";
 export default function page({params}) {
   console.log('params:', params.path)
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-full h-[30vh] md:h-[600px] mt-[100px] flex flex-col items-center justify-center relative">
+    <div className="flex h-full w-full flex-col items-center justify-center ">
+      
+      <div className="w-full h-[30vh] md:h-[600px] mt-[100px] flex flex-col items-center justify-center relative ">
+        
         <Image
           src="/instructor/instructortop.png"
           alt="instructors"

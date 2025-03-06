@@ -31,11 +31,11 @@ export default function page() {
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
               <p className="text-white text-lg md:text-[50px] text-center">SCUBA DIVING</p>
             </div>
-            <Link href="/programs/scuberdiving">
+            {/* <Link href="/programs/scuberdiving">
             <Button className="bg-black border-2 border-white absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity h-1/10 w-1/4 text-sm md:text-[32px] md:p-6">
               바로가기
             </Button>
-            </Link>
+            </Link> */}
             <div className="absolute w-24 md:w-72 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity text-sm md:text-[40px]">
               스쿠버 다이빙
             </div>
@@ -45,11 +45,11 @@ export default function page() {
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
               <p className="text-white text-lg md:text-[50px]">FREE DIVING</p>
             </div>
-            <Link href="/programs/freediving">
+            {/* <Link href="/programs/freediving">
             <Button className="bg-black border-2 border-white absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity h-1/10 w-1/4 text-sm md:text-[32px] md:p-6">
               바로가기
             </Button>
-            </Link>
+            </Link> */}
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity text-sm md:text-[40px]">
               프리 다이빙
             </div>
@@ -59,11 +59,11 @@ export default function page() {
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
               <p className="text-white text-lg md:text-[50px]">MERMAID</p>
             </div>
-            <Link href="/programs/mermaid">
+            {/* <Link href="/programs/mermaid">
             <Button className="bg-black border-2 border-white absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity h-1/10 w-1/4 text-sm md:text-[32px] md:p-6">
               바로가기
             </Button>
-            </Link>
+            </Link> */}
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity text-sm md:text-[40px]">
               머메이드
             </div>

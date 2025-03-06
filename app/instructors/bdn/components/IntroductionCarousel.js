@@ -12,6 +12,10 @@ function IntroductionCarousel() {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
   useEffect(() => {
     setIsMobile(!window.matchMedia('(min-width: 768px)').matches);
     
@@ -40,9 +44,36 @@ function IntroductionCarousel() {
     setCurrentIndex(index);
     setInstructor(items[index].left.title);
   };
+
+  const handleTouchStart = (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    const diffX = startX - currentX;
+    if (diffX > 50) {
+      nextSlide();
+    } else if (diffX < -50) {
+      prevSlide();
+    }
+    isDragging = false;
+  };
+
   return (
     <>
-      <div className="relative w-[90vw] md:w-[1280px] overflow-hidden h-full md:h-full">
+      <div
+        className="relative w-[90vw] md:w-[1280px] overflow-hidden h-full md:h-full"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* 캐러셀 컨텐츠 */}
         <div
           className="flex"
