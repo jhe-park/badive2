@@ -106,7 +106,7 @@ export default function Banner() {
           </div>
 
         </div>
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-1/2 h-8 md:h-24 z-8">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-1/2 h-8 md:h-24 z-10">
           <button
             className="bg-black text-white px-4 py-2 rounded-l w-1/3 text-[11px] md:text-[25px]"
             onClick={() => setSelectMode("mode1")}
