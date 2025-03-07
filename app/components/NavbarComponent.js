@@ -195,16 +195,19 @@ export default function Navbar() {
     <nav
       ref={navRef}
       className="nav w-full fixed z-10 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
-      style={{ 
-        top: pathname === "/" && !isMobileMenuOpen ? 
-          (isOpen ? "-100px" : "0") : "0"
+      style={{
+        top:
+          pathname === "/" && !isMobileMenuOpen
+            ? isOpen
+              ? "-100px"
+              : "0"
+            : "0",
       }}
     >
       <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
         {/* 로고 영역 */}
 
         <div className="flex items-center justify-center flex-col md:pl-4 z-50">
-          
           <Link href="/">
             <Image
               src="/logo/logo.png"
@@ -286,7 +289,6 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   className="text-[16px] font-bold text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
-                  
                 >
                   {item.title}
                 </Link>
@@ -316,12 +318,22 @@ export default function Navbar() {
             {/* 모바일 로그인 메뉴 */}
             <div className="flex justify-center gap-6 py-4 border-b border-gray-500">
               {user ? (
-                <Link
-                  href="/mypage"
-                  className="text-[14px] text-black hover:text-gray-500"
-                >
-                  마이페이지
-                </Link>
+                <>
+                  <Link
+                    href="/mypage"
+                    className="text-[14px] text-black hover:text-gray-500"
+                  >
+                    마이페이지
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                    }}
+                    className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                  >
+                    로그아웃
+                  </button>
+                </>
               ) : (
                 ["로그인", "회원가입"].map((item, index) => (
                   <Link
