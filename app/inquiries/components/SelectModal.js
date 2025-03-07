@@ -237,12 +237,12 @@ export default function SelectModal({
   // console.log('userReservations11:', userReservations)
   return (
     <>
-      <Modal isOpen={isOpenProps} onOpenChange={(open) => {
+      <Modal classNames={{base:"z-50 max-h-[70vh]"}}  size='7xl' isOpen={isOpenProps} onOpenChange={(open) => {
         if (!open) {
           setSelectedCell(null);
         }
         onOpenChangeProps(open);
-      }} size="full ">
+      }}>
         <ToastContainer
           position="top-center"
           autoClose={2000}
@@ -255,7 +255,7 @@ export default function SelectModal({
           pauseOnHover
           theme="light"
         />
-        <ModalContent className="max-h-[80vh]">
+        <ModalContent  className="max-h-[80vh] ">
           {(onClose) => (
             <>
               <ModalHeader className="">

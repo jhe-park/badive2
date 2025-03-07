@@ -108,7 +108,7 @@ export default function Component({ children, user }) {
             variant="light"
             onPress={() => router.push("/")}
           >
-            메인으로 이동동
+            메인으로 이동
           </Button>
           
         </div>
