@@ -237,7 +237,7 @@ export default function SelectModal({
   // console.log('userReservations11:', userReservations)
   return (
     <>
-      <Modal classNames={{base:"z-50 max-h-[70vh]"}}  size='7xl' isOpen={isOpenProps} onOpenChange={(open) => {
+      <Modal classNames={{base:"z-50 max-h-[70vh]"}}  size='full' isOpen={isOpenProps} onOpenChange={(open) => {
         if (!open) {
           setSelectedCell(null);
         }
@@ -255,7 +255,7 @@ export default function SelectModal({
           pauseOnHover
           theme="light"
         />
-        <ModalContent  className="max-h-[80vh] ">
+        <ModalContent   className="max-h-[80vh] ">
           {(onClose) => (
             <>
               <ModalHeader className="">
@@ -288,7 +288,9 @@ export default function SelectModal({
                     className="border-collapse border border-gray-300"
                   >
                     <TableHeader>
-                      <TableColumn className="text-sm md:text-lg text-center w-1/8 border border-gray-300">
+                      <TableColumn 
+                        className="text-sm md:text-lg text-center w-1/8 border border-gray-300 sticky left-0 bg-white z-10"
+                      >
                         시간/요일
                       </TableColumn>
                       {tableData.map((slot, index) => (
@@ -306,7 +308,9 @@ export default function SelectModal({
                           key={timeIndex}
                           className="text-center overflow-x-auto"
                         >
-                          <TableCell className="text-center text-sm md:text-lg z-50 border border-gray-300">
+                          <TableCell 
+                            className="text-center text-sm md:text-lg z-50 border border-gray-300 sticky left-0 bg-white z-10"
+                          >
                             {schedule.time}
                           </TableCell>
                           {tableData.map((slot, dateIndex) => (
