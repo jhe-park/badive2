@@ -266,11 +266,7 @@ export default function SelectComponent({
           </SelectItem>
         ))}
       </Select>
-      <div>
-        <Button onPress={()=>{
-          toast.error('토스트')
-        }}>토스트</Button>
-      </div>
+
       <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>
       <Select
         label="지역명"
