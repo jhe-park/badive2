@@ -15,6 +15,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import useExpertStore from "../store/useExpertStore";
+import { FaArrowLeft } from "react-icons/fa";
 export default function Component({ children, user }) {
   const [isHidden, setIsHidden] = React.useState(true);
   const { expertInformation, setExpertInformation } = useExpertStore();
