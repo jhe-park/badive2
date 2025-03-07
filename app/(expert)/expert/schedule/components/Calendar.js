@@ -171,7 +171,7 @@ export default function Calendar() {
     // 날짜 선택 후 모달 열기
     onOpen();
   };
-  console.log('selectedResult:', selectedResult)
+  
 
   return (
     <div className="w-full h-full flex flex-col gap-4 items-center justify-start">

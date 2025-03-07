@@ -54,22 +54,25 @@ export default function SelectComponent({
   const router = useRouter();
 
   const increment = () => {
-    setNoParticipants((prev) => prev + 1);
-    setSelectedResult({
-      ...selectedResult,
-      isAgree: false,
-      date: null
-    });
+    const newValue = noParticipants + 1;
+    setNoParticipants(newValue);
   };
 
   const decrement = () => {
-    setNoParticipants((prev) => Math.max(1, prev - 1));
+    const newValue = Math.max(1, noParticipants - 1);
+    setNoParticipants(newValue);
+  };
+
+  useEffect(() => {
     setSelectedResult({
       ...selectedResult,
       isAgree: false,
-      date: null
+      date: null,
+      noParticipants: noParticipants,
     });
-  };
+  }, [noParticipants]);
+
+  console.log('selectedResult33:',selectedResult)
 
   const supabase = createClient();
   const getProgram = async () => {
