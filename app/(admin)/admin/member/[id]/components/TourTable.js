@@ -18,12 +18,12 @@ export default function TourTable({member}) {
   const supabase = createClient();
   const [tours, setTours] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
-
+  console.log("member:",member)
   const getRequest = async () => {
     const { data, error } = await supabase
       .from("request")
       .select("*,tour_id(*)")
-      .eq("user_id", member?.id);
+      .eq("email", member?.email);
 
     if (error) {
       console.log("Error fetching reservation:", error);
@@ -32,6 +32,7 @@ export default function TourTable({member}) {
       setTours(data);
     }
   };
+  console.log("tours:",tours)
 
   const handleStatusChange = async (tour, newStatus) => {
     try {
@@ -75,7 +76,9 @@ export default function TourTable({member}) {
   };
 
   useEffect(() => {
-    getRequest();
+    if(member){
+      getRequest();
+    }
   }, [member]);
 
   // 새로운 useEffect 추가
@@ -84,6 +87,7 @@ export default function TourTable({member}) {
       updateTourStatus(tour);
     });
   }, [tours]);
+  console.log("tours:",tours)
 
   return (
     <div className="w-full h-full flex flex-col gap-y-6">
@@ -94,7 +98,7 @@ export default function TourTable({member}) {
         <TableHeader>
           <TableColumn className="text-center w-1/4">투어명</TableColumn>
           <TableColumn className="text-center w-1/4">신청일</TableColumn>
-          <TableColumn className="text-center w-1/4">투어일일</TableColumn>
+          <TableColumn className="text-center w-1/4">투어일</TableColumn>
           <TableColumn className="text-center w-1/4">상태</TableColumn>
         </TableHeader>
         <TableBody>

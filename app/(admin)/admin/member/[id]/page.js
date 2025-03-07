@@ -54,6 +54,7 @@ export default function MemberNewPage({params}) {
       setEtc(data.etc);
     }
   };
+
   const fetchReservation = async () => {
     const { data, error } = await supabase
       .from("reservation")
@@ -106,6 +107,7 @@ export default function MemberNewPage({params}) {
       setImageUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`);
     }
   };
+  
 
   
   
@@ -216,7 +218,7 @@ export default function MemberNewPage({params}) {
         <TourTable member={member}></TourTable>
       </div>
       <div className="flex flex-col justify-center items-center w-full">
-        <Textarea value={etc} onChange={(e)=>setEtc(e.target.value)} label="비고" placeholder="비고를 입력해주세요" />
+        <Textarea value={etc||""} onChange={(e)=>setEtc(e.target.value)} label="비고" placeholder="비고를 입력해주세요" />
         <div className="flex justify-end items-center gap-y-6 mt-6 w-full mb-12">
             <Button isLoading={isSave} color="primary" onPress={handleSave}>저장</Button>
         </div>

@@ -242,7 +242,7 @@ export default function SelectModal({
           setSelectedCell(null);
         }
         onOpenChangeProps(open);
-      }} size="full">
+      }} size="full ">
         <ToastContainer
           position="top-center"
           autoClose={2000}
