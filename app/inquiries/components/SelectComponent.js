@@ -15,8 +15,11 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import { ToastContainer, toast } from "react-toastify";
+
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 export default function SelectComponent({
   isSelectProgram,
@@ -37,13 +40,13 @@ export default function SelectComponent({
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const [data, setData] = useState([]);
   const [noParticipants, setNoParticipants] = useState(1);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [payment, setPayment] = useState(null);
   const [widgets, setWidgets] = useState(null);
   const [ready, setReady] = useState(false);
   const [paymentMethodWidget, setPaymentMethodWidget] = useState(null);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   const customerKey = userData?.id;
@@ -128,8 +131,9 @@ export default function SelectComponent({
 
   const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {
-      toast.error("일정을 확인 후 체크박스를 클릭해주세요");
-      return;
+      console.log("동의안됨")
+      onOpen()
+      return
     }
     if (!userData) {
       router.push("/login?returnUrl=/inquiries");
@@ -155,6 +159,7 @@ export default function SelectComponent({
   };
 
   const handleConfirmPayment = async () => {
+    
     try {
       const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id.join(',')}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
@@ -201,8 +206,8 @@ export default function SelectComponent({
     console.log("newResult:", newResult);
     console.log("Updated Result:", newResult);
   };
+  console.log('selectedResult:',selectedResult)
 
-  console.log("selectedResult:", selectedResult);
 
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
@@ -261,7 +266,11 @@ export default function SelectComponent({
           </SelectItem>
         ))}
       </Select>
-
+      <div>
+        <Button onPress={()=>{
+          toast.error('토스트')
+        }}>토스트</Button>
+      </div>
       <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>
       <Select
         label="지역명"
@@ -395,28 +404,29 @@ export default function SelectComponent({
           결제하기
         </Button>
       </div>
-
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          <ModalHeader>결제 진행</ModalHeader>
-          <ModalBody>
-            <div id="payment-widget-modal" className="w-full" />
-            <div id="agreement-widget-modal" className="w-full" />
-          </ModalBody>
-          <ModalFooter>
-            <div className="w-full flex justify-center">
-              <Button
-                className="w-full "
-                color="primary"
-                onPress={handleConfirmPayment}
-                disabled={!ready}
-              >
-                결제하기
-              </Button>
-            </div>
-          </ModalFooter>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">알람</ModalHeader>
+              <ModalBody>
+                <p>
+                  달력 하단의 체크박스를 확인 후에 결제하기를 눌러주세요
+                </p>
+                
+              </ModalBody>
+              <ModalFooter>
+                
+                <Button color="primary" onPress={onClose}>
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
+
+      
     </div>
   );
 }

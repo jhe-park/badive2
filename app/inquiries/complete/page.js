@@ -54,7 +54,9 @@ export default async function page({ searchParams }) {
     if (!response.ok) {
       const errorData = await response.json();
       // 에러 발생시 fail 페이지로 리다이렉트
-      redirect(`/fail?code=${errorData.code}&message=${errorData.message}`);
+      redirect(
+        `/inquiries/fail?code=${errorData.code}&message=${errorData.message}`
+      );
     }
 
     const paymentData = await response.json();
@@ -76,7 +78,7 @@ export default async function page({ searchParams }) {
           .insert([
             {
               order_id: orderId,
-              time_slot_id: time_slot_id.split(',')[0],
+              time_slot_id: time_slot_id.split(",")[0],
               user_id: user_id,
               status: "예약확정",
               participants: participants,
@@ -93,14 +95,18 @@ export default async function page({ searchParams }) {
         }
 
         // time_slot 테이블 업데이트
-        const timeSlotIds = time_slot_id.split(',');
-        
+        const timeSlotIds = time_slot_id.split(",");
+        let firstTimeSlot = null;
         for (const slotId of timeSlotIds) {
           const { data: timeSlot } = await supabase
             .from("timeslot")
             .select("*")
             .eq("id", slotId)
             .single();
+
+          if (!firstTimeSlot) {
+            firstTimeSlot = timeSlot;
+          }
 
           console.log("timeSlot", timeSlot);
 
@@ -112,7 +118,8 @@ export default async function page({ searchParams }) {
             const { error: updateError } = await supabase
               .from("timeslot")
               .update({
-                current_participants: timeSlot.current_participants + parseInt(participants),
+                current_participants:
+                  timeSlot.current_participants + parseInt(participants),
                 available: !isFullyBooked,
               })
               .eq("id", slotId);
@@ -121,23 +128,20 @@ export default async function page({ searchParams }) {
               console.log(`타임슬롯 ${slotId} 업데이트 오류:`, updateError);
             } else {
               console.log(`타임슬롯 ${slotId} 업데이트 성공`);
-
-              const { data: userData } = await supabase
-                .from("profiles")
-                .select("*")
-                .eq("id", user_id)
-                .single();
-
-              const { data: programData } = await supabase
-                .from("program")
-                .select("*,instructor_id(*)")
-                .eq("id", program_id)
-                .single();
-
-              
             }
           }
         }
+        const { data: userData } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user_id)
+          .single();
+
+        const { data: programData } = await supabase
+          .from("program")
+          .select("*,instructor_id(*)")
+          .eq("id", program_id)
+          .single();
         if (userData.phone) {
           console.log("전화번호가 있습니다.");
           // 알림톡 전송
@@ -150,7 +154,7 @@ export default async function page({ searchParams }) {
                 program: programData.title,
                 region: programData.region,
                 instructor: programData.instructor_id.name,
-                date: timeSlot.date + timeSlot.start_time,
+                date: firstTimeSlot.date +" "+ firstTimeSlot.start_time,
               },
               {
                 headers: {
@@ -169,7 +173,7 @@ export default async function page({ searchParams }) {
       }
     }
   } catch (error) {
-    redirect(`/fail?code=${error.code}&message=${error.message}`);
+    redirect(`/inquiries/fail?code=${error.code}&message=${error.message}`);
   }
 
   return (

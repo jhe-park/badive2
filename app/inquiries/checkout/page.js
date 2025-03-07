@@ -93,7 +93,7 @@ export default function CheckoutPage({ searchParams }) {
       setReady(false);
     };
   }, [selectedResult, widgets]);
-  console.log("selectedResult:", selectedResult);
+
   const handlePaymentClick = async () => {
     const successUrlWithParams = `${window.location.origin}/inquiries/complete?program_id=${selectedResult.program_id}&instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
@@ -112,6 +112,7 @@ export default function CheckoutPage({ searchParams }) {
       console.log("결제 요청 중 오류 발생:", error);
     }
   };
+  console.log('ready:', ready)
 
   return (
     <div className="wrapper pt-[100px] w-[100vw] h-full flex justify-center items-center px-4 md:px-12">
