@@ -241,13 +241,14 @@ const CalendarComponent = ({
                 <div className="flex flex-col items-center justify-center gap-y-2 text-sm md:text-xl">
                   <Checkbox
                     size="lg"
-                    checked={selectedResult.isAgree}
-                    onChange={() =>
+                    isSelected={selectedResult?.isAgree}
+                    onChange={() => {
+                      const currentIsAgree = selectedResult?.isAgree || false;
                       setSelectedResult({
                         ...selectedResult,
-                        isAgree: !selectedResult.isAgree,
-                      })
-                    }
+                        isAgree: !currentIsAgree,
+                      });
+                    }}
                   >
                     <p>※위 내용 일정으로 예약을 신청하시겠습니까?</p>
                     <p className="font-bold">

@@ -53,8 +53,23 @@ export default function SelectComponent({
 
   const router = useRouter();
 
-  const increment = () => setNoParticipants((prev) => prev + 1);
-  const decrement = () => setNoParticipants((prev) => Math.max(1, prev - 1));
+  const increment = () => {
+    setNoParticipants((prev) => prev + 1);
+    setSelectedResult({
+      ...selectedResult,
+      isAgree: false,
+      date: null
+    });
+  };
+
+  const decrement = () => {
+    setNoParticipants((prev) => Math.max(1, prev - 1));
+    setSelectedResult({
+      ...selectedResult,
+      isAgree: false,
+      date: null
+    });
+  };
 
   const supabase = createClient();
   const getProgram = async () => {
@@ -107,11 +122,21 @@ export default function SelectComponent({
   }, [selectedRegion]);
 
   useEffect(() => {
-    setSelectedResult({
-      program: selectedResult.program,
-      instructor: selectedResult.instructor,
-      noParticipants: noParticipants,
-    });
+
+    if (selectedResult?.program_id && programStore?.length > 0) {
+      const matchedProgram = programStore.find(
+        (program) => program.id === selectedResult.program_id
+      );
+
+      if (matchedProgram) {
+        const totalPrice = matchedProgram.price * noParticipants;
+        setSelectedResult({
+          ...selectedResult,
+          totalPrice: totalPrice
+        });
+      }
+    }
+
   }, [noParticipants]);
 
   useEffect(() => {
@@ -384,7 +409,7 @@ export default function SelectComponent({
           {selectedResult?.totalPrice && (
             <>
               <p className="text-lg md:text-2xl">
-                {selectedResult?.totalPrice.toString()}원
+                {selectedResult?.totalPrice.toLocaleString()}원
               </p>
               <p className="text-lg md:text-2xl">(vat포함)</p>
             </>
