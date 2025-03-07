@@ -159,7 +159,14 @@ export default function InstructorNewPage({params}) {
     );
     onClose();
   };
+
+  console.log('selectedInstructor:',selectedInstructor);
+
+
   const handleSaveProgram = async () => {
+
+
+
     setIsSave(true);
     try {
       const newProgramData = tableData.map((item) => {
@@ -185,6 +192,18 @@ export default function InstructorNewPage({params}) {
       if (error) {
         console.error("Error inserting program data:", error);
       } else {
+
+        // timeslot 테이블의 max_participants 업데이트
+        const { data: timeslotData, error: timeslotError } = await supabase
+          .from('timeslot')
+          .update({ max_participants: tableData[0].person })
+          .eq('program_id', id);
+
+        if (timeslotError) {
+          console.error("타임슬롯 업데이트 중 오류 발생:", timeslotError);
+        } else {
+          console.log("타임슬롯 업데이트 완료:", timeslotData);
+        }
         
         router.push("/admin/program");
 
@@ -310,7 +329,7 @@ export default function InstructorNewPage({params}) {
             
           {/* <Tiptap></Tiptap> */}
           <Button className="text-white" loading={isSave} color="success" onPress={handleSaveProgram}>
-            변경
+            수정
           </Button>
           <Button loading={isDelete} color="danger" onPress={handleDeleteProgram}>
             삭제

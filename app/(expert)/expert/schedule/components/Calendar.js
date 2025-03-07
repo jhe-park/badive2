@@ -1,75 +1,40 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Checkbox } from "@heroui/react";
-import { useDisclosure } from "@heroui/react";
-import SelectModal from "./SelectModal";
-import { useProgramStore } from "@/app/store/useProgramStore";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
-// import Image from "next/image";
-import { Skeleton } from "@heroui/skeleton";
-import { createClient } from "@/utils/supabase/client";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Image,
-  Divider,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Button,
-} from "@heroui/react";
 import useExpertStore from "../../store/useExpertStore";
+import { createClient } from "@/utils/supabase/client";
+import SelectModal from "./SelectModal";
+import { useDisclosure } from "@nextui-org/react";
 export default function Calendar() {
+  // 현재 선택된 월 상태
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { selectedResult, setSelectedResult } = useSelectedResult();
+  const { expertInformation } = useExpertStore();
+  const [selectedProgram, setSelectedProgram] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(() => {
+  
     const date = new Date();
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
   });
+  const [isSelected, setIsSelected] = useState(false);
+
+  // 선택 가능한 월 목록 상태
   const [monthList, setMonthList] = useState([]);
+  
+  // 현재 표시되는 날짜 상태
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
-  const { programStore } = useProgramStore();
-  const { selectedResult, setSelectedResult } = useSelectedResult();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [instructors, setInstructors] = useState([]);
+
   const [userReservations, setUserReservations] = useState([]);
-  const [selectedInstructor, setSelectedInstructor] = useState(null);
-  const [filteredUserReservations, setFilteredUserReservations] =
-    useState(null);
-  const [timeslots, setTimeslots] = useState([]);
-  const [isSelected, setIsSelected] = useState(true);
-  const [selectedInstructorName, setSelectedInstructorName] = useState(null);
-  const {expertInformation} = useExpertStore();
-  console.log("timeslots:", timeslots);
   const supabase = createClient();
-  const instructorRef = useRef(null);
-  console.log("selectedMonth:", selectedMonth);
-  console.log("selectedInstructor:", selectedInstructor);
-  const getInstructors = async () => {
-    const { data: instructors, error: instructorsError } = await supabase
-      .from("instructor")
-      .select("*")
-      .eq("available", true)
-      .eq("id", expertInformation?.id);
-    if (instructorsError) {
-      console.log("강사 조회 중 에러 발생:", instructorsError);
-      return;
-    }
-    if (instructors) {
-      setInstructors(instructors);
-    }
-  };
+  const [programs, setPrograms] = useState([]);
+  console.log("selectedProgra:", selectedProgram)
+  console.log('userReservations:', userReservations)
 
-  useEffect(() => {
-    getInstructors();
-  }, []);
-
-  useEffect(() => {}, []);
+  // 선택된 날짜 범위를 저장할 상태 추가
+  const [selectedDate, setSelectedDate] = useState(null);
+  console.log('selectedProgram:', selectedProgram)
+  // 예약 데이터 가져오기
   const getReservations = async () => {
     try {
       const { data: reservation, error: reservationError } = await supabase
@@ -84,36 +49,49 @@ export default function Calendar() {
         return;
       }
       if (reservation) {
-        // const filteredReservation = reservation.filter(item => item.time_slot_id !== null);
-        setUserReservations(reservation);
+        // selectedProgram이 있는 경우 필터링
+        if (selectedProgram) {
+          const filteredReservations = reservation.filter(
+            (item) => item.time_slot_id.program_id.id.toString() === selectedProgram.toString()
+          );
+          setUserReservations(filteredReservations);
+        } else {
+          setUserReservations(reservation);
+        }
       }
     } catch (err) {
       console.log("예약 조회 중 에러 발생:", err);
     }
   };
+
+  // 프로그램 데이터 가져오기
+  const getPrograms = async () => {
+    try {
+      const { data: programs, error: programsError } = await supabase
+        .from("program")
+        .select("*")
+        .eq("instructor_id", expertInformation?.id);
+
+      if (programsError) {
+        console.log("프로그램 조회 중 에러 발생:", programsError);
+        return;
+      }
+      if (programs) {
+        setPrograms(programs);
+      }
+    } catch (err) {
+      console.log("프로그램 조회 중 에러 발생:", err);
+    }
+  };
+
+  // 선택된 월이 변경될 때마다 예약 데이터 가져오기
   useEffect(() => {
     if (selectedMonth) {
       getReservations();
     }
-  }, [selectedMonth]);
+  }, [selectedMonth, selectedProgram]);
 
-  useEffect(() => {
-    if (userReservations.length > 0 && instructors.length > 0) {
-      const updatedInstructors = instructors.map((instructor) => {
-        const reservationCount = userReservations.filter(
-          (reservation) =>
-            reservation.time_slot_id?.instructor_id === instructor.id &&
-            reservation.status !== "예약불가"
-        ).length;
-        return {
-          ...instructor,
-          count: reservationCount,
-        };
-      });
-      setInstructors(updatedInstructors);
-    }
-  }, [userReservations]);
-
+  // 월 목록 생성
   useEffect(() => {
     const date = new Date();
     const year = date.getFullYear();
@@ -130,12 +108,34 @@ export default function Calendar() {
     setMonthList(months);
   }, []);
 
+  // 선택된 월이 변경될 때 현재 날짜 업데이트
   useEffect(() => {
     if (selectedMonth) {
       const [year, month] = selectedMonth.split("-");
       setCurrentDate(new Date(year, month - 1, 1));
     }
   }, [selectedMonth]);
+
+  // expertInformation이 변경될 때마다 프로그램 데이터 가져오기
+  useEffect(() => {
+    if (expertInformation) {
+      getPrograms();
+    }
+  }, [expertInformation]);
+
+  // 달력에 표시될 날짜 수 계산
+  const daysInMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  ).getDate();
+
+  // 달력의 첫 날 요일 계산
+  const firstDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  ).getDay();
 
   const handleDateSelect = (day) => {
     const selectedDate = new Date(
@@ -149,6 +149,7 @@ export default function Calendar() {
     const endOfWeek = new Date(selectedDate);
     endOfWeek.setDate(selectedDate.getDate() + (6 - dayOfWeek));
 
+    // 선택된 날짜 범위 저장
     setSelectedDate({ start: startOfWeek, end: endOfWeek });
 
     const dateList = [];
@@ -167,67 +168,14 @@ export default function Calendar() {
       date: dateList,
     });
 
+    // 날짜 선택 후 모달 열기
     onOpen();
   };
+  console.log('selectedResult:', selectedResult)
 
-  const daysInMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
-    0
-  ).getDate();
-  const firstDayOfMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1
-  ).getDay();
-
-  const handleInstructorClick = (expertInformation) => {
-
-
-    if(expertInformation) {
-      setSelectedInstructor(expertInformation);
-      setSelectedResult({
-        ...selectedResult,
-        instructor_id: expertInformation.id,
-        instructor: expertInformation.name,
-      });
-    }
-  };
-  
-  useEffect(() => {
-    handleInstructorClick(expertInformation);
-  }, [expertInformation]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        instructorRef.current &&
-        !instructorRef.current.contains(event.target)
-      ) {
-        setSelectedInstructor(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (selectedInstructor) {
-      const filteredReservations = userReservations.filter(
-        (reservation) =>
-          reservation.time_slot_id.instructor_id === selectedInstructor.id
-      );
-      setFilteredUserReservations(filteredReservations);
-    } else {
-      setFilteredUserReservations(null);
-    }
-  }, [selectedInstructor, userReservations]);
-  console.log("instructors:", instructors);
   return (
     <div className="w-full h-full flex flex-col gap-4 items-center justify-start">
+      {/* 월 선택 Select */}
       <div className="flex flex-col md:flex-row w-full justify-start gap-x-4 gap-y-2">
         <Select
           selectedKeys={[selectedMonth]}
@@ -242,28 +190,24 @@ export default function Calendar() {
             </SelectItem>
           ))}
         </Select>
-        {/* <Select
-          color={!selectedInstructorName ? "danger" : "default"}
-          selectedKeys={[selectedInstructorName]}
-          onChange={(e) => setSelectedInstructorName(e.target.value)}
-          label="강사"
+        <Select
+          label="프로그램"
           className="w-full md:w-1/3"
-          placeholder="강사 선택"
-          isRequired={true}
+          placeholder="프로그램 선택"
+          selectedKeys={[selectedProgram]}
+          onChange={(e) => setSelectedProgram(e.target.value)}
         >
-          {instructors.map((instructor) => (
-            <SelectItem
-              onPress={() => handleInstructorClick(instructor)}
-              key={instructor.name}
-              value={instructor.name}
-            >
-              {instructor.name}
+          {programs.map((program) => (
+            <SelectItem key={program.id} value={program.id}>
+              {program.title}
             </SelectItem>
           ))}
-        </Select> */}
+        </Select>
       </div>
 
+      {/* 달력 그리드 */}
       <div className="grid grid-cols-7 gap-0 w-full my-6">
+        {/* 요일 헤더 */}
         {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
           <div
             key={day}
@@ -274,126 +218,70 @@ export default function Calendar() {
             {day}
           </div>
         ))}
+
+        {/* 첫 주 빈 칸 */}
         {Array.from({ length: firstDayOfMonth }, (_, i) => i).map((_, i) => (
           <div key={`empty-${i}`} className="text-center text-gray-400"></div>
         ))}
-        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
-          const isSelected =
-            selectedDate &&
-            selectedDate.start <=
-              new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                day
-              ) &&
-            selectedDate.end >=
-              new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
 
+        {/* 날짜 */}
+        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
+          const currentDateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          
+          const hasUnavailableReservation = userReservations.some(reservation => 
+            reservation.time_slot_id.date === currentDateStr && 
+            reservation.status === "예약불가"
+          );
+
+          const hasCompletedReservation = userReservations.some(reservation => 
+            reservation.time_slot_id.date === currentDateStr && 
+            reservation.status !== "예약불가"
+          );
+
+          // 선택된 주 내의 날짜인지 확인
+          const isSelected = selectedDate && 
+            new Date(currentDate.getFullYear(), currentDate.getMonth(), day) >= selectedDate.start && 
+            new Date(currentDate.getFullYear(), currentDate.getMonth(), day) <= selectedDate.end;
+
+          // 선택된 주의 시작일과 마지막일 확인
           const isStart = selectedDate && selectedDate.start.getDate() === day;
           const isEnd = selectedDate && selectedDate.end.getDate() === day;
-
-          const reservationsToCheck =
-            filteredUserReservations !== null
-              ? filteredUserReservations
-              : userReservations;
-
-          const hasReservation = reservationsToCheck.some((reservation) => {
-            const reservationDate = new Date(reservation.time_slot_id.date);
-            return (
-              reservationDate.getFullYear() === currentDate.getFullYear() &&
-              reservationDate.getMonth() === currentDate.getMonth() &&
-              reservationDate.getDate() === day &&
-              reservation.status !== "예약불가"
-            );
-          });
-
-          const hasUnavailableReservation = reservationsToCheck.some(
-            (reservation) => {
-              const reservationDate = new Date(reservation.time_slot_id.date);
-              return (
-                reservationDate.getFullYear() === currentDate.getFullYear() &&
-                reservationDate.getMonth() === currentDate.getMonth() &&
-                reservationDate.getDate() === day &&
-                reservation.status === "예약불가"
-              );
-            }
-          );
 
           return (
             <div
               key={day}
-              className={`relative text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition ${
-                isSelected
+              className={`relative text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition
+                ${isSelected 
                   ? isStart
-                    ? "bg-gray-300 text-white rounded-l-full"
+                    ? "bg-primary-500 text-white rounded-l-full"
                     : isEnd
-                      ? "bg-gray-300 text-white rounded-r-full"
-                      : "bg-gray-300 text-white rounded-none"
+                      ? "bg-primary-500 text-white rounded-r-full"
+                      : "bg-primary-500 text-white"
                   : ""
-              }`}
+                }`}
               onClick={() => handleDateSelect(day)}
             >
-              {hasReservation && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>
-              )}
               {hasUnavailableReservation && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full ml-3"></div>
+              )}
+              {hasCompletedReservation && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>
               )}
               {day}
             </div>
           );
         })}
       </div>
-      {/* <div className="w-full overflow-x-auto">
-        <Table
-          classNames={{
-            wrapper: "p-0 min-w-full whitespace-nowrap",
-          }}
-          aria-label="강사별 예약 현황"
-          shadow="none"
-        >
-          <TableHeader>
-            <TableColumn className="text-center w-[100px]">구분</TableColumn>
-            {instructors.map((instructor) => (
-              <TableColumn
-                key={instructor.id}
-                className="text-center w-[100px]"
-              >
-                {instructor.name}
-              </TableColumn>
-            ))}
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="text-center whitespace-nowrap">
-                예약건수
-              </TableCell>
-              {instructors.map((instructor) => (
-                <TableCell
-                  key={instructor.id}
-                  className="text-center whitespace-nowrap"
-                >
-                  {instructor.count}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div> */}
-
       <SelectModal
-        userReservations={
-          filteredUserReservations !== null
-            ? filteredUserReservations
-            : userReservations
-        }
-        selectedInstructor={selectedInstructor}
         isOpen={isOpen}
-        onOpen={onOpen}
         onOpenChange={onOpenChange}
+        userReservations={userReservations}
+        selectedProgram={selectedProgram}
+        selectedInstructor={expertInformation}
         isSelected={isSelected}
         setIsSelected={setIsSelected}
         getReservations={getReservations}
+        
       />
     </div>
   );

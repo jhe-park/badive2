@@ -115,7 +115,7 @@ export default function SelectModal({
         return {
           time: `${slot.start_time}~${slot.end_time}`,
           startTime: slot.start_time,
-          status: !slot.available || remainingSpots < selectedResult.noParticipants ? 2 : 0,
+          status: remainingSpots < selectedResult.noParticipants ? 2 : 0,
           remainingSpots: remainingSpots,
           available: slot.available,
         };

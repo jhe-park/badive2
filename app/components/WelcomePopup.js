@@ -86,7 +86,7 @@ export default function WelcomePopup() {
           const nextIndex = (currentIndex + 1) % tabIds.length;
           return tabIds[nextIndex];
         });
-      }, 3000);
+      }, 8000);
 
       return () => clearInterval(interval);
     }

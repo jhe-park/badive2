@@ -31,6 +31,7 @@ export default function SelectModal({
   isSelected,
   setIsSelected,
   getReservations,
+  selectedProgram,
 }) {
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedCellInfo, setSelectedCellInfo] = useState(null);
@@ -57,6 +58,7 @@ export default function SelectModal({
         .select("*,program_id(*)")
         .eq("instructor_id", selectedResult.instructor_id)
         .in("date", selectedResult.date)
+        .eq("program_id", selectedProgram)
         .order("date", { ascending: true });
 
       if (error) {

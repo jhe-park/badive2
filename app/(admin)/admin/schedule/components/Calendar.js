@@ -44,7 +44,31 @@ export default function Calendar() {
   const [timeslots, setTimeslots] = useState([]);
   const [isSelected, setIsSelected] = useState(true);
   const [selectedInstructorName, setSelectedInstructorName] = useState(null);
-  console.log("timeslots:", timeslots);
+  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [programs, setPrograms] = useState([]);
+  console.log("selectedInstructor:", selectedInstructor);
+
+  const getPrograms = async () => {
+    const { data: programs, error: programsError } = await supabase
+      .from("program")
+      .select("*");
+    if (programsError) {
+      console.log("프로그램 조회 중 에러 발생:", programsError);
+      return;
+    }
+    if (programs && selectedInstructor) {
+      const filteredPrograms = programs.filter(
+        (program) => program.instructor_id === selectedInstructor?.id
+      );
+      setPrograms(filteredPrograms);
+    }
+  };
+  useEffect(() => {
+    getPrograms();
+  }, [selectedInstructor]);
+  console.log("programs:", programs);
+  console.log("selectedProgram:", selectedProgram);
+
   const supabase = createClient();
   const instructorRef = useRef(null);
   console.log("selectedMonth:", selectedMonth);
@@ -67,7 +91,7 @@ export default function Calendar() {
     getInstructors();
   }, []);
 
-  useEffect(() => {}, []);
+  
   const getReservations = async () => {
     try {
       const { data: reservation, error: reservationError } = await supabase
@@ -77,12 +101,15 @@ export default function Calendar() {
         .not("time_slot_id", "is", null)
         .neq("status", "취소완료");
 
+      
       if (reservationError) {
         console.log("예약 조회 중 에러 발생:", reservationError);
         return;
       }
-      if (reservation) {
-        // const filteredReservation = reservation.filter(item => item.time_slot_id !== null);
+      if (selectedProgram) {
+        const filteredReservation = reservation.filter(item => item.time_slot_id.program_id.id.toString() === selectedProgram.toString());
+        setUserReservations(filteredReservation);
+      } else {
         setUserReservations(reservation);
       }
     } catch (err) {
@@ -93,7 +120,7 @@ export default function Calendar() {
     if (selectedMonth) {
       getReservations();
     }
-  }, [selectedMonth]);
+  }, [selectedMonth, selectedProgram,selectedInstructor]);
 
   useEffect(() => {
     if (userReservations.length > 0 && instructors.length > 0) {
@@ -253,6 +280,23 @@ export default function Calendar() {
             </SelectItem>
           ))}
         </Select>
+        {selectedInstructor && (
+          <Select
+            color={!selectedInstructorName ? "danger" : "default"}
+            selectedKeys={[selectedProgram]}
+            onChange={(e) => setSelectedProgram(e.target.value)}
+            label="프로그램"
+            className="w-full md:w-1/3"
+          placeholder="프로그램 선택"
+          isRequired={true}
+        >
+          {programs?.map((program) => (
+            <SelectItem key={program.id} value={program.id}>
+              {program.title}
+            </SelectItem>
+          ))}
+        </Select>
+        )}
       </div>
 
       <div className="grid grid-cols-7 gap-0 w-full my-6">
@@ -386,6 +430,7 @@ export default function Calendar() {
         isSelected={isSelected}
         setIsSelected={setIsSelected}
         getReservations={getReservations}
+        selectedProgram={selectedProgram}
       />
     </div>
   );

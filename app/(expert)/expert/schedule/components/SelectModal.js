@@ -31,6 +31,7 @@ export default function SelectModal({
   isSelected,
   setIsSelected,
   getReservations,
+  selectedProgram,
 }) {
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedCellInfo, setSelectedCellInfo] = useState(null);
@@ -39,10 +40,11 @@ export default function SelectModal({
   const [data, setData] = useState([]);
   const supabase = createClient();
   console.log('selectedCell', selectedCell);
+  console.log('data:', data)
   useEffect(() => {
     if (isOpenProps) {
-      if (!selectedResult.instructor) {
-        toast.error("강사를 선택해주세요.");
+      if (!selectedProgram) {
+        toast.error("프로그램을 선택해주세요.");
         onOpenChangeProps(false);
         setIsSelected(false);
       }
@@ -55,7 +57,7 @@ export default function SelectModal({
       const { data, error } = await supabase
         .from("timeslot")
         .select("*,program_id(*)")
-        .eq("instructor_id", selectedResult.instructor_id)
+        .eq("program_id", selectedProgram)
         .in("date", selectedResult.date)
         .order("date", { ascending: true });
 
