@@ -103,8 +103,8 @@ export default function WelcomePopup() {
 
   const handleClose = (dontShow) => {
     if (dontShow) {
-      const weekFromNow = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
-      localStorage.setItem("hidePopupUntil", weekFromNow.toString());
+      const dayFromNow = new Date().getTime() + 1 * 24 * 60 * 60 * 1000;
+      localStorage.setItem("hidePopupUntil", dayFromNow.toString());
     }
     setIsOpen(false);
   };
@@ -156,7 +156,7 @@ export default function WelcomePopup() {
               className="m-0"
               onChange={(e) => handleClose(e.target.checked)}
             >
-              <span>일주일 동안 보지 않기</span>
+              <span>하루 동안 보지 않기</span>
             </Checkbox>
             <Button
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-medium"

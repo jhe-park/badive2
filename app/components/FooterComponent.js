@@ -53,11 +53,11 @@ export default function Component() {
           {/* Social Links */}
           <div className="flex flex-wrap justify-center gap-4 order-1 w-full md:w-1/2">
             {[
-              { src: "/logo/youtube.png", alt: "youtube", href: "https://youtube.com/@bdndive?si=p72b0W3_Szqc_c7Y" },
-              { src: "/logo/kakao.png", alt: "kakao", href: "" },
-              { src: "/logo/instagram.png", alt: "instagram", href: "https://www.instagram.com/bdn_dive?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
-              { src: "/logo/cafe.png", alt: "cafe", href: "https://cafe.naver.com/bdndive" },
-              { src: "/logo/blog.png", alt: "blog", href: "" },
+              { src: "/logo/youtube.png", alt: "youtube", href: "https://youtube.com/channel/UCFSbRT26EQz8prlGfg0_-YA?si=nX95jnpgnI73Ttpq" },
+              { src: "/logo/kakao.png", alt: "kakao", href: "https://pf.kakao.com/_ClHKn " },
+              { src: "/logo/instagram.png", alt: "instagram", href: "https://www.instagram.com/badive_official/" },
+              { src: "/logo/cafe.png", alt: "cafe", href: "" },
+              { src: "/logo/blog.png", alt: "blog", href: "https://blog.naver.com/chiyang80" },
             ].map((social) => (
               <Link 
                 key={social.alt} 

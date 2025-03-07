@@ -13,6 +13,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { signOut } from "next-auth/react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { FaArrowLeft } from "react-icons/fa";
+
 export default function Component({ children, user }) {
   const [isHidden, setIsHidden] = React.useState(window.innerWidth < 768);
   const supabase = createClient();
@@ -98,6 +100,17 @@ export default function Component({ children, user }) {
           >
             Log Out
           </Button>
+          <Button
+            className="justify-start text-default-500 data-[hover=true]:text-foreground"
+            startContent={
+              <FaArrowLeft className="text-default-500" />
+            }
+            variant="light"
+            onPress={() => router.push("/")}
+          >
+            메인으로 이동동
+          </Button>
+          
         </div>
       </div>
       <div className="w-[95%] md:w-full h-[100vh] flex flex-col gap-y-4 md:mx-4 mx-auto">
