@@ -103,6 +103,7 @@ export default function Information() {
             firstAddress: firstAddress,
             secondAddress: secondAddress,
             marketingAgreement: marketingAgreement,
+            role:"client"
           })
           .eq("id", signUpData.user.id);
 
