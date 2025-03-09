@@ -32,6 +32,9 @@ import {
 } from "@heroui/react";
 import Tiptap from "@/components/Tiptap/Tiptap";
 import { ToastContainer, toast } from "react-toastify";
+import Froala from "@/components/Froala/Froala";
+
+
 export default function InstructorNewPage() {
   const {
     isOpen: isOpenAddInstructor,
@@ -50,11 +53,21 @@ export default function InstructorNewPage() {
   const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+  const [content, setContent] = useState('');
+
+  const handleEditorChange = (model) => {
+    setContent(model);
+  };
+
+  const handleSave = () => {
+    alert('저장된 내용:\n' + content);
+    console.log('저장된 내용:', content);
+  };
 
   const handleSaveFaq = async () => {
     const { data, error } = await supabase
       .from("faq")
-      .insert({ question, answer });
+      .insert({ question, answer:content });
 
     if (error) {
       console.error("Error saving faq:", error);
@@ -88,8 +101,9 @@ export default function InstructorNewPage() {
        
         <div className="w-full flex flex-col gap-y-2 mb-6">
             
-          <Tiptap answer={answer} setAnswer={setAnswer}></Tiptap>
-        </div>
+          {/* <Tiptap answer={answer} setAnswer={setAnswer}></Tiptap> */}
+          <Froala value={content} onChange={handleEditorChange}></Froala>
+          </div>
         <Button isLoading={isSave} color="primary" onPress={handleSaveFaq}>저장</Button>
       </div>
       <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>

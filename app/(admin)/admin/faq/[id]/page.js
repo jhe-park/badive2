@@ -31,6 +31,7 @@ import {
 } from "@heroui/react";
 import Tiptap from "@/components/Tiptap/Tiptap";
 import { ToastContainer, toast } from "react-toastify";
+import Froala from "@/components/Froala/Froala";
 
 export default function FaqEditPage({ params }) {
   const {
@@ -53,6 +54,16 @@ export default function FaqEditPage({ params }) {
   const router = useRouter();
   const supabase = createClient();
   const unwrappedParams = use(params);
+  const [content, setContent] = useState('');
+
+  const handleEditorChange = (model) => {
+    setContent(model);
+  };
+
+  const handleSave = () => {
+    alert('저장된 내용:\n' + content);
+    console.log('저장된 내용:', content);
+  };
 
   useEffect(() => {
     const fetchFaq = async () => {
@@ -65,7 +76,7 @@ export default function FaqEditPage({ params }) {
         console.error("Error fetching faq:", error);
       } else {
         setQuestion(data.question);
-        setAnswer(data.answer);
+        setContent(data.answer);
         setDescription(data.answer);
       }
     };
@@ -75,7 +86,7 @@ export default function FaqEditPage({ params }) {
   const handleSaveFaq = async () => {
     const { data, error } = await supabase
       .from("faq")
-      .update({ question, answer })
+      .update({ question, answer:content })
       .eq("id", unwrappedParams.id);
 
     if (error) {
@@ -122,8 +133,9 @@ export default function FaqEditPage({ params }) {
 
       <div className="flex flex-col justify-center items-center mt-6">
         <div className="w-full flex flex-col gap-y-2 mb-6">
-          <Tiptap description={description} setDescription={setDescription}></Tiptap>
-        </div>
+          {/* <Tiptap description={description} setDescription={setDescription}></Tiptap> */}
+          <Froala value={content} onChange={handleEditorChange}></Froala>
+          </div>
         <div className="flex flex-row gap-x-2 justify-end w-full">
           <Button isLoading={isSave} color="success" onPress={handleSaveFaq}>수정</Button>
           <Button isLoading={isDelete} color="danger" onPress={handleDeleteFaq}>삭제</Button>

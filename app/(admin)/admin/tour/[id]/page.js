@@ -33,6 +33,7 @@ import {
 } from "@heroui/react";
 import Tiptap from "@/components/Tiptap/Tiptap";
 import DateEdit from "./components/DateEdit";
+import Froala from "@/components/Froala/Froala";
 
 export default function InstructorNewPage({params}) {
   const {
@@ -61,6 +62,13 @@ export default function InstructorNewPage({params}) {
   const supabase = createClient();
   const [description, setDescription] = useState("");
   const {id} = use(params);
+  const [content, setContent] = useState('');
+
+  const handleEditorChange = (model) => {
+    setContent(model);
+  };
+
+
 
   const handleUploadImage = async (event) => {
     const file = event.target.files[0];
@@ -107,7 +115,7 @@ export default function InstructorNewPage({params}) {
     setEtc(data.etc);
     setPrice(data.price);
     setMaxParticipants(data.max_participants);
-    setDescription(data.description);
+    setContent(data.description);
     setImageUrl(data.image);
     setIsLoading(false);
     
@@ -127,7 +135,7 @@ export default function InstructorNewPage({params}) {
       price: price,
       max_participants: max_participants,
       image: imageUrl,
-      description: description,
+      description: content,
     }).eq("id", id);
     setIsSave(true);
     if (error) {  
@@ -244,7 +252,9 @@ export default function InstructorNewPage({params}) {
        
         <div className="w-full flex flex-col gap-y-2 mb-6">
             
-          <Tiptap description={description} setDescription={setDescription}></Tiptap>
+          {/* <Tiptap description={description} setDescription={setDescription}></Tiptap> */}
+          <Froala value={content} onChange={handleEditorChange}></Froala>
+
           <div className="w-full flex justify-end gap-x-2">
             <Button isLoading={isSave} color="success" onPress={handleSave}>
               수정

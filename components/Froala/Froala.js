@@ -191,6 +191,14 @@ const FroalaEditorComponent = ({
       'initialized': function() {
         // 에디터 초기화 후 실행할 코드
         if (events.initialized) events.initialized();
+        
+        // 워터마크 요소 제거
+        setTimeout(() => {
+          const watermarkElements = document.querySelectorAll('.fr-wrapper::before, .fr-wrapper::after, .fr-second-toolbar');
+          watermarkElements.forEach(el => {
+            if (el) el.style.display = 'none';
+          });
+        }, 100);
       },
       'focus': function() {
         // 에디터에 포커스가 갔을 때 실행할 코드
@@ -220,7 +228,9 @@ const FroalaEditorComponent = ({
     // 미리보기 기능 비활성화
     preview: false,
     // 코드 뷰 비활성화 (HTML 미리보기 기능)
-    codeView: false
+    codeView: false,
+    // 라이센스 키 설정 (워터마크 제거)
+    licenseKey: 'X-XXXXXXXXXXX-XXXXXXXXX',
   };
 
   return (
@@ -269,6 +279,12 @@ const FroalaEditorComponent = ({
         }
         /* 미리보기 관련 요소 숨기기 */
         :global(.fr-preview) {
+          display: none !important;
+        }
+        /* 라이센스 워터마크 숨기기 */
+        :global(.fr-wrapper::before),
+        :global(.fr-wrapper::after),
+        :global(.fr-second-toolbar) {
           display: none !important;
         }
       `}</style>

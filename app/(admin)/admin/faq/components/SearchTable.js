@@ -128,10 +128,10 @@ export default function SearchTable() {
                       {item.question}
                     </TableCell>
                     <TableCell className="text-center whitespace-nowrap">
-                      <div
-                        className="text-sm"
-                        dangerouslySetInnerHTML={{ __html: item.answer }}
-                      ></div>
+                      <div className="text-sm">
+                        {item.answer.replace(/<[^>]*>/g, '').substring(0, 50)}
+                        {item.answer.length > 50 ? '...' : ''}
+                      </div>
                     </TableCell>
                     <TableCell className="text-center whitespace-nowrap">
                       <Button
