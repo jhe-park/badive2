@@ -65,6 +65,11 @@ export default function SearchTable() {
   console.log("selectedFilter", selectedFilter);
   return (
     <>
+      <style jsx global>{`
+        .fr-wrapper a {
+          display: none !important;
+        }
+      `}</style>
       <div className="flex flex-col md:flex-row gap-4 w-full px-4 mt-6 justify-between items-center">
         <Button
           className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
