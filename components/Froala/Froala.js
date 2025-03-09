@@ -287,6 +287,10 @@ const FroalaEditorComponent = ({
         :global(.fr-second-toolbar) {
           display: none !important;
         }
+        /* fr-wrapper 하위의 a 태그 숨기기 */
+        :global(.fr-wrapper a) {
+          display: none !important;
+        }
       `}</style>
     </div>
   );
