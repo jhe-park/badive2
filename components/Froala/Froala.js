@@ -273,7 +273,11 @@ const FroalaEditorComponent = ({
         :global(.fr-preview) {
           display: none !important;
         }
-      
+        
+        /* fr-wrapper와 show-placeholder 클래스를 모두 가진 요소 하위의 a 태그 숨기기 */
+        :global(.fr-wrapper.show-placeholder a) {
+          display: none !important;
+        }
       `}</style>
     </div>
   );
