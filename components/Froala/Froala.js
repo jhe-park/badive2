@@ -275,7 +275,7 @@ const FroalaEditorComponent = ({
         }
         
         /* fr-wrapper와 show-placeholder 클래스를 모두 가진 요소 하위의 a 태그 숨기기 */
-        :global(.fr-wrapper.show-placeholder a) {
+        :global(.fr-wrapper a) {
           display: none !important;
         }
       `}</style>
