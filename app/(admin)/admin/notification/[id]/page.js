@@ -32,6 +32,7 @@ import {
 } from "@heroui/react";
 import Tiptap from '@/components/Tiptap/Tiptap'
 import { ToastContainer, toast } from "react-toastify";
+import Froala from "@/components/Froala/Froala";
 
 export default function NotificationEditPage({params}) {
   const {
@@ -54,6 +55,17 @@ export default function NotificationEditPage({params}) {
   const supabase = createClient();
   const unwrappedParams = use(params);
   const [isDelete, setIsDelete] = useState(false);
+  const [content, setContent] = useState('');
+
+  const handleEditorChange = (model) => {
+    setContent(model);
+  };
+
+  const handleSave = () => {
+    alert('저장된 내용:\n' + content);
+    console.log('저장된 내용:', content);
+  };
+
 
   const handleDeleteNotification = async () => {
     const { data, error } = await supabase
@@ -65,7 +77,7 @@ export default function NotificationEditPage({params}) {
   const handleSaveNotification = async () => {
     const { data, error } = await supabase
       .from("notification")
-      .update({ title, description, pinned })
+      .update({ title, description:content, pinned })
       .eq("id", unwrappedParams.id);
 
     if (error) {
@@ -84,7 +96,7 @@ export default function NotificationEditPage({params}) {
       .eq("id", unwrappedParams.id)
       .single();
     setTitle(data.title);
-    setDescription(data.description);
+    setContent(data.description);
     setPinned(data.pinned);
   };
   useEffect(() => {
@@ -129,7 +141,9 @@ export default function NotificationEditPage({params}) {
        
         <div className="w-full flex flex-col gap-y-2 mb-6">
             
-          <Tiptap description={description} setDescription={setDescription}></Tiptap>
+          {/* <Tiptap description={description} setDescription={setDescription}></Tiptap> */}
+          <Froala value={content} onChange={handleEditorChange}></Froala>
+
         </div>
         <div className="w-full flex flex-row gap-x-2 justify-end mb-12">
         <Button isLoading={isSave} color="success" onPress={handleSaveNotification}>수정</Button>

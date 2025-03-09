@@ -124,10 +124,9 @@ export default function SearchTable() {
                 <TableCell className="text-center whitespace-nowrap">{index + 1}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">{item.title}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">
-                  <div
-                    className="text-sm"
-                    dangerouslySetInnerHTML={{ __html: removeImgTags(item.description) }}
-                  ></div>
+                <div className="text-sm">
+                    {extractTextOnly(item.description)}
+                  </div>
                 </TableCell>
                 <TableCell className="text-center whitespace-nowrap">{item.pinned === "pinned" ? "고정" : "미고정"}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">
@@ -159,4 +158,11 @@ function removeImgTags(html) {
   const images = doc.querySelectorAll('img');
   images.forEach(img => img.remove());
   return doc.body.innerHTML;
+}
+
+function extractTextOnly(html) {
+  if (!html) return '';
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
 }
