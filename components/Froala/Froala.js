@@ -273,6 +273,7 @@ const FroalaEditorComponent = ({
         :global(.fr-preview) {
           display: none !important;
         }
+      
       `}</style>
     </div>
   );
