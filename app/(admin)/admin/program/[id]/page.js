@@ -327,7 +327,6 @@ export default function InstructorNewPage({params}) {
 
         <div className="flex gap-y-2 mb-12 justify-end w-full gap-x-2">
             
-          {/* <Tiptap></Tiptap> */}
           <Button className="text-white" loading={isSave} color="success" onPress={handleSaveProgram}>
             수정
           </Button>

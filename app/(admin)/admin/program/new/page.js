@@ -266,7 +266,6 @@ export default function InstructorNewPage() {
         </div>
 
         <div className="flex gap-y-2 mb-12 justify-end w-full">
-          {/* <Tiptap></Tiptap> */}
           <Button loading={isSave} color="primary" onPress={handleSaveProgram}>
             저장
           </Button>
