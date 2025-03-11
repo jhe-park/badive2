@@ -66,7 +66,9 @@ export default function InstructorNewPage() {
   const supabase = createClient();
 
   const handleSaveFaq = async () => {
-    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
+    const cleanedContent = content
+    .replace(/Powered by/g, '')
+    .replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
     const { data, error } = await supabase
       .from("notification")
       .insert({ title, description:cleanedContent, pinned, writer });
