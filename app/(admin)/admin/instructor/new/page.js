@@ -72,6 +72,10 @@ export default function InstructorNewPage() {
       toast.error("아이디를 이메일 형태로 입력해주세요");
       return;
     }
+    if (email !== email.toLowerCase()) {
+      toast.error("이메일은 소문자로 입력해주세요");
+      return;
+    }
     const birthRegex = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/;
     if (!birthRegex.test(birth)) {
       toast.error("생년월일은 YYYYmmdd 형식으로 입력해주세요 (예: 19900518)");

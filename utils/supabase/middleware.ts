@@ -119,45 +119,32 @@ export const updateSession = async (request: NextRequest) => {
         return NextResponse.redirect(new URL("/expert/login", request.url));
       }
     }
-    // // 관리자 로그인 페이지에서 사용자가 이미 로그인되어 있는 경우 루트로 리디렉션
-    // if (request.nextUrl.pathname.startsWith("/admin")) {
-    //   // /admin/login 경로는 예외 처리
-    //   if (request.nextUrl.pathname === "/admin/login") {
-    //     return response;
-    //   }
 
-    //   // 사용자 정보가 없을 경우 admin 로그인 페이지로 리디렉션
-    //   if (user.error) {
-    //     return NextResponse.redirect(new URL("/admin/login", request.url));
-    //   }
+    // admin/login 페이지에서 이미 로그인되어 있고 master인 경우 /admin/main으로 리디렉션
+    if (request.nextUrl.pathname === "/admin/login" && !user.error) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.data.user.id)
+        .single();
+      
+      if (profile && profile.role === "master") {
+        return NextResponse.redirect(new URL("/admin/main", request.url));
+      }
+    }
 
-    //   // 사용자의 프로필 정보 조회
-    //   const { data: profile } = await supabase
-    //     .from("profiles")
-    //     .select("role")
-    //     .eq("id", user.data.user.id)
-    //     .single();
-
-    //   // role이 master가 아니면 admin 로그인 페이지로 리디렉션
-    //   if (!profile || profile.role !== "master") {
-    //     return NextResponse.redirect(new URL("/admin/login", request.url));
-    //   }
-
-    //   // 이미 /admin/main, /admin/program, /admin/schedule, /admin/instructor에 있는 경우 추가 리디렉션 방지
-    //   const adminPaths = [
-    //     "/admin/tour",
-    //     "/admin/sales",
-    //     "/admin/member",
-    //     "/admin/program",
-    //     "/admin/schedule",
-    //     "/admin/instructor",
-    //   ];
-    //   if (!adminPaths.includes(request.nextUrl.pathname)) {
-    //     return NextResponse.redirect(new URL("/admin/main", request.url));
-    //   }
-
-    //   return response;
-    // }
+    // expert/login 페이지에서 이미 로그인되어 있고 expert인 경우 /expert/main으로 리디렉션
+    if (request.nextUrl.pathname === "/expert/login" && !user.error) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.data.user.id)
+        .single();
+      
+      if (profile && profile.role === "expert") {
+        return NextResponse.redirect(new URL("/expert/main", request.url));
+      }
+    }
 
     return response;
   } catch (e) {

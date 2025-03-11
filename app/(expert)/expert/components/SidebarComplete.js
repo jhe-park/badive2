@@ -50,6 +50,7 @@ export default function Component({ children, user }) {
 
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession();
+    console.log('data:',data)
     if(data){
       const { data: instructorData, error: instructorError } = await supabase
         .from("instructor")
