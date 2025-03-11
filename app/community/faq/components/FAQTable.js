@@ -18,12 +18,19 @@ export default function FAQTable() {
   const supabase = createClient();
   const [faqData, setFaqData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     const fetchFaqData = async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("faq")
         .select("*")
         .order("created_at", { ascending: false });
+      
+      if (searchQuery) {
+        query = query.ilike('question', `%${searchQuery}%`);
+      }
+      
+      const { data, error } = await query.order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching faq data:", error);
@@ -33,7 +40,7 @@ export default function FAQTable() {
       }
     };
     fetchFaqData();
-  }, []);
+  }, [searchQuery]);
 
   
 
@@ -41,7 +48,7 @@ export default function FAQTable() {
     setOpenIndex(openIndex === index ? -1 : index);
   };
   return (
-    <div className="w-full mx-auto mt-12 mb-36">
+    <div className="w-full h-full mt-12 mb-36">
       {/* Search Bar */}
       <div className="mb-6 flex justify-end items-center">
         <div className="relative w-full md:w-1/3">
@@ -49,6 +56,9 @@ export default function FAQTable() {
             type="text"
             placeholder="검색어를 입력해주세요"
             className="w-full p-2 border rounded-md pr-10 bg-[#EBEBEB]"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+
           />
           <button className="absolute right-2 top-1/2 transform -translate-y-1/2">
             🔍

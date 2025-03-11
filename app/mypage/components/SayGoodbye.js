@@ -1,6 +1,57 @@
+'use client'
 import React from "react";
 import { Button, Divider } from "@nextui-org/react";
-export default function SayGoodbye() {
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { useState,useEffect } from "react";
+
+export default function SayGoodbye({profile}) {
+  const router = useRouter();
+  const supabase = createClient();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "";
+  const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
+
+  
+
+  const handleSubmit = async () => {
+    
+    setIsLoading(true);
+    try {
+      // 사용자 삭제
+      const { data, error } = await supabaseAdmin.auth.admin.deleteUser(profile.data.id);
+      
+      if (error) throw error;
+
+      // bye 테이블에 탈퇴 정보 저장
+      const { error: byeError } = await supabase
+        .from('bye')
+        .insert([
+          {
+            email: profile.data.email,
+            uuid: profile.data.id,
+            SNS: profile.data.snsRegister,
+          }
+        ]);
+
+      if (byeError) throw byeError;
+
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+      supabase.auth.signOut();
+      router.push('/');
+    }
+  };
   return (
     <div className="flex flex-col gap-2 w-full justify-center items-center gap-y-5">
       <div className="flex flex-col gap-y-2 justify-center items-center">
@@ -27,7 +78,7 @@ export default function SayGoodbye() {
         <Button type="reset" variant="flat" className="w-full">
           취소
         </Button>
-        <Button color="primary" type="submit" className="w-full">
+        <Button loading={isLoading} onPress={handleSubmit} color="primary" type="submit" className="w-full">
           탈퇴하기
         </Button>
       </div>

@@ -131,17 +131,29 @@ export default function Information() {
   console.log("isPasswordMatch", isPasswordMatch);
 
   const handleCheckEmail = async () => {
-    const { data, error } = await supabase
+    // 현재 사용자 테이블 체크
+    const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("email")
       .eq("email", email);
-    if (error) {
-      console.error(error);
-    } else if (data.length === 0) {
+
+    // 탈퇴 사용자 테이블 체크
+    const { data: byeData, error: byeError } = await supabase
+      .from("bye")
+      .select("email")
+      .eq("email", email);
+
+    if (profileError || byeError) {
+      console.error(profileError || byeError);
+    } else if (byeData && byeData.length > 0) {
+      toast.error("탈퇴한 이메일은 다시 사용할 수 없습니다.");
+      setIsEmailChecked(false);
+    } else if (profileData && profileData.length > 0) {
+      toast.error("이미 사용중인 이메일입니다.");
+      setIsEmailChecked(false);
+    } else {
       toast.success("사용가능한 이메일입니다.");
       setIsEmailChecked(true);
-    } else {
-      toast.error("이미 사용중인 이메일입니다.");
     }
   };
 
@@ -282,7 +294,7 @@ export default function Information() {
           <div className="flex flex-row gap-2 justify-start items-end w-full">
             <Input
               variant="bordered"
-              placeholder="010-1234-5678"
+              placeholder="01012345678"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -293,7 +305,7 @@ export default function Information() {
           <div className="flex flex-row gap-2 justify-start items-end w-full">
             <Input
               variant="bordered"
-              placeholder="1980-01-01"
+              placeholder="19800101"
               value={birth}
               onChange={(e) => setBirth(e.target.value)}
             />

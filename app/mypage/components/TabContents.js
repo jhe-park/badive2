@@ -97,7 +97,7 @@ export default function App({ profile }) {
             <ChangeInformation profile={profile} />
           </Tab>
           <Tab key="delete" title="회원탈퇴">
-            <SayGoodbye />
+            <SayGoodbye profile={profile} />
           </Tab>
         </Tabs>
       )}

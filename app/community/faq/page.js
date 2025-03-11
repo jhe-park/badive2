@@ -3,7 +3,7 @@ import Image from "next/image";
 import FAQTable from "./components/FAQTable";
 export default function page() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center mt-[100px]">
+    <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-10">
       <div className="w-full h-[30vh] md:h-[600px] flex items-center justify-center relative">
         <Image
           src={"/faq/faq.png"}
@@ -19,7 +19,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="w-[90%] md:w-[1280px] h-full md:aspect-[1280/1335] flex flex-col items-center justify-center gap-y-5 ">
+      <div className="w-[90%] md:w-[1280px] flex flex-col items-center justify-center gap-y-5 pb-10">
         <FAQTable></FAQTable>
       </div>
     </div>

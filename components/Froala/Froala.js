@@ -198,20 +198,6 @@ const FroalaEditorComponent = ({
       'initialized': function() {
         // 에디터 초기화 후 실행할 코드
         if (events.initialized) events.initialized();
-        
-        // 초기화 시에도 data-f-id="pbf" 속성을 가진 p 태그 제거
-        if (editorRef.current && editorRef.current.editor) {
-          const editor = editorRef.current.editor;
-          editor.events.on('contentChanged', function() {
-            const html = editor.html.get();
-            if (html && typeof html === 'string') {
-              const cleanedHtml = html.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
-              if (html !== cleanedHtml) {
-                editor.html.set(cleanedHtml);
-              }
-            }
-          });
-        }
       },
       'focus': function() {
         // 에디터에 포커스가 갔을 때 실행할 코드
@@ -244,11 +230,6 @@ const FroalaEditorComponent = ({
     codeView: false,
     // 라이센스 키 설정 (워터마크 제거)
     licenseKey: 'X-XXXXXXXXXXX-XXXXXXXXX',
-    // HTML 정리 옵션 추가
-    htmlRemoveTags: ['script', 'style'],
-    htmlExecuteScripts: false,
-    // 불필요한 속성 제거
-    htmlAllowedAttrs: ['accept', 'accept-charset', 'accesskey', 'action', 'align', 'allowfullscreen', 'allowtransparency', 'alt', 'async', 'autocomplete', 'autofocus', 'autoplay', 'autosave', 'background', 'bgcolor', 'border', 'charset', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'color', 'cols', 'colspan', 'content', 'contenteditable', 'contextmenu', 'controls', 'coords', 'data', 'datetime', 'default', 'defer', 'dir', 'dirname', 'disabled', 'download', 'draggable', 'dropzone', 'enctype', 'for', 'form', 'formaction', 'frameborder', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'http-equiv', 'icon', 'id', 'ismap', 'itemprop', 'keytype', 'kind', 'label', 'lang', 'language', 'list', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'mozallowfullscreen', 'multiple', 'muted', 'name', 'novalidate', 'open', 'optimum', 'pattern', 'ping', 'placeholder', 'playsinline', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'reversed', 'rows', 'rowspan', 'sandbox', 'scope', 'scoped', 'scrolling', 'seamless', 'selected', 'shape', 'size', 'sizes', 'span', 'src', 'srcdoc', 'srclang', 'srcset', 'start', 'step', 'summary', 'spellcheck', 'style', 'tabindex', 'target', 'title', 'type', 'translate', 'usemap', 'value', 'valign', 'webkitallowfullscreen', 'width', 'wrap'],
   };
 
   return (
