@@ -66,9 +66,10 @@ export default function InstructorNewPage() {
   const supabase = createClient();
 
   const handleSaveFaq = async () => {
+    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
     const { data, error } = await supabase
       .from("notification")
-      .insert({ title, description:content, pinned, writer });
+      .insert({ title, description:cleanedContent, pinned, writer });
 
     if (error) {
       console.error("Error saving faq:", error);

@@ -84,9 +84,10 @@ export default function FaqEditPage({ params }) {
   }, [unwrappedParams]);
 
   const handleSaveFaq = async () => {
+    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
     const { data, error } = await supabase
       .from("faq")
-      .update({ question, answer:content })
+      .update({ question, answer:cleanedContent })
       .eq("id", unwrappedParams.id);
 
     if (error) {

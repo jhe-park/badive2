@@ -65,9 +65,10 @@ export default function InstructorNewPage() {
   };
 
   const handleSaveFaq = async () => {
+    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
     const { data, error } = await supabase
       .from("faq")
-      .insert({ question, answer:content });
+      .insert({ question, answer:cleanedContent });
 
     if (error) {
       console.error("Error saving faq:", error);

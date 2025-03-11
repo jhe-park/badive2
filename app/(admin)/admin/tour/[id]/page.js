@@ -125,6 +125,7 @@ export default function InstructorNewPage({params}) {
   }, []);
 
   const handleSave = async () => {
+    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
     const {data, error} = await supabase.from("tour").update({
       title: title,
       subtitle: subtitle,
@@ -135,7 +136,7 @@ export default function InstructorNewPage({params}) {
       price: price,
       max_participants: max_participants,
       image: imageUrl,
-      description: content,
+      description: cleanedContent,
     }).eq("id", id);
     setIsSave(true);
     if (error) {  

@@ -97,6 +97,7 @@ export default function InstructorNewPage() {
   };
 
   const handleSave = async () => {
+    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
     const {data, error} = await supabase.from("tour").insert({
       title: title,
       subtitle: subtitle,

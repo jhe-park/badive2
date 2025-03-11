@@ -68,6 +68,7 @@ export default function NotificationEditPage({params}) {
 
 
   const handleDeleteNotification = async () => {
+    
     const { data, error } = await supabase
       .from("notification")
       .delete()
@@ -75,9 +76,10 @@ export default function NotificationEditPage({params}) {
   };
 
   const handleSaveNotification = async () => {
+    const cleanedContent = content.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
     const { data, error } = await supabase
       .from("notification")
-      .update({ title, description:content, pinned })
+      .update({ title, description:cleanedContent, pinned })
       .eq("id", unwrappedParams.id);
 
     if (error) {
