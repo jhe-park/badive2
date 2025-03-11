@@ -43,9 +43,14 @@ const FroalaEditorComponent = ({
   }, [value]);
 
   const handleModelChange = (model) => {
-    setEditorContent(model);
+    // Powered by 텍스트와 Froala Editor 링크 제거
+    const cleanedContent = model
+      .replace(/Powered by/g, '')
+      .replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
+    
+    setEditorContent(cleanedContent);
     if (onChange) {
-      onChange(model);
+      onChange(cleanedContent);
     }
   };
 
