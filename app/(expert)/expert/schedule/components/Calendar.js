@@ -42,7 +42,8 @@ export default function Calendar() {
         .select("*,time_slot_id(*,program_id(*)),user_id(*)")
         .ilike("time_slot_id.date", `${selectedMonth}%`)
         .not("time_slot_id", "is", null)
-        .neq("status", "취소완료");
+        .neq("status", "취소완료")
+        .eq('instructor_id',expertInformation?.id)
 
       if (reservationError) {
         console.log("예약 조회 중 에러 발생:", reservationError);
@@ -84,12 +85,14 @@ export default function Calendar() {
     }
   };
 
+  console.log('programs:',programs)
   // 선택된 월이 변경될 때마다 예약 데이터 가져오기
   useEffect(() => {
-    if (selectedMonth) {
+    console.log('expertInformation?.id:',expertInformation?.id)
+    if (selectedMonth&&expertInformation?.id) {
       getReservations();
     }
-  }, [selectedMonth, selectedProgram]);
+  }, [selectedMonth, selectedProgram,expertInformation?.id]);
 
   // 월 목록 생성
   useEffect(() => {

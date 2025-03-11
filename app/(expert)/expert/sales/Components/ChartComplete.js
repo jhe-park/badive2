@@ -102,6 +102,7 @@ export default function ChartComplete() {
     }
   };
   useEffect(() => {
+    
     getReservations();
   }, [startYear, startMonth, endYear, endMonth, expertInformation]);
   console.log("reservations:", reservations);
