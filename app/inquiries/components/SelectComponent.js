@@ -56,11 +56,19 @@ export default function SelectComponent({
   const increment = () => {
     const newValue = noParticipants + 1;
     setNoParticipants(newValue);
+    setSelectedResult({
+      ...selectedResult,
+      noParticipants: newValue,
+    });
   };
 
   const decrement = () => {
     const newValue = Math.max(1, noParticipants - 1);
     setNoParticipants(newValue);
+    setSelectedResult({
+      ...selectedResult,
+      noParticipants: newValue,
+    });
   };
 
   useEffect(() => {
@@ -236,7 +244,7 @@ export default function SelectComponent({
   };
   console.log('selectedResult:',selectedResult)
 
-
+  console.log('noParticipants:',noParticipants)
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
       <ToastContainer
