@@ -81,6 +81,7 @@ export default function InstructorNewPage() {
     }
   };
   console.log("description:",description);
+  console.log('content:',content);
 
   return (
 
