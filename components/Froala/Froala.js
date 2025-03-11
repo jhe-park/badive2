@@ -43,16 +43,9 @@ const FroalaEditorComponent = ({
   }, [value]);
 
   const handleModelChange = (model) => {
-    // data-f-id="pbf" 속성을 가진 p 태그 제거
-    let cleanedModel = model;
-    if (model && typeof model === 'string') {
-      // 정규식을 사용하여 data-f-id="pbf" 속성을 가진 p 태그를 찾아 내용만 남기고 태그 제거
-      cleanedModel = model.replace(/<p[^>]*data-f-id="pbf"[^>]*>(.*?)<\/p>/gi, '$1');
-    }
-    
-    setEditorContent(cleanedModel);
+    setEditorContent(model);
     if (onChange) {
-      onChange(cleanedModel);
+      onChange(model);
     }
   };
 
