@@ -57,7 +57,8 @@ export default function InstructorNewPage() {
     const { data, error } = await supabase
       .from("reservation")
       .select("*,time_slot_id(*))")
-      .eq("instructor_id", expertInformationId);
+      .eq("instructor_id", expertInformationId)
+      .eq("status", "예약확정");
     setReservation(data);
     
     if (data) {
