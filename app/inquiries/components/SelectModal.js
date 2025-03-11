@@ -38,6 +38,8 @@ export default function SelectModal({
     setIsOpen(isOpenProps);
   }, [isOpenProps]);
 
+  
+
   const getSchedule = async () => {
     try {
       console.log("Fetching schedule with:", {
