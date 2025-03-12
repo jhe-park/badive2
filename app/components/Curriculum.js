@@ -3,7 +3,7 @@ import Link from "next/link";
 import SlideUp from "@/components/animation/SlideUp";
 export default function Curriculum() {
   return (
-    <div className="w-[90%] h-full md:h-auto md:w-[1280px] aspect-[1280/800] flex flex-col justify-evenly items-start my-6 md:my-0">
+    <div className="w-[90%] h-full md:h-auto md:max-w-[1280px] aspect-[1280/800] flex flex-col justify-evenly items-start my-6 md:my-0">
       <div className="flex gap-x-5 justify-center md:justify-start items-center w-full">
         <p className="text-2xl md:text-[35px] font-bold">BADIVE 교육과정</p>
       </div>

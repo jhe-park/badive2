@@ -3,7 +3,7 @@ import SlideUp from "@/components/animation/SlideUp";
 import Link from "next/link";
 export default function Experts() {
   return (
-    <div className="w-[90%] md:w-[1280px] h-full md:h-auto aspect-[1280/1000] flex flex-col justify-evenly items-start my-6 md:my-0">
+    <div className="w-[90%] md:max-w-[1280px] h-full md:h-auto aspect-[1280/1000] flex flex-col justify-evenly items-start my-6 md:my-0">
       <div className="flex gap-x-5 justify-center md:justify-start items-center w-full mb-4">
         <p className="text-2xl md:text-[36px] font-bold text-center md:text-start">BADIVE 소속강사</p>
       </div>

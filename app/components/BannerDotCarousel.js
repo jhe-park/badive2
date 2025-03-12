@@ -11,7 +11,6 @@ const BannerDotCarousel = () => {
     { id: 4, content: "Slide 4", bgColor: "bg-yellow-500", image: "/banner/banner4.png" },
     { id: 5, content: "Slide 5", bgColor: "bg-red-500", image: "/banner/banner5.png" },
     { id: 6, content: "Slide 6", bgColor: "bg-purple-500", image: "/banner/banner6.png" },
-
   ];
 
   useEffect(() => {
@@ -27,36 +26,44 @@ const BannerDotCarousel = () => {
   };
 
   return (
-    <div className="relative w-full h-full ">
+    <div className="relative w-full h-full flex flex-col justify-center items-center">
       {/* Carousel Container */}
-      <div className="relative h-full overflow-hidden rounded-lg">
+      <div className="relative flex flex-col items-center">
         {/* Slides */}
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`absolute w-full h-full transition-opacity duration-500 flex items-center justify-center text-white text-2xl font-bold  ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
-          >
-            <img src={slide.image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
-            
+        <div className="w-full overflow-hidden">
+          <div className="flex transition-transform duration-500 ease-in-out" 
+               style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+            {slides.map((slide, index) => (
+              <div
+                key={slide.id}
+                className="w-full flex-shrink-0 flex justify-center items-center"
+              >
+                <img 
+                  src={slide.image} 
+                  alt={`Slide ${index + 1}`} 
+                  className="w-full aspect-[5/6] object-cover max-w-[500px]" 
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      {/* Dot Navigation */}
-      <div className="absolute bottom-4 left-0 right-0">
-        <div className="flex items-center justify-center gap-2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
-                currentSlide === index
-                  ? 'bg-white scale-110'
-                  : 'bg-white/50 hover:bg-white/70'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+        </div>
+        
+        {/* Dot Navigation - 이미지 바로 아래에 배치 */}
+        <div className="mt-2 flex justify-center">
+          <div className="flex items-center justify-center gap-2">
+            {slides.map((_, dotIndex) => (
+              <button
+                key={dotIndex}
+                onClick={() => goToSlide(dotIndex)}
+                className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
+                  currentSlide === dotIndex
+                    ? 'bg-black scale-110'
+                    : 'bg-white hover:bg-gray-600'
+                }`}
+                aria-label={`Go to slide ${dotIndex + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -106,23 +106,23 @@ export default function Banner() {
           </div>
 
         </div>
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-1/2 h-8 md:h-24 z-10">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex space-x-0 bg-black w-[90%] md:w-[90%] h-8 md:h-24 z-10">
           <button
-            className="bg-black text-white px-4 py-2 rounded-l w-1/3 text-[11px] md:text-[25px]"
+            className="bg-black text-white px-2 py-1 md:px-4 md:py-2 rounded-l w-1/3 text-[8px] sm:text-[10px] md:text-[18px] lg:text-[22px] whitespace-nowrap overflow-hidden"
             onClick={() => setSelectMode("mode1")}
           >
             SCUBA DIVING
           </button>
           <div className="w-px bg-white"></div>
           <button
-            className="bg-black text-white px-4 py-2 w-1/3 text-[11px] md:text-[25px]"
+            className="bg-black text-white px-2 py-1 md:px-4 md:py-2 w-1/3 text-[8px] sm:text-[10px] md:text-[18px] lg:text-[22px] whitespace-nowrap overflow-hidden"
             onClick={() => setSelectMode("mode2")}
           >
             FREEDIVING
           </button>
           <div className="w-px bg-white"></div>
           <button
-            className="bg-black text-white px-4 py-2 w-1/3 text-[11px] md:text-[25px]"
+            className="bg-black text-white px-2 py-1 md:px-4 md:py-2 w-1/3 text-[8px] sm:text-[10px] md:text-[18px] lg:text-[22px] whitespace-nowrap overflow-hidden"
             onClick={() => setSelectMode("mode3")}
           >
             MERMAID
@@ -130,7 +130,7 @@ export default function Banner() {
         </div>
       </div>
       <div
-        className="bg-green-500 w-full aspect-[1920/1000] md:h-[100vh] relative grid grid-cols-2"
+        className="bg-green-500 w-full aspect-[1920/1000] relative grid grid-cols-2"
         style={{
           backgroundImage: "url('/banner/bannerlower.png')",
           backgroundSize: "cover",
@@ -138,13 +138,13 @@ export default function Banner() {
         }}
       >
         <div className="col-span-1 flex justify-center items-center w-full h-full">
-          <div className="w-2/3 md:w-1/2 h-1/2 flex justify-center items-center">
+          <div className="w-2/3 md:w-1/2 h-full flex justify-center items-center">
             <BannerDotCarousel></BannerDotCarousel>
           </div>
         </div>
         <div className="col-span-1 flex justify-center items-center w-full h-full flex-col gap-y-2 md:gap-y-12">
-          <div className="text-white text-2xl md:text-[80px]">Open The Sea Gate</div>
-          <div className="text-white text-xl md:text-[48px]">the soul of diving</div>
+          <div style={{lineHeight: "1"}} className="text-white text-2xl md:text-[30px] lg:text-[80px]">Open The Sea Gate</div>
+          <div style={{lineHeight: "1.2"}} className="text-white text-xl md:text-[24px] lg:text-[60px]">the soul of diving</div>
         </div>
       </div>
     </>
