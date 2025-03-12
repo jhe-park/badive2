@@ -69,7 +69,7 @@ function IntroductionCarousel() {
   return (
     <>
       <div
-        className="relative w-[90vw] md:w-[1280px] overflow-hidden h-full md:h-full"
+        className="relative w-[90vw] md:max-w-[1280px] overflow-hidden h-full md:h-full"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -143,9 +143,9 @@ function IntroductionCarousel() {
         </button>
       </div>
       {/* 페이지네이션 인디케이터 수정 */}
-      <div className="flex gap-2 md:gap-24 z-5 my-12 w-[90%] md:w-full justify-center items-center">
+      <div className="flex z-5 my-12 w-[90%] md:max-w-[1280px] justify-between items-center">
         {items.map((item, index) => (
-          <div key={index} className="flex flex-col items-center justify-center gap-y-4">
+          <div key={index} className="flex flex-col items-center justify-center gap-y-4 flex-1">
             <div
               key={index}
               onClick={() => goToSlide(index)}

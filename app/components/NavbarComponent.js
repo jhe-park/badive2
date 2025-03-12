@@ -244,7 +244,7 @@ export default function Navbar() {
         </button>
 
         {/* 데스크톱 메뉴 */}
-        <div className="hidden lg:flex flex-col items-end justify-center relative">
+        <div className="hidden lg:flex flex-col items-end justify-center relative z-50">
           {/* 상단 행: 로그인/회원가입/마이페이지 */}
           <div className="flex h-1/3 gap-6 justify-end items-center">
             {user ? (

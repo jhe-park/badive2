@@ -11,8 +11,13 @@ export default function Actionbar() {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [daysSinceFebFirst, setDaysSinceFebFirst] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
     const handleScroll = () => {
       if (window.scrollY >= window.innerHeight) {
         setIsVisible(true);
@@ -30,7 +35,10 @@ export default function Actionbar() {
     };
 
     if (typeof window !== "undefined") {
+      handleResize();
+      
       window.addEventListener("scroll", handleScroll);
+      window.addEventListener("resize", handleResize);
     }
 
     calculateDaysSinceFebFirst();
@@ -38,11 +46,12 @@ export default function Actionbar() {
     return () => {
       if (typeof window !== "undefined") {
         window.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);
 
-  return isVisible ? (
+  return (isVisible || isMobile) ? (
     <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50">
       {[
         {

@@ -110,7 +110,7 @@ function IntroductionCarousel() {
         </button>
       </div>
       {/* 페이지네이션 인디케이터 수정 */}
-      <div className="flex gap-2 md:gap-24 z-5 my-12 w-[90%] md:w-full justify-center items-center">
+      <div className="flex gap-2 md:gap-24 z-5 my-12 w-[90%] md:max-w-[1280px] justify-center items-center">
         {items.map((item, index) => (
           <div key={index} className="flex flex-col items-center justify-center gap-y-4">
             <div

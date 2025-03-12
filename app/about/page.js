@@ -20,7 +20,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[80vh] md:w-[1280px] md:h-auto md:aspect-[1280/991] flex flex-col justify-evenly items-center gap-y-5 pt-6 ">
+      <div className="w-[90%] h-[80vh] md:max-w-[1280px] md:h-auto md:aspect-[1280/991] flex flex-col justify-evenly items-center gap-y-5 pt-6 ">
         <h1 className="w-full font-bold text-2xl md:text-[40px] text-center mb-5 md:mb-20">
           "Professionals with Years of Diving Experience
         </h1>
@@ -125,7 +125,7 @@ export default function page() {
           </p>
         </div>
       </div>
-      <div className="w-[90%] md:w-[1280px] h-full md:h-auto md:aspect-[1280/1312] pb-10 flex flex-col justify-evenly items-start">
+      <div className="w-[90%] md:max-w-[1280px] h-full md:h-auto md:aspect-[1280/1312] pb-10 flex flex-col justify-evenly items-start">
         <h1 className="text-2xl md:text-[40px] font-bold md:px-10">전국 지역 다이빙 강습 가능</h1>
         <div className="mt-5 md:px-10">
           <p className="text-medium md:text-[18px]">
@@ -145,7 +145,7 @@ export default function page() {
           <RegionTabs></RegionTabs>
         </div>
       </div>
-      <div className="w-[90%] md:w-[1280px] h-[60vh] md:h-auto md:aspect-[1280/572] flex flex-col justify-evenly items-start md:mb-24">
+      <div className="w-[90%] md:max-w-[1280px] h-[60vh] md:h-auto md:aspect-[1280/572] flex flex-col justify-evenly items-start md:mb-24">
         <h1 className="text-2xl md:text-[40px] font-bold md:px-10">
           깊은 바다로 떠나는 잊을 수 없는 여행
         </h1>

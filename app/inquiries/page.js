@@ -39,7 +39,7 @@ export default async function page() {
           <div className="text-[24px] text-center text-white ">전국 어디서나 가능한 체계적인 교육시스템을 만나보세요.</div>
         </div>
       </div>
-      <div className="w-[90%] md:w-[1280px] h-full flex flex-col items-center justify-center gap-y-6 md:gap-y-12 py-12">
+      <div className="w-[90%] md:max-w-[1280px] h-full flex flex-col items-center justify-center gap-y-6 md:gap-y-12 py-12">
         <h1 className="text-2xl md:text-5xl font-bold text-start w-full">
           예약
         </h1>
