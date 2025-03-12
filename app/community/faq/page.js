@@ -19,7 +19,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="w-[90%] md:w-[1280px] flex flex-col items-center justify-center gap-y-5 pb-10">
+      <div className="w-[90%] md:max-w-[1280px] flex flex-col items-center justify-center gap-y-5 pb-10">
         <FAQTable></FAQTable>
       </div>
     </div>
