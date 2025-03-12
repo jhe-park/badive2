@@ -27,16 +27,20 @@ export default async function page() {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">
-      <div className="w-full h-[30vh] md:h-[600px] flex items-center justify-center relative">
+      <div className="w-full h-[40vh] md:h-[600px] flex items-center justify-center relative">
         <Image
           src={"/inquiries/inquiriesTop.png"}
           alt="scuberdiving"
           fill
           className="object-cover"
         />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg p-4 gap-y-4 flex flex-col items-center justify-center">
-          <div className="text-[80px] text-center font-bold text-white">예약/문의</div>
-          <div className="text-[24px] text-center text-white ">전국 어디서나 가능한 체계적인 교육시스템을 만나보세요.</div>
+        <div className="w-full h-full flex flex-col items-center justify-center gap-y-4 relative">
+          <div className="text-[14px] md:text-[24px] text-center text-white w-full">예약/문의</div>
+          <div className="text-[24px] md:text-[50px] text-center text-white w-full font-bold">
+            <p>전국 어디서나 가능한</p>
+            <p>체계적인 교육시스템을 만나보세요.</p>
+            </div>
+          
         </div>
       </div>
       <div className="w-[90%] md:max-w-[1280px] h-full flex flex-col items-center justify-center gap-y-6 md:gap-y-12 py-12">

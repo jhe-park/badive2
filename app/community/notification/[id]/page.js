@@ -42,12 +42,12 @@ export default async function NoticeDetailPage({ params }) {
           fill
           className="object-cover"
         />
-        <div className="w-full h-full flex flex-col items-center justify-center z-20 gap-y-4">
+        <div className="w-full h-full flex flex-col items-center justify-center gap-y-4 relative">
           <div className="text-medium md:text-[24px] font-medium text-white">
             공지사항
           </div>
           <div
-            className="text-medium md:text-[40px] text-white font-bold text-center md:text-left w-full"
+            className="text-medium md:text-[50px] text-white font-bold text-center md:text-left w-full"
             style={{ lineHeight: "1.5" }}
           >
             <p className="text-center">다양한 BADIVE 정보와</p>
