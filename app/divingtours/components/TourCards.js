@@ -170,7 +170,7 @@ export default function TourCards() {
                       투어일자:{tour.date}
                     </div>
                     <div className="w-full text-sm text-gray-500 text-center overflow-hidden text-ellipsis ">
-                      상태:{tour.status}
+                      {tour.status}
                     </div>
                     
                     <div className="flex justify-between items-center">
