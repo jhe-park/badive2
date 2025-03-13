@@ -140,14 +140,25 @@ export default function Information() {
     // 탈퇴 사용자 테이블 체크
     const { data: byeData, error: byeError } = await supabase
       .from("bye")
-      .select("email")
+      .select("email, created_at")
       .eq("email", email);
 
     if (profileError || byeError) {
       console.error(profileError || byeError);
     } else if (byeData && byeData.length > 0) {
-      toast.error("탈퇴한 이메일은 다시 사용할 수 없습니다.");
-      setIsEmailChecked(false);
+      // created_at 시간을 확인하여 일주일이 지났는지 확인
+      const createdAt = new Date(byeData[0].created_at);
+      const currentDate = new Date();
+      const diffTime = Math.abs(currentDate - createdAt);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays >= 7) {
+        toast.success("사용가능한 이메일입니다.");
+        setIsEmailChecked(true);
+      } else {
+        toast.error("탈퇴 후 일주일이 지나야 다시 가입 가능합니다.");
+        setIsEmailChecked(false);
+      }
     } else if (profileData && profileData.length > 0) {
       toast.error("이미 사용중인 이메일입니다.");
       setIsEmailChecked(false);

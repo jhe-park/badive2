@@ -6,7 +6,7 @@ import { Chip } from "@heroui/react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 import { createClient } from "@/utils/supabase/server";
-
+import ReservationButton from './components/ReservationButton'
 export default async function page({ params }) {
   const supabase = await createClient();
   const paramsdata = await params;
@@ -59,15 +59,8 @@ export default async function page({ params }) {
               dangerouslySetInnerHTML={{ __html: data.description }}
             />
           </div>
-          <div className="w-1/2 md:w-full h-full  flex items-center justify-center my-6 md:m24">
-            <Link
-              className="flex items-center justify-center gap-x-2"
-              href={`/divingtours/reservation/${tour_id}`}
-            >
-              <Button className="text-2xl md:text-2xl font-bold w-full h-full px-6 py-4">
-                예약하기
-              </Button>
-            </Link>
+          <div className="w-1/2 md:w-full h-full  flex items-center justify-center my-2 md:my-6 md:m24">
+            <ReservationButton tour_id={tour_id} />
           </div>
           <div className="flex flex-col items-start justify-center gap-y-2">
             <p>
