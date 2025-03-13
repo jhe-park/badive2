@@ -84,21 +84,23 @@ function IntroductionCarousel() {
         >
           {/* 모든 슬라이드를 한번에 렌더링 */}
           {items.map((item, index) => (
-            <div key={index} className="flex min-w-full flex-col md:flex-row gap-y-2 md:gap-y-12 md:gap-x-4 ">
+            <div key={index} className="flex min-w-full flex-col lg:flex-row gap-y-2 md:gap-y-12 md:gap-x-4 ">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
-              <div className="w-full md:w-fit md:py-12 relative  md:pl-0 flex justify-center items-center order-1 md:order-2">
-                <div className="w-[300px] h-[500px] relative">
+              <div className="w-full lg:w-1/3 md:py-12 relative md:pl-0 flex justify-center items-center order-1 md:order-2">
+                <div className="relative w-[80%] md:w-full max-w-[300px] aspect-[3/5]">
                   <Image
                     src={item.right.image}
+                    alt={`${item.left.title} 이미지`}
                     fill
-                    className="object-contain rounded-2xl"
-                    alt="expert1"
-                  ></Image>
+                    priority
+                    // sizes="(max-width: 768px) 80vw, 300px"
+                    className="object-cover rounded-2xl"
+                  />
                 </div>
               </div>
 
               {/* 왼쪽 섹션 - 모바일에서는 아래로 */}
-              <div className="w-full md:w-[60%] md:py-12 relative  md:pl-24 md:pr-0 flex flex-col justify-start items-center gap-y-2 md:gap-y-6 order-2 md:order-1">
+              <div className="w-full lg:w-[60%] md:py-12 relative  lg:pl-24 lg:pr-0 flex flex-col justify-start items-center gap-y-2 md:gap-y-6 order-2 lg:order-1">
                 {/* <div className="hidden md:block absolute top-0 left-0 text-[200px] font-bold text-gray-200 opacity-20">
                   01
                 </div> */}

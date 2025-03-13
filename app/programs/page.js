@@ -26,10 +26,10 @@ export default function page() {
           <h1 className="text-center text-2xl md:text-6xl font-bold">강습프로그램</h1>
         </div>
         <div className="w-full h-full  grid grid-cols-3">
-          <div className="col-span-1 relative group">
+          <div className="col-span-1  relative group">
             <Image src="/program/program1.png" alt="program1" fill className="object-cover" />
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
-              <p className="text-white text-lg md:text-[50px] text-center">SCUBA DIVING</p>
+              <p style={{lineHeight: "1"}} className="text-white text-lg sm:text-[20px]  md:text-[30px] lg:text-[50px] text-center">SCUBA DIVING</p>
             </div>
             {/* <Link href="/programs/scuberdiving">
             <Button className="bg-black border-2 border-white absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity h-1/10 w-1/4 text-sm md:text-[32px] md:p-6">
@@ -43,7 +43,7 @@ export default function page() {
           <div className="col-span-1 relative group">
             <Image src="/program/program2.png" alt="program2" fill className="object-cover" />
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
-              <p className="text-white text-lg md:text-[50px]">FREE DIVING</p>
+              <p style={{lineHeight: "1"}} className="text-white text-lg sm:text-[20px]  md:text-[30px] lg:text-[50px]">FREE DIVING</p>
             </div>
             {/* <Link href="/programs/freediving">
             <Button className="bg-black border-2 border-white absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity h-1/10 w-1/4 text-sm md:text-[32px] md:p-6">
@@ -57,7 +57,7 @@ export default function page() {
           <div className="col-span-1 relative group">
             <Image src="/program/program3.png" alt="program3" fill className="object-cover" />
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
-              <p className="text-white text-lg md:text-[50px]">MERMAID</p>
+              <p style={{lineHeight: "1"}} className="text-white text-lg sm:text-[20px]  md:text-[30px] lg:text-[50px]">MERMAID</p>
             </div>
             {/* <Link href="/programs/mermaid">
             <Button className="bg-black border-2 border-white absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity h-1/10 w-1/4 text-sm md:text-[32px] md:p-6">
