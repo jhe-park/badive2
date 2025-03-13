@@ -163,11 +163,14 @@ export default function TourCards() {
                     <div className="font-bold text-xl text-center overflow-hidden text-ellipsis">
                       {tour.title}
                     </div>
-                    <div className="text-sm text-gray-600 text-center overflow-hidden text-ellipsis ">
+                    <div className="text-sm text-black text-center overflow-hidden text-ellipsis ">
                       {tour.subtitle}
                     </div>
                     <div className="w-full text-sm text-gray-500 text-center overflow-hidden text-ellipsis ">
                       투어일자:{tour.date}
+                    </div>
+                    <div className="w-full text-sm text-gray-500 text-center overflow-hidden text-ellipsis ">
+                      상태:{tour.status}
                     </div>
                     
                     <div className="flex justify-between items-center">
