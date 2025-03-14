@@ -107,7 +107,7 @@ export default function InstructorNewPage() {
       date: date,
       status: status,
       etc: etc,
-      price: Number(price.replace(/[^0-9]/g, '')),
+      price: price ? Number(price.replace(/[^0-9]/g, '')) : 0,
       max_participants: max_participants,
       image: imageUrl,
       description: content,
