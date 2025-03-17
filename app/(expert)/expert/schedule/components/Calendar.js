@@ -195,18 +195,23 @@ export default function Calendar() {
           ))}
         </Select>
         <Select
-          label="프로그램"
-          className="w-full md:w-1/3"
-          placeholder="프로그램 선택"
-          selectedKeys={[selectedProgram]}
-          onChange={(e) => setSelectedProgram(e.target.value)}
-        >
-          {programs.map((program) => (
-            <SelectItem key={program.id} value={program.id}>
-              {program.title}_{program.region}
-            </SelectItem>
-          ))}
-        </Select>
+            selectedKeys={[selectedProgram]}
+            onChange={(e) => setSelectedProgram(e.target.value)}
+            label="프로그램"
+            className="w-full md:w-1/3"
+            placeholder="프로그램 선택"
+            isRequired={true}
+            renderValue={(items) => {
+              const selectedProgramItem = programs.find(p => p.id.toString() === selectedProgram?.toString());
+              return selectedProgramItem ? `${selectedProgramItem.title} - ${selectedProgramItem.region}` : "";
+            }}
+          >
+            {programs?.map((program) => (
+              <SelectItem key={program.id} value={program.id}>
+                {`${program.title} - ${program.region}`}
+              </SelectItem>
+            ))}
+          </Select>
       </div>
 
       {/* 달력 그리드 */}

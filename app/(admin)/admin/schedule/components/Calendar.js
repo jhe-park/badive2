@@ -247,6 +247,7 @@ export default function Calendar() {
     }
   }, [selectedInstructor, userReservations]);
   console.log("instructors:", instructors);
+  console.log('selectedProgram:',selectedProgram)
   return (
     <div className="w-full h-full flex flex-col gap-4 items-center justify-start">
       <div className="flex flex-col md:flex-row w-full justify-start gap-x-4 gap-y-2">
@@ -289,15 +290,19 @@ export default function Calendar() {
             onChange={(e) => setSelectedProgram(e.target.value)}
             label="프로그램"
             className="w-full md:w-1/3"
-          placeholder="프로그램 선택"
-          isRequired={true}
-        >
-          {programs?.map((program) => (
-            <SelectItem key={program.id} value={program.id}>
-              {program.title}_{program.region}
-            </SelectItem>
-          ))}
-        </Select>
+            placeholder="프로그램 선택"
+            isRequired={true}
+            renderValue={(items) => {
+              const selectedProgramItem = programs.find(p => p.id.toString() === selectedProgram?.toString());
+              return selectedProgramItem ? `${selectedProgramItem.title} - ${selectedProgramItem.region}` : "";
+            }}
+          >
+            {programs?.map((program) => (
+              <SelectItem key={program.id} value={program.id}>
+                {`${program.title} - ${program.region}`}
+              </SelectItem>
+            ))}
+          </Select>
         )}
       </div>
 
