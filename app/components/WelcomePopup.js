@@ -2,9 +2,13 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Button, Checkbox } from "@heroui/react";
+import { createClient } from "@/utils/supabase/client";
 export default function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("tab1");
+  const [user, setUser] = useState(null);
+
+
 
   // 탭 데이터
   const tabs = {

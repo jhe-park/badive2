@@ -38,15 +38,13 @@ export const updateSession = async (request: NextRequest) => {
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
-
-    // protected routes
-    if (request.nextUrl.pathname.startsWith("/protected") && user.error) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+    
+    
+    if ((request.nextUrl.pathname.startsWith("/inquiries") || request.nextUrl.pathname.startsWith("/divingtours")) && user.data.user?.app_metadata?.provider === "google") {
+      console.log("user11: ", user.data.user?.user_metadata);
+      return NextResponse.redirect(new URL("/register/sns", request.url));
     }
 
-    if (request.nextUrl.pathname === "/" && !user.error) {
-      return NextResponse.redirect(new URL("/protected", request.url));
-    }
 
     // divingtours 경로에 대한 리디렉션 처리 추가
     if (
@@ -119,6 +117,7 @@ export const updateSession = async (request: NextRequest) => {
         return NextResponse.redirect(new URL("/expert/login", request.url));
       }
     }
+    
 
     // admin/login 페이지에서 이미 로그인되어 있고 master인 경우 /admin/main으로 리디렉션
     if (request.nextUrl.pathname === "/admin/login" && !user.error) {

@@ -13,6 +13,72 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = await createClient();
     await supabase.auth.exchangeCodeForSession(code);
+    
+    // 사용자 세션 정보 가져오기
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (session) {
+      const userId = session.user.id;
+      const userEmail = session.user.email;
+      
+      console.log('로그인 사용자 정보:', { userId, userEmail });
+      
+      // profiles 테이블에서 해당 사용자 정보 확인
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      console.log('프로필 조회 결과:', { profileData, profileError });
+      
+      if (profileError && profileError.code === 'PGRST116') {
+        // 사용자 정보가 없는 경우 새로 생성
+        console.log('새 프로필 생성 시도');
+        const { data: insertData, error: insertError } = await supabase
+          .from('profiles')
+          .insert([
+            { 
+              id: userId, 
+              email: userEmail,
+              snsRegister: true,
+              updated_at: new Date().toISOString()
+            }
+          ]);
+        
+        console.log('프로필 생성 결과:', { insertData, insertError });
+        
+        if (insertError) {
+          console.error('프로필 생성 에러:', insertError.message);
+        }
+        
+        // 새로 생성된 프로필은 필수 정보가 없으므로 /register/sns로 리다이렉트
+        return NextResponse.redirect(`${origin}/register/sns`);
+      } else if (!profileError) {
+        // 사용자 정보가 있는 경우 snsRegister 필드만 업데이트
+        console.log('기존 프로필 업데이트 시도');
+        const { data: updateData, error: updateError } = await supabase
+          .from('profiles')
+          .update({ 
+            snsRegister: true,
+            updated_at: new Date().toISOString() 
+          })
+          .eq('id', userId);
+        
+        console.log('프로필 업데이트 결과:', { updateData, updateError });
+        
+        if (updateError) {
+          console.error('프로필 업데이트 에러:', updateError.message);
+        }
+        
+        // snsRegister가 true인데 필수 정보(name, gender, phone, birth) 중 하나라도 없으면 /register/sns로 리다이렉트
+        if (profileData.snsRegister && 
+            (!profileData.name || !profileData.gender || !profileData.phone || !profileData.birth)) {
+          console.log('필수 정보 누락: SNS 추가 정보 등록 페이지로 리다이렉트');
+          return NextResponse.redirect(`${origin}/register/sns`);
+        }
+      }
+    }
   }
 
   if (redirectTo) {
