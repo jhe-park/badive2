@@ -51,7 +51,8 @@ export default function Calendar() {
   const getPrograms = async () => {
     const { data: programs, error: programsError } = await supabase
       .from("program")
-      .select("*");
+      .select("*")
+      .eq("available", true);
     if (programsError) {
       console.log("프로그램 조회 중 에러 발생:", programsError);
       return;
@@ -63,6 +64,7 @@ export default function Calendar() {
       setPrograms(filteredPrograms);
     }
   };
+  console.log('programs:',programs)
   useEffect(() => {
     getPrograms();
   }, [selectedInstructor]);
@@ -292,7 +294,7 @@ export default function Calendar() {
         >
           {programs?.map((program) => (
             <SelectItem key={program.id} value={program.id}>
-              {program.title}
+              {program.title}_{program.region}
             </SelectItem>
           ))}
         </Select>

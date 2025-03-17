@@ -71,7 +71,8 @@ export default function Calendar() {
       const { data: programs, error: programsError } = await supabase
         .from("program")
         .select("*")
-        .eq("instructor_id", expertInformation?.id);
+        .eq("instructor_id", expertInformation?.id)
+        .eq("available", true);
 
       if (programsError) {
         console.log("프로그램 조회 중 에러 발생:", programsError);
@@ -202,7 +203,7 @@ export default function Calendar() {
         >
           {programs.map((program) => (
             <SelectItem key={program.id} value={program.id}>
-              {program.title}
+              {program.title}_{program.region}
             </SelectItem>
           ))}
         </Select>
