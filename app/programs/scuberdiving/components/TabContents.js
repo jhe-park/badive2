@@ -51,8 +51,8 @@ export default function TabContents() {
                 <span
                   className={`${
                     selectedTab === index
-                      ? 'text-[#003049] text-sm md:text-[32px] font-bold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#003049]'
-                      : "text-gray-500 text-sm md:text-[32px]"
+                      ? 'text-[#003049] text-sm md:text-[25px] font-bold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#003049]'
+                      : "text-gray-500 text-sm md:text-[25px]"
                   }`}
                 >
                   {tab}
