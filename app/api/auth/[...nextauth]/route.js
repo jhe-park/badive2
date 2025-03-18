@@ -61,7 +61,7 @@ const handler = NextAuth({
                 // profiles 테이블 업데이트
                 const { error: profileError } = await supabaseAdmin
                     .from('profiles')
-                    .upsert({ id: userId, email: email,naverLogin:true }, {
+                    .upsert({ id: userId, email: email, snsRegister: true }, {
                         onConflict: 'id'
                     });
 
@@ -73,18 +73,6 @@ const handler = NextAuth({
                 userId = data.id;
             }
             console.log("로긴시도!")
-            // 세션 생성 및 쿠키 설정을 위한 수정된 로그인 처리
-            // const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-            //     email,
-            //     password: 'defaultPassword'
-            // });
-            
-            // console.log("로긴하자")
-            // if (loginError) {
-            //     console.error('Login error:', loginError);
-            //     return false;
-            // }
-            // console.log("로긴성공!")
 
             return true;
         }
