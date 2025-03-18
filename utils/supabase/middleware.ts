@@ -59,7 +59,7 @@ export const updateSession = async (request: NextRequest) => {
     // divingtours 경로에 대한 리디렉션 처리 추가
     if (
       request.nextUrl.pathname.startsWith("/divingtours/reservation") &&
-      user.error
+      data.error
     ) {
       const returnUrl = request.nextUrl.pathname + request.nextUrl.search;
       return NextResponse.redirect(
@@ -73,7 +73,7 @@ export const updateSession = async (request: NextRequest) => {
     // instructors 경로에 대한 리디렉션 처리 추가
     if (
       request.nextUrl.pathname.startsWith("/instructors/request") &&
-      user.error
+      data.error
     ) {
       const returnUrl = request.nextUrl.pathname + request.nextUrl.search;
       return NextResponse.redirect(
@@ -85,12 +85,12 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     // 추가된 코드: /mypage 경로에 대한 리디렉션 처리
-    if (request.nextUrl.pathname.startsWith("/mypage") && user.error) {
+    if (request.nextUrl.pathname.startsWith("/mypage") && data.error) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
     // 로그인 페이지에서 사용자가 이미 로그인되어 있는 경우 루트로 리디렉션
-    if (request.nextUrl.pathname === "/login" && !user.error) {
+    if (request.nextUrl.pathname === "/login" && !data.error) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
@@ -98,13 +98,13 @@ export const updateSession = async (request: NextRequest) => {
       request.nextUrl.pathname.startsWith("/admin") &&
       request.nextUrl.pathname !== "/admin/login"
     ) {
-      if (user.error) {
+      if (data.error) {
         return NextResponse.redirect(new URL("/admin/login", request.url));
       }
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
-        .eq("id", user.data.user.id)
+        .eq("id", data.data.user.id)
         .single();
       if (!profile || profile.role !== "master") {
         return NextResponse.redirect(new URL("/admin/login", request.url));
@@ -115,13 +115,13 @@ export const updateSession = async (request: NextRequest) => {
       request.nextUrl.pathname.startsWith("/expert") &&
       request.nextUrl.pathname !== "/expert/login"
     ) {
-      if (user.error) {
+      if (data.error) {
         return NextResponse.redirect(new URL("/expert/login", request.url));
       }
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
-        .eq("id", user.data.user.id)
+        .eq("id", data.data.user.id)
         .single();
       if (!profile || profile.role !== "expert") {
         return NextResponse.redirect(new URL("/expert/login", request.url));
@@ -130,11 +130,11 @@ export const updateSession = async (request: NextRequest) => {
     
 
     // admin/login 페이지에서 이미 로그인되어 있고 master인 경우 /admin/main으로 리디렉션
-    if (request.nextUrl.pathname === "/admin/login" && !user.error) {
+    if (request.nextUrl.pathname === "/admin/login" && !data.error) {
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
-        .eq("id", user.data.user.id)
+        .eq("id", data.data.user.id)
         .single();
       
       if (profile && profile.role === "master") {
@@ -143,11 +143,11 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     // expert/login 페이지에서 이미 로그인되어 있고 expert인 경우 /expert/main으로 리디렉션
-    if (request.nextUrl.pathname === "/expert/login" && !user.error) {
+    if (request.nextUrl.pathname === "/expert/login" && !data.error) {
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
-        .eq("id", user.data.user.id)
+        .eq("id", data.data.user.id)
         .single();
       
       if (profile && profile.role === "expert") {
