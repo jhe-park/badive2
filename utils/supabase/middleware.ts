@@ -37,12 +37,22 @@ export const updateSession = async (request: NextRequest) => {
 
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
-    const user = await supabase.auth.getUser();
+    const data = await supabase.auth.getUser();
     
-    
-    if ((request.nextUrl.pathname.startsWith("/inquiries") || request.nextUrl.pathname.startsWith("/divingtours")) && user.data.user?.app_metadata?.provider === "google") {
-      console.log("user11: ", user.data.user?.user_metadata);
-      return NextResponse.redirect(new URL("/register/sns", request.url));
+    if (data && (request.nextUrl.pathname.startsWith("/inquiries") || request.nextUrl.pathname.startsWith("/divingtours"))) {
+      // 사용자 프로필 정보 조회
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("snsRegister, name, gender, birth, phone")
+        .eq("id", data.data.user.id)
+        .single();
+      
+      // SNS 가입자이면서 필수 정보가 하나라도 없는 경우 리다이렉트
+      if (profileData?.snsRegister === true && 
+          (!profileData.name || !profileData.gender || !profileData.birth || !profileData.phone)) {
+        console.log("SNS 사용자 필수 정보 누락: 추가 정보 등록 페이지로 리다이렉트");
+        return NextResponse.redirect(new URL("/register/sns", request.url));
+      }
     }
 
 

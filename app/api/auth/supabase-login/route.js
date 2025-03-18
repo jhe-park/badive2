@@ -29,6 +29,8 @@ export async function POST(request) {
         .eq('id', data.user.id)
         .single();
 
+    console.log("profileData: ", profileData);
+
     if (profileError) {
         console.log("프로필 조회 에러:", profileError.message);
         return NextResponse.json({ error: profileError.message }, { status: 500 });

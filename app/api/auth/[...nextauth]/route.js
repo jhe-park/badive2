@@ -48,7 +48,7 @@ const handler = NextAuth({
                 const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
                     email,
                     password: 'defaultPassword',
-                    email_confirm: true
+                    email_confirm: true,
                 });
 
                 if (createError) {
