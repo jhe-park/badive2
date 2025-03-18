@@ -23,14 +23,22 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { contents } from "./contents";
+import { createClient } from "@/utils/supabase/client";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+
 export default function Login() {
-  // URLSearchParams를 사용하여 문자열을 파싱합니다.
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const router = useRouter();
+  const supabase = createClient();
+  
+  // 입력 필드 상태 관리
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birth, setBirth] = useState("");
+  const [gender, setGender] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
+  
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // 체크박스 상태 관리
@@ -83,11 +91,125 @@ export default function Login() {
     }
   };
 
+  // 폼 제출 핸들러
+  const handleSubmit = async () => {
+    try {
+      setSubmitLoading(true);
+
+      // 필수 입력 필드 검증
+      if (!name.trim()) {
+        toast.error("이름을 입력해주세요.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      if (!phone.trim()) {
+        toast.error("휴대폰번호를 입력해주세요.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      if (!birth.trim()) {
+        toast.error("생년월일을 입력해주세요.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      if (!gender) {
+        toast.error("성별을 선택해주세요.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      // 필수 체크박스 검증
+      if (!isOver14) {
+        toast.error("14세 이상 동의가 필요합니다.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      if (!termsConsent) {
+        toast.error("이용약관 동의가 필요합니다.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      if (!privacyConsent) {
+        toast.error("개인정보 수집 및 이용동의가 필요합니다.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      // 현재 로그인한 사용자 정보 가져오기
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      
+      if (userError) {
+        toast.error("로그인 정보를 가져오는데 실패했습니다.");
+        console.error(userError);
+        setSubmitLoading(false);
+        return;
+      }
+
+      if (!userData.user) {
+        toast.error("로그인이 필요합니다.");
+        setSubmitLoading(false);
+        return;
+      }
+
+      // Supabase profiles 테이블 업데이트
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({
+          name,
+          phone,
+          birth,
+          gender,
+          marketingSms: smsConsent,
+          marketingEmail: emailConsent,
+          marketingAgreement: marketingConsent,
+          updated_at: new Date().toISOString(),
+          snsRegister: true
+        })
+        .eq("id", userData.user.id);
+
+      if (updateError) {
+        toast.error("프로필 업데이트에 실패했습니다.");
+        console.error(updateError);
+        setSubmitLoading(false);
+        return;
+      }
+
+      toast.success("회원가입이 완료되었습니다!");
+      
+      // 잠시 후 메인 페이지로 리다이렉트
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+      
+    } catch (error) {
+      console.error("가입 중 오류 발생:", error);
+      toast.error("처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setSubmitLoading(false);
+    }
+  };
+
   return (
     <div
       style={{ fontFamily: "Freesentation-9Black" }}
       className="flex h-full  w-full flex-col items-center justify-center my-32"
     >
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="flex flex-col items-center gap-y-5">
         <div>
           <p className="font-bold text-5xl">SNS 간편가입</p>
@@ -100,8 +222,8 @@ export default function Login() {
             <div>이름</div>
             <div className="flex flex-row items-start justify-start w-full gap-x-4">
               <Input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 isRequired
                 variant="bordered"
@@ -114,8 +236,8 @@ export default function Login() {
             <div>휴대폰번호</div>
             <div className="flex flex-row items-start justify-start w-full gap-x-4">
               <Input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 type="tel"
                 isRequired
                 variant="bordered"
@@ -128,8 +250,8 @@ export default function Login() {
             <div>생년월일</div>
             <div className="flex flex-row items-start justify-start w-full gap-x-4">
               <Input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={birth}
+                onChange={(e) => setBirth(e.target.value)}
                 type="tel"
                 isRequired
                 variant="bordered"
@@ -141,7 +263,12 @@ export default function Login() {
           <div className="flex flex-col items-start justify-start w-full">
             <div>성별</div>
             <div className="flex flex-row items-start justify-start w-full gap-x-4">
-              <RadioGroup orientation="horizontal" isRequired>
+              <RadioGroup 
+                orientation="horizontal" 
+                isRequired
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
                 <Radio value="male">남자</Radio>
                 <Radio value="female">여자</Radio>
               </RadioGroup>
@@ -257,28 +384,26 @@ export default function Login() {
               </div>
             </div>
           </div>
-          <SubmitButton
-            className="w-full my-6 text-[30px] font-bold text-white h-20"
+          <Button
+            className="w-full my-6 text-[20px] md:text-[30px] font-bold text-white h-10 md:h-20"
             color="primary"
-            type="submit"
-            // formAction={async (formData) => {
-            //   'use server';
-            //   await signInAction(formData, returnUrl);
-            // }}
+            type="button"
+            onPress={handleSubmit}
+            isLoading={submitLoading}
           >
             동의하고 가입완료
-          </SubmitButton>
+          </Button>
         </div>
       </div>
-      <Modal size='2xl'  style={{ fontFamily: "Freesentation-9Black" }} isOpen={isOpen} onOpenChange={onOpenChange} className="h-[70vh] overflow-y-auto">
+      <Modal size='2xl' style={{ fontFamily: "Freesentation-9Black" }} isOpen={isOpen} onOpenChange={onOpenChange} className="h-[70vh] overflow-y-auto">
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                {contents[selectedContents].title}
+                {contents[selectedContents]?.title}
               </ModalHeader>
               <ModalBody>
-                <div dangerouslySetInnerHTML={{ __html: contents[selectedContents].content }}>
+                <div dangerouslySetInnerHTML={{ __html: contents[selectedContents]?.content }}>
 
                 </div>
               </ModalBody>
