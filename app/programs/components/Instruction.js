@@ -30,7 +30,7 @@ export default function Instruction({ data }) {
               style={{ lineHeight: "2" }}
               className="list-disc space-y-4 text-[14px] md:text-[23px] xl:text-[25px]"
             >
-              <div dangerouslySetInnerHTML={{ __html: item.description1.replace(/<div>/g, '<div>• ') }} />
+              <div dangerouslySetInnerHTML={{ __html: item.description1?.replace(/<div>/g, '<div>• ') }} />
             </div>
             <div
               style={{ lineHeight: "2" }}

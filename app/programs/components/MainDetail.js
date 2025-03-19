@@ -3,13 +3,13 @@ import Image from "next/image";
 
 export default function MainDetail({ data }) {
   return (
-    <div className="w-full xl:max-w-[1280px] xl:aspect-[1280/714] md:aspect-[768/446] aspect-[375/586] flex flex-col md:flex-row items-center justify-center h-full font-bold text-[64px] text-center lg:mt-7 md:mt-0 mt-7 ">
+    <div className="w-full xl:max-w-[1280px] xl:aspect-[1280/714] md:aspect-[768/446] h-full flex flex-col md:flex-row items-center justify-center font-bold text-[64px] text-center lg:mt-7 md:mt-0 mt-7 ">
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center gap-y-10">
         <div className="w-full xl:max-w-[500px] xl:aspect-[500/400] max-w-[300px] aspect-[300/250]  relative">
           <Image className="rounded-3xl" src={data.image} alt="frame" fill />
         </div>
         <div className="w-full flex flex-col items-center justify-center gap-y-5 ">
-          <div className="text-[28px] md:text-[35px] xl:text-[50px] font-bold text-[#0053C9]">
+          <div className="text-[28px] md:text-[35px] xl:text-[50px] font-bold text-[#0053C9] underline decoration-2 underline-offset-8">
             {data.subtitle}
           </div>
           <div className="text-[18px] xl:text-[36px] font-medium ">
@@ -17,7 +17,7 @@ export default function MainDetail({ data }) {
           </div>
         </div>
       </div>
-      <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center gap-y-10 md:gap-y-20 ">
+      <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-evenly gap-y-10 md:gap-y-10 py-6 ">
         <div className="flex flex-col items-start justify-evenly w-full mt-6 md:mt-0 font-medium h-full gap-y-6">
           {data.lines.map((item, index) => (
             <div

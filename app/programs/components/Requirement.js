@@ -1,6 +1,9 @@
+'use client'
 import { Divider, Button } from "@heroui/react";
-
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function Requirement({ data }) {
+  const router = useRouter();
   return (
     <div className="w-full h-full xl:aspect-[1280/693] md:aspect-[768/540] flex flex-col items-center justify-evenly text-[24px] md:text-[64px] mt-4 gap-y-4 mb-8">
       <div className="text-[35px] md:text-[40px] xl:text-[64px] font-bold text-center">
@@ -27,9 +30,11 @@ export default function Requirement({ data }) {
         ＊ 모든 강습은 개인에 따라 일정이 추가 되거나 변경될 수 있습니다.
       </div>
       <div className="w-full flex items-center justify-center md:mt-0">
-        <Button className="w-full h-full max-w-[116px] max-h-[40px] md:max-w-[180px] md:max-h-[45px] xl:max-w-[217px] xl:max-h-[50px] font-bold py-2 md:py-3 xl:py-4 bg-[#0053C9] text-white rounded-3xl text-[18px] md:text-[30px] xl:text-[30px]">
+        
+        <Button onPress={() => router.push('/inquiries')} className="w-full h-full max-w-[116px] max-h-[40px] md:max-w-[180px] md:max-h-[45px] xl:max-w-[217px] xl:max-h-[50px] font-bold py-2 md:py-3 xl:py-4 bg-[#0053C9] text-white rounded-3xl text-[18px] md:text-[30px] xl:text-[30px]">
           예약하기
         </Button>
+        
       </div>
     </div>
   );

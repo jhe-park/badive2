@@ -79,11 +79,11 @@ export default function () {
       <TopHeader />
       <MainTitle data={data} />
       <MainDetail data={data} />
-      <div className="w-full flex items-center justify-start xl:my-7 mt-0">
+      {/* <div className="w-full flex items-center justify-start xl:my-7 mt-0">
         <div className="xl:w-full flex items-center justify-center w-1/2">
           <Divider className="xl:w-[231px] md:w-[179px] h-[1px] bg-[#0053C9] hidden md:block" />
         </div>
-      </div>
+      </div> */}
 
       <Instruction data={data} />
       <MiddleBanner></MiddleBanner>

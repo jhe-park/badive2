@@ -27,7 +27,9 @@ export default function page() {
         </div>
         <div className="w-full h-full  grid grid-cols-3">
           <div className="col-span-1  relative group">
+            <Link href='/programs/scuberdiving'>
             <Image src="/program/program1.png" alt="program1" fill className="object-cover" />
+            </Link>
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
               <p style={{lineHeight: "1"}} className="text-white text-lg sm:text-[20px]  md:text-[30px] lg:text-[50px] text-center">SCUBA DIVING</p>
             </div>
@@ -41,7 +43,9 @@ export default function page() {
             </div>
           </div>
           <div className="col-span-1 relative group">
+            <Link href='/programs/freediving'>
             <Image src="/program/program2.png" alt="program2" fill className="object-cover" />
+            </Link>
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
               <p style={{lineHeight: "1"}} className="text-white text-lg sm:text-[20px]  md:text-[30px] lg:text-[50px]">FREE DIVING</p>
             </div>
@@ -55,7 +59,9 @@ export default function page() {
             </div>
           </div>
           <div className="col-span-1 relative group">
+            <Link href='/programs/mermaid'>
             <Image src="/program/program3.png" alt="program3" fill className="object-cover" />
+            </Link>
             <div className="absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center w-full h-12 md:h-[100px] bg-black">
               <p style={{lineHeight: "1"}} className="text-white text-lg sm:text-[20px]  md:text-[30px] lg:text-[50px]">MERMAID</p>
             </div>

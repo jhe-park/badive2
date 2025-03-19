@@ -137,12 +137,12 @@ const CalendarComponent = ({
         //   <Image src="/noimage/noimage.jpg" alt="Program Image" fill className="rounded-2xl" />
         // </div>
 
-        <div className="w-full h-full flex items-center justify-center">
-          <Image src='/inquiries/logo.png' alt='logo' width={500} height={500}></Image>
+        <div className="w-56 h-56 flex items-center justify-center relative">
+          <Image src='/inquiries/logo.png' alt='logo' fill className="object-contain"></Image>
         </div>
       ) : !isSelectInstructor ? (
         selectedImageUrl ? (
-          <div className="w-48 h-48 md:w-[90%] md:h-2/3 flex items-center justify-center relative">
+          <div className="w-full max-w-[500px] aspect-square flex items-center justify-center relative">
             <Image src={selectedImageUrl} alt="Program Image" fill />
           </div>
         ) : null
