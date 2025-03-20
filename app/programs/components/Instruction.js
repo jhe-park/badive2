@@ -7,7 +7,7 @@ export default function Instruction({ data }) {
         <div className="relative w-full" key={index}>
           {/* Semi-circle header that overlaps the border */}
           <div
-            className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-2 rounded-full text-center font-bold z-10 ${index === 3 ? "text-white" : ""} text-[18px] md:text-[25px]`}
+            className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-2 rounded-full text-center font-bold z-10 ${index === 3 ? "text-white" : ""} text-[18px] md:text-[25px] whitespace-nowrap`}
             style={{
               backgroundColor:
                 index === 0
