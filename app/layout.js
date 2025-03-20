@@ -13,7 +13,6 @@ import "@/app/globals.css";
 import Image from "next/image";
 import AuthSession from "@/app/components/session-provider";
 import Actionbar from "@/app/components/Actionbar";
-import Head from "next/head";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -26,6 +25,12 @@ export const metadata = {
   icons: {
 		icon: "/favicon/favicon.png",
 	},
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 const geistSans = Geist({
@@ -36,12 +41,6 @@ const geistSans = Geist({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
-      </Head>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
