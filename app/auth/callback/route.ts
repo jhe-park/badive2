@@ -56,12 +56,12 @@ export async function GET(request: Request) {
         return NextResponse.redirect(`${origin}/register/sns`);
       } else if (!profileError) {
         // 사용자 정보가 있는 경우 snsRegister 필드만 업데이트
-        console.log('기존 프로필 업데이트 시도');
         const { data: updateData, error: updateError } = await supabase
           .from('profiles')
           .update({ 
             snsRegister: true,
-            updated_at: new Date().toISOString() 
+            updated_at: new Date().toISOString(),
+            email:userEmail
           })
           .eq('id', userId);
         
@@ -72,8 +72,7 @@ export async function GET(request: Request) {
         }
         
         // snsRegister가 true인데 필수 정보(name, gender, phone, birth) 중 하나라도 없으면 /register/sns로 리다이렉트
-        if (profileData.snsRegister && 
-            (!profileData.name || !profileData.gender || !profileData.phone || !profileData.birth)) {
+        if ((!profileData.name || !profileData.gender || !profileData.phone || !profileData.birth)) {
           console.log('필수 정보 누락: SNS 추가 정보 등록 페이지로 리다이렉트');
           return NextResponse.redirect(`${origin}/register/sns`);
         }
