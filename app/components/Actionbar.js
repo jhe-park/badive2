@@ -19,10 +19,14 @@ export default function Actionbar() {
     };
     
     const handleScroll = () => {
-      if (window.scrollY >= window.innerHeight) {
+      if (window.innerWidth <= 768) {
         setIsVisible(true);
       } else {
-        setIsVisible(false);
+        if (window.scrollY >= window.innerHeight) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
       }
     };
 
@@ -36,6 +40,7 @@ export default function Actionbar() {
 
     if (typeof window !== "undefined") {
       handleResize();
+      handleScroll();
       
       window.addEventListener("scroll", handleScroll);
       window.addEventListener("resize", handleResize);
@@ -52,7 +57,7 @@ export default function Actionbar() {
   }, []);
 
   return (isVisible || isMobile) ? (
-    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50">
+    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50 md:w-[8%] w-[17%] md:text-[20px] text-[10px]">
       {[
         {
           label: "소속강사",
@@ -83,7 +88,7 @@ export default function Actionbar() {
       ].map(({ label, src, url, Icon }, index) => (
         <div
           key={index}
-          className={`text-white p-2 flex flex-col items-center justify-center hover:cursor-pointer ${
+          className={`text-white md:p-2 py-1 flex flex-col items-center justify-center hover:cursor-pointer ${
             index !== 4 ? "border-b border-gray-300" : ""
           }`}
           onClick={() => {
@@ -97,14 +102,14 @@ export default function Actionbar() {
           }}
         >
           <div>
-            <Icon className="text-black text-2xl" />
+            <Icon className="text-black md:text-2xl text-sm" />
           </div>
-          <div className="text-black text-xs">{label}</div>
+          <div className="text-black text-[9px] md:text-sm">{label}</div>
         </div>
       ))}
-      <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-full h-full bg-black text-lg rounded-md p-2">
-        <p className="font-bold text-2xl text-white text-center blink">{daysSinceFebFirst}일</p>
-        <p className="text-white text-center text-2xl font-bold">
+      <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-full h-full bg-black text-lg rounded-md md:p-2">
+        <p className="font-bold text-sm md:text-2xl text-white text-center blink">{daysSinceFebFirst}일</p>
+        <p className="text-white text-center text-sm md:text-2xl font-bold">
           <span className="text-red-500 font-bold">無</span>사고
         </p>{" "}
       </div>

@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
                   <FooterComponent></FooterComponent>
                 </div>
               </main>
-              <div className="hidden md:block">
+              <div className="">
                 <Actionbar></Actionbar>
               </div>
               </AuthSession>
