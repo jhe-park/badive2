@@ -25,6 +25,12 @@ export const metadata = {
   icons: {
 		icon: "/favicon/favicon.png",
 	},
+  verification: {
+    naver: "a80e93584636989db774ce1754a65b6ac69d0421",
+  },
+  other: {
+    'naver-site-verification': 'a80e93584636989db774ce1754a65b6ac69d0421',
+  },
 };
 
 export function generateViewport() {
@@ -45,6 +51,9 @@ const geistSans = Geist({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
+      <head>
+        <meta name="naver-site-verification" content="a80e93584636989db774ce1754a65b6ac69d0421" />
+      </head>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
