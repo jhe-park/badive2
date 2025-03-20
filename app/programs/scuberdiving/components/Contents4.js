@@ -90,6 +90,7 @@ export default function () {
         description2: `<div>레스큐 자격증 발급 가능 ( 수료전, 20회 이상 다이빙 경험 필요)</div>`,
       },
     ],
+    groupImage: "/programnew/scubergroup.png",
   };
   return (
     <div
@@ -100,7 +101,7 @@ export default function () {
       <MainTitle data={data}></MainTitle>
       <MainDetail data={data}></MainDetail>
       <Instruction data={data} />
-      <MiddleBanner></MiddleBanner>
+      <MiddleBanner data={data}></MiddleBanner>
       <SpecialAdvantage></SpecialAdvantage>
       <Strength></Strength>
       <Review></Review>

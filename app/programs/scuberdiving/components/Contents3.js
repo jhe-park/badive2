@@ -90,6 +90,7 @@ export default function () {
         description2: `<div>어드밴스 다이버 자격증 발급 (오픈워터 다이버 라이센스 소지자 대상)</div>`,
       },
     ],
+    groupImage: "/programnew/scubergroup.png",
   };
   return (
     <div
@@ -100,7 +101,7 @@ export default function () {
     <MainTitle data={data}></MainTitle>
     <MainDetail data={data}></MainDetail>
     <Instruction data={data} />
-    <MiddleBanner></MiddleBanner>
+    <MiddleBanner data={data}></MiddleBanner>
     <SpecialAdvantage></SpecialAdvantage>
     <Strength></Strength>
     <Review></Review>

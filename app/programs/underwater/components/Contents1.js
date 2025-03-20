@@ -84,7 +84,9 @@ export default function () {
         `,
       }
     ],
+    groupImage: "/programnew/underwatergroup.png",
   };
+
   return (
     <div
     style={{ fontFamily: "Hakgyoansim" }}
@@ -94,9 +96,8 @@ export default function () {
     <MainTitle data={data}></MainTitle>
     <MainDetail data={data}></MainDetail>
     <Instruction data={data} />
-    <MiddleBanner></MiddleBanner>
-    {/* <SpecialAdvantage></SpecialAdvantage> */}
-    {/* <Strength></Strength> */}
+    <MiddleBanner data={data}></MiddleBanner>
+    
     <Review></Review>
     <Phone></Phone>
     <Requirement data={data}></Requirement>

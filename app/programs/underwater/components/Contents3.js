@@ -82,6 +82,8 @@ export default function () {
         `,
       }
     ],
+    groupImage: "/programnew/underwatergroup.png",
+
   };
   return (
     <div
@@ -92,7 +94,7 @@ export default function () {
     <MainTitle data={data}></MainTitle>
     <MainDetail data={data}></MainDetail>
     <Instruction data={data} />
-    <MiddleBanner></MiddleBanner>
+    <MiddleBanner data={data}></MiddleBanner>
     {/* <SpecialAdvantage></SpecialAdvantage> */}
     {/* <Strength></Strength> */}
     <Review></Review>

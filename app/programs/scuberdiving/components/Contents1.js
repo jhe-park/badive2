@@ -70,6 +70,7 @@ export default function () {
         description2: `<div>체험 다이빙을 할 때는 담당 강사의 인솔하에 안전하게 진행되며, 담당 강사의 지시를 따르지 않고, 개별 행동 · 단독 행동으로 발생한 사고는 업체가 책임지지 않습니다.</div>`,
       },
     ],
+    groupImage: "/programnew/scubergroup.png",
   };
   return (
     <div
@@ -79,14 +80,8 @@ export default function () {
       <TopHeader />
       <MainTitle data={data} />
       <MainDetail data={data} />
-      {/* <div className="w-full flex items-center justify-start xl:my-7 mt-0">
-        <div className="xl:w-full flex items-center justify-center w-1/2">
-          <Divider className="xl:w-[231px] md:w-[179px] h-[1px] bg-[#0053C9] hidden md:block" />
-        </div>
-      </div> */}
-
       <Instruction data={data} />
-      <MiddleBanner></MiddleBanner>
+      <MiddleBanner data={data}></MiddleBanner>
       <Review></Review>
       <Phone></Phone>
       <Requirement data={data}></Requirement>

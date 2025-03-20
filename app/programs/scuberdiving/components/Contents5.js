@@ -90,6 +90,7 @@ export default function () {
         description2: `<div>마스터 다이버 자격증 발급 ( 만 18세이상, 오픈워터, 어드밴스, 레시큐 다이버 자격 취득자, 5가지 PADI 스페셜 티 코스 자격증 필요, 최소 50회 다이빙 로그 필요) </div>`,
       },
     ],
+    groupImage: "/programnew/scubergroup.png",
   };
   return (
     <div
@@ -100,7 +101,7 @@ export default function () {
     <MainTitle data={data}></MainTitle>
     <MainDetail data={data}></MainDetail>
     <Instruction data={data} />
-    <MiddleBanner></MiddleBanner>
+    <MiddleBanner data={data}></MiddleBanner>
     <SpecialAdvantage></SpecialAdvantage>
     <Strength></Strength>
     <Review></Review>
