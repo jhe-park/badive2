@@ -8,7 +8,7 @@ export default function Curriculum() {
   return (
     <div className="w-full h-full md:max-w-[1280px] xl:aspect-[1280/696] md:aspect-[768/545] aspect-[375/290] flex flex-col justify-evenly items-start ">
       <div className="flex gap-x-5 justify-center xl:justify-start items-center w-full">
-        <p className="text-2xl md:text-[35px] font-bold">BADIVE 교육과정</p>
+        <p className="xl:text-[36px] md:text-[30px] text-[20px] font-bold">BADIVE 교육과정</p>
       </div>
       <SlideUp>
         <div className="w-full grid grid-cols-3 gap-2 px-2">
