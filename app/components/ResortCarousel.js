@@ -205,7 +205,7 @@ const MultiImageCarousel = () => {
       <SlideUp>
         <div className="relative overflow-hidden ">
           <div
-            className="flex transition-transform duration-300 ease-out mt-10 md:mt-0"
+            className="flex transition-transform duration-300 ease-out"
             style={{
               transform: `translateX(-${currentIndex * (100 / (isMobile ? 2 : 3))}%)`,
             }}
@@ -217,7 +217,7 @@ const MultiImageCarousel = () => {
                 style={{ padding: index !== resortData.length - 1 ? '0 10px' : '0' }}
                 
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group md:h-[250px]">
+                <div className=" bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group md:max-h-[250px] aspect-[350/250]">
                   <Image
                     src={image.image}
                     alt={image.title}

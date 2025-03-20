@@ -215,7 +215,7 @@ const MultiImageCarousel = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="hidden md:flex absolute right-3 md:right-0 -top-0 md:-top-16 gap-2">
+      <div className="hidden md:flex absolute right-3 md:right-0 -top-0 md:-top-12 gap-2">
         <button
           onClick={handlePrev}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
@@ -243,11 +243,11 @@ const MultiImageCarousel = () => {
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/3 relative"
-                style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
+                className="flex-none w-1/2 md:w-1/4 relative flex flex-col items-center justify-center"
+                style={{ padding: index !== images.length - 1 ? '0 5px' : '0' }}
                 onClick={() => handleImageClick(image)}
               >
-                <div className="relative w-full h-32 md:h-[200px] bg-gray-100 rounded-lg overflow-hidden group mt-10 md:mt-0">
+                <div className="relative bg-gray-100 rounded-lg overflow-hidden group mt-2 md:mt-0 mx-auto aspect-[16/9] w-full ">
                   {image.url ? (
                     <Image
                       src={image.url}

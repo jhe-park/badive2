@@ -13,142 +13,83 @@ export default function page() {
           fill
         />
         <div className="absolute bottom-[2vh] left-[2vw] flex flex-col justify-center items-start md:gap-y-6">
-          <div className="text-medium md:text-[48px] font-bold">BADIVE,</div>
-          <div className="text-sm md:text-[32px] ">스쿠버다이빙, 프리다이빙, 머메이드 </div>
-          <div className="text-sm md:text-[32px] ">
+          <div className="text-medium  xl:text-[48px] md:text-[32px] text-[24px] font-bold">
+            BADIVE,
+          </div>
+          <div className="xl:text-[32px] md:text-[24px] text-[16px] ">
+            스쿠버다이빙, 프리다이빙, 머메이드{" "}
+          </div>
+          <div className=" xl:text-[32px] md:text-[24px] text-[16px] ">
             라이센스 및 강사교육을 하는 전문 교육기관{" "}
           </div>
         </div>
       </div>
-      <div className="w-[90%] h-[80vh] md:max-w-[1280px] md:h-auto md:aspect-[1280/991] flex flex-col justify-evenly items-center gap-y-5 pt-6 ">
-        <h1 className="w-full font-bold text-2xl md:text-[40px] text-center mb-5 md:mb-20">
-          "Professionals with Years of Diving Experience
-        </h1>
-        <div className="h-full  flex items-center w-full justify-center">
-          <div className="w-1/4 h-full flex flex-col">
-            <div className="w-full h-1/4 relative">
-              <Image
-                src="/about/banner2_1.png"
-                alt="about1"
-                fill
-                className="object-fill"
-              />
-            </div>
-            <div className="w-full h-1/4 relative">
-              <Image
-                src="/about/banner2_2.png"
-                alt="about2"
-                fill
-                className="object-fill"
-              />
-            </div>
-          </div>
-          <div className="w-1/4 h-full flex flex-col justify-start items-center">
-            <div  className="w-full h-1/4 relative justify-center items-center px-5 overflow-hidden flex flex-col gap-y-4 md:gap-y-6">
-              <div className="hidden md:flex text-xs md:text-[30px]">BADIVE</div>
-              <div className="hidden md:flex text-xs md:text-[40px] font-bold">국내 상위1%</div>
-              <div className="hidden md:flex text-xs md:text-[40px] font-bold">다이빙 강사진</div>
-            </div>
-            <div className="w-4/5 h-1/4 relative border-b-2  px-2 text-xs md:text-[20px] justify-center items-center flex-col overflow-hidden">
-              <p style={{ lineHeight: '1' }} className="hidden md:flex text-center line-clamp-6">
-                “BDN 다이빙 강사진들은 수천회의 다이빙 경험과 다양한 다이빙
-                환경에서의 실전 경험을 바탕으로, 초보강습부터 강사 라이센스
-                교육까지 체계적인 교육시스템을 제공합니다. 어떠한 상황에서도
-                안전하고 즐거운 다이빙을 즐기실 수 있도록 여러분들에게 최고의
-                다이빙 경험을 선사하겠습니다. ”
-              </p>
-            </div>
-            <div className="w-full h-1/4 relative">
-              <Image
-                src="/about/banner2_3.png"
-                alt="about5"
-                fill
-                className="object-fill"
-              />
-            </div>
-          </div>
-          <div className="w-1/4 h-full ">
-            <div className="w-full h-1/4 relative">
-              <Image
-                src="/about/banner2_4.png"
-                alt="about4"
-                fill
-                className="object-fill"
-              />
-            </div>
-            <div className="w-full h-1/3 relative">
-              <Image
-                src="/about/banner2_5.png"
-                alt="about5"
-                fill
-                className="object-fill"
-              />
-            </div>
-            <div className="w-full h-1/3 relative">
-              <Image
-                src="/about/banner2_6.png"
-                alt="about6"
-                fill
-                className="object-fill"
-              />
-            </div>
-          </div>
-          <div className="w-1/4 h-full ">
-            <div className="w-full h-1/5 "></div>
-            <div className="w-full h-1/4 relative">
-              <Image
-                src="/about/banner2_7.png"
-                alt="about8"
-                fill
-                className="object-fill"
-              />
-            </div>
-            <div className="w-full h-1/4 relative">
-              <Image
-                src="/about/banner2_8.png"
-                alt="about9"
-                fill
-                className="object-fill"
-              />
-            </div>
-          </div>
-
+      <div className="w-full max-w-[1280px] font-bold  xl:text-[40px] md:text-[30px] text-[25px] text-center aspect-[1280/128] flex items-center justify-center">
+        "Professionals with Years of Diving Experience
+      </div>
+      <div className="w-full md:max-w-[1280px] xl:aspect-[1280/868] md:aspect-[768/645] aspect-[375/557] flex flex-col justify-evenly items-center gap-y-5">
+        {" "}
+        <div className="text-[25px] md:text-[30px] mt-6">BA DIVE</div>
+        <div className="text-[20px] xl:text-[40px] md:text-[30px] font-bold ">
+          국내 상위 1% 다이빙 강사진
         </div>
-        <div className="flex md:hidden w-[90%] h-full justify-center items-center flex-col gap-y-2">
-          <p className="flex md:hidden text-lg font-bold">BADIVE 국내 상위 1% 다이빙 강사진</p>
-          <p className="flex md:hidden text-sm text-center line-clamp-6">
-            “BDN 다이빙 강사진들은 수천회의 다이빙 경험과 다양한 다이빙
-            환경에서의 실전 경험을 바탕으로, 초보강습부터 강사 라이센스
-            교육까지 체계적인 교육시스템을 제공합니다. 어떠한 상황에서도
-            안전하고 즐거운 다이빙을 즐기실 수 있도록 여러분들에게 최고의
-            다이빙 경험을 선사하겠습니다. ”
+        <Divider className="w-full xl:max-w-[491px] md:max-w-[355px] max-w-[238px] bg-black"></Divider>
+        <div className="text-[16px] md:text-[18px] xl:text-[20px] w-full flex flex-col justify-center items-center">
+          <p className="text-center">
+            “BADIVE 다이빙 강사진들은 수천회의 다이빙
+            <br className="md:hidden" /> 경험과 다양한 다이빙 환경에서의
+            <br className="" /> 실전 경험을 바탕으로,
+          </p>
+          <p className="text-center">
+            초보강습부터 강사 라이센스 교육까지 체계적인
+            <br className="md:hidden" />
+            교육시스템을 제공합니다.”{" "}
           </p>
         </div>
+        <div className="hidden md:flex max-w-[1280px] xl:aspect-[1280/500] md:aspect-[768/347] aspect-[375/247] w-full items-center justify-center relative xl:mt-16 md:mt-12 mt-6 ">
+          <Image
+            src="/about/aboutTopPC.png"
+            alt="about1"
+            fill
+            className="fill"
+          />
+        </div>
+        <div className=" md:hidden aspect-[375/247] w-full flex items-center justify-center relative xl:mt-16 md:mt-12 mt-6 ">
+          <Image
+            src="/about/aboutTopMobile.png"
+            alt="about1"
+            fill
+            className="fill"
+          />
+        </div>
       </div>
-      <div className="w-[90%] md:max-w-[1280px] h-full md:h-auto md:aspect-[1280/1312] pb-10 flex flex-col justify-evenly items-start">
-        <h1 className="text-2xl md:text-[40px] font-bold md:px-10">전국 지역 다이빙 강습 가능</h1>
-        <div className="mt-5 md:px-10">
+      <div className="w-full md:max-w-[1280px] xl:aspect-[1280/220] md:aspect-[768/234] aspect-[375/250] flex flex-col justify-evenly items-center xl:mt-16 md:mt-12 mt-6">
+        <h1 className="text-2xl md:text-[40px] font-bold md:px-10 text-center">
+          전국 지역 다이빙 강습 가능
+        </h1>
+        <div className="mt-5 md:px-10 text-center">
           <p className="text-medium md:text-[18px]">
             “BDN은 대한민국 어디서든 다이빙을 배울 수 있는 기회를 제공합니다.
           </p>
           <p className="text-medium md:text-[18px]">
-            각 지역 원하는 장소에서 강사진들을 통해 체계적이고 안전한 다이빙
+            각 지역 원하는 장소에서 강사진들을 통해 체계적이고 
           </p>
           <p className="text-medium md:text-[18px]">
-            강습을 운영하고 있으며, 초보자에게는 기초부터 탄탄하게, 경험자에게는
+          안전한 다이빙 강습을 운영하고 있으며, 초보자에게는 기초부터 탄탄하게,
           </p>
           <p className="text-medium md:text-[18px]">
-            심화 과정을 통해 수준을 높힐 수 있는 맞춤형 강습을 제공합니다. “
+          경험자에게는 심화 과정을 통해 수준을 높힐 수 있는 맞춤형 강습을 제공합니다.“
           </p>
-        </div>
-        <div className="w-full h-full flex justify-center items-cente md:mt-12">
-          <RegionTabs></RegionTabs>
         </div>
       </div>
-      <div className="w-[90%] md:max-w-[1280px] h-[60vh] md:h-auto md:aspect-[1280/572] flex flex-col justify-evenly items-start md:mb-24">
-        <h1 className="text-2xl md:text-[40px] font-bold md:px-10">
-          깊은 바다로 떠나는 잊을 수 없는 여행
-        </h1>
+      <div className="w-full max-w-[1280px] md:aspect-square h-auto h-full flex justify-center items-cente md:mt-12">
+        <RegionTabs></RegionTabs>
+      </div>
+
+      <div className="w-[90%] md:max-w-[1280px] xl:aspect-[1280/652] md:aspect-[768/531] aspect-[375/747] flex flex-col justify-evenly items-start md:mb-24 xl:mt-16 md:mt-12 mt-6">
+        <div className="text-[30px] md:text-[40px] text-center w-full">
+          깊은 바다로 떠나는<br className="md:hidden" /> 잊을 수 없는 여행
+        </div>
         <div className="w-full h-full md:h-[540px] flex flex-col md:flex-row justify-center items-center mt-4 md:mt-12 px-0 md:px-10">
           <div className="w-full md:w-1/2 h-full grid grid-cols-4 gap-0">
             {[...Array(12)].map((_, index) => (
@@ -163,8 +104,16 @@ export default function page() {
             ))}
           </div>
           <div className="w-full md:w-1/2 h-full flex flex-col gap-4 p-4 justify-center items-start px-[1vw] md:px-[2vw] gap-y-4 md:gap-y-12">
-            <div className="text-2xl md:text-[35px] font-bold text-center w-full" style={{ lineHeight: '1.5' }}>Safe dives, Enjoy Diving!</div>
-            <div className="text-medium md:text-[20px] text-center " style={{ lineHeight: '1.5' }}>
+            <div
+              className="text-[28px] xl:text-[35px] font-bold text-center w-full"
+              style={{ lineHeight: "1.5" }}
+            >
+              Safe dives, Enjoy Diving!
+            </div>
+            <div
+              className="text-medium xl:text-[20px] md:text-[18px] text-[14px] text-center "
+              style={{ lineHeight: "1.5" }}
+            >
               “BDN은 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브
               리조트들과의 MOU를 체결하여 많은 다이버 회원분들에게 특별한 경험을
               제공하고자 노력하고 있습니다. “

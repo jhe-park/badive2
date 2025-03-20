@@ -65,19 +65,18 @@ export default async function page() {
           </p>
           <div className="text-sm md:text-xl w-full h-full flex flex-col items-start justify-center gap-y-2 md:gap-y-5 border-1 border-black p-6">
             <p className="text-start">
-              -스케줄 예약 시 첫 강습 스케줄만 예약되며, 이후 강습 스케줄은
-              담당강사와 협의 후 진행됩니다.{" "}
+              -스케줄 예약 시 첫 강습 스케줄만 예약되며, <span className="text-[#BA181B]">이후 강습 스케줄은 담당강사와 협의 후 진행</span>됩니다.
             </p>
             <p className="text-start">
-              -수영장 이용료, 장비 대여비는 현장 결제로 진행됩니다.{" "}
+              -수영장 이용료, 장비 대여비는 <span className="text-[#BA181B]">현장 결제로 진행</span>됩니다.{" "}
             </p>
             <p className="text-start">
-              -강습 프로그램은 해당 지역을 담당하는 강사님들과 수업이 이루어
-              지나, 원하는 강사님한테 강습을 원할 경우 담당 지역에서 강습이
+              -강습 프로그램은 <span className="text-[#BA181B]">해당 지역을 담당하는 강사님들과 수업이 이루어지나, 원하는 강사님한테 강습을 원할 경우 담당 지역</span>
+              에서 강습이
               진행됩니다.
             </p>
             <p className="text-start">
-              -강습 장소(수영장)는 강사님과 별도 협의 후 확정됩니다.
+              -강습 장소(수영장)는 <span className="text-[#BA181B]">강사님과 별도 협의 후 확정됩니다.</span>
             </p>
           </div>
         </div>
@@ -88,13 +87,13 @@ export default async function page() {
 
           <div className="text-sm md:text-xl w-full h-full flex flex-col items-start justify-center gap-y-2 md:gap-y-5 border-1 border-black p-6">
             <p>
-              -예약금은 교육비 전액입니다. (수영장 이용료, 장비 대여비,라이센스
+              -예약금은 <span className="text-[#BA181B]">교육비 전액</span>입니다. (수영장 이용료, 장비 대여비,라이센스
               발급비 제외)
             </p>
-            <p>-교육 당일 환불은 불가합니다.</p>
-            <p>-교육이 시작된 이후 잔여 교육 환불은 불가합니다.</p>
-            <p>-교육시작일 기준 7일 이내 취소시 100% 환불</p>
-            <p>-교육시작일 기준 1일 이내 취소시 전액 환불 불가</p>
+            <p>-교육 <span className="text-[#BA181B]">당일 환불</span></p>은 불가합니다.
+            <p>-교육이 시작된 이후 <span className="text-[#BA181B]">잔여 교육 환불</span>은 불가합니다.</p>
+            <p>-교육시작일 기준 <span className="text-[#BA181B]">7일 이내 취소시 100%</span> 환불</p>
+            <p>-교육시작일 기준 <span className="text-[#BA181B]">1일 이내 취소시 전액 환불 불가</span></p>
           </div>
         </div>
       </div>
@@ -116,7 +115,7 @@ export default async function page() {
               />
             </div>
             <div className="text-sm md:text-2xl font-bold">
-              BADIVE 카카오톡 채널 : @BADIVE
+              BADIVE 카카오톡 채널 : @바다이브
             </div>
             <div className="text-xs md:text-xl">
               평일 문의/상담: 9:00~18:00{" "}
@@ -132,10 +131,10 @@ export default async function page() {
               />
             </div>
             <div className="text-sm md:text-2xl font-bold">
-              BDN 카카오톡 채널 : BDN 000
+              바다이브 문의 전화번호
             </div>
             <div className="text-xs md:text-xl">
-              평일 문의/상담: 9:00~18:00{" "}
+              02-6953-4432
             </div>
           </div>
         </div>

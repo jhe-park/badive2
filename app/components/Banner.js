@@ -130,21 +130,21 @@ export default function Banner() {
         </div>
       </div>
       <div
-        className="bg-green-500 w-full aspect-[1920/1000] relative grid grid-cols-2"
+        className="bg-green-500 w-full xl:aspect-[1920/1000] md:aspect-[768/450] aspect-[375/200] relative grid grid-cols-5"
         style={{
           backgroundImage: "url('/banner/bannerlower.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="col-span-1 flex justify-center items-center w-full h-full">
+        <div className="col-span-2 flex justify-center items-center w-full h-full">
           <div className="w-2/3 md:w-1/2 h-full flex justify-center items-center">
             <BannerDotCarousel></BannerDotCarousel>
           </div>
         </div>
-        <div className="col-span-1 flex justify-center items-center w-full h-full flex-col gap-y-2 md:gap-y-12">
-          <div style={{lineHeight: "1"}} className="text-white text-2xl md:text-[30px] lg:text-[80px]">Open The Sea Gate</div>
-          <div style={{lineHeight: "1.2"}} className="text-white text-xl md:text-[24px] lg:text-[60px]">the soul of diving</div>
+        <div style={{lineHeight: "1"}} className="col-span-3 flex justify-center items-center w-full h-full flex-col gap-y-2 md:gap-y-12">
+          <div style={{lineHeight: "1"}} className="text-[#D3D3D3CC] opacity-80 text-[20px] md:text-[40px] lg:text-[80px] font-bold italic">Open The Sea Gate</div>
+          <div style={{lineHeight: "1.2"}} className="text-[#D3D3D3CC] opacity-80 text-[16px] md:text-[30px] lg:text-[48px]">the soul of diving</div>
         </div>
       </div>
     </>

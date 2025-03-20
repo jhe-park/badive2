@@ -89,13 +89,13 @@ const InstagramCarousel = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prev) => {
-      const maxIndex = isMobile ? images.length - 2 : images.length - 4;
+      const maxIndex = isMobile ? images.length - 3 : images.length - 4;
       return prev === 0 ? maxIndex : Math.max(0, prev - 1);
     });
   };
 
   const handleNext = () => {
-    const maxIndex = isMobile ? images.length - 2 : images.length - 4;
+    const maxIndex = isMobile ? images.length - 3 : images.length - 4;
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
@@ -145,7 +145,7 @@ const InstagramCarousel = () => {
 
   return (
     <div
-      className="relative w-full aspect-[1280/500]"
+      className="relative w-full"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -173,20 +173,20 @@ const InstagramCarousel = () => {
 
       {/* Images Container */}
       <SlideUp >
-        <div className="relative overflow-hidden aspect-[1280/500] mt-10 md:mt-0 ">
+        <div className="relative overflow-hidden mt-10 md:mt-0">
           <div
-            className="flex transition-transform duration-300 ease-out h-full"
+            className="flex transition-transform duration-300 ease-out"
             style={{
-              transform: `translateX(-${currentIndex * (100 / (isMobile ? 2 : 4))}%)`,
+              transform: `translateX(-${currentIndex * (100 / (isMobile ? 3 : 4))}%)`,
             }}
           >
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/3 h-full relative"
+                className="flex-none w-1/3 md:w-1/4 relative"
                 style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
               >
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group">
+                <div className="aspect-[300/450] bg-gray-100 rounded-lg overflow-hidden relative w-full group">
                   <Image
                     src={image.url}
                     alt={image.title}

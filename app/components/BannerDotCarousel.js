@@ -16,7 +16,7 @@ const BannerDotCarousel = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 2500);
+    }, 3000); // 3초마다 슬라이드 변경
 
     return () => clearInterval(timer);
   }, []);
@@ -26,43 +26,37 @@ const BannerDotCarousel = () => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col justify-center items-center">
-      {/* Carousel Container */}
-      <div className="relative flex flex-col items-center">
-        {/* Slides */}
-        <div className="w-full overflow-hidden">
-          <div className="flex transition-transform duration-500 ease-in-out" 
-               style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-            {slides.map((slide, index) => (
-              <div
-                key={slide.id}
-                className="w-full flex-shrink-0 flex justify-center items-center"
-              >
-                <img 
-                  src={slide.image} 
-                  alt={`Slide ${index + 1}`} 
-                  className="w-full aspect-[5/6] object-cover max-w-[500px]" 
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Dot Navigation - 이미지 바로 아래에 배치 */}
-        <div className="mt-2 flex justify-center">
-          <div className="flex items-center justify-center gap-2">
-            {slides.map((_, dotIndex) => (
-              <button
-                key={dotIndex}
-                onClick={() => goToSlide(dotIndex)}
-                className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === dotIndex
-                    ? 'bg-black scale-110'
-                    : 'bg-white hover:bg-gray-600'
-                }`}
-                aria-label={`Go to slide ${dotIndex + 1}`}
+    <div className="relative w-full h-full">
+      {/* 캐러셀 컨테이너 */}
+      <div className="relative w-full h-full">
+        {/* 현재 슬라이드만 표시 */}
+        <div className="w-full h-full">
+          <div className="relative w-full h-full flex justify-center items-center">
+            <div className="xl:max-w-[500px] md:max-w-[250px] max-w-[72px] aspect-[5/6] relative max-h-[600px]">
+              <img 
+                src={slides[currentSlide].image} 
+                alt={`Slide ${currentSlide + 1}`} 
+                className="w-full h-full object-cover" 
               />
-            ))}
+              
+              {/* 도트 네비게이션 - 이미지 내부 하단에 배치 */}
+              <div className="absolute md:bottom-4 bottom-0 left-0 right-0 flex justify-center">
+                <div className="flex items-center justify-center gap-1 md:gap-2 bg-opacity-50 p-2 rounded-full">
+                  {slides.map((_, dotIndex) => (
+                    <button
+                      key={dotIndex}
+                      onClick={() => goToSlide(dotIndex)}
+                      className={`w-1 h-1 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
+                        currentSlide === dotIndex
+                          ? 'bg-white scale-110'
+                          : 'bg-gray-400 hover:bg-gray-200'
+                      }`}
+                      aria-label={`Go to slide ${dotIndex + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

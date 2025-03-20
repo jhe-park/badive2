@@ -18,7 +18,7 @@ export default function WelcomePopup() {
         {
           id: 1,
           title: "인천수영장오픈안내",
-          link: "",
+          link: "https://www.badive.co.kr/community/notification/49",
           image: "/popup/popup1.png",
         },
       ],
@@ -29,7 +29,7 @@ export default function WelcomePopup() {
         {
           id: 2,
           title: "인천수영장 개인연습",
-          link: "",
+          link: "https://www.badive.co.kr/community/notification/50",
           image: "/popup/popup2.png",
         },
       ],
@@ -40,7 +40,7 @@ export default function WelcomePopup() {
         {
           id: 3,
           title: "바다이브 OPEN 이벤트",
-          link: "",
+          link: "https://www.badive.co.kr/community/notification/51",
           image: "/popup/popup3.png",
         },
       ],
@@ -51,7 +51,7 @@ export default function WelcomePopup() {
         {
           id: 4,
           title: "바다이브 무료클래스",
-          link: "",
+          link: "https://www.badive.co.kr/community/notification/52",
           image: "/popup/popup4.png",
         },
       ],
@@ -62,7 +62,7 @@ export default function WelcomePopup() {
         {
           id: 5,
           title: "바다이스 세부 다이빙투어",
-          link: "",
+          link: "https://www.badive.co.kr/divingtours",
           image: "/popup/popup5.png",
         },
       ],
@@ -122,53 +122,51 @@ export default function WelcomePopup() {
 
   return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]">
-      <div className="bg-white rounded-lg shadow-lg w-[460px] max-w-[90vw] max-h-[90vh]">
-        <div className="flex flex-col w-full h-full rounded-lg overflow-hidden">
-          {/* 배너 영역 */}
-          <div className="h-[60vh] md:h-[600px] w-full">
-            {tabs[activeTab].banners.map((banner) => (
-              <div key={banner.id} className="h-full w-full">
-                <img
-                  src={banner.image}
-                  alt={banner.title}
-                  className="w-full h-full object-fill cursor-pointer "
-                  onClick={() => handleBannerClick(banner.link)}
-                />
-              </div>
-            ))}
-          </div>
+      <div className="bg-white rounded-lg shadow-lg w-[90vw] max-w-[600px] overflow-hidden flex flex-col">
+        {/* 배너 영역 - 460x600 비율 유지 */}
+        <div className="w-full" style={{ aspectRatio: '460/600' }}>
+          {tabs[activeTab].banners.map((banner) => (
+            <div key={banner.id} className="h-full w-full">
+              <img
+                src={banner.image}
+                alt={banner.title}
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => handleBannerClick(banner.link)}
+              />
+            </div>
+          ))}
+        </div>
 
-          {/* 탭 영역 - 3x2 배열 */}
-          <div className="grid grid-cols-3 grid-rows-2 gap-1 ">
-            {Object.entries(tabs).map(([tabId, tabData]) => (
-              <Button
-                key={tabId}
-                className={`flex-1 py-2 px-4 text-center cursor-pointer transition-all duration-300 bg-white rounded-none
-                  ${activeTab === tabId ? "bg-blue-500 text-white" : "hover:bg-gray-50"}`}
-                onPress={() => setActiveTab(tabId)}
-                style={{ wordWrap: "break-word", whiteSpace: "normal", minHeight: "50px" }}
-              >
-                {tabData.name}
-              </Button>
-            ))}
-          </div>
-
-          {/* 하단 컨트롤 */}
-          <div className="flex justify-between items-center px-2.5 text-medium py-2">
-            <Checkbox
-              type="checkbox"
-              className="m-0"
-              onChange={(e) => handleClose(e.target.checked)}
-            >
-              <span>하루 동안 보지 않기</span>
-            </Checkbox>
+        {/* 탭 영역 - 3x2 배열 */}
+        <div className="grid grid-cols-3 grid-rows-2 gap-0.5 border-t border-gray-200 w-full">
+          {Object.entries(tabs).map(([tabId, tabData]) => (
             <Button
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-medium"
-              onPress={() => handleClose(false)}
+              key={tabId}
+              className={`py-1.5 px-2 text-xs sm:text-medium text-center cursor-pointer transition-all duration-300 rounded-none
+                ${activeTab === tabId ? "bg-blue-500 text-white" : "bg-white hover:bg-gray-50"}`}
+              onPress={() => setActiveTab(tabId)}
+              style={{ wordWrap: "break-word", whiteSpace: "normal", minHeight: "40px" }}
             >
-              닫기
+              {tabData.name}
             </Button>
-          </div>
+          ))}
+        </div>
+
+        {/* 하단 컨트롤 */}
+        <div className="flex justify-between items-center px-2.5 py-2 w-full border-t border-gray-200">
+          <Checkbox
+            type="checkbox"
+            className="m-0"
+            onChange={(e) => handleClose(e.target.checked)}
+          >
+            <span className="text-xs sm:text-sm">하루 동안 보지 않기</span>
+          </Checkbox>
+          <Button
+            className="px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs sm:text-sm"
+            onPress={() => handleClose(false)}
+          >
+            닫기
+          </Button>
         </div>
       </div>
     </div>,
