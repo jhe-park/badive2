@@ -70,7 +70,7 @@ export default function () {
         `,
       },
       {
-        title: "스튜디오오",
+        title: "스튜디오",
         description1: `<div>물에 들어가기 전, 거울이 있는 연습실에서 미리 스킬을 연습해보는 과정</div>`,
         description2: `
         <div>스트레칭 · 바디 컨디셔닝 ·베이직 언더워터 댄스 스킬 ·안전 및 레스큐 ·페이스 및 헤어 컨트롤 </div> 
@@ -97,7 +97,7 @@ export default function () {
     <MainDetail data={data}></MainDetail>
     <Instruction data={data} />
     <MiddleBanner data={data}></MiddleBanner>
-    
+
     <Review></Review>
     <Phone></Phone>
     <Requirement data={data}></Requirement>

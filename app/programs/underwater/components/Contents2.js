@@ -70,7 +70,7 @@ export default function () {
         `,
       },
       {
-        title: "스튜디오오",
+        title: "스튜디오",
         description1: `<div>물에 들어가기 전, 거울이 있는 연습실에서 미리 스킬을 연습해보는 과정</div>`,
         description2: `
         <div>스트레칭 · 바디 컨디셔닝 ·어드밴스 바디 무브먼트 ·언더워터 댄스 스킬 ·프리스타일 테크닉</div> 
