@@ -79,10 +79,26 @@ export default function SelectModal({
       const [, , dateB, timeB] = b.unique_id.split("_");
       const dateTimeA = new Date(`${dateA} ${timeA}`);
       const dateTimeB = new Date(`${dateB} ${timeB}`);
+      
       return dateTimeA - dateTimeB;
     });
 
-    const groupedByDate = sortedData.reduce((acc, item) => {
+    // 오늘 날짜 구하기
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // 시간 부분 초기화
+    
+    // 내일 날짜 계산
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // 내일 이후 날짜만 필터링 (오늘 제외)
+    const filteredData = sortedData.filter(item => {
+      const itemDate = new Date(item.date);
+      itemDate.setHours(0, 0, 0, 0);
+      return itemDate >= tomorrow; // 내일 이후 날짜만 포함
+    });
+
+    const groupedByDate = filteredData.reduce((acc, item) => {
       const date = item.date;
       if (!acc[date]) {
         acc[date] = [];
