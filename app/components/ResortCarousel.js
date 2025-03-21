@@ -213,15 +213,16 @@ const MultiImageCarousel = () => {
             {resortData.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/3 h-full relative md:h-full"
+                className="flex-none w-1/2 md:w-1/3 relative"
                 style={{ padding: index !== resortData.length - 1 ? '0 10px' : '0' }}
-                
               >
-                <div className=" bg-gray-100 rounded-lg overflow-hidden relative w-full h-full group md:max-h-[250px] aspect-[350/250]">
+                <div className="bg-gray-100 rounded-lg overflow-hidden relative w-full group aspect-[4/3] h-auto xl:max-h-[250px] md:max-h-[180px] max-h-[120px]"
+                  >
                   <Image
                     src={image.image}
                     alt={image.title}
                     fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
                     className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover hover:cursor-pointer"
                     onClick={() => handleImageClick(image)}
                   />
