@@ -46,9 +46,9 @@ function RegionTabs() {
           </React.Fragment>
         ))}
       </div>
-      <div className="w-full md:w-full h-full grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-4 md:mt-6 md:px-10">
+      <div className="w-full md:w-full h-full grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-4 md:mt-6">
         {filteredLocations.map((location,index) => (
-          <div key={index} className="flex flex-col items-center md:p-4 rounded-lg">
+          <div key={index} className="flex flex-col items-center rounded-lg">
             <div className="w-full aspect-square relative">
               <Image
                 src={location.image} 
@@ -57,7 +57,7 @@ function RegionTabs() {
                 className="object-cover rounded-lg" 
               />
             </div>
-            <p className="mt-2 text-medium md:text-[26px] font-medium">{location.name}</p>
+            <p className="mt-2 xl:text-[26px] md:text-[20px] text-[16px] font-medium">{location.name}</p>
           </div>
         ))}
       </div>
