@@ -57,7 +57,7 @@ export default function Actionbar() {
   }, []);
 
   return (isVisible || isMobile) ? (
-    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50 md:w-[8%] w-[17%] md:text-[20px] text-[10px]">
+    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50 xl:w-[8%] md:w-[14%] w-[17%] md:text-[20px] text-[10px]">
       {[
         {
           label: "소속강사",

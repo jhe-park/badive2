@@ -82,15 +82,15 @@ export default function page() {
           </p>
         </div>
       </div>
-      <div className="w-full max-w-[1280px] md:aspect-square h-auto h-full flex justify-center items-cente md:mt-12">
+      <div className="w-full max-w-[1280px] md:aspect-square  h-full flex justify-center items-cente md:mt-12">
         <RegionTabs></RegionTabs>
       </div>
 
-      <div className="w-[90%] md:max-w-[1280px] xl:aspect-[1280/652] md:aspect-[768/531] aspect-[375/747] flex flex-col justify-evenly items-start md:mb-24 xl:mt-16 md:mt-12 mt-6">
+      <div className="w-full md:max-w-[1280px] xl:aspect-[1280/652] md:aspect-[768/531] aspect-[375/747] flex flex-col justify-evenly items-start md:mb-24 xl:mt-16 md:mt-12 mt-6">
         <div className="text-[30px] md:text-[40px] text-center w-full">
           깊은 바다로 떠나는<br className="md:hidden" /> 잊을 수 없는 여행
         </div>
-        <div className="w-full h-full md:h-[540px] flex flex-col md:flex-row justify-center items-center mt-4 md:mt-12 px-0 md:px-10">
+        <div className="w-full h-full md:h-[540px] flex flex-col md:flex-row justify-center items-center mt-4 md:mt-12 ">
           <div className="w-full md:w-1/2 h-full grid grid-cols-4 gap-0">
             {[...Array(12)].map((_, index) => (
               <div key={index} className="relative w-full h-full p-0">
