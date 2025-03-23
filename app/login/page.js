@@ -12,7 +12,7 @@ import GoogleLoginComponent from "./components/GoogleLogin";
 import KakaoLoginComponent from "./components/KakaoLogin";
 import NaverLoginComponent from "./components/NaverLogin";
 import ToastComponent from "./components/ToastComponent";
-
+import RegisterButton from "./components/RegisterButton";
 export default async function Login(props) {
 
   
@@ -86,11 +86,7 @@ export default async function Login(props) {
           >
             로그인
           </SubmitButton>
-          <Link href="/register" className="w-full">
-            <Button variant="bordered" className="w-full" color="primary" type="button">
-              회원가입
-            </Button>
-          </Link>
+          <RegisterButton />
         </form>
         <div className="flex items-center gap-4">
           <Divider className="flex-1" />

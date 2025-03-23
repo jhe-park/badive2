@@ -57,7 +57,7 @@ export default function Actionbar() {
   }, []);
 
   return (isVisible || isMobile) ? (
-    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50 xl:w-[8%] md:w-[14%] w-[17%] md:text-[20px] text-[10px]">
+    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50 xl:w-[8%] max-w-[100px] md:w-[14%] w-[17%] md:text-[20px] text-[10px]">
       {[
         {
           label: "소속강사",
@@ -74,7 +74,7 @@ export default function Actionbar() {
         {
           label: "전화문의",
           src: "/floating/phone.png",
-          url:"tel:010-9999-9999",
+          url:"tel:02-6953-4432",
           Icon: BsTelephoneForward,
 
         },
