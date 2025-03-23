@@ -250,13 +250,11 @@ const CalendarComponent = ({
                       });
                     }}
                   >
-                    <p>※위 내용 일정으로 예약을 신청하시겠습니까?</p>
-                    <p className="font-bold">
-                      (하단 예약 주의사항과 환불규정을 꼭 확인 후 결제해주시기 바랍니다.)
+                    <p className="text-center">※위 내용 일정으로 예약을 신청하시겠습니까?</p>
+                    <p className="text-center">
+                    (하단 예약 주의사항과 환불 규정을 꼭 확인 후 결제해 주시기 바랍니다.)
                     </p>
-                    <p className="font-bold">
-                      (단체예약문의는 카카오톡 채널 or 전화로 문의 주시면 예약이 가능합니다.)
-                    </p>
+
                   </Checkbox>
                 </div>
               </>

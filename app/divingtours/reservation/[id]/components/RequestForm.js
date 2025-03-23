@@ -267,7 +267,7 @@ export default function RequestForm({ className, tourData, user, ...props }) {
         <Input
           className="col-span-12 md:col-span-6"
           variant="bordered"
-          label="보유한 라이센스(보유한 라이센스가 없으신분들은 '없음'이라고 적어주시면 됩니다."
+          label="보유한 라이센스(없는 경우 없음 표기)"
           name="license"
           placeholder="보유한 라이센스를 입력해주세요"
           isRequired

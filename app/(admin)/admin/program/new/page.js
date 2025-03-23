@@ -61,7 +61,7 @@ export default function InstructorNewPage() {
     "언더워터",
     "체험다이빙",
   ];
-  const regionList = ["서울", "경기", "인천", "대전", "대구", "부산", "경남"];
+  // const regionList = ["서울", "경기", "인천", "대전", "대구", "부산", "경남"];
   const [tableData, setTableData] = useState([]);
   const router = useRouter();
   const supabase = createClient();
@@ -302,7 +302,7 @@ export default function InstructorNewPage() {
                   value={selectedPrice}
                   onChange={(e) => setSelectedPrice(e.target.value)}
                 />
-                <Select
+                {/* <Select
                   selectedKeys={[selectedRegion]}
                   onChange={(e) => setSelectedRegion(e.target.value)}
                   label="지역"
@@ -314,7 +314,14 @@ export default function InstructorNewPage() {
                       {item}
                     </SelectItem>
                   ))}
-                </Select>
+                </Select> */}
+                <Input
+                  label="지역"
+                  labelPlacement="inside"
+                  placeholder="지역을 입력해주세요"
+                  value={selectedRegion}
+                  onChange={(e) => setSelectedRegion(e.target.value)}
+                />
                 <Input
                   label="인원"
                   labelPlacement="inside"
