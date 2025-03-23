@@ -122,7 +122,7 @@ export default function WelcomePopup() {
 
   return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]">
-      <div className="bg-white rounded-lg shadow-lg w-[90vw] max-w-[600px] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg w-[90vw] max-w-[600px] h-auto overflow-hidden flex flex-col">
         {/* 배너 영역 - 460x600 비율 유지 */}
         <div className="w-full" style={{ aspectRatio: '460/600' }}>
           {tabs[activeTab].banners.map((banner) => (

@@ -4,11 +4,13 @@ import BannerDotCarousel from "./BannerDotCarousel";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { Button } from "@nextui-org/react";
 import { Spinner } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 export default function Banner() {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [selectMode, setSelectMode] = useState("mode1");
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   console.log("selectMode:", selectMode);
   useEffect(() => {
     console.log("isPlaying:", isPlaying);
@@ -84,6 +86,7 @@ export default function Banner() {
               className="text-black bg-white font-bold text-xs md:text-2xl relative group h-6 md:w-36 md:h-16 opacity-25 hover:opacity-100"
               color=""
               variant="solid"
+              onPress={() => router.push(selectMode === "mode1" ? "/programs/scuberdiving" : selectMode === "mode2" ? "/programs/freediving" : selectMode === "mode3" ? "/programs/mermaid" : "/")}
             >
               <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity "></span>
               <span className="relative">자세히보기</span>
@@ -92,6 +95,7 @@ export default function Banner() {
               className="text-black bg-white font-bold text-xs md:text-2xl relative group  h-6 md:w-36 md:h-16 opacity-25 hover:opacity-100"
               color=""
               variant="flat"
+              onPress={() => router.push("/instructors/bdn")}
             >
               <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity "></span>
               <span className="relative">강사소개</span>
