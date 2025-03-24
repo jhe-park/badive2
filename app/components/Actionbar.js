@@ -66,9 +66,9 @@ export default function Actionbar() {
           Icon: PiCertificate,
         },
         {
-          label: "다이빙투어",
+          label: "예약문의",
           src: "/floating/location.png",
-          url:"/divingtours",
+          url:"/inquiries",
           Icon: MdLocationPin,
         },
         {
