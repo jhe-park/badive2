@@ -13,7 +13,7 @@ export default function WelcomePopup() {
   // 탭 데이터
   const tabs = {
     tab1: {
-      name: "인천수영장오픈안내내",
+      name: "인천수영장오픈안내",
       banners: [
         {
           id: 1,
@@ -57,11 +57,11 @@ export default function WelcomePopup() {
       ],
     },
     tab5: {
-      name: "바다이스 세부 다이빙투어",
+      name: "바다이브 다이빙투어",
       banners: [
         {
           id: 5,
-          title: "바다이스 세부 다이빙투어",
+          title: "바다이브 다이빙투어",
           link: "https://www.badive.co.kr/divingtours",
           image: "/popup/popup5.png",
         },
