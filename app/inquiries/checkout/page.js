@@ -17,7 +17,7 @@ export default function CheckoutPage({ searchParams }) {
     currency: "KRW",
     value: 0,
   });
-  const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY_DEV
+  const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY
   console.log("useData:", userData);
   const { session } = use(searchParams);
   const supabase = createClient();
