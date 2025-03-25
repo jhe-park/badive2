@@ -77,6 +77,7 @@ export default function Banner() {
           onCanPlay={handleCanPlay}
           onWaiting={handleWaiting}
         >
+          
           <source src={getVideoSource()} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
