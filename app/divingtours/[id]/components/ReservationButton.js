@@ -8,7 +8,7 @@ export default function ReservationButton({ tour_id }) {
         <Button onPress={() => {
             router.push(`/divingtours/reservation/${tour_id}`);
         }} className="text-medium md:text-2xl font-bold w-full h-full px-2 md:px-6 py-2 md:py-4">
-        예약하기
+        신청서 작성하기
       </Button> 
     );
 };
