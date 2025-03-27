@@ -48,6 +48,9 @@ const config = {
         md: '1280px',   // 노트북
         lg: '1920px',   // 데스크탑
       },
+      fontFamily: {
+        eland: ['ELAND_Choice_M', 'sans-serif'],
+      },
     },
   },
   plugins: [heroui()],
