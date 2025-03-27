@@ -122,7 +122,7 @@ export default function WelcomePopup() {
 
   return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]">
-      <div className="bg-white rounded-lg shadow-lg w-[90vw] max-w-[600px] h-auto overflow-hidden flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg xl:w-[25vw] md:w-[60vw] w-[80vw] h-auto overflow-hidden flex flex-col">
         {/* 배너 영역 - 460x600 비율 유지 */}
         <div className="w-full" style={{ aspectRatio: '460/600' }}>
           {tabs[activeTab].banners.map((banner) => (
@@ -142,7 +142,7 @@ export default function WelcomePopup() {
           {Object.entries(tabs).map(([tabId, tabData]) => (
             <Button
               key={tabId}
-              className={`py-1.5 px-2 text-xs sm:text-medium text-center cursor-pointer transition-all duration-300 rounded-none
+              className={`py-1.5 px-2 text-[12px] sm:text-sm text-center cursor-pointer transition-all duration-300 rounded-none
                 ${activeTab === tabId ? "bg-blue-500 text-white" : "bg-white hover:bg-gray-50"}`}
               onPress={() => setActiveTab(tabId)}
               style={{ wordWrap: "break-word", whiteSpace: "normal", minHeight: "40px" }}
