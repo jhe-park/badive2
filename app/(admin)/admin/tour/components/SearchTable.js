@@ -71,6 +71,13 @@ export default function SearchTable() {
         >
           투어 등록
         </Button>
+        <Button
+          className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
+          startContent={<LuCirclePlus className="text-white text-xl" />}
+          onPress={() => router.push("/admin/tour/submitlist")}
+        >
+          투어 신청 내역
+        </Button>
         <Input
           placeholder="검색어를 입력해주세요"
           label="검색"

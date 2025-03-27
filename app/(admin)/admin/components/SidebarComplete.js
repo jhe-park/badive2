@@ -38,7 +38,7 @@ export default function Component({ children, user }) {
     if (pathname.includes("/admin/instructor")) return "강사관리";
     if (pathname.includes("/admin/member")) return "회원관리";
     if (pathname.includes("/admin/program")) return "프로그램";
-    if (pathname.includes("/admin/tour")) return "투어";
+    if (pathname.includes("/admin/tour")) return "투어관리";
     if (pathname.includes("/admin/main")) return "관리자 홈";
     if (pathname.includes("/admin/notification")) return "공지사항";
     if (pathname.includes("/admin/resort")) return "리조트";

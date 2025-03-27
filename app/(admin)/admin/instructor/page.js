@@ -5,11 +5,13 @@ import { PiCodesandboxLogo } from "react-icons/pi";
 import { LuCirclePlus } from "react-icons/lu";
 import { FaSearch } from "react-icons/fa";
 import SearchTable from "./components/SearchTable";
+import SubmitListButton from "./components/SubmitListButton";
 export default async function InstructorPage() {
   const supabase = await createClient();
   const { data: instructor, error: instructorError } = await supabase
     .from("instructor")
-    .select("*");
+    .select("*")
+    .eq('available', true);
   const bdnInstructorCount =
     instructor?.filter((item) => item.role === "bdn").length || 0;
   const nonBdnInstructorCount =
@@ -25,6 +27,7 @@ export default async function InstructorPage() {
           {/* <h1 className="text-lg font-bold w-24">협력강사</h1> */}
           <Input label="협력강사" isDisabled value={nonBdnInstructorCount} placeholder="" />
         </div>
+        
       </div>
       <SearchTable></SearchTable>
 

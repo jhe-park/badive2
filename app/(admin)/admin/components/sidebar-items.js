@@ -122,7 +122,7 @@ export const sectionItems = [
         key: "tour",
         href: "/admin/tour",
         icon: "",
-        title: "투어",
+        title: "투어관리",
       },
       {
         key: "resort",

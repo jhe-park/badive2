@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import {debounce} from "lodash";
+import SubmitListButton from "./SubmitListButton";
 export default function SearchTable() {
   const [selectedSort, setSelectedSort] = useState("name");
   const [instructor, setInstructor] = useState([]);
@@ -66,6 +67,9 @@ export default function SearchTable() {
   console.log("total:", total);
   console.log("instructor:", instructor);
   console.log("selectedSort:", selectedSort);
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
 
   return (
     <>
@@ -77,6 +81,7 @@ export default function SearchTable() {
         >
           강사 등록
         </Button>
+        <SubmitListButton></SubmitListButton>
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
         <Select
           label="검색기준"
@@ -161,7 +166,7 @@ export default function SearchTable() {
         </Table>
         
         <div className="flex justify-center items-center ">
-          <Pagination initialPage={1} page={page} total={total} />
+          <Pagination initialPage={1} page={page} total={total} onChange={handlePageChange} />
         </div>
       </div>
     </>
