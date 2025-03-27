@@ -1,4 +1,4 @@
-const {heroui} = require("@heroui/react");
+const { heroui } = require("@heroui/react");
 
 import type { Config } from "tailwindcss";
 
@@ -19,11 +19,11 @@ const config = {
       },
       keyframes: {
         'scale-fade-in': {
-          '0%': { 
+          '0%': {
             opacity: '0',
             transform: 'scale(0.5)'
           },
-          '100%': { 
+          '100%': {
             opacity: '1',
             transform: 'scale(1)'
           },
@@ -31,7 +31,12 @@ const config = {
       },
       animation: {
         'scale-fade-in': 'scale-fade-in 0.5s ease-out forwards'
-      }
+      },
+      screens: {
+        sm: '768px',    // 태블릿
+        md: '1280px',   // 노트북
+        lg: '1920px',   // 데스크탑
+      },
     },
   },
   plugins: [heroui()],
