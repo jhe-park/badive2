@@ -86,11 +86,11 @@ const MainBanner = () => {
     <>
       <section className='relative md:h-screen w-full bg-black'>
         <div className='z-10 absolute top-0 left-0 w-full h-full inline-flex items-end
-    px-3 pb-[11px]
-    sm:px-[26px] sm:pb-[22px]
-    md:px-[30px] md:pb-[38px]
-    lg:pb-[53px]
-    '>
+          px-3 pb-[11px]
+          sm:px-[26px] sm:pb-[22px]
+          md:px-[30px] md:pb-[38px]
+          lg:pb-[53px]
+        '>
           <div className='flex justify-between items-center w-full'>
             <div className='inline-flex gap-[6px] sm:gap-5'>
               {buttons.map((btn) =>
@@ -98,10 +98,10 @@ const MainBanner = () => {
                   href={typeof btn.link === 'string' ? btn.link : btn.link[page]}
                   key={btn.label}
                   className='text-white bg-[#FFFFFF26] font-bold rounded-[10px] text-nowrap
-              text-[13px] py-[6px] px-3
-              sm:text-xl sm:py-[13px] sm:px-8
-              md:text-2xl md:py-[11px] md:px-11
-            '>
+                  text-[13px] py-[6px] px-3
+                  sm:text-xl sm:py-[13px] sm:px-8
+                  md:text-2xl md:py-[11px] md:px-11
+                '>
                   {btn.label}
                 </a>
               )}
