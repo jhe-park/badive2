@@ -6,7 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       'jhedata.s3.ap-southeast-2.amazonaws.com',
-      'efehwvtyjlpxkpgswrfw.supabase.co'
+      'efehwvtyjlpxkpgswrfw.supabase.co',
+      'www.instagram.com',
+      
     ],
   },
   i18n: {

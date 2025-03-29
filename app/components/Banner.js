@@ -134,7 +134,7 @@ export default function Banner() {
         </div>
       </div>
       <div
-        className="bg-green-500 w-full xl:aspect-[1920/1000] md:aspect-[768/450] aspect-[375/200] relative grid grid-cols-5"
+        className="w-full xl:aspect-[1920/1000] md:aspect-[768/450] aspect-[375/200] relative grid grid-cols-5"
         style={{
           backgroundImage: "url('/banner/bannerlower.png')",
           backgroundSize: "cover",

@@ -27,64 +27,52 @@ const InstagramCarousel = () => {
   const images = [
     {
       id: 1,
-      url: "/instagram/instagram1.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image.png",
       title: "Image 1",
-      link: "https://www.instagram.com/p/DDCXjI4PXW7/",
+      link: "https://www.instagram.com/reel/DHcTNJ3TWfC/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 2,
-      url: "/instagram/instagram2.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_1.png",
       title: "Image 2",
-      link: "https://www.instagram.com/p/DCn34ESv1un/",
+      link: "https://www.instagram.com/reel/DHkNC0FTFqd/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 3,
-      url: "/instagram/instagram3.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_2.png",
       title: "Image 3",
-      link: "https://www.instagram.com/p/DCOXIM2v3Hc/",
+      link: "https://www.instagram.com/p/DHkEYO6TP-l/",
     },
     {
       id: 4,
-      url: "/instagram/instagram4.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_3.png",
       title: "Image 4",
       link: "https://www.instagram.com/p/DCDlRhbSIH6/",
     },
     {
       id: 5,
-      url: "/instagram/instagram5.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_4.png",
       title: "Image 5",
-      link: "https://www.instagram.com/p/DCq0tXpy_6a/",
+      link: "https://www.instagram.com/reel/DHcaNCxTC9F/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 6,
-      url: "/instagram/instagram6.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_5.png",
       title: "Image 6",
-      link: "https://www.instagram.com/p/DD1Ej-8Pgg-/",
+      link: "https://www.instagram.com/reel/DHcno9vRKu9/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 7,
-      url: "/instagram/instagram7.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_6.png",
       title: "Image 7",
-      link: "https://www.instagram.com/p/DB0QqcWpEKt/",
+      link: "https://www.instagram.com/reel/DHmf5OwTodc/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 8,
-      url: "/instagram/instagram8.png",
+      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/image_7.png",
       title: "Image 8",
-      link: "https://www.instagram.com/p/DCEG-W9vWi6/",
-    },
-    {
-      id: 9,
-      url: "/instagram/instagram9.png",
-      title: "Image 9",
-      link: "https://www.instagram.com/p/DCSqGN8oPLn/",
-    },
-    {
-      id: 10,
-      url: "/instagram/instagram10.png",
-      title: "Image 10",
-      link: "https://www.instagram.com/p/DDO4WI0vzo6/",
-    },
+      link: "https://www.instagram.com/reel/DHaMp9Lzw1s/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    }
   ];
 
   const handlePrev = () => {

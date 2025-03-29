@@ -66,13 +66,16 @@ function IntroductionCarousel() {
     isDragging = false;
   };
 
+  // 더보기 버튼 클릭 이벤트 핸들러 - 이벤트 전파 방지
+  const handleMoreClick = (e, index) => {
+    e.stopPropagation(); // 이벤트 전파 중지
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
   return (
     <>
       <div
         className="relative w-[90vw] md:max-w-[1280px] overflow-hidden h-full md:h-full"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {/* 캐러셀 컨텐츠 */}
         <div
@@ -87,7 +90,12 @@ function IntroductionCarousel() {
             <div key={index} className="flex min-w-full flex-col lg:flex-row gap-y-2 md:gap-y-12 md:gap-x-4 ">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
               <div className="w-full lg:w-1/3 md:py-12 relative md:pl-0 flex justify-center items-center order-1 md:order-2">
-                <div className="relative w-[80%] md:w-full max-w-[300px] aspect-[3/5]">
+                <div
+                  className="relative w-[80%] md:w-full max-w-[300px] aspect-[3/5]"
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
                   <Image
                     src={item.right.image}
                     alt={`${item.left.title} 이미지`}
@@ -104,8 +112,16 @@ function IntroductionCarousel() {
                 {/* <div className="hidden md:block absolute top-0 left-0 text-[200px] font-bold text-gray-200 opacity-20">
                   01
                 </div> */}
-                <div className="text-2xl md:text-[45px] font-bold text-center md:text-left">{item.left.title}</div>
-                <div className="text-lg md:mt-6 md:text-[25px] text-center md:text-left" style={{ color: "#902020" }}>
+                <div
+                  className="text-2xl md:text-[45px] font-bold text-center md:text-left"
+                  style={{ pointerEvents: 'none' }}
+                >
+                  {item.left.title}
+                </div>
+                <div
+                  className="text-lg md:mt-6 md:text-[25px] text-center md:text-left"
+                  style={{ color: "#902020", pointerEvents: 'none' }}
+                >
                   {item.left.subtitle}
                 </div>
                 <Divider className="w-[250px] bg-[#B27400]" orientation="horizontal" />
@@ -117,7 +133,7 @@ function IntroductionCarousel() {
                   style={{lineHeight: "1.5"}}
                 ></div>
                 <button
-                  onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                  onClick={(e) => handleMoreClick(e, index)}
                   className="text-[#902020] text-sm hover:underline mt-2 md:hidden"
                 >
                   {expandedIndex === index ? '접기' : '더보기'}
@@ -130,7 +146,7 @@ function IntroductionCarousel() {
         {/* 화살표 버튼 */}
         <button
           onClick={prevSlide}
-          className="absolute left-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
+          className="hidden md:block absolute left-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
           aria-label="Previous slide"
         >
           <FaCircleChevronLeft className="text-gray-500 text-2xl md:text-7xl" />
@@ -138,7 +154,7 @@ function IntroductionCarousel() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
+          className="hidden md:block absolute right-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
           aria-label="Next slide"
         >
           <FaCircleChevronRight className="text-gray-500 text-2xl md:text-7xl" />
