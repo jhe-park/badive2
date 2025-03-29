@@ -88,9 +88,18 @@ function IntroductionCarousel() {
               <div className="w-full lg:w-1/3 md:py-12 relative md:pl-0 flex justify-center items-center order-1 md:order-2">
                 <div 
                   className="relative w-[80%] md:w-full max-w-[300px] aspect-[3/5] cursor-pointer"
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
+                  onTouchStart={(e) => {
+                    e.stopPropagation();
+                    handleTouchStart(e);
+                  }}
+                  onTouchMove={(e) => {
+                    e.stopPropagation();
+                    handleTouchMove(e);
+                  }}
+                  onTouchEnd={(e) => {
+                    e.stopPropagation();
+                    handleTouchEnd(e);
+                  }}
                   onClick={(e) => {
                     e.stopPropagation();
                     nextSlide();
@@ -124,8 +133,14 @@ function IntroductionCarousel() {
                   style={{lineHeight: "1.5"}}
                 />
                 <button
-                  onTouchStart={() => setIsInteractingWithButton(true)}
-                  onTouchEnd={() => setIsInteractingWithButton(false)}
+                  onTouchStart={(e) => {
+                    e.stopPropagation();
+                    setIsInteractingWithButton(true);
+                  }}
+                  onTouchEnd={(e) => {
+                    e.stopPropagation();
+                    setIsInteractingWithButton(false);
+                  }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setExpandedIndex(expandedIndex === index ? null : index);
@@ -178,7 +193,7 @@ function IntroductionCarousel() {
                 src={item.small}
                 alt={`Slide ${index + 1}`}
                 fill
-                className="object-cover rounded-full"
+                className="object-cover rounded-full cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   goToSlide(index);

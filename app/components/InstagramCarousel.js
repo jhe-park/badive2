@@ -133,7 +133,7 @@ const InstagramCarousel = () => {
 
   return (
     <div
-      className="relative w-full"
+      className="relative w-full h-full flex justify-center items-center"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -161,9 +161,9 @@ const InstagramCarousel = () => {
 
       {/* Images Container */}
       <SlideUp >
-        <div className="relative overflow-hidden mt-10 md:mt-0">
+        <div className="relative overflow-hidden md:mt-0">
           <div
-            className="flex transition-transform duration-300 ease-out"
+            className="flex transition-transform duration-300 ease-out "
             style={{
               transform: `translateX(-${currentIndex * (100 / (isMobile ? 3 : 4))}%)`,
             }}
@@ -171,10 +171,9 @@ const InstagramCarousel = () => {
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/3 md:w-1/4 relative"
-                style={{ padding: index !== images.length - 1 ? '0 10px' : '0' }}
+                className="flex-none w-1/3 md:w-1/4 relative px-2"
               >
-                <div className="aspect-[300/450] bg-gray-100 rounded-lg overflow-hidden relative w-full group">
+                <div className="aspect-[300/450] bg-gray-100 rounded-lg overflow-hidden relative w-full group ">
                   <Image
                     src={image.url}
                     alt={image.title}
