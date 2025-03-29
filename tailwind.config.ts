@@ -44,6 +44,7 @@ const config = {
         'slide-in-bottom': 'slide-in-bottom 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
       },
       screens: {
+        xs: '480px',
         sm: '768px',    // 태블릿
         md: '1280px',   // 노트북
         lg: '1920px',   // 데스크탑

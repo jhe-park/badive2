@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
                 </div>
               </main>
               <div className="">
-                <Actionbar></Actionbar>
+                {/* <Actionbar></Actionbar> */}
               </div>
               </AuthSession>
             </HeroUIProvider>
