@@ -243,8 +243,7 @@ const MultiImageCarousel = () => {
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/4 relative flex flex-col items-center justify-center"
-                style={{ padding: index !== images.length - 1 ? '0 5px' : '0' }}
+                className="flex-none w-1/2 md:w-1/4 relative flex flex-col items-center justify-center px-2"
                 onClick={() => handleImageClick(image)}
               >
                 <div className="relative bg-gray-100 rounded-lg overflow-hidden group mt-2 md:mt-0 mx-auto aspect-[16/9] w-full ">
