@@ -1,6 +1,8 @@
 import MainBanner from './components/MainBanner.js'
 import MainStory from './components/MainStory.js'
+import MainInstructor from './components/MainInstructor.js'
 import MainCurriculum from './components/MainCurriculum.js'
+import MainNews from './components/MainNews.js'
 
 export default async function Home() {
   return (
@@ -9,6 +11,7 @@ export default async function Home() {
       <MainStory />
       <MainInstructor />
       <MainCurriculum />
+      <MainNews />
     </div>
   );
 }
