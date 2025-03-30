@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { SlControlPause } from "react-icons/sl";
+import { useTextAnimation } from '../../hooks/useAnimation'
 
 const MainBanner = () => {
   const VIDEO_SOURCE = [
@@ -27,8 +28,6 @@ const MainBanner = () => {
   const iconClass = 'rounded-full w-5 h-5 sm:w-[34px] sm:h-[34px] inline-flex bg-[#00000099] border border-black text-white cursor-pointer'
 
   const videoRef = useRef(null);
-  const imageRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false)
   const [page, setPage] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const togglePlayPause = () => {
@@ -64,23 +63,8 @@ const MainBanner = () => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  useEffect(() => {
-    if (!imageRef.current) return
-    if (typeof window === 'undefined') return
-    if (!isMobile) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.2 },
-    )
-
-    if (imageRef.current) observer.observe(imageRef.current)
-    return () => observer.disconnect()
-  }, [isMobile])
+  const { containerRef: imageRef } = useTextAnimation()
+  const { containerRef: textRef } = useTextAnimation()
 
   return (
     <>
@@ -134,7 +118,10 @@ const MainBanner = () => {
         </video>
       </section>
       <section className='bg-black h-[682px] sm:h-[958px] md:h-[1001px] w-full flex flex-col justify-between'>
-        <div>
+        <div ref={!isMobile && textRef}  
+        className={[
+            'transform transition-transform duration-300 ease-out',
+          ].join(' ')}>
           <h1
             className='italic text-center text-white font-bold text-nowrap
             text-3xl leading-[40px] pt-[106px]
@@ -155,18 +142,13 @@ const MainBanner = () => {
         </div>
         <div
           ref={imageRef}
-          className={[
-            'transition-all duration-700 ease-in-out',
-            isMobile && isVisible ? 'animate-slide-in-bottom translate-y-10 opacity-0'
-              : ''
-          ].join(' ')}>
+          className='transform transition-transform duration-300 ease-out'>
           <img
             alt='open_the_gate'
             src='/banner/open_the_gate.png'
             className='mx-auto
             mb-[90px] sm:mb-[134px] md:mb-[147px] lg:mb-[114px] 
-            h-auto sm:h-[489px] md:h-[503px]
-            '
+            h-auto sm:h-[489px] md:h-[503px]'
           />
         </div>
       </section>

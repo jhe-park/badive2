@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
+import { useTextAnimation } from '../../hooks/useAnimation'
 
 const MainNews = () => {
   const NEWS = [
@@ -47,7 +48,6 @@ const MainNews = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
 
-
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -62,6 +62,7 @@ const MainNews = () => {
     window.addEventListener('resize', getVisibleCount)
     return () => window.removeEventListener('resize', getVisibleCount)
   }, [])
+
   const isFirst = currentIndex === 0
   const isLast = currentIndex >= NEWS.length - visibleCount
 
@@ -72,6 +73,10 @@ const MainNews = () => {
   const prev = () => {
     if (!isFirst) setCurrentIndex((prev) => prev - 1)
   }
+
+  const { containerRef: newRef } = useTextAnimation('news')
+  const { containerRef } = useTextAnimation()
+
   return (
     <section className='bg-black w-full pb-[50x] sm:pb-[100px]'>
       <h1 className='text-white flex items-center justify-center font-eland font-bold 
@@ -83,18 +88,24 @@ const MainNews = () => {
         <img src='/news/title.png' className='w-[50px] h-[50px]' />
         BADIVE 소식
       </h1>
-      <p className='text-white text-center mb-[50px] sm:mb-[81px] text-[25px] leading-[45px] sm:text-[40px] sm:leading-[65px] md:text-[48px]'>바다이브의<br />
-        최신 소식과 이벤트를 알려드립니다.</p>
+      <p
+        className='text-white text-center mb-[50px] sm:mb-[81px] text-[25px] leading-[45px] sm:text-[40px] sm:leading-[65px] md:text-[48px] transform transition-transform duration-300 ease-out'
+        ref={containerRef}
+      >
+        바다이브의<br />최신 소식과 이벤트를 알려드립니다.
+      </p>
       <div className="flex items-center lg:max-w-[1700px] mx-auto">
         <button onClick={prev}><RiArrowLeftWideLine className='text-white w-12 h-12' /></button>
         <div className='overflow-hidden w-full'>
-          <div className='font-eland text-white flex transition-transform duration-500 ease-in-out'
-            style={{ transform: `translateX(-${(100 / visibleCount) * currentIndex}%)` }}>
+          <div className='font-eland text-white flex'
+            style={{ transform: `translateX(-${(100 / visibleCount) * currentIndex}%)` }}
+            ref={newRef}
+          >
             {NEWS.map((item) =>
-              <ul key={item.title} className='text-center shrink-0 px-2 sm:px-4 md:px-5 lg:px-[18px]'
+              <ul key={item.title} className='text-center shrink-0 px-2 sm:px-4 md:px-5 lg:px-[18px] news'
                 style={{ width: `${100 / visibleCount}%` }}
               >
-                <a href={item.link} className='border border-white flex flex-col justify-between
+                <a href={item.link} className='border border-white flex flex-col justify-between transform transition-transform duration-300 ease-out
                   h-[326px] sm:h-[389px] 
                   pt-12 pb-7 xs:!py-[52px] sm:!pt-12 sm:!pb-7 
                   px-[14px] xs:px-[52px] sm:px-8
