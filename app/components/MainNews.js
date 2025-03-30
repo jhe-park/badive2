@@ -75,22 +75,24 @@ const MainNews = () => {
   }
 
   const { containerRef: newRef } = useTextAnimation('news')
-  const { containerRef } = useTextAnimation()
+  const { containerRef: textRef } = useTextAnimation()
+  const { containerRef: titleRef } = useTextAnimation()
 
   return (
     <section className='bg-black w-full pb-[50x] sm:pb-[100px]'>
-      <h1 className='text-white flex items-center justify-center font-eland font-bold 
+      <h1 ref={titleRef} className='text-white flex items-center justify-center font-eland font-bold
         gap-[10px] text-3xl py-[50px]
         sm:gap-[14px] sm:text-[40px] sm:py-24
         md:gap-[27px] md:text-[50px] md:py-[115px]
         lg:gap-[27px] lg:py-[100px]
+        w-full h-auto transform transition-transform duration-300 ease-out
       '>
         <img src='/news/title.png' className='w-[50px] h-[50px]' />
         BADIVE 소식
       </h1>
       <p
         className='text-white text-center mb-[50px] sm:mb-[81px] text-[25px] leading-[45px] sm:text-[40px] sm:leading-[65px] md:text-[48px] transform transition-transform duration-300 ease-out'
-        ref={containerRef}
+        ref={textRef}
       >
         바다이브의<br />최신 소식과 이벤트를 알려드립니다.
       </p>

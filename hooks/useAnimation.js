@@ -19,17 +19,18 @@ export const useImageAnimation = (className = '') => {
     gsap.from(targets, {
       opacity: 0,
       y: 50,
-      duration: 1.8,
+      duration: 1,
       stagger: 0.2,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: containerRef.current,
-        start: 'top 85%',
+        start: 'top 80%',
         toggleActions: 'play none none reverse',
       },
-      clearProps: 'all'
     })
-  }, [containerRef.current, className])
-  
+    ScrollTrigger.refresh()
+  }, [className])
+
   return {
     containerRef
   }
@@ -47,16 +48,18 @@ export const useTextAnimation = (className = '') => {
 
     gsap.from(targets, {
       opacity: 0,
-      y: 60,
-      duration: 1.8,
-      ease: 'power4.out',
+      y: 50,
+      duration: 1,
+      ease: 'power3.out',
+      // clearProps: 'all',
       scrollTrigger: {
         trigger: containerRef.current,
-        start: 'top 85%',
+        start: 'top 80%',
         toggleActions: 'play none none reverse',
       },
     })
-  }, [containerRef.current, className])
+    ScrollTrigger.refresh()
+  }, [className])
 
   return {
     containerRef

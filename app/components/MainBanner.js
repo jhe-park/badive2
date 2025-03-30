@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { SlControlPause } from "react-icons/sl";
-import { useTextAnimation } from '../../hooks/useAnimation'
+import { useTextAnimation, useImageAnimation } from '../../hooks/useAnimation'
 
 const MainBanner = () => {
   const VIDEO_SOURCE = [
@@ -30,6 +30,7 @@ const MainBanner = () => {
   const videoRef = useRef(null);
   const [page, setPage] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -63,9 +64,8 @@ const MainBanner = () => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const { containerRef: imageRef } = useTextAnimation()
-  const { containerRef: textRef } = useTextAnimation()
-
+  const { containerRef: imageRef } = useImageAnimation()
+  const { containerRef: textRef } =  useTextAnimation()
   return (
     <>
       <section className='relative md:h-screen w-full bg-black'>
@@ -118,10 +118,12 @@ const MainBanner = () => {
         </video>
       </section>
       <section className='bg-black h-[682px] sm:h-[958px] md:h-[1001px] w-full flex flex-col justify-between'>
-        <div ref={!isMobile && textRef}  
-        className={[
+        <div 
+          ref={textRef}  
+          className={[
             'transform transition-transform duration-300 ease-out',
-          ].join(' ')}>
+          ].join(' ')}
+        >
           <h1
             className='italic text-center text-white font-bold text-nowrap
             text-3xl leading-[40px] pt-[106px]
@@ -142,13 +144,11 @@ const MainBanner = () => {
         </div>
         <div
           ref={imageRef}
-          className='transform transition-transform duration-300 ease-out'>
+          className='pb-[90px] sm:pb-[134px] md:pb-[147px] lg:pb-[114px] transform transition-transform duration-300 ease-out'>
           <img
             alt='open_the_gate'
             src='/banner/open_the_gate.png'
-            className='mx-auto
-            mb-[90px] sm:mb-[134px] md:mb-[147px] lg:mb-[114px] 
-            h-auto sm:h-[489px] md:h-[503px]'
+            className='mx-auto h-auto sm:h-[489px] md:h-[503px]'
           />
         </div>
       </section>
