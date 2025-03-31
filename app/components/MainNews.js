@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { useTextAnimation } from '../../hooks/useAnimation'
+import useTouch from '../../hooks/useTouch'
 
 const MainNews = () => {
   const NEWS = [
@@ -47,9 +48,6 @@ const MainNews = () => {
   }
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
-  const wrapperRef = useRef(null)
-  const startX = useRef(0)
-  const endX = useRef(0)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -81,38 +79,7 @@ const MainNews = () => {
   const { containerRef: textRef } = useTextAnimation()
   const { containerRef: titleRef } = useTextAnimation()
 
-  useEffect(() => {
-    const container = wrapperRef.current
-    if (!container) return
-
-    const onTouchStart = (e) => {
-      startX.current = e.touches[0].clientX
-    }
-
-    const onTouchMove = (e) => {
-      endX.current = e.touches[0].clientX
-    }
-
-    const onTouchEnd = () => {
-      const diff = startX.current - endX.current
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) next()
-        else prev()
-      }
-      startX.current = 0
-      endX.current = 0
-    }
-
-    container.addEventListener('touchstart', onTouchStart)
-    container.addEventListener('touchmove', onTouchMove)
-    container.addEventListener('touchend', onTouchEnd)
-
-    return () => {
-      container.removeEventListener('touchstart', onTouchStart)
-      container.removeEventListener('touchmove', onTouchMove)
-      container.removeEventListener('touchend', onTouchEnd)
-    }
-  }, [currentIndex, visibleCount])
+  const { wrapperRef } = useTouch(prev, next, currentIndex, visibleCount)
 
   return (
     <section className='bg-black w-full pb-[50x] sm:pb-[100px]'>
