@@ -12,22 +12,24 @@ export const useImageAnimation = (className = '') => {
   useEffect(() => {
     if (!containerRef.current) return
 
-    const targets = className
-    ? containerRef.current.querySelectorAll(`.${className}`)
-    : containerRef.current
-
-    gsap.from(targets, {
+    const options = {
       opacity: 0,
       y: 50,
       duration: 1,
-      stagger: 0.2,
+      stagger: 0.6,
       clearProps: 'all',
       scrollTrigger: {
         trigger: containerRef.current,
-        start: 'top 80%',
+        start: 'top 85%',
         toggleActions: 'play none none reverse',
       },
-    })
+    }
+    const targets = className
+    ? containerRef.current.querySelectorAll(`.${className}`)
+    : containerRef.current
+    
+    gsap.from(targets, options)
+
     ScrollTrigger.refresh()
   }, [className])
 
