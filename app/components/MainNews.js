@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { useTextAnimation } from '../../hooks/useAnimation'
 
@@ -47,6 +47,9 @@ const MainNews = () => {
   }
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
+  const wrapperRef = useRef(null)
+  const startX = useRef(0)
+  const endX = useRef(0)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -78,6 +81,39 @@ const MainNews = () => {
   const { containerRef: textRef } = useTextAnimation()
   const { containerRef: titleRef } = useTextAnimation()
 
+  useEffect(() => {
+    const container = wrapperRef.current
+    if (!container) return
+
+    const onTouchStart = (e) => {
+      startX.current = e.touches[0].clientX
+    }
+
+    const onTouchMove = (e) => {
+      endX.current = e.touches[0].clientX
+    }
+
+    const onTouchEnd = () => {
+      const diff = startX.current - endX.current
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next()
+        else prev()
+      }
+      startX.current = 0
+      endX.current = 0
+    }
+
+    container.addEventListener('touchstart', onTouchStart)
+    container.addEventListener('touchmove', onTouchMove)
+    container.addEventListener('touchend', onTouchEnd)
+
+    return () => {
+      container.removeEventListener('touchstart', onTouchStart)
+      container.removeEventListener('touchmove', onTouchMove)
+      container.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [currentIndex, visibleCount])
+
   return (
     <section className='bg-black w-full pb-[50x] sm:pb-[100px]'>
       <h1 ref={titleRef} className='text-white flex items-center justify-center font-eland font-bold
@@ -97,10 +133,10 @@ const MainNews = () => {
         바다이브의<br />최신 소식과 이벤트를 알려드립니다.
       </p>
       <div className="flex items-center lg:max-w-[1700px] mx-auto">
-        <button onClick={prev}><RiArrowLeftWideLine className='text-white w-12 h-12' /></button>
-        <div className='overflow-hidden w-full'>
-          <div className='font-eland text-white flex'
-            style={{ transform: `translateX(-${(100 / visibleCount) * currentIndex}%)` }}
+        <button onClick={prev}><RiArrowLeftWideLine className='w-12 h-12 text-white' /></button>
+        <div className='w-full overflow-hidden' ref={wrapperRef}>
+          <div className='flex text-white font-eland'
+            style={{ transform: `translateX(-${(100 / visibleCount) * currentIndex}%)`, transition: 'transform 0.4s ease-out' }}
             ref={newRef}
           >
             {NEWS.map((item) =>
@@ -128,7 +164,7 @@ const MainNews = () => {
             )}
           </div>
         </div>
-        <button onClick={next}><RiArrowRightWideLine className='text-white w-12 h-12' /></button>
+        <button onClick={next}><RiArrowRightWideLine className='w-12 h-12 text-white' /></button>
       </div>
     </section>
   )
