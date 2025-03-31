@@ -23,17 +23,25 @@ const MainCurriculum = () => {
       link: 'https://www.badive.co.kr/programs/underwater',
     },
   ]
+
+  const duration = {
+    0: 'duration-150',
+    1: 'duration-300',
+    2: 'duration-500',
+    3: 'duration-700',
+  }
+
   const { containerRef } = useImageAnimation('curriculum')
 
   return (
     <section className='bg-white'>
       <MainSectionHeader title='BADIVE 교육프로그램' />
-      <div className='grid gap-5 sm:gap-0 grid-cols-1 sm:grid-cols-2 md:grid-cols-4' ref={containerRef}>
-        {CURRICULUMS.map((item) =>
-          <a key={item.img} href={item.link} className='relative curriculum'>
-            <img src={item.img} alt={item.link} className='transform transition-transform duration-300 ease-out' />
-            <ViewMoreButton className={'[&>span]:!text-white [&>span]:!border-white absolute z-10 bottom-2 right-[21px] sm:bottom-[15px] md:bottom-[21px] md:right-[23px] lg:bottom-[15px] lg:right-6'} />
-          </a>)}
+      <div className='grid grid-cols-1 gap-5 sm:gap-0 sm:grid-cols-2 md:grid-cols-4' ref={containerRef}>
+        {CURRICULUMS.map((item, idx) => <a key={item.img} href={item.link} className='relative curriculum'>
+          <img src={item.img} alt={item.link} className={['transform transition-transform ease-out', duration[idx]].join(' ')} />
+          <ViewMoreButton className={'[&>span]:!text-white [&>span]:!border-white absolute z-10 bottom-2 right-[21px] sm:bottom-[15px] md:bottom-[21px] md:right-[23px] lg:bottom-[15px] lg:right-6'} />
+        </a>
+        )}
       </div>
     </section>
   )
