@@ -7,9 +7,18 @@ import { useTextAnimation, useImageAnimation } from '../../hooks/useAnimation'
 
 const MainBanner = () => {
   const VIDEO_SOURCE = [
-    'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
-    'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
-    'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
+    {
+      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
+      poster: '/banner/poster1.png',
+    },
+    {
+      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
+      poster: '/banner/poster2.png',
+    },
+    {
+      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
+      poster: '/banner/poster3.png',
+    },
   ]
   const buttons = [
     {
@@ -90,7 +99,7 @@ const MainBanner = () => {
                 </a>
               )}
             </div>
-            <div className='inline-flex items-start justify-center gap-1 sm:gap-2'>
+            <div className='inline-flex items-start justify-center gap-1 sm:gap-2 mt-5'>
               <button className={[iconClass, '!bg-[#FFFFFF30] !border-0 p-1 sm:p-[6px]'].join(' ')} onClick={togglePlayPause}>
                 <SlControlPause className='w-full h-full' />
               </button>
@@ -108,12 +117,12 @@ const MainBanner = () => {
           autoPlay
           muted
           loop
-          poster='/banner/poster.png'
+          poster={VIDEO_SOURCE[page].poster}
           preload='auto'
           playsInline={true}
           key={`main-video-${page}`}
         >
-          <source src={VIDEO_SOURCE[page]} type="video/mp4" />
+          <source src={VIDEO_SOURCE[page].link} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </section>
@@ -144,11 +153,11 @@ const MainBanner = () => {
         </div>
         <div
           ref={imageRef}
-          className='pb-[90px] sm:pb-[134px] md:pb-[147px] lg:pb-[114px] transform transition-transform duration-300 ease-out'>
+          className='pb-[148px] sm:pb-[134px] md:pb-[147px] lg:pb-[114px] transform transition-transform duration-300 ease-out'>
           <img
             alt='open_the_gate'
-            src='/banner/open_the_gate.png'
-            className='mx-auto h-auto sm:h-[489px] md:h-[503px]'
+            src='/banner/open_the_gate1.png'
+            className='mx-auto h-[345px] sm:h-[489px] md:h-[503px] object-cover'
           />
         </div>
       </section>
