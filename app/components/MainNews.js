@@ -22,7 +22,7 @@ const MainNews = () => {
       link: 'https://www.badive.co.kr/community/notification/52',
     },
     {
-      title: '한국 여성 최초<br/>프리다이빙 강사',
+      title: '한국 여성 최초 프리다이빙 강사',
       description: '',
       category: 'NEWS',
       date: '2025-03-24'
@@ -99,7 +99,7 @@ const MainNews = () => {
       >
         바다이브의<br />최신 소식과 이벤트를 알려드립니다.
       </p>
-      <div className="flex items-center lg:max-w-[1700px] mx-auto">
+      <div className="font-eland flex items-center lg:max-w-[1700px] mx-auto">
         <button onClick={prev}><RiArrowLeftWideLine className='w-12 h-12 text-white' /></button>
         <div className='w-full overflow-hidden' ref={wrapperRef}>
           <div className='flex text-white'
@@ -115,15 +115,15 @@ const MainNews = () => {
                   pt-12 pb-7 xs:!py-[52px] sm:!pt-12 sm:!pb-7 
                   px-[14px] xs:px-[52px] sm:px-8
                 '>
-                  <div>
+                  <div className='whitespace-normal break-keep'>
                     <p className='flex justify-center items-center
                       gap-2 text-2xl mb-[24px]
                     '>
                       <span className={[CATEGORY_COLOR[item.category], 'text-base'].join(' ')}>●</span>
                       {item.category}
                     </p>
-                    <h4 className='text-nowrap text-[28px] leading-7 mb-5 sm:text-[32px] lg:text-[30px] md:leading-[40px]' dangerouslySetInnerHTML={{ __html: item.title }}></h4>
-                    <h6 className='text-xl sm:text-[23px] md:text-xl lg:leading-[23px]' dangerouslySetInnerHTML={{ __html: item.description }}></h6>
+                    <h4 className=' text-[28px] leading-7 mb-5 sm:text-[32px] lg:text-[30px] md:leading-[40px]' dangerouslySetInnerHTML={{ __html: item.title }}></h4>
+                    <h6 className='text-xl sm:text-[23px] md:text-xl lg:leading-[23px]'>{item.description}</h6>
                   </div>
                   <span className='text-lg sm:text-2xl'>{item.date}</span>
                 </a>
