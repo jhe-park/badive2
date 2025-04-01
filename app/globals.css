@@ -26,6 +26,13 @@
 }
 
 @font-face {
+  font-family: 'Freesentation-9Black';
+  src: url('/fonts/Freesentation-9Black.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'ELAND_Choice_M';
   src: url('/fonts/ELAND_Choice_M.woff') format('woff');
   font-weight: 700;
@@ -75,8 +82,4 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-}
-
-html, body {
-  font-family: 'Freesentation-9Black';
 }
