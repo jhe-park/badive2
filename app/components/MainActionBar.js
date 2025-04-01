@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Actionbar() {
-  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -58,7 +57,7 @@ export default function Actionbar() {
     },
   ]
   return (isVisible || isMobile) ? (
-    <div className="bg-white fixed right-4 bottom-4 flex gap-3 rounded-[999px] py-2 px-4 fade-in z-50">
+    <div className="fixed right-4 bottom-4 flex gap-3 rounded-[999px] py-2 px-4 fade-in z-50 bg-[#F2F2F2] border border-black">
       {CONTENTS.map(({ label, url, icon }, index) => (
         <a
           href={url}
