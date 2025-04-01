@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { SlControlPause } from "react-icons/sl";
-import { useTextAnimation, useImageAnimation } from '../../hooks/useAnimation'
+import { gsap } from 'gsap'
 
 const MainBanner = () => {
   const VIDEO_SOURCE = [
@@ -60,8 +60,28 @@ const MainBanner = () => {
     setPage((prev) => prev !== 0 ? prev - 1 : VIDEO_SOURCE.length - 1)
   }
 
-  const { containerRef: imageRef } = useImageAnimation()
-  const { containerRef: textRef } =  useTextAnimation()
+  const imageRef = useRef(null)
+  const textRef = useRef(null)
+
+  useEffect(() => {
+    const tl = gsap.timeline()
+
+    // 1. 이미지 먼저 등장 (0초에 시작)
+    tl.fromTo(
+      imageRef.current,
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
+    )
+
+    // 2. 텍스트는 약간 딜레이 줘서 (1초 후에 시작)
+    tl.fromTo(
+      textRef.current,
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+      '+=0.3' // 0.3초 뒤에 시작
+    )
+  }, [])
+
   return (
     <>
       <section className='relative md:h-screen w-full bg-black'>
