@@ -17,7 +17,7 @@ const MainInstructor = () => {
       </div>
       <a className='mt-[47px] relative max-w-[1720px] block mx-auto' href='/instructors/bdn' ref={imageRef}>
         <img src='/instructor/main_instructor.png' alt='main_instructor' className='transition-transform duration-300 ease-out transform' />
-        <ViewMoreButton className={'absolute z-10 bottom-2 right-[21px] sm:bottom-[15px] md:bottom-[21px] md:right-[23px] lg:bottom-[15px] lg:right-6'} useStroke />
+        <ViewMoreButton className={'bg-[#00000040] rounded-2xl py-[2px] px-2 absolute z-10 bottom-2 right-[21px] sm:bottom-[15px] md:bottom-[21px] md:right-[23px] lg:bottom-[15px] lg:right-6'} useReverse />
       </a>
     </section>
   )
