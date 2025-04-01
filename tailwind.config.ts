@@ -52,6 +52,7 @@ const config = {
       fontFamily: {
         eland: ['ELAND_Choice_M', 'sans-serif'],
         freesentation: ['Freesentation-9Black', 'sans-serif'],
+        miceGothic: ['MICE Gothic', 'sans-serif'],
       },
     },
   },
