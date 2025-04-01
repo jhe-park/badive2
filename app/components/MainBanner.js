@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { SlControlPause } from "react-icons/sl";
 import { useTextAnimation, useImageAnimation } from '../../hooks/useAnimation'
@@ -38,7 +38,6 @@ const MainBanner = () => {
 
   const videoRef = useRef(null);
   const [page, setPage] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
 
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
@@ -60,18 +59,6 @@ const MainBanner = () => {
     }
     setPage((prev) => prev !== 0 ? prev - 1 : VIDEO_SOURCE.length - 1)
   }
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 481)
-    }
-
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   const { containerRef: imageRef } = useImageAnimation()
   const { containerRef: textRef } =  useTextAnimation()
