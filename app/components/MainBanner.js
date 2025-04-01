@@ -117,7 +117,7 @@ const MainBanner = () => {
             </div>
             <div className='inline-flex items-start justify-center gap-1 sm:gap-2 absolute z-10 
             right-4 sm:right-[26px] md:right-[30px] lg:right-11
-            bottom-[40px] sm:bottom-2 md:bottom-5
+            bottom-[34px] sm:bottom-2 md:bottom-5
             '>
               <button className={[iconClass, '!bg-[#FFFFFF30] !border-0 p-1 sm:p-[6px]'].join(' ')} onClick={togglePlayPause}>
                 <SlControlPause className='w-full h-full' />
