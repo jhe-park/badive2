@@ -17,7 +17,7 @@ const MainStory = () => {
     },
     {
       img: '/story/thumbnail3.png',
-      link: 'https://www.youtube.com/@badive_official',
+      link: 'https://youtu.be/ykAKEEVVRoc?si=I5v7EAiYxqAu3mEO',
     },
     {
       img: '/story/thumbnail4.png',
