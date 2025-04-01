@@ -61,7 +61,8 @@ const MainBanner = () => {
   }
 
   const imageRef = useRef(null)
-  const textRef = useRef(null)
+  const mainTextRef = useRef(null)
+  const subTextRef = useRef(null)
 
   useEffect(() => {
     const tl = gsap.timeline()
@@ -69,16 +70,24 @@ const MainBanner = () => {
     // 1. 이미지 먼저 등장 (0초에 시작)
     tl.fromTo(
       imageRef.current,
-      { opacity: 0, y: 50 },
+      { opacity: 0, y: 50, scrollTrigger: { toggleActions: 'play none none reverse'} },
       { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
     )
 
     // 2. 텍스트는 약간 딜레이 줘서 (1초 후에 시작)
     tl.fromTo(
-      textRef.current,
-      { opacity: 0, y: 50 },
+      mainTextRef.current,
+      { opacity: 0, y: 50, scrollTrigger: { toggleActions: 'play none none reverse'} },
       { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
-      '+=0.3' // 0.3초 뒤에 시작
+      '+=0.2' // 0.3초 뒤에 시작
+    )
+
+    // 2. 텍스트는 약간 딜레이 줘서 (1초 후에 시작)
+    tl.fromTo(
+      subTextRef.current,
+      { opacity: 0, y: 50, scrollTrigger: { toggleActions: 'play none none reverse'} },
+      { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+      '+=0.3' // 0.2초 뒤에 시작
     )
   }, [])
 
@@ -107,8 +116,8 @@ const MainBanner = () => {
               )}
             </div>
             <div className='inline-flex items-start justify-center gap-1 sm:gap-2 absolute z-10 
-            right-3 sm:right-[26px] md:right-[30px] lg:right-11
-            bottom-0 sm:bottom-2 md:bottom-5
+            right-4 sm:right-[26px] md:right-[30px] lg:right-11
+            bottom-[40px] sm:bottom-2 md:bottom-5
             '>
               <button className={[iconClass, '!bg-[#FFFFFF30] !border-0 p-1 sm:p-[6px]'].join(' ')} onClick={togglePlayPause}>
                 <SlControlPause className='w-full h-full' />
@@ -136,39 +145,32 @@ const MainBanner = () => {
           Your browser does not support the video tag.
         </video>
       </section>
-      <section className='bg-black h-[682px] sm:h-[958px] md:h-[1001px] w-full flex flex-col justify-between'>
-        <div 
-          ref={textRef}  
-          className={[
-            'transform transition-transform duration-300 ease-out',
-          ].join(' ')}
-        >
+      <section className='h-[550px] sm:h-[813px] md:h-[1001px] w-full flex flex-col justify-between bg-black relative '>
+        <img
+          ref={imageRef}
+          alt='open_the_gate'
+          src='/banner/open_the_gate1.png'
+          className='w-full h-full object-cover transform transition-transform duration-300 ease-out'
+        />
+        <div className='absolute left-0 top-0 w-full h-full flex flex-col items-center justify-center'>
           <h1
-            className='italic text-center text-white font-bold text-nowrap
-            text-3xl leading-[40px] pt-[106px]
-            sm:text-[70px] sm:leading-[60px] sm:pt-[134px]
-            md:text-[90px] md:leading-[80px]
-            lg:pt-[156px]
-          '>
+            ref={mainTextRef}
+            className='transform transition-transform duration-300 ease-out font-freesentationVF italic text-center text-white font-bold text-nowrap
+          text-[40px] leading-[40px]
+          sm:text-[70px] sm:leading-[45px]
+          md:text-[90px] md:leading-[80px]
+        '>
             Open The Sea Gate
           </h1>
           <h6
-            className='italic text-center text-white
-            text-2xl leading-[40px]
-            sm:text-[45px] sm:leading-[60px]
-            md:text-[50px]
-          '>
+            ref={subTextRef}
+            className='transform transition-transform duration-300 ease-out font-freesentationVF font-light italic text-center text-white
+          text-[30px] leading-[40px]
+          sm:text-[45px] sm:leading-[60px]
+          md:text-[50px]
+        '>
             the soul of diving
           </h6>
-        </div>
-        <div
-          ref={imageRef}
-          className='pb-[148px] sm:pb-[134px] md:pb-[147px] lg:pb-[114px] transform transition-transform duration-300 ease-out'>
-          <img
-            alt='open_the_gate'
-            src='/banner/open_the_gate1.png'
-            className='mx-auto h-[345px] sm:h-[489px] md:h-[503px] object-cover'
-          />
         </div>
       </section>
     </>
