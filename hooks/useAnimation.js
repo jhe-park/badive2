@@ -51,7 +51,7 @@ export const useTextAnimation = (className = '') => {
     gsap.from(targets, {
       opacity: 0,
       y: 50,
-      duration: 1,
+      duration: 0.6,
       ease: 'power3.out',
       // clearProps: 'all',
       scrollTrigger: {
