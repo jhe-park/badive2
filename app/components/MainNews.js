@@ -83,7 +83,7 @@ const MainNews = () => {
 
   return (
     <section className='bg-black w-full pb-[50x] sm:pb-[100px]'>
-      <h1 ref={titleRef} className='text-white flex items-center justify-center font-eland font-bold
+      <h1 ref={titleRef} className='text-white flex items-center justify-center font-bold
         gap-[10px] text-3xl py-[50px]
         sm:gap-[14px] sm:text-[40px] sm:py-24
         md:gap-[27px] md:text-[50px] md:py-[115px]
@@ -102,7 +102,7 @@ const MainNews = () => {
       <div className="flex items-center lg:max-w-[1700px] mx-auto">
         <button onClick={prev}><RiArrowLeftWideLine className='w-12 h-12 text-white' /></button>
         <div className='w-full overflow-hidden' ref={wrapperRef}>
-          <div className='flex text-white font-eland'
+          <div className='flex text-white'
             style={{ transform: `translateX(-${(100 / visibleCount) * currentIndex}%)`, transition: 'transform 0.4s ease-out' }}
             ref={newRef}
           >
