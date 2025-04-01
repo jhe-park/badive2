@@ -94,7 +94,7 @@ const MainNews = () => {
         BADIVE 소식
       </h1>
       <p
-        className='text-white text-center mb-[50px] sm:mb-[81px] text-[25px] leading-[45px] sm:text-[40px] sm:leading-[65px] md:text-[48px] transform transition-transform duration-300 ease-out'
+        className='whitespace-normal break-keep text-white text-center mb-[50px] sm:mb-[81px] text-[25px] leading-[45px] sm:text-[40px] sm:leading-[65px] md:text-[48px] transform transition-transform duration-300 ease-out'
         ref={textRef}
       >
         바다이브의<br />최신 소식과 이벤트를 알려드립니다.
@@ -122,7 +122,7 @@ const MainNews = () => {
                       <span className={[CATEGORY_COLOR[item.category], 'text-base'].join(' ')}>●</span>
                       {item.category}
                     </p>
-                    <h4 className=' text-[28px] leading-7 mb-5 sm:text-[32px] lg:text-[30px] md:leading-[40px]' dangerouslySetInnerHTML={{ __html: item.title }}></h4>
+                    <h4 className='text-[28px] leading-7 mb-5 sm:text-[32px] lg:text-[30px] md:leading-[40px]' dangerouslySetInnerHTML={{ __html: item.title }}></h4>
                     <h6 className='text-xl sm:text-[23px] md:text-xl lg:leading-[23px]'>{item.description}</h6>
                   </div>
                   <span className='text-lg sm:text-2xl'>{item.date}</span>
