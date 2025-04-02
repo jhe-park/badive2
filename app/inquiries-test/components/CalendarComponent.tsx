@@ -16,7 +16,10 @@ import {
 } from "@/app/store/useSelectedResult";
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 import useCalendarClick from "@/app/store/useCalendarClick";
-import { createClient } from "@/utils/supabase/client";
+import {
+  createClient,
+  createTypedSupabaseClient,
+} from "@/utils/supabase/client";
 
 const CalendarComponent = ({
   isSelectProgram,
@@ -25,7 +28,8 @@ const CalendarComponent = ({
   setIsSelectInstructor,
   userReservations,
 }) => {
-  const supabase = createClient();
+  // const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());

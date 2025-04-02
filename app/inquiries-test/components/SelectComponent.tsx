@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Divider, Select, SelectItem, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
+import { createClient, createTypedSupabaseClient } from "@/utils/supabase/client";
 import { useProgramStore } from "@/app/store/useProgramStore";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
@@ -83,6 +83,7 @@ export default function SelectComponent({
   console.log("selectedResult33:", selectedResult);
 
   const supabase = createClient();
+  // const supabase = createTypedSupabaseClient()
   const getProgram = async () => {
     const { data, error } = await supabase
       .from("program")
@@ -192,24 +193,24 @@ export default function SelectComponent({
     }
   };
 
-  const handleConfirmPayment = async () => {
-    try {
-      const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id.join(",")}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+  // const handleConfirmPayment = async () => {
+  //   try {
+  //     const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id.join(",")}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
-      await widgets?.requestPayment({
-        orderId: generateRandomString(),
-        orderName: selectedResult.program,
-        customerName: profile.name,
-        customerEmail: profile.email,
-        customerMobilePhone: removeSpecialCharacters(profile.phone),
-        successUrl: successUrlWithParams,
-        failUrl: window.location.origin + "/inquiries/fail",
-      });
-    } catch (error) {
-      console.log("Payment request failed:", error);
-      toast.error("결제 요청 중 오류가 발생했습니다.");
-    }
-  };
+  //     await widgets?.requestPayment({
+  //       orderId: generateRandomString(),
+  //       orderName: selectedResult.program,
+  //       customerName: profile.name,
+  //       customerEmail: profile.email,
+  //       customerMobilePhone: removeSpecialCharacters(profile.phone),
+  //       successUrl: successUrlWithParams,
+  //       failUrl: window.location.origin + "/inquiries/fail",
+  //     });
+  //   } catch (error) {
+  //     console.log("Payment request failed:", error);
+  //     toast.error("결제 요청 중 오류가 발생했습니다.");
+  //   }
+  // };
 
   const handleInstructorSelect = (e) => {
     const selectedName = e.target.value;

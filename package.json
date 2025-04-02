@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",    
+    "gen-db-type": "npx supabase gen types typescript --project-id \"efehwvtyjlpxkpgswrfw\" --schema public > utils\\supabase\\database.types.ts"
   },
   "dependencies": {
     "@heroui/react": "^2.6.14",

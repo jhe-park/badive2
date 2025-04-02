@@ -5,8 +5,8 @@ export type TSelectedResult = {
   program: string;
   noParticipants: number;
   date: Date[];
-  instructor_id: string;
-  program_id: string;
+  instructor_id: number;
+  program_id: number;
   slot_id: string;
   slot_start_time: string;
   slot_end_time: string;
@@ -25,8 +25,10 @@ export const useSelectedResult = create<{
     program: "",
     noParticipants: 1,
     date: [],
-    instructor_id: "",
-    program_id: "",
+    instructor_id: null,
+    program_id: null,
+    // instructor_id: "",
+    // program_id: "",
     slot_id: "",
     slot_start_time: "",
     slot_end_time: "",
