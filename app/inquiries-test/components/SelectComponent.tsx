@@ -1,4 +1,6 @@
 "use client";
+
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Divider, Select, SelectItem, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
@@ -17,9 +19,7 @@ import {
 } from "@heroui/react";
 
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
-import { ToastContainer, toast } from 'react-toastify';
-
-
+import { ToastContainer, toast } from "react-toastify";
 
 export default function SelectComponent({
   isSelectProgram,
@@ -46,7 +46,7 @@ export default function SelectComponent({
   const [ready, setReady] = useState(false);
   const [paymentMethodWidget, setPaymentMethodWidget] = useState(null);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   const customerKey = userData?.id;
@@ -80,7 +80,7 @@ export default function SelectComponent({
     });
   }, [noParticipants]);
 
-  console.log('selectedResult33:',selectedResult)
+  console.log("selectedResult33:", selectedResult);
 
   const supabase = createClient();
   const getProgram = async () => {
@@ -133,7 +133,6 @@ export default function SelectComponent({
   }, [selectedRegion]);
 
   useEffect(() => {
-
     if (selectedResult?.program_id && programStore?.length > 0) {
       const matchedProgram = programStore.find(
         (program) => program.id === selectedResult.program_id
@@ -143,11 +142,10 @@ export default function SelectComponent({
         const totalPrice = matchedProgram.price * noParticipants;
         setSelectedResult({
           ...selectedResult,
-          totalPrice: totalPrice
+          totalPrice: totalPrice,
         });
       }
     }
-
   }, [noParticipants]);
 
   useEffect(() => {
@@ -167,9 +165,9 @@ export default function SelectComponent({
 
   const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {
-      console.log("동의안됨")
-      onOpen()
-      return
+      console.log("동의안됨");
+      onOpen();
+      return;
     }
     if (!userData) {
       router.push("/login?returnUrl=/inquiries");
@@ -195,9 +193,8 @@ export default function SelectComponent({
   };
 
   const handleConfirmPayment = async () => {
-    
     try {
-      const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id.join(',')}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+      const successUrlWithParams = `${window.location.origin}/inquiries/complete?instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id.join(",")}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
       await widgets?.requestPayment({
         orderId: generateRandomString(),
@@ -227,7 +224,7 @@ export default function SelectComponent({
     );
     console.log("selectedInstructorData:", selectedInstructorData);
 
-    console.log('instructor_id11:',selectedInstructorData.instructor_id.id)
+    console.log("instructor_id11:", selectedInstructorData.instructor_id.id);
     const newResult = {
       ...selectedResult,
       instructor: selectedName,
@@ -235,16 +232,17 @@ export default function SelectComponent({
       program_id: selectedInstructorData.id,
       totalPrice: selectedInstructorData.price || 0,
       slot_id: null,
-      date:null
+      date: null,
     };
 
     setSelectedResult(newResult);
     console.log("newResult:", newResult);
     console.log("Updated Result:", newResult);
   };
-  console.log('selectedResult:',selectedResult)
 
-  console.log('noParticipants:',noParticipants)
+  // console.log("selectedResult:", selectedResult);
+  // console.log("noParticipants:", noParticipants);
+
   return (
     <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
       <ToastContainer
@@ -259,7 +257,22 @@ export default function SelectComponent({
         pauseOnHover
         theme="light"
       />
-      {selectedResult?.category && (
+      {/* {!isSelectProgram && (
+        <div className="w-56 h-56 flex items-center justify-center relative">
+          <Image
+            src="/inquiries/logo.png"
+            alt="logo"
+            fill
+            className="object-contain"
+          ></Image>
+        </div>
+      )} */}
+      {isSelectProgram && selectedImageUrl && (
+        <div className="w-full max-w-[500px] aspect-square flex items-center justify-center relative">
+          <Image src={selectedImageUrl} alt="Program Image" fill />
+        </div>
+      )}
+      {/* {selectedResult?.category && (
         <>
           <div className="text-center text-2xl md:text-4xl font-bold">
             {selectedResult?.category}
@@ -268,9 +281,15 @@ export default function SelectComponent({
             {selectedResult?.program}
           </div>
         </>
-      )}
-      <Divider className="w-full bg-[#A6A6A6]"></Divider>
-      <div className="w-full text-lg md:text-2xl font-bold">강습프로그램</div>
+      )} */}
+      {/* <Divider className="w-full bg-[#A6A6A6]"></Divider> */}
+      <div className="flex">
+        <div className="text-lg md:text-2xl font-bold">강습프로그램</div>
+        <div className="md:text-2xl font-bold">
+          - 원하시는 강습을 선택해주세요.
+        </div>
+      </div>
+      <div className="">여기에 추가할 것</div>
       <Select
         label="프로그램명"
         aria-label="강습프로그램 선택"
@@ -291,7 +310,7 @@ export default function SelectComponent({
             region: "",
             category: null,
             totalPrice: null,
-            date:null
+            date: null,
           });
         }}
         className="w-full h-full text-xl"
@@ -316,7 +335,7 @@ export default function SelectComponent({
             ...selectedResult,
             region: e.target.value,
             instructor: "",
-            date:null
+            date: null,
           });
         }}
         className="w-full h-full text-xl"
@@ -409,11 +428,6 @@ export default function SelectComponent({
       <div className="w-[90%] text-lg md:text-2xl font-bold">결제</div>
       <Divider className="w-[90%] bg-[#A6A6A6]"></Divider>
 
-      {/* <div className="flex justify-between items-center w-[90%]">
-        <div className="text-lg md:text-2xl">합계</div>
-        <div className="text-lg md:text-2xl w-1/5 text-center">0원</div>
-      </div>
-      <Divider className="w-[90%] bg-[#A6A6A6]"></Divider> */}
       <div className="flex justify-between items-center w-[90%]">
         <div className="text-lg md:text-2xl">최종 결제 금액</div>
         <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
@@ -442,13 +456,9 @@ export default function SelectComponent({
             <>
               <ModalHeader className="flex flex-col gap-1">알람</ModalHeader>
               <ModalBody>
-                <p>
-                  달력 하단의 체크박스를 확인 후에 결제하기를 눌러주세요
-                </p>
-                
+                <p>달력 하단의 체크박스를 확인 후에 결제하기를 눌러주세요</p>
               </ModalBody>
               <ModalFooter>
-                
                 <Button color="primary" onPress={onClose}>
                   확인
                 </Button>
@@ -457,8 +467,6 @@ export default function SelectComponent({
           )}
         </ModalContent>
       </Modal>
-
-      
     </div>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { RadioGroup, Radio } from "@heroui/radio";
@@ -9,9 +10,14 @@ import { Skeleton } from "@heroui/skeleton";
 import { Checkbox } from "@heroui/react";
 import { Card } from "@heroui/card";
 import Image from "next/image";
-import { useSelectedResult } from "@/app/store/useSelectedResult";
+import {
+  TSelectedResult,
+  useSelectedResult,
+} from "@/app/store/useSelectedResult";
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 import useCalendarClick from "@/app/store/useCalendarClick";
+import { createClient } from "@/utils/supabase/client";
+
 const CalendarComponent = ({
   isSelectProgram,
   setIsSelectProgram,
@@ -19,6 +25,9 @@ const CalendarComponent = ({
   setIsSelectInstructor,
   userReservations,
 }) => {
+  const supabase = createClient();
+
+  const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const { programStore } = useProgramStore();
@@ -36,14 +45,16 @@ const CalendarComponent = ({
 
   useEffect(() => {
     if (selectedResult?.program) {
-      const program = programStore.find(item => item.title === selectedResult.program);
-      console.log("program111:", program)
+      const program = programStore.find(
+        (item) => item.title === selectedResult.program
+      );
+      console.log("program111:", program);
       if (program?.images) {
         setSelectedImageUrl(program.images);
       }
     }
-  }, [selectedResult, programStore])
-  console.log("selectedImageUrl:", selectedImageUrl)
+  }, [selectedResult, programStore]);
+  console.log("selectedImageUrl:", selectedImageUrl);
   const handleNextMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
@@ -56,38 +67,96 @@ const CalendarComponent = ({
     );
   };
 
+  // FIXME
+  const getSchedule = async ({
+    selectedResult,
+  }: {
+    selectedResult: TSelectedResult;
+  }) => {
+    try {
+      console.log("Fetching schedule with:", {
+        instructor_id: selectedResult?.instructor_id,
+        program_id: selectedResult?.program_id,
+      });
+
+      if (!selectedResult?.instructor_id || !selectedResult?.program_id) {
+        console.log("필수 ID 값이 없습니다");
+        return;
+      }
+
+      debugger;
+
+      const formattedDateString = dayjs(selectedResult.date.at(0)).format(
+        "YYYY-MM-DD"
+      );
+      console.log("formattedDateString");
+      console.log(formattedDateString);
+
+      const { data: timeSlots, error } = await supabase
+        .from("timeslot")
+        .select("*,program_id(*)")
+        .eq("instructor_id", selectedResult.instructor_id)
+        .eq("program_id", selectedResult.program_id)
+        .eq("date", formattedDateString)
+        // .in("date", selectedResult.date)
+        .order("date", { ascending: true });
+
+      // debugger;
+      if (timeSlots.length > 0) {
+        alert(`data.length : ${timeSlots.length}`);
+        console.log("data");
+        console.log(timeSlots);
+      }
+
+      if (error) {
+        console.error("데이터 조회 에러:", error);
+        return;
+      }
+
+      console.log("조회된 데이터:", timeSlots);
+      setTimeSlots(timeSlots);
+    } catch (err) {
+      console.error("예외 발생:", err);
+    }
+  };
+
+  // FIXME
   const handleDateSelect = (day) => {
-    setCalendarClick(calendarClick + 1)
+    setCalendarClick(calendarClick + 1);
     const selectedDate = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
       day
     );
-    const dayOfWeek = selectedDate.getDay();
-    const startOfWeek = new Date(selectedDate);
-    startOfWeek.setDate(selectedDate.getDate() - dayOfWeek);
-    const endOfWeek = new Date(selectedDate);
-    endOfWeek.setDate(selectedDate.getDate() + (6 - dayOfWeek));
+    // const dayOfWeek = selectedDate.getDay();
+    // const startOfWeek = new Date(selectedDate);
+    // startOfWeek.setDate(selectedDate.getDate() - dayOfWeek);
+    // const endOfWeek = new Date(selectedDate);
+    // endOfWeek.setDate(selectedDate.getDate() + (6 - dayOfWeek));
 
-    setSelectedDate({ start: startOfWeek, end: endOfWeek });
+    setSelectedDate({ start: selectedDate, end: selectedDate });
+    // setSelectedDate({ start: selectedDate, end: selectedDate });
 
-    const dateList = [];
-    const tempDate = new Date(startOfWeek);
+    const dateList = [selectedDate];
+    // const tempDate = new Date(startOfWeek);
 
-    while (tempDate <= endOfWeek) {
-      const year = tempDate.getFullYear();
-      const month = String(tempDate.getMonth() + 1).padStart(2, "0");
-      const date = String(tempDate.getDate()).padStart(2, "0");
-      dateList.push(`${year}-${month}-${date}`);
-      tempDate.setDate(tempDate.getDate() + 1);
-    }
+    // while (tempDate <= endOfWeek) {
+    //   const year = tempDate.getFullYear();
+    //   const month = String(tempDate.getMonth() + 1).padStart(2, "0");
+    //   const date = String(tempDate.getDate()).padStart(2, "0");
+    //   dateList.push(`${year}-${month}-${date}`);
+    //   tempDate.setDate(tempDate.getDate() + 1);
+    // }
 
-    setSelectedResult({
+    const newSelectedResult = {
       ...selectedResult,
       date: dateList,
-    });
+    };
 
-    onOpen();
+    setSelectedResult(newSelectedResult);
+
+    getSchedule({ selectedResult: newSelectedResult });
+    // onOpen();
   };
 
   const daysInMonth = new Date(
@@ -95,6 +164,7 @@ const CalendarComponent = ({
     currentDate.getMonth() + 1,
     0
   ).getDate();
+
   const firstDayOfMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth(),
@@ -127,26 +197,11 @@ const CalendarComponent = ({
     findSelectedProgram();
   }, [selectedResult?.program, selectedResult?.instructor]);
 
-
   return (
     <div
       className={`col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}
     >
-      {!isSelectProgram ? (
-        // <div className=" w-48 h-48 md:w-1/2 md:h-1/2  flex items-center justify-center relative">
-        //   <Image src="/noimage/noimage.jpg" alt="Program Image" fill className="rounded-2xl" />
-        // </div>
-
-        <div className="w-56 h-56 flex items-center justify-center relative">
-          <Image src='/inquiries/logo.png' alt='logo' fill className="object-contain"></Image>
-        </div>
-      ) : !isSelectInstructor ? (
-        selectedImageUrl ? (
-          <div className="w-full max-w-[500px] aspect-square flex items-center justify-center relative">
-            <Image src={selectedImageUrl} alt="Program Image" fill />
-          </div>
-        ) : null
-      ) : (
+      {isSelectProgram && isSelectInstructor && (
         <>
           <div className="flex justify-between items-center md:mb-4 w-full">
             <button
@@ -202,15 +257,16 @@ const CalendarComponent = ({
                 selectedDate.start <= currentDateObj &&
                 selectedDate.end >= currentDateObj;
 
-              const isStart = selectedDate && selectedDate.start.getDate() === day;
+              const isStart =
+                selectedDate && selectedDate.start.getDate() === day;
               const isEnd = selectedDate && selectedDate.end.getDate() === day;
 
               return (
                 <div
                   key={day}
                   className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center ${
-                    isPastDate 
-                      ? "text-gray-300 cursor-not-allowed" 
+                    isPastDate
+                      ? "text-gray-300 cursor-not-allowed"
                       : "cursor-pointer hover:bg-gray-200"
                   } transition ${
                     isSelected
@@ -233,7 +289,8 @@ const CalendarComponent = ({
               <>
                 <div className="w-full h-16 flex items-center justify-center border-2 border-[#0077B6] rounded-lg p-2">
                   <span className="text-sm md:text-3xl">
-                    {selectedResult?.slot_date} {selectedResult?.slot_start_time}~
+                    {selectedResult?.slot_date}{" "}
+                    {selectedResult?.slot_start_time}~
                     {selectedResult?.slot_end_time} {selectedResult?.instructor}
                   </span>
                 </div>
@@ -250,29 +307,28 @@ const CalendarComponent = ({
                       });
                     }}
                   >
-                    <p className="text-center">※위 내용 일정으로 예약을 신청하시겠습니까?</p>
                     <p className="text-center">
-                    (하단 예약 주의사항과 환불 규정을 꼭 확인 후 결제해 주시기 바랍니다.)
+                      ※위 내용 일정으로 예약을 신청하시겠습니까?
                     </p>
-
+                    <p className="text-center">
+                      (하단 예약 주의사항과 환불 규정을 꼭 확인 후 결제해 주시기
+                      바랍니다.)
+                    </p>
                   </Checkbox>
                 </div>
               </>
             )}
           </div>
-          <SelectModal
+          {/* <SelectModal
             userReservations={userReservations}
             isOpen={isOpen}
-            onOpen={onOpen}
+            // FIXME
+            onClose={() => {}}
+            // onOpen={onOpen}
             onOpenChange={onOpenChange}
-          ></SelectModal>
+          ></SelectModal> */}
         </>
       )}
-      {/* {selectedDate && (
-        <div className="mt-4 text-center">
-          Selected date: {selectedDate.toLocaleDateString()}
-        </div>
-      )} */}
     </div>
   );
 };
