@@ -59,6 +59,7 @@
 
 body {
   font-family: 'MICE Gothic', 'NanumSquare', sans-serif;
+  color: #000000
 }
 
 @keyframes blink {
