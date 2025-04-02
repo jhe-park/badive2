@@ -119,11 +119,11 @@ const MainNews = () => {
                     <p className='flex justify-center items-center
                       gap-2 text-2xl mb-[24px]
                     '>
-                      <span className={[CATEGORY_COLOR[item.category], 'text-base'].join(' ')}>●</span>
+                      <span className={[CATEGORY_COLOR[item.category], 'text-base font-freesentationVF'].join(' ')}>●</span>
                       {item.category}
                     </p>
-                    <h4 className='text-[28px] leading-7 mb-5 sm:text-[32px] lg:text-[30px] md:leading-[40px]' dangerouslySetInnerHTML={{ __html: item.title }}></h4>
-                    <h6 className='text-xl sm:text-[23px] md:text-xl lg:leading-[23px]'>{item.description}</h6>
+                    <h4 className='font-freesentationVF text-[28px] leading-7 mb-5 sm:text-[32px] lg:text-[30px] md:leading-[40px]' dangerouslySetInnerHTML={{ __html: item.title }}></h4>
+                    <h6 className='font-freesentationVF text-xl sm:text-[23px] md:text-xl lg:leading-[23px]'>{item.description}</h6>
                   </div>
                   <span className='text-lg sm:text-2xl'>{item.date}</span>
                 </a>
