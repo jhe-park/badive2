@@ -156,7 +156,7 @@ const MainBanner = () => {
           <h1
             ref={mainTextRef}
             className='transform transition-transform duration-300 ease-out font-freesentationVF italic text-center text-white font-bold text-nowrap
-          text-[40px] leading-[40px]
+          text-[35px] leading-[40px]
           sm:text-[70px] sm:leading-[45px]
           md:text-[90px] md:leading-[80px]
         '>
@@ -165,7 +165,7 @@ const MainBanner = () => {
           <h6
             ref={subTextRef}
             className='transform transition-transform duration-300 ease-out font-freesentationVF font-light italic text-center text-white
-          text-[30px] leading-[40px]
+          text-[25px] leading-[40px]
           sm:text-[45px] sm:leading-[60px]
           md:text-[50px]
         '>
