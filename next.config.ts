@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
+  reactStrictMode: true,  
+  // swcMinify: true,
   images: {
     domains: [
       'jhedata.s3.ap-southeast-2.amazonaws.com',
