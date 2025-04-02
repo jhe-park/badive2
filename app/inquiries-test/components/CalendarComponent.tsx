@@ -24,6 +24,7 @@ import { getWholeMonthlyDate } from "@/utils/supabase/getWholeMonthlyDate";
 import { getMonthlySchedule } from "@/utils/supabase/getMonthlySchedule";
 import { Database } from "@/utils/supabase/database.types";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const CalendarComponent = ({
   isSelectProgram,
@@ -260,7 +261,7 @@ const CalendarComponent = ({
     >
       {isSelectProgram && isSelectInstructor && (
         <>
-          <div className="flex justify-between items-center md:mb-4 w-full">
+          <div className="flex justify-between items-center md:mb-4 w-full lg:pt-[600px]">
             <button
               onClick={handlePrevMonth}
               className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2"
@@ -318,22 +319,27 @@ const CalendarComponent = ({
                 selectedDate && selectedDate.start.getDate() === day;
               const isEnd = selectedDate && selectedDate.end.getDate() === day;
 
+              const isValidDate = monthlyTimeSlotsSorted.some(
+                (slot) => parseInt(slot.date.split("-").at(-1)) === day
+              );
+
               return (
                 <div
                   key={day}
-                  className={`text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center ${
-                    isPastDate
+                  className={cn(
+                    `text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center transition`,
+                    isPastDate || !isValidDate
                       ? "text-gray-300 cursor-not-allowed"
-                      : "cursor-pointer hover:bg-gray-200"
-                  } transition ${
-                    isSelected
-                      ? isStart
-                        ? "bg-blue-500 text-white rounded-l-lg px-2"
-                        : isEnd
-                          ? "bg-blue-500 text-white rounded-r-lg px-2"
-                          : "bg-blue-500 text-white px-2"
-                      : ""
-                  }`}
+                      : "cursor-pointer hover:bg-gray-200",
+                    isSelected &&
+                      "bg-blue-500 text-white rounded-l-lg rounded-r-lg px-2"
+                    // ? isStart
+                    //   ? "bg-blue-500 text-white rounded-l-lg rounded-r-lg px-2"
+                    //   : isEnd
+                    //     ? "bg-blue-500 text-white rounded-r-lg px-2"
+                    //     : "bg-blue-500 text-white px-2"
+                    // : ""
+                  )}
                   onClick={() => !isPastDate && handleDateSelect(day)}
                 >
                   {day}
@@ -342,11 +348,11 @@ const CalendarComponent = ({
             })}
           </div>
           <div className="flex gap-4 flex-wrap">
-            <>
-              <div className="py-1">오전</div>
-              <div className="flex gap-4 flex-wrap">
-                {selectedDate?.start &&
-                  monthlyTimeSlotsSorted.map((slot) => {
+            {selectedDate?.start && (
+              <>
+                <div className="py-1">오전</div>
+                <div className="flex gap-4 flex-wrap">
+                  {monthlyTimeSlotsSorted.map((slot) => {
                     if (
                       dayjs(selectedDate.start).format("YYYY-MM-DD") !==
                       slot.date
@@ -365,8 +371,9 @@ const CalendarComponent = ({
                       </Badge>
                     );
                   })}
-              </div>
-            </>
+                </div>
+              </>
+            )}
           </div>
           <div className="flex gap-4 flex-wrap">
             {selectedDate?.start && (

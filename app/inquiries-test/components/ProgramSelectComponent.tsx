@@ -343,6 +343,7 @@ export default function ProgramSelectComponent({
         {LECTURE_CATEGORY.map((category) => {
           return (
             <Badge
+              key={category}
               variant={"outline"}
               className="font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer"
               onClick={() => setSelectedLectureCategory(category)}

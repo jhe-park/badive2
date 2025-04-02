@@ -42,6 +42,7 @@ export const getMonthlySchedule = async ({
       .select("*,program_id(*)")
       .eq("instructor_id", selectedResult.instructor_id)
       .eq("program_id", selectedResult.program_id)
+      .eq("available", true)
       // .eq("date", formattedDateString)
       .in("date", allMonthDays)
       .order("date", { ascending: true });
