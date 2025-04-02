@@ -14,7 +14,7 @@ const MainSectionHeader = ({ title }) => {
       w-full h-auto transform transition-transform duration-300 ease-out
     '>
     <img src='/story/title.png' className='w-[50px] h-[50px]' />
-    {title}
+    <span className='whitespace-normal break-keep'>{title}<span>
   </h1>)
 }
 export default MainSectionHeader
