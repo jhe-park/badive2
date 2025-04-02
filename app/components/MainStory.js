@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import MainSectionHeader from './MainSectionHeader'
 import { useImageAnimation } from '../../hooks/useAnimation'
 import VideoModal from './VideoModal'
+import { IoIosPlayCircle } from "react-icons/io";
 
 const MainStory = () => {
   const THUMBNAILS = [
