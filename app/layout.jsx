@@ -67,19 +67,21 @@ export default function RootLayout({ children }) {
           // enableSystem
         >
           {/* <AuthSession> */}
-            <HeroUIProvider>
-              <AuthSession>
-                <main className="flex flex-col items-center min-h-screen">
-                  <div className="flex flex-col items-center w-full">
-                    <NavbarComponent />
+          <HeroUIProvider>
+            <AuthSession>
+              <main className="flex flex-col items-center min-h-screen">
+                <div className="flex flex-col items-center w-full">
+                  <NavbarComponent />
 
-                    <div className="flex flex-col w-full h-full gap-20 ">{children}</div>
-                    <FooterComponent></FooterComponent>
+                  <div className="flex flex-col w-full h-full gap-20 ">
+                    {children}
                   </div>
-                </main>
-                <MainActionBar/>              
-              </AuthSession>
-            </HeroUIProvider>
+                  <FooterComponent></FooterComponent>
+                </div>
+              </main>
+              <MainActionBar />
+            </AuthSession>
+          </HeroUIProvider>
           {/* </AuthSession> */}
         </ThemeProvider>
       </body>
