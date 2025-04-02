@@ -57,8 +57,15 @@ const MainStory = () => {
       <section className='bg-white' ref={containerRef}>
         <MainSectionHeader title='BADIVE DIVING STORY' />
         <div className='grid grid-cols-2 sm:grid-cols-4 w-full'>
-          {THUMBNAILS.map((item) => (<div key={item.img} onClick={() => setSelected(item.link)} className='thumbnail block overflow-hidden cursor-pointer'>
-            <img alt={item.img} src={item.img} className='w-full h-auto transform transition-transform duration-300 ease-out' />
+          {THUMBNAILS.map((item) => (<div key={item.img} onClick={() => setSelected(item.link)} className='group thumbnail block overflow-hidden cursor-pointer relative'>
+            <img alt={item.img} src={item.img} className='relat w-full h-auto transform transition-transform duration-300 ease-out' />
+             <button
+                  className="absolute top-0 left-0 w-full h-full inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label={`Play ${image.title}`}
+                  onClick={() => handleVideoClick(image.link)}
+                >
+                <IoIosPlayCircle className="w-10 h-10 md:w-20 md:h-20" />
+            </button>
           </div>))}
         </div>
       </section>
