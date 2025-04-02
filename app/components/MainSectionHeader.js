@@ -6,7 +6,7 @@ const MainSectionHeader = ({ title }) => {
   const { containerRef } = useTextAnimation()
   
   return (<h1 ref={containerRef}
-    className='font-freesentationVF text-black font-bold section-title flex items-center justify-center
+    className='font-freesentationVF text-nowrap text-black font-bold section-title flex items-center justify-center
       gap-[7px] text-[25px] py-[50px]
       sm:gap-[14px] sm:text-[40px] sm:py-24
       md:gap-[27px] md:text-[50px] md:py-[115px]
