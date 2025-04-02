@@ -265,10 +265,10 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              ["로그인", "회원가입"].map((item, index) => (
+              ["로그인/회원가입"].map((item, index) => (
                 <Link
                   key={index}
-                  href={`/${item === "로그인" ? "login" : "register"}`}
+                  href={`/${item === "로그인/회원가입" ? "login" : "register"}`}
                   className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {item}

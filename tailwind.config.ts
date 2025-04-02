@@ -17,6 +17,10 @@ const config = {
       colors: {
         primary: "#0077B6"
       },
+      zIndex: {
+        '100': '100',
+        '1000': '1000',
+      },
       keyframes: {
         'scale-fade-in': {
           '0%': { 

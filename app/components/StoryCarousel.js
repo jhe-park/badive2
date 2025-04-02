@@ -275,12 +275,12 @@ const MultiImageCarousel = () => {
       </SlideUp>
       {/* Modal for Image and Video */}
       {isModalOpen && selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[1000]">
           <div 
             ref={modalRef}
-            className="relative  w-full h-full flex items-center justify-center"
+            className="relative w-full h-full flex items-center justify-center"
+            style={{ isolation: 'isolate' }}
           >
-            <div className='text-red-500'></div>
             <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
               <button className="" onClick={toggleFullScreen}>
                   {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}
