@@ -20,6 +20,10 @@ import {
   createClient,
   createTypedSupabaseClient,
 } from "@/utils/supabase/client";
+import { getWholeMonthlyDate } from "@/utils/supabase/getWholeMonthlyDate";
+import { getMonthlySchedule } from "@/utils/supabase/getMonthlySchedule";
+import { Database } from "@/utils/supabase/database.types";
+import { Badge } from "@/components/ui/badge";
 
 const CalendarComponent = ({
   isSelectProgram,
@@ -31,15 +35,34 @@ const CalendarComponent = ({
   // const supabase = createClient();
   const supabase = createTypedSupabaseClient();
 
+  const [monthlyTimeSlots, setMonthlyTimeSlots] = useState<
+    Array<Database["public"]["Tables"]["timeslot"]["Row"]>
+  >([]);
+
+  console.log("monthlyTimeSlots");
+  console.log(monthlyTimeSlots);
+
+  const monthlyTimeSlotsSorted =
+    monthlyTimeSlots?.toSorted(
+      (a, b) => parseInt(a.start_time) - parseInt(b.start_time)
+    ) ?? [];
+
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState<{
+    start: Date;
+    end: Date;
+  } | null>(null);
   const { programStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const [isAgree, setIsAgree] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
   const { calendarClick, setCalendarClick } = useCalendarClick();
+
+  useEffect(() => {
+    setupMonthlyTimeSlots({ newDate: new Date() });
+  }, [isSelectInstructor]);
 
   useEffect(() => {
     if (!selectedResult?.date) {
@@ -59,70 +82,100 @@ const CalendarComponent = ({
     }
   }, [selectedResult, programStore]);
   console.log("selectedImageUrl:", selectedImageUrl);
+
+  const setupMonthlyTimeSlots = async ({ newDate }: { newDate: Date }) => {
+    const allMonthlyDays = getWholeMonthlyDate({ date: newDate });
+    const monthlyTimeSlots = await getMonthlySchedule({
+      selectedResult,
+      supabase,
+      allMonthDays: allMonthlyDays,
+    });
+
+    setMonthlyTimeSlots(monthlyTimeSlots);
+  };
+
   const handleNextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    const newDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      1
     );
+
+    setCurrentDate(newDate);
+
+    setupMonthlyTimeSlots({ newDate });
   };
 
-  const handlePrevMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+  const handlePrevMonth = async () => {
+    const newDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1
     );
+    setCurrentDate(newDate);
+
+    setupMonthlyTimeSlots({ newDate });
+    // const allMonthlyDays = getWholeMonthlyDate({ date: newDate });
+    // const monthlyTimeSlots = await getMonthlySchedule({
+    //   selectedResult,
+    //   supabase,
+    //   allMonthDays: allMonthlyDays,
+    // });
+
+    // setMonthlyTimeSlots(monthlyTimeSlots);
   };
 
-  // FIXME
-  const getSchedule = async ({
-    selectedResult,
-  }: {
-    selectedResult: TSelectedResult;
-  }) => {
-    try {
-      console.log("Fetching schedule with:", {
-        instructor_id: selectedResult?.instructor_id,
-        program_id: selectedResult?.program_id,
-      });
+  // const getSchedule = async ({
+  //   selectedResult,
+  // }: {
+  //   selectedResult: TSelectedResult;
+  // }) => {
+  //   try {
+  //     console.log("Fetching schedule with:", {
+  //       instructor_id: selectedResult?.instructor_id,
+  //       program_id: selectedResult?.program_id,
+  //     });
 
-      if (!selectedResult?.instructor_id || !selectedResult?.program_id) {
-        console.log("필수 ID 값이 없습니다");
-        return;
-      }
+  //     if (!selectedResult?.instructor_id || !selectedResult?.program_id) {
+  //       console.log("필수 ID 값이 없습니다");
+  //       return;
+  //     }
 
-      debugger;
+  //     debugger;
 
-      const formattedDateString = dayjs(selectedResult.date.at(0)).format(
-        "YYYY-MM-DD"
-      );
-      console.log("formattedDateString");
-      console.log(formattedDateString);
+  //     const formattedDateString = dayjs(selectedResult.date.at(0)).format(
+  //       "YYYY-MM-DD"
+  //     );
+  //     console.log("formattedDateString");
+  //     console.log(formattedDateString);
 
-      const { data: timeSlots, error } = await supabase
-        .from("timeslot")
-        .select("*,program_id(*)")
-        .eq("instructor_id", selectedResult.instructor_id)
-        .eq("program_id", selectedResult.program_id)
-        .eq("date", formattedDateString)
-        // .in("date", selectedResult.date)
-        .order("date", { ascending: true });
+  //     const { data: timeSlots, error } = await supabase
+  //       .from("timeslot")
+  //       .select("*,program_id(*)")
+  //       .eq("instructor_id", selectedResult.instructor_id)
+  //       .eq("program_id", selectedResult.program_id)
+  //       .eq("date", formattedDateString)
+  //       // .in("date", selectedResult.date)
+  //       .order("date", { ascending: true });
 
-      // debugger;
-      if (timeSlots.length > 0) {
-        alert(`data.length : ${timeSlots.length}`);
-        console.log("data");
-        console.log(timeSlots);
-      }
+  //     // debugger;
+  //     if (timeSlots.length > 0) {
+  //       alert(`data.length : ${timeSlots.length}`);
+  //       console.log("data");
+  //       console.log(timeSlots);
+  //     }
 
-      if (error) {
-        console.error("데이터 조회 에러:", error);
-        return;
-      }
+  //     if (error) {
+  //       console.error("데이터 조회 에러:", error);
+  //       return;
+  //     }
 
-      console.log("조회된 데이터:", timeSlots);
-      setTimeSlots(timeSlots);
-    } catch (err) {
-      console.error("예외 발생:", err);
-    }
-  };
+  //     console.log("조회된 데이터:", timeSlots);
+  //     setTimeSlots(timeSlots);
+  //   } catch (err) {
+  //     console.error("예외 발생:", err);
+  //   }
+  // };
 
   // FIXME
   const handleDateSelect = (day) => {
@@ -159,7 +212,7 @@ const CalendarComponent = ({
 
     setSelectedResult(newSelectedResult);
 
-    getSchedule({ selectedResult: newSelectedResult });
+    // getSchedule({ selectedResult: newSelectedResult });
     // onOpen();
   };
 
@@ -288,6 +341,65 @@ const CalendarComponent = ({
               );
             })}
           </div>
+          <div className="flex gap-4 flex-wrap">
+            <>
+              <div className="py-1">오전</div>
+              <div className="flex gap-4 flex-wrap">
+                {selectedDate?.start &&
+                  monthlyTimeSlotsSorted.map((slot) => {
+                    if (
+                      dayjs(selectedDate.start).format("YYYY-MM-DD") !==
+                      slot.date
+                    )
+                      return;
+
+                    if (slot.start_time > "12:00") return;
+                    return (
+                      <Badge
+                        key={slot.unique_id}
+                        variant={"outline"}
+                        className="font-normal py-2 px-7 cursor-pointer"
+                      >
+                        {/* {slot.date} */}
+                        {slot.start_time}
+                      </Badge>
+                    );
+                  })}
+              </div>
+            </>
+          </div>
+          <div className="flex gap-4 flex-wrap">
+            {selectedDate?.start && (
+              <>
+                <div className="py-0">오후</div>
+                <div className="flex gap-4 flex-wrap">
+                  {monthlyTimeSlotsSorted.map((slot) => {
+                    if (
+                      dayjs(selectedDate.start).format("YYYY-MM-DD") !==
+                      slot.date
+                    )
+                      return;
+                    if (slot.start_time < "13:00") return;
+
+                    const formattedHour =
+                      parseInt(slot.start_time.split(":").at(0)) - 12;
+
+                    return (
+                      <Badge
+                        key={slot.unique_id}
+                        variant={"outline"}
+                        className="font-normal py-2 px-7 cursor-pointer"
+                      >
+                        {/* {slot.date} */}
+                        {/* {slot.start_time} */}
+                        {`${formattedHour}:00`}
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
           <div className="w-[90%] h-full items-center justify-start gap-y-6 flex flex-col">
             {selectedResult?.slot_date && (
               <>
@@ -323,6 +435,9 @@ const CalendarComponent = ({
               </>
             )}
           </div>
+
+          {/* 123 */}
+          {/* 2323 */}
           {/* <SelectModal
             userReservations={userReservations}
             isOpen={isOpen}

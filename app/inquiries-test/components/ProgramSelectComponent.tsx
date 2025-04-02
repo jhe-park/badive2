@@ -1,10 +1,14 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Divider, Select, SelectItem, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { createClient, createTypedSupabaseClient } from "@/utils/supabase/client";
+import {
+  createClient,
+  createTypedSupabaseClient,
+} from "@/utils/supabase/client";
 import { useProgramStore } from "@/app/store/useProgramStore";
 import { useSelectedResult } from "@/app/store/useSelectedResult";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
@@ -20,8 +24,16 @@ import {
 
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 import { ToastContainer, toast } from "react-toastify";
+import { Database } from "@/utils/supabase/database.types";
 
-export default function SelectComponent({
+const LECTURE_CATEGORY = [
+  "스쿠버다이빙",
+  "프리다이빙",
+  "머메이드",
+  "언더워터 댄스",
+] as const;
+
+export default function ProgramSelectComponent({
   isSelectProgram,
   setIsSelectProgram,
 
@@ -30,7 +42,13 @@ export default function SelectComponent({
   userData,
   profile,
 }) {
+  const [everyProgram, setEveryProgram] = useState<
+    Array<Database["public"]["Tables"]["program"]["Row"]>
+  >([]);
   const [program, setProgram] = useState([]);
+  const [selectedLectureCategory, setSelectedLectureCategory] = useState<
+    "스쿠버다이빙" | "프리다이빙" | "머메이드" | "언더워터 댄스" | undefined
+  >();
   const [selectedProgram, setSelectedProgram] = useState("");
   const [region, setRegion] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
@@ -82,23 +100,25 @@ export default function SelectComponent({
 
   console.log("selectedResult33:", selectedResult);
 
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
   // const supabase = createTypedSupabaseClient()
   const getProgram = async () => {
-    const { data, error } = await supabase
+    const { data: programs, error } = await supabase
       .from("program")
       .select("*,instructor_id(*)")
       .eq("available", true);
 
     if (error) {
       console.log(error);
-    } else {
-      const uniqueTitles = [...new Set(data.map((item) => item.title))];
-      setProgram(uniqueTitles);
-      setData(data);
-      setProgramStore(data);
-      console.log("Loaded program data:", data);
+      return;
     }
+    setEveryProgram(programs);
+
+    const uniqueTitles = [...new Set(programs.map((item) => item.title))];
+    setProgram(uniqueTitles);
+    setData(programs);
+    setProgramStore(programs);
+    console.log("Loaded program data:", programs);
   };
 
   useEffect(() => {
@@ -113,6 +133,10 @@ export default function SelectComponent({
       ...new Set(filteredRegion.map((item) => item.region)),
     ];
     setRegion(uniqueRegions);
+
+    if (uniqueRegions.length === 1) {
+      selectRegion({ location: uniqueRegions.at(0) });
+    }
   };
 
   useEffect(() => {
@@ -127,6 +151,11 @@ export default function SelectComponent({
       ...new Set(filteredInstructor.map((item) => item.instructor_id.name)),
     ];
     setInstructor(uniqueInstructors);
+
+    if (uniqueInstructors.length === 1) {
+      handleInstructorSelect({ selectedName: uniqueInstructors.at(0) });
+      // selectInstructor({ instructor: uniqueInstructors.at(0) });
+    }
   };
 
   useEffect(() => {
@@ -179,7 +208,7 @@ export default function SelectComponent({
       const uuid = generateRandomString();
       const { error } = await supabase.from("pending_sessions").insert({
         uuid: uuid,
-        selected_data: selectedResult,
+        selected_data: selectedResult as any,
         user_data: userData,
         profile: profile,
       });
@@ -212,8 +241,12 @@ export default function SelectComponent({
   //   }
   // };
 
-  const handleInstructorSelect = (e) => {
-    const selectedName = e.target.value;
+  const handleInstructorSelect = ({
+    selectedName,
+  }: {
+    selectedName: string;
+  }) => {
+    // const selectedName = e.target.value;
     setSelectedInstructor(selectedName);
     setIsSelectInstructor(true);
 
@@ -241,6 +274,19 @@ export default function SelectComponent({
     console.log("Updated Result:", newResult);
   };
 
+  function selectInstructor({ instructor }: { instructor: string }) {}
+  function selectRegion({ location }: { location: string }) {
+    setSelectedInstructor("");
+    setSelectedRegion(location);
+    setIsSelectInstructor(false);
+    setSelectedResult({
+      ...selectedResult,
+      region: location,
+      instructor: "",
+      date: null,
+    });
+  }
+
   // console.log("selectedResult:", selectedResult);
   // console.log("noParticipants:", noParticipants);
 
@@ -258,16 +304,19 @@ export default function SelectComponent({
         pauseOnHover
         theme="light"
       />
-      {/* {!isSelectProgram && (
-        <div className="w-56 h-56 flex items-center justify-center relative">
+      {!isSelectProgram && (
+        // w-56 h-56
+        <div className=" flex items-center justify-center relative">
           <Image
             src="/inquiries/logo.png"
             alt="logo"
-            fill
+            // fill
+            width={500}
+            height={500}
             className="object-contain"
           ></Image>
         </div>
-      )} */}
+      )}
       {isSelectProgram && selectedImageUrl && (
         <div className="w-full max-w-[500px] aspect-square flex items-center justify-center relative">
           <Image src={selectedImageUrl} alt="Program Image" fill />
@@ -290,7 +339,19 @@ export default function SelectComponent({
           - 원하시는 강습을 선택해주세요.
         </div>
       </div>
-      <div className="">여기에 추가할 것</div>
+      <div className="flex gap-2">
+        {LECTURE_CATEGORY.map((category) => {
+          return (
+            <Badge
+              variant={"outline"}
+              className="font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer"
+              onClick={() => setSelectedLectureCategory(category)}
+            >
+              {category}
+            </Badge>
+          );
+        })}
+      </div>
       <Select
         label="프로그램명"
         aria-label="강습프로그램 선택"
@@ -329,15 +390,16 @@ export default function SelectComponent({
         aria-label="지역 선택"
         selectedKeys={[selectedRegion]}
         onChange={(e) => {
-          setSelectedInstructor("");
-          setSelectedRegion(e.target.value);
-          setIsSelectInstructor(false);
-          setSelectedResult({
-            ...selectedResult,
-            region: e.target.value,
-            instructor: "",
-            date: null,
-          });
+          selectRegion({ location: e.target.value });
+          // setSelectedInstructor("");
+          // setSelectedRegion(e.target.value);
+          // setIsSelectInstructor(false);
+          // setSelectedResult({
+          //   ...selectedResult,
+          //   region: e.target.value,
+          //   instructor: "",
+          //   date: null,
+          // });
         }}
         className="w-full h-full text-xl"
       >
@@ -353,7 +415,9 @@ export default function SelectComponent({
         label="강사명"
         aria-label="강사 선택"
         selectedKeys={selectedInstructor ? [selectedInstructor] : []}
-        onChange={handleInstructorSelect}
+        onChange={(e) =>
+          handleInstructorSelect({ selectedName: e.target.value })
+        }
         className="w-full h-full text-xl"
       >
         {instructor.map((item) => (

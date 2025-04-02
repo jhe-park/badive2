@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import CalendarComponent from "./CalendarComponent";
-import SelectComponent from "./SelectComponent";
+import ProgramSelectComponent from "./ProgramSelectComponent";
 
 export default function OrderComponents({
   userReservations,
@@ -21,7 +21,7 @@ export default function OrderComponents({
         isSelectInstructor={isSelectInstructor}
         setIsSelectInstructor={setIsSelectInstructor}
       />
-      <SelectComponent
+      <ProgramSelectComponent
         isSelectProgram={isSelectProgram}
         setIsSelectProgram={setIsSelectProgram}
         isSelectInstructor={isSelectInstructor}
