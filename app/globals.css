@@ -17,12 +17,21 @@
   font-weight: 700;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Freesentation-9Black';
   src: url('/fonts/Freesentation-9Black.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'FreesentationVF';
+  src: url('/fonts/FreesentationVF.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'ELAND_Choice_M';
   src: url('/fonts/ELAND_Choice_M.woff') format('woff');
@@ -47,19 +56,27 @@
 .footer {
   font-family: 'Freesentation-9Black';
 }
+
 body {
   font-family: 'MICE Gothic', 'NanumSquare', sans-serif;
+  color: #000000
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 .blink {
   animation: blink 1s infinite;
 }
-
 
 .nav {
   transition: top 0.3s ease-in-out;
@@ -67,6 +84,3 @@ body {
   top: 0;
   width: 100%;
 }
-
-
-

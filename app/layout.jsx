@@ -12,7 +12,7 @@ import FooterComponent from "@/app/components/FooterComponent";
 import "@/app/globals.css";
 import Image from "next/image";
 import AuthSession from "@/app/components/session-provider";
-import Actionbar from "@/app/components/Actionbar";
+import MainActionBar from "@/app/components/MainActionBar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -67,23 +67,19 @@ export default function RootLayout({ children }) {
           // enableSystem
         >
           {/* <AuthSession> */}
-          <HeroUIProvider>
-            <AuthSession>
-              <main className="min-h-screen flex flex-col items-center">
-                <div className="w-full flex flex-col items-center">
-                  <NavbarComponent />
+            <HeroUIProvider>
+              <AuthSession>
+                <main className="flex flex-col items-center min-h-screen">
+                  <div className="flex flex-col items-center w-full">
+                    <NavbarComponent />
 
-                  <div className="flex flex-col gap-20 w-full h-full ">
-                    {children}
+                    <div className="flex flex-col w-full h-full gap-20 ">{children}</div>
+                    <FooterComponent></FooterComponent>
                   </div>
-                  <FooterComponent></FooterComponent>
-                </div>
-              </main>
-              <div className="">
-                <Actionbar></Actionbar>
-              </div>
-            </AuthSession>
-          </HeroUIProvider>
+                </main>
+                <MainActionBar/>              
+              </AuthSession>
+            </HeroUIProvider>
           {/* </AuthSession> */}
         </ThemeProvider>
       </body>

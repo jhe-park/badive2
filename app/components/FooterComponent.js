@@ -56,7 +56,7 @@ export default function Component() {
               { src: "/logo/youtube.png", alt: "youtube", href: "https://youtube.com/channel/UCFSbRT26EQz8prlGfg0_-YA?si=nX95jnpgnI73Ttpq" },
               { src: "/logo/kakao.png", alt: "kakao", href: "https://pf.kakao.com/_ClHKn " },
               { src: "/logo/instagram.png", alt: "instagram", href: "https://www.instagram.com/badive_official/" },
-              { src: "/logo/cafe.png", alt: "cafe", href: "" },
+              { src: "/logo/cafe.png", alt: "cafe", href: "https://cafe.naver.com/babive" },
               { src: "/logo/blog.png", alt: "blog", href: "https://blog.naver.com/chiyang80" },
             ].map((social) => (
               <Link 
