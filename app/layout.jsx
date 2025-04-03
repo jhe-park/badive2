@@ -1,16 +1,9 @@
-import DeployButton from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import HeaderAuth from "@/components/header-auth";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import Link from "next/link";
 import { HeroUIProvider } from "@heroui/react";
 import NavbarComponent from "@/app/components/NavbarComponent";
 import FooterComponent from "@/app/components/FooterComponent";
 import "@/app/globals.css";
-import Image from "next/image";
 import AuthSession from "@/app/components/session-provider";
 import MainActionBar from "@/app/components/MainActionBar";
 
