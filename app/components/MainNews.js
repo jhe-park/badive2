@@ -90,7 +90,7 @@ const MainNews = () => {
         lg:gap-[27px] lg:py-[100px]
         w-full h-auto transform transition-transform duration-300 ease-out
       '>
-        <img src='/news/title.png' className='w-[50px] h-[50px]' />
+        <img loading='lazy' src='/news/title.avif' className='w-[50px] h-[50px]' />
         BADIVE 소식
       </h1>
       <p
