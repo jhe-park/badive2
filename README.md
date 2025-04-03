@@ -1,5 +1,8 @@
 # www.badive.co.kr
 
+![](/public/logo/logo.png)
+
+
 본 프로젝트는 `https://www.badive.co.kr`의 구현체이다
 
 스택 
@@ -33,7 +36,43 @@ https://supabase.com/docs/reference/javascript/introduction
 - middleware 기반으로 client, master, expert가 구분되어 role 구성
 - supabase 내에 profiles 테이블에 보면 role 기능이 구성되어있으니 참고 요망
 - OAUTH 관련 kakao, google은 supabase 내장 기능을 이용, naver는 직접 OAUTH2 구현
-- 
+
+# 결제 프로세스
+
+결제는 타임슬롯(time_slot) 단위로 처리된다. 
+
+예를 들어 `스쿠버다이빙 초급반`수업의 타임슬롯이 `2025년 1월 1일 오후 1시` 날짜에 존재한다면 수강 희망자는 이 타임슬롯에 예약할 수 있다.
+
+각 타임슬롯에는 최대 수강 인원이 있으며 이 최대 수강 인원 이상인 경우 수강신청이 불가능하다
+
+타임슬롯 선택 이후 checkout 페이지로 이동한다. 이동하기 전 uuid로 랜덤한 고유의 문자열을 생성하는데 이는 토스페이먼츠의 paymentId로 사용된다
+
+checkout 페이지는 토스페이먼트의 결제창이다.
+
+결제 이후 `결제가 완료되었다`는 안내 페이지로 이동한다.
+
+결제완료와 동시에 DB의 reservation 테이블에 결제정보를 담은 row가 추가된다. 또한 해당 타임슬롯의 current_participants 숫자는 수강인원 숫자 만큼 증가된다.
+
+즉 결제 프로세스에서 중요 역할을 하는 DB테이블은 reservation과 timeslot 테이블이다.
+
+## DB 테이블 설명
+
+- bye : 탈퇴한 유저 정보를 담고 있다
+- instructor : 강사들의 정보를 담고 있다
+- notification : 공지사항 정보를 담고 있다. 어드민 페이지에서 추가 가능하다
+- order 테이블 : 사용하지 않는 테이블로 추정됨
+- pending_session : 결제 도중에 사용되는 정보를 담고 있다. 결제 도중에만 사용된다
+- profiles : 모든 회원 정보를 담고 있다. 어드민, 강사, 일반회원 등 모든 로그인 정보를 담고 있다.
+- request : 강사들의 강사신청 정보를 보관한다
+- requestInstructor : 사용하지 않는 테이블로 추정됨
+- reservation : 결제 정보를 담고 있다. 토스페이먼트 처리 과정이 완료된 이후 결제성공 또는 결제대기 상태에 해당 추가된다
+  - 강사 페이지에서 timeslot 정보를 수정하면 timeslot 테이블이 업데이트됨과 동시에 reservation테이블의 status 칼럼값 또한 수정된다 (status 정보가 "예약불가"로 변경되는 경우를 참조할 것)
+- resort : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
+- timeslot : 예약할 수 있는 상세 날짜 정보를 담고 있다.
+  - time_slot_id는 시간에 따라서 리니어하게 설정되어 있다. 예를 들어 특정 날짜의 오전 10시의 time_slot_id가 400000이라면 같은 날짜의 오전 11시 time_slot_id는 400001이다
+- tour 페이지 : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
+- tour_input : 사용하지 않는 테이블로 추정됨
+
 ## TODO
 
 - `/inquiries` : 고객 예약 페이지
