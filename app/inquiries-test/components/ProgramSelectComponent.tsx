@@ -25,6 +25,8 @@ import {
 import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 import { ToastContainer, toast } from "react-toastify";
 import { Database } from "@/utils/supabase/database.types";
+import { TypeDBprogram } from "@/utils/supabase/dbTableTypes";
+import { cn } from "@/lib/utils";
 
 // 프리다이빙
 // 체험다이빙
@@ -39,6 +41,13 @@ const LECTURE_CATEGORY = [
   "언더워터 댄스",
 ] as const;
 
+const LECTURE_CATEGORY_TO_DB_CATRGORY = {
+  스쿠버다이빙: ["스쿠버다이빙", "체험다이빙"],
+  프리다이빙: ["프리다이빙"],
+  머메이드: ["머메이드"],
+  "언더워터 댄스": ["언더워터"],
+};
+
 export default function ProgramSelectComponent({
   isSelectProgram,
   setIsSelectProgram,
@@ -48,13 +57,33 @@ export default function ProgramSelectComponent({
   userData,
   profile,
 }) {
-  const [everyProgram, setEveryProgram] = useState<
-    Array<Database["public"]["Tables"]["program"]["Row"]>
-  >([]);
-  const [program, setProgram] = useState([]);
+  // const [everyProgram, setEveryProgram] = useState<
+  //   Array<Database["public"]["Tables"]["program"]["Row"]>
+  // >([]);
+
+  const [everyProgramObjs, setEveryProgramObjs] = useState<TypeDBprogram[]>([]);
+  const [
+    everyProgramLegacy_DO_NOT_USE_THIS,
+    setEveryProgramLegacy_DO_NOT_USE_THIS,
+  ] = useState<TypeDBprogram[]>([]);
+  const [programTitles, setProgramTitles] = useState([]);
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<
-    "스쿠버다이빙" | "프리다이빙" | "머메이드" | "언더워터 댄스" | undefined
+    (typeof LECTURE_CATEGORY)[number] | undefined
   >();
+
+  const targetLectureCategories = selectedLectureCategory
+    ? LECTURE_CATEGORY_TO_DB_CATRGORY[selectedLectureCategory]
+    : [];
+
+  const programFiltered = everyProgramObjs.filter((programObj) => {
+    return typeof programObj.category === "string"
+      ? targetLectureCategories?.includes(programObj.category)
+      : false;
+  });
+
+  console.log("programFiltered");
+  console.log(programFiltered);
+
   const [selectedProgram, setSelectedProgram] = useState("");
   const [region, setRegion] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
@@ -62,7 +91,6 @@ export default function ProgramSelectComponent({
   const [selectedInstructor, setSelectedInstructor] = useState("");
   const { programStore, setProgramStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
-  const [data, setData] = useState([]);
   const [noParticipants, setNoParticipants] = useState(1);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [payment, setPayment] = useState(null);
@@ -118,11 +146,25 @@ export default function ProgramSelectComponent({
       console.log(error);
       return;
     }
-    setEveryProgram(programs);
 
-    const uniqueTitles = [...new Set(programs.map((item) => item.title))];
-    setProgram(uniqueTitles);
-    setData(programs);
+    // const uniquePrograms = [...new Set(programs.map((item) => item.title))];
+    const programsUnique = programs.filter((program, itemIndex) => {
+      if (itemIndex === 0) return true;
+      for (let loopIndex = 0; loopIndex < itemIndex; loopIndex++) {
+        const element = programs[loopIndex];
+        if (element.title === program.title) return false;
+      }
+      return true;
+    });
+
+    setEveryProgramObjs(programsUnique);
+    // setEveryProgram(programs);
+    // setProgramObjArr(programs)
+    const programUniqueTitles = [
+      ...new Set(programs.map((item) => item.title)),
+    ];
+    setProgramTitles(programUniqueTitles);
+    setEveryProgramLegacy_DO_NOT_USE_THIS(programs);
     setProgramStore(programs);
     console.log("Loaded program data:", programs);
   };
@@ -132,7 +174,7 @@ export default function ProgramSelectComponent({
   }, [selectedProgram, selectedRegion, selectedInstructor]);
 
   const filterRegion = () => {
-    const filteredRegion = data?.filter(
+    const filteredRegion = everyProgramLegacy_DO_NOT_USE_THIS?.filter(
       (item) => item.title === selectedProgram
     );
     const uniqueRegions = [
@@ -150,7 +192,7 @@ export default function ProgramSelectComponent({
   }, [selectedProgram]);
 
   const filterInstructor = () => {
-    const filteredInstructor = data.filter(
+    const filteredInstructor = everyProgramLegacy_DO_NOT_USE_THIS.filter(
       (item) => item.title === selectedProgram && item.region === selectedRegion
     );
     const uniqueInstructors = [
@@ -256,7 +298,7 @@ export default function ProgramSelectComponent({
     setSelectedInstructor(selectedName);
     setIsSelectInstructor(true);
 
-    const selectedInstructorData = data.find(
+    const selectedInstructorData = everyProgramLegacy_DO_NOT_USE_THIS.find(
       (item) =>
         item.title === selectedProgram &&
         item.region === selectedRegion &&
@@ -351,7 +393,11 @@ export default function ProgramSelectComponent({
             <Badge
               key={category}
               variant={"outline"}
-              className="font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer"
+              className={cn(
+                "font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer",
+                category === selectedLectureCategory &&
+                  "bg-btnActive text-white"
+              )}
               onClick={() => setSelectedLectureCategory(category)}
             >
               {category}
@@ -364,6 +410,7 @@ export default function ProgramSelectComponent({
         aria-label="강습프로그램 선택"
         onChange={(e) => {
           setSelectedImageUrl("");
+          debugger;
           setSelectedProgram(e.target.value);
           setIsSelectProgram(true);
           setSelectedRegion("");
@@ -384,11 +431,18 @@ export default function ProgramSelectComponent({
         }}
         className="w-full h-full text-xl"
       >
-        {program.map((item) => (
+        {programFiltered.map((item) => {
+          return (
+            <SelectItem value={item.title} key={item.title}>
+              {item.title}
+            </SelectItem>
+          );
+        })}
+        {/* {programTitles.map((item) => (
           <SelectItem value={item} key={item}>
             {item}
           </SelectItem>
-        ))}
+        ))} */}
       </Select>
 
       <div className="w-full text-lg md:text-2xl font-bold">희망하는 지역</div>

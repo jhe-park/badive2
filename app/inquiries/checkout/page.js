@@ -97,6 +97,14 @@ export default function CheckoutPage({ searchParams }) {
   const handlePaymentClick = async () => {
     const successUrlWithParams = `${window.location.origin}/inquiries/complete?program_id=${selectedResult.program_id}&instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
 
+    const refinedPhoneNumber = removeSpecialCharacters(profile.phone);
+
+    console.log("profile.phone");
+    console.log(profile.phone);
+
+    console.log("refinedPhoneNumber");
+    console.log(refinedPhoneNumber);
+
     try {
       await widgets.requestPayment({
         // amount: { currency: "KRW", value: selectedResult.totalPrice },
@@ -106,7 +114,7 @@ export default function CheckoutPage({ searchParams }) {
         failUrl: window.location.origin + "/inquiries/fail",
         customerEmail: profile.email,
         customerName: profile.name,
-        customerMobilePhone: removeSpecialCharacters(profile.phone),
+        customerMobilePhone: refinedPhoneNumber,
       });
     } catch (error) {
       console.log("결제 요청 중 오류 발생:", error);

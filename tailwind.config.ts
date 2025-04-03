@@ -15,7 +15,8 @@ const config = {
   theme: {
     extend: {
       colors: {
-        primary: "#0077B6"
+        primary: "#0077B6",
+        btnActive : "#0077B6"
       },
       zIndex: {
         '100': '100',

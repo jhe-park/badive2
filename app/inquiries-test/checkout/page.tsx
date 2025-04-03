@@ -5,7 +5,7 @@ import { useSelectedResult } from "@/app/store/useSelectedResult";
 import { Button } from "@heroui/react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import {Skeleton} from "@heroui/react"
+import { Skeleton } from "@heroui/react";
 export default function CheckoutPage({ searchParams }) {
   const [selectedResult, setSelectedResult] = useState(null);
   const [ready, setReady] = useState(false);
@@ -17,7 +17,7 @@ export default function CheckoutPage({ searchParams }) {
     currency: "KRW",
     value: 0,
   });
-  const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY
+  const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   console.log("useData:", userData);
   const { session } = use(searchParams);
   const supabase = createClient();
@@ -37,7 +37,6 @@ export default function CheckoutPage({ searchParams }) {
         setSelectedResult(data.selected_data);
         setUserData(data.user_data);
         setProfile(data.profile);
-        
       }
     };
 
@@ -95,7 +94,23 @@ export default function CheckoutPage({ searchParams }) {
   }, [selectedResult, widgets]);
 
   const handlePaymentClick = async () => {
-    const successUrlWithParams = `${window.location.origin}/inquiries/complete?program_id=${selectedResult.program_id}&instructor_id=${selectedResult.instructor_id}&time_slot_id=${selectedResult.slot_id}&user_id=${userData.id}&participants=${selectedResult.noParticipants}`;
+    const searchParams = new URLSearchParams({
+      program_id: selectedResult.program_id,
+      instructor_id: selectedResult.instructor_id,
+      time_slot_id: selectedResult.slot_id,
+      user_id: userData.id,
+      participants: selectedResult.noParticipants,
+    });
+
+    const successUrlWithParams = `${window.location.origin}/inquiries/complete?${searchParams.toString()}`;
+
+    const refinedPhoneNumber = removeSpecialCharacters(profile.phone);
+
+    console.log("profile.phone");
+    console.log(profile.phone);
+
+    console.log("refinedPhoneNumber");
+    console.log(refinedPhoneNumber);
 
     try {
       await widgets.requestPayment({
@@ -106,19 +121,27 @@ export default function CheckoutPage({ searchParams }) {
         failUrl: window.location.origin + "/inquiries/fail",
         customerEmail: profile.email,
         customerName: profile.name,
-        customerMobilePhone: removeSpecialCharacters(profile.phone),
+        customerMobilePhone: refinedPhoneNumber,
       });
     } catch (error) {
       console.log("결제 요청 중 오류 발생:", error);
     }
   };
-  console.log('ready:', ready)
+  console.log("ready:", ready);
 
   return (
     <div className="wrapper pt-[100px] w-[100vw] h-full flex justify-center items-center px-4 md:px-12">
       <div className="w-full flex-col items-center justify-center h-full my-12 ">
-        <div id="payment-method" className="w-100 h-[60vh] overflow-y-auto" style={{ display: isLoading ? 'none' : 'block' }} />
-        <div id="agreement" className="w-100" style={{ display: isLoading ? 'none' : 'block' }} />
+        <div
+          id="payment-method"
+          className="w-100 h-[60vh] overflow-y-auto"
+          style={{ display: isLoading ? "none" : "block" }}
+        />
+        <div
+          id="agreement"
+          className="w-100"
+          style={{ display: isLoading ? "none" : "block" }}
+        />
         {/* {isLoading ? (
           <div className="max-w-[600px] mx-auto space-y-6">
             {[...Array(3)].map((_, index) => (
@@ -134,17 +157,17 @@ export default function CheckoutPage({ searchParams }) {
             ))}
           </div>
         ) : ( */}
-          <div className="btn-wrapper w-full">
-            <Button
-              color="primary"
-              className="btn primary w-full"
-              onClick={async () => {
-                handlePaymentClick();
-              }}
-            >
-              결제하기
-            </Button>
-          </div>
+        <div className="btn-wrapper w-full">
+          <Button
+            color="primary"
+            className="btn primary w-full"
+            onClick={async () => {
+              handlePaymentClick();
+            }}
+          >
+            결제하기
+          </Button>
+        </div>
         {/* )} */}
       </div>
     </div>

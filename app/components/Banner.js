@@ -41,17 +41,29 @@ export default function Banner() {
     }
   };
 
+
   const getVideoSource = () => {
+    
     switch (selectMode) {
       case "mode1":
-        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4";
+        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4";
       case "mode2":
-        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4";
+        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1.mp4";
       case "mode3":
-        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4";
+        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1.mp4";
       default:
-        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4";
+        return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4";
     }
+    // switch (selectMode) {
+    //   case "mode1":
+    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4";
+    //   case "mode2":
+    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4";
+    //   case "mode3":
+    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4";
+    //   default:
+    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4";
+    // }
   };
 
   const handleCanPlay = () => {

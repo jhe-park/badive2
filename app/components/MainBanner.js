@@ -8,17 +8,29 @@ import { gsap } from 'gsap'
 const MainBanner = () => {
   const VIDEO_SOURCE = [
     {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
+      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4',
       poster: '/banner/poster1.png',
     },
     {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
+      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1.mp4',
       poster: '/banner/poster2.png',
     },
     {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
+      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1.mp4',
       poster: '/banner/poster3.png',
     },
+    // {
+    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
+    //   poster: '/banner/poster1.png',
+    // },
+    // {
+    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
+    //   poster: '/banner/poster2.png',
+    // },
+    // {
+    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
+    //   poster: '/banner/poster3.png',
+    // },
   ]
   const buttons = [
     {
