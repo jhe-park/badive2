@@ -19,7 +19,7 @@ export default function CheckoutPage({ searchParams }) {
   });
   const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
   console.log("useData:", userData);
-  const { session } = use(searchParams);
+  const { session } = use(searchParams) as any;
   const supabase = createClient();
   console.log("selectedResult:", selectedResult);
 

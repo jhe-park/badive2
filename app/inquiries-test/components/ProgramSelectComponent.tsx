@@ -65,7 +65,9 @@ export default function ProgramSelectComponent({
   const [
     everyProgramLegacy_DO_NOT_USE_THIS,
     setEveryProgramLegacy_DO_NOT_USE_THIS,
-  ] = useState<TypeDBprogram[]>([]);
+  ] = useState([]);
+  // <TypeDBprogram[]>
+  
   const [programTitles, setProgramTitles] = useState([]);
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<
     (typeof LECTURE_CATEGORY)[number] | undefined
