@@ -1,12 +1,10 @@
-"use client";
+'use client';
 
-import dayjs from "dayjs";
-import {
-  TSelectedResult,
-  useSelectedResult,
-} from "@/app/store/useSelectedResult";
-import { Database } from "./database.types";
-import { SupabaseClient } from "@supabase/supabase-js";
+import dayjs from 'dayjs';
+import { TSelectedResult, useSelectedResult } from '@/app/store/useSelectedResult';
+import { Database } from './database.types';
+import { QueryData, SupabaseClient } from '@supabase/supabase-js';
+import { TypeDBprogram, TypeDBtimeslot } from './dbTableTypes';
 
 // FIXME
 export const getMonthlySchedule = async ({
@@ -17,15 +15,16 @@ export const getMonthlySchedule = async ({
   selectedResult: TSelectedResult;
   supabase: SupabaseClient<Database>;
   allMonthDays: string[];
-}): Promise<Array<Database["public"]["Tables"]["timeslot"]["Row"]>> => {
+}) => {
+  // : Promise<Array<TypeDBtimeslot & { program_id: TypeDBprogram }>> 
   try {
-    console.log("Fetching schedule with:", {
+    console.log('Fetching schedule with:', {
       instructor_id: selectedResult?.instructor_id,
       program_id: selectedResult?.program_id,
     });
 
     if (!selectedResult?.instructor_id || !selectedResult?.program_id) {
-      console.log("필수 ID 값이 없습니다");
+      console.log('필수 ID 값이 없습니다');
       return;
     }
 
@@ -38,15 +37,17 @@ export const getMonthlySchedule = async ({
     // console.log(formattedDateString);
 
     const { data: timeSlots, error } = await supabase
-      .from("timeslot")
-      .select("*,program_id(*)")
-      .eq("instructor_id", selectedResult.instructor_id)
-      .eq("program_id", selectedResult.program_id)
-      .eq("available", true)
+      .from('timeslot')
+      .select('*,program_id(*)')
+      .eq('instructor_id', selectedResult.instructor_id)
+      .eq('program_id', selectedResult.program_id)
+      .eq('available', true)
       // .eq("date", formattedDateString)
-      .in("date", allMonthDays)
-      .order("date", { ascending: true });
+      .in('date', allMonthDays)
+      .order('date', { ascending: true });
 
+    // type TypeDBTimeSlotJoin = QueryData<(typeof timeSlots)[0]>;
+    // type a = typeof timeSlots
     // debugger;
     // if (timeSlots.length > 0) {
     //   alert(`data.length : ${timeSlots.length}`);
@@ -55,13 +56,13 @@ export const getMonthlySchedule = async ({
     // }
 
     if (error) {
-      console.error("데이터 조회 에러:", error);
+      console.error('데이터 조회 에러:', error);
       return [];
     }
-    console.log("조회된 데이터:", timeSlots);
+    console.log('조회된 데이터:', timeSlots);
     return timeSlots;
   } catch (err) {
-    console.error("예외 발생:", err);
+    console.error('예외 발생:', err);
     return [];
   }
   // return [];

@@ -17,3 +17,28 @@ export type TypeDBresort = DBTable["resort"]["Row"];
 export type TypeDBtimeslot = DBTable["timeslot"]["Row"];
 export type TypeDBtour = DBTable["tour"]["Row"];
 export type TypeDBtour_input = DBTable["tour_input"]["Row"];
+
+export type TypeDBTimeSlotJoined =  {	
+  available: boolean | null;
+  created_at: string;
+  current_participants: number | null;
+  date: string | null;
+  end_time: string | null;
+  id: number;
+  instructor_id: number | null;
+  max_participants: number | null;
+  program_id: number & {
+	  available: boolean | null;
+	  category: string | null;
+	  created_at: string;
+	  id: number;
+	  images: string | null;
+	  instructor_id: number | null;
+	  participants: number | null;
+	  price: number | null;
+	  region: string | null;
+	  title: string | null;
+  };
+  start_time: string | null;
+  unique_id: string | null;
+}

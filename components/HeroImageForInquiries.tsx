@@ -8,7 +8,7 @@ export const HeroImageForInquiries: React.FC<TProps> = ({}) => {
   return (
     <div className="w-full h-[40vh] md:h-[600px] flex items-center justify-center relative">
       <Image
-        src={"/inquiries/inquiriesTop.png"}
+        src={"/inquiries/inquiriesTop.avif"}
         alt="scuberdiving"
         fill
         className="object-cover"

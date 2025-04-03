@@ -67,7 +67,7 @@ export default function ProgramSelectComponent({
     setEveryProgramLegacy_DO_NOT_USE_THIS,
   ] = useState([]);
   // <TypeDBprogram[]>
-  
+
   const [programTitles, setProgramTitles] = useState([]);
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<
     (typeof LECTURE_CATEGORY)[number] | undefined
@@ -258,6 +258,7 @@ export default function ProgramSelectComponent({
       const uuid = generateRandomString();
       const { error } = await supabase.from("pending_sessions").insert({
         uuid: uuid,
+        // selected_data: selectedResult as any,
         selected_data: selectedResult as any,
         user_data: userData,
         profile: profile,
