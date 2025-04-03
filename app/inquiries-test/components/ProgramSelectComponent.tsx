@@ -26,6 +26,12 @@ import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
 import { ToastContainer, toast } from "react-toastify";
 import { Database } from "@/utils/supabase/database.types";
 
+// 프리다이빙
+// 체험다이빙
+// 머메이드
+// 언더워터
+// 스쿠버다이빙
+
 const LECTURE_CATEGORY = [
   "스쿠버다이빙",
   "프리다이빙",
