@@ -1,4 +1,4 @@
-# www.badive.co.kr
+# Project badive
 
 <img src="/public/logo/logo_big.png" width="100%" />
 <!-- ![](/public/logo/logo.png) -->
@@ -12,6 +12,7 @@
 - Typescript 5.8
 - 백엔드 FastAPI 
   - : Supabase 위주로 사용하였고, 알람톡/예약 기능 일의 경우 fast api + lambda로 api 구축
+  - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡/예약 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
 - 결제 모듈 : [토스페이먼트 v2](https://docs.tosspayments.com/guides/v2/payment-widget/integration)
 - 정적파일 버킷 : AWS S3
 - 서버 : Supabase
@@ -20,6 +21,23 @@
 - 도메인 : 가비야에서 구매하였음
 - 카카오톡 알림 서비스 : [알리고](https://smartsms.aligo.in/)
   - 환불시 해당 알림서비스 호출할 것
+
+## 그 외 개발관련 문서
+- [기획서(PDF)](http://naver.me/GfCNuDIo)
+- [피그마](https://www.figma.com/design/yo6vVmRLJSGXgWrpm3xTrn/BND-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80%2C-%EC%96%B4%EB%93%9C%EB%AF%BC?node-id=0-1&t=dhMoTfKEbXrbEHHB-1)
+- [피그마(서브페이지)](https://www.figma.com/design/LBkwOpjAxdEWo14DaAd6Bk/BDN-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%84%9C%EB%B8%8C%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=0-1&m=dev&t=davo5JCMO0E72klg-1)
+- 개발자료공유(배너영상, 기타 필요한 대용량자료) : http://naver.me/xZVUO0Sz
+
+
+## 사이트 구성
+
+본 웹사이트는 3가지 기능으로 구분되어 있다
+- 일반 웹사이트 및 예약 페이지
+  - https://www.badive.co.kr/ 로 접속하면 보이는 페이지이며 핵심 기능은 예약 기능이다.
+- 관리자 전용 페이지 (관리자 권한의 ID만 접근 가능하다)
+  - 강사 스케줄 조정이 가능하다
+- 강사전용 페이지 (강사 권한의 ID만 접근 가능하다)
+  - 강사 스케줄 조정이 가능하다  - 
 
 ## .예약관리
 
