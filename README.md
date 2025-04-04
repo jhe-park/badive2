@@ -1,6 +1,6 @@
 # www.badive.co.kr
 
-<img src="/public/logo/logo.png" width="100%" />
+<img src="/public/logo/logo_big.png" width="100%" />
 <!-- ![](/public/logo/logo.png) -->
 
 

@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "gen-db-type": "npx supabase gen types typescript --project-id \"efehwvtyjlpxkpgswrfw\" --schema public > utils\\supabase\\database.types.ts"
+    "gen-db-type": "npx supabase gen types typescript --project-id \"efehwvtyjlpxkpgswrfw\" --schema public > utils\\supabase\\database.types.ts",
+    "gp": "git push coleea feature_inquiries-v2 && git push origin feature_inquiries-v2"
   },
   "dependencies": {
     "@heroui/react": "^2.6.14",
