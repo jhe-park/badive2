@@ -4,7 +4,7 @@ import { Divider } from '@heroui/react';
 import { Button } from '@heroui/react';
 import Link from 'next/link';
 import { FaCheckCircle } from 'react-icons/fa';
-import { createServerClientCustom } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 export default async function page({ searchParams }) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">

@@ -1,4 +1,4 @@
-import { createServerClientCustom } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   const redirectTo = requestUrl.searchParams.get('redirect_to')?.toString();
 
   if (code) {
-    const supabase = await createServerClientCustom();
+    const supabase = await createClient();
     await supabase.auth.exchangeCodeForSession(code);
 
     // 사용자 세션 정보 가져오기

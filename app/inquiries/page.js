@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import { Divider } from '@heroui/react';
 import OrderComponents from './components/OrderComponents';
-import { createServerClientCustom } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 export default async function page() {
-  const supabase = await createServerClientCustom();
+  const supabase = await createClient();
   const { data: reservationData } = await supabase.from('reservation').select('*');
   const { data } = await supabase.auth.getUser();
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', data?.user?.id).single();

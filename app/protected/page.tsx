@@ -1,10 +1,10 @@
 import FetchDataSteps from '@/components/tutorial/fetch-data-steps';
-import { createServerClientCustom } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 import { InfoIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
 
 export default async function ProtectedPage() {
-  const supabase = await createServerClientCustom();
+  const supabase = await createClient();
 
   const {
     data: { user },

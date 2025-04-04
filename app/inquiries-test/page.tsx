@@ -1,13 +1,13 @@
 import React from 'react';
 import { Divider } from '@heroui/react';
 import OrderComponents from './components/OrderComponents';
-import { createServerClientCustom } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 import { CautionForReservation } from '@/components/CautionForReservation';
 import { ContactToCompany } from '@/components/Contact';
 import { HeroImageForInquiries } from '@/components/HeroImageForInquiries';
 
 export default async function RSCForInquiries() {
-  const supabase = await createServerClientCustom();
+  const supabase = await createClient();
 
   const [{ data: reservationData }, { data: loginData }] = await Promise.all([supabase.from('reservation').select('*'), supabase.auth.getUser()]);
 
