@@ -1,32 +1,33 @@
 # Project badive
 
 <img src="/public/logo/logo_big.png" width="100%" />
-<!-- ![](/public/logo/logo.png) -->
 
 
 본 프로젝트는 `https://www.badive.co.kr`의 구현체이다
 
-스택 
+## 개발관련 문서
+- [기획서(PDF)](http://naver.me/GfCNuDIo)
+- [피그마](https://www.figma.com/design/yo6vVmRLJSGXgWrpm3xTrn/BND-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80%2C-%EC%96%B4%EB%93%9C%EB%AF%BC?node-id=0-1&t=dhMoTfKEbXrbEHHB-1)
+- [피그마(서브페이지)](https://www.figma.com/design/LBkwOpjAxdEWo14DaAd6Bk/BDN-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%84%9C%EB%B8%8C%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=0-1&m=dev&t=davo5JCMO0E72klg-1)
+- 개발자료공유(배너영상, 기타 필요한 대용량자료) : http://naver.me/xZVUO0Sz
+
+## 스택 
 
 - Next.js App Route (v 15.1.4이며 추후 버전업될 수 있음)
+- 상태관리 : Zustand
 - Typescript 5.8
 - 백엔드 FastAPI 
   - : Supabase 위주로 사용하였고, 알람톡/예약 기능 일의 경우 fast api + lambda로 api 구축
   - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡/예약 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
 - 결제 모듈 : [토스페이먼트 v2](https://docs.tosspayments.com/guides/v2/payment-widget/integration)
 - 정적파일 버킷 : AWS S3
-- 서버 : Supabase
-- 배포 플랫폼 : Vercel (서버리스 플랫폼)
 - 로그인 : next-auth
-- 도메인 : 가비야에서 구매하였음
 - 카카오톡 알림 서비스 : [알리고](https://smartsms.aligo.in/)
   - 환불시 해당 알림서비스 호출할 것
+- 서버 : Supabase
+- 배포 플랫폼 : Vercel (서버리스 플랫폼)
+- 도메인 : 가비야에서 구매하였음
 
-## 그 외 개발관련 문서
-- [기획서(PDF)](http://naver.me/GfCNuDIo)
-- [피그마](https://www.figma.com/design/yo6vVmRLJSGXgWrpm3xTrn/BND-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80%2C-%EC%96%B4%EB%93%9C%EB%AF%BC?node-id=0-1&t=dhMoTfKEbXrbEHHB-1)
-- [피그마(서브페이지)](https://www.figma.com/design/LBkwOpjAxdEWo14DaAd6Bk/BDN-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%84%9C%EB%B8%8C%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=0-1&m=dev&t=davo5JCMO0E72klg-1)
-- 개발자료공유(배너영상, 기타 필요한 대용량자료) : http://naver.me/xZVUO0Sz
 
 
 ## 사이트 구성
@@ -39,12 +40,6 @@
 - 강사전용 페이지 (강사 권한의 ID만 접근 가능하다)
   - 강사 스케줄 조정이 가능하다  - 
 
-## .예약관리
-
-- timeslot 형태로 데이타 구성중(supabase내 timeslot)
-- lambda+fast api로 일괄 타임슬롯생성 API 구성(nextjs에서 호출)
-- eventbridge+lambda 통해서 주기적으로 timeslot 연장해주는 event 구성(하루1회 작동)
-
 ## 로그인/OAuth 관련
 
 - AUTH 관련된 사항은 Supabase 기반으로 구성
@@ -53,7 +48,26 @@
 - middleware 기반으로 client, master, expert가 구분되어 role 구성
 - supabase 내에 profiles 테이블에 보면 role 기능이 구성되어있으니 참고 요망
 
-# 결제 프로세스
+## 이미지 포멧에 대하여
+
+본 웹사이트의 모든 이미지는 기존에 png 포멧이었으나 avif 포멧으로 변경하였다.
+
+2025년 4월 4일 시점에서 모든 모던 브라우저는 avif 포멧을 지원하므로 특정 브라우저에서 이미지/비디오가 정상 표시되지 않는 일은 없다. 
+
+웹 브라우저의 avif 지원 현황은 [여기](https://caniuse.com/avif)를 참조할 것
+
+이용자가 Internet Explorer를 사용중이라면 정상 표시되지 않을 수 있지만 2024년 4월 시점에 IE 점유율은 0.21%이며 1년이 지난 현재는 거의 0에 가깝다고 봐도 무방하다. ([출처](https://www.koreanextweb.kr/front/stats/browser/browserUseStats.do))
+
+
+## 예약기능
+
+- 예약은 timeslot 단위로 관리된다. timeslot 데이터는 supabase의 timeslot 테이블을 참조할 것
+- 타임슬롯 일괄 생성 API : 해당 기능은 파이썬 fast api로 구현되어 있고 이는 AMS Lambda에 배포되었다. 해당 기능은 next.js에서 호출된다. 
+- updateSlot API : 주기적으로 타임슬롯을 연장하는 이벤트. AWS EventBridge + AMS Lambda기반으로 작성되어 있으며 하루 1회 주기적으로 호출된다. 아래 이미지 참조할 것것
+
+![](/public/for_readme/updateSlot.webp)
+
+## 결제 프로세스
 
 결제는 타임슬롯(time_slot) 단위로 처리된다. 
 
@@ -88,27 +102,3 @@ checkout 페이지는 토스페이먼트의 결제창이다.
   - time_slot_id는 시간에 따라서 리니어하게 설정되어 있다. 예를 들어 특정 날짜의 오전 10시의 time_slot_id가 400000이라면 같은 날짜의 오전 11시 time_slot_id는 400001이다
 - tour 페이지 : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
 - tour_input : 사용하지 않는 테이블로 추정됨
-
----
-
-## TODO
-
-- `/inquiries` : 고객 예약 페이지
-  - checkout 페이지로 넘어가기 직전 DB에 create 또는 update 작업을 추가할 것
-- `/inquiries/checkout` : 결제 페이지 (토스페이먼츠 페이지)
-- `inquiries/complete` :  결제완료 페이지
-- `/admin/schedule` : admin의 스케줄 페이지 수정할 것
-  - 본 페이지는 "예약가능, 예약불가" 기능을 담당한다
-  - 테이블 기반의 예약 기능을 단순화한 UI로 변경할 것
-- `/expert/schedule` : admin의 스케줄 페이지 수정할 것
-  - 본 페이지는 "예약가능, 예약불가" 기능을 담당한다
-  - 테이블 기반의 예약 기능을 단순화한 UI로 변경할 것
-  - URLSearchParams의 타입슬롯은 ID는 3개인데 실제로 db의 reservation 테이블에 삽입되는 time slot id는 1개인지 체크할 것
-
-
-- 파일 제거할 것
-  - `* copy.js` 포멧의 파일 전부 제거할 것. 제거하기 전
-
-- JS 파일을 전부 TS로 변경할 것
-- tsconfig.json 의 strictNullCheck는 맨 마지막에 해제할 것
-- eslint 적용할 것 (맨 마지막에 처리할 것것)
