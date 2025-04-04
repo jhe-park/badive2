@@ -17,14 +17,14 @@
 - 상태관리 : Zustand
 - Typescript 5.8
 - 백엔드 FastAPI 
-  - : Supabase 위주로 사용하였고, 알람톡/예약 기능 일의 경우 fast api + lambda로 api 구축
+  - DB는 Supabase 구축되었고, 알람톡/예약 기능 일의 경우 fast api + lambda로 api 구축
   - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡/예약 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
 - 결제 모듈 : [토스페이먼트 v2](https://docs.tosspayments.com/guides/v2/payment-widget/integration)
 - 정적파일 버킷 : AWS S3
 - 로그인 : next-auth
 - 카카오톡 알림 서비스 : [알리고](https://smartsms.aligo.in/)
   - 환불시 해당 알림서비스 호출할 것
-- 서버 : Supabase
+- DB : Supabase (Postgresql의 wrapper 서비스이다)
 - 배포 플랫폼 : Vercel (서버리스 플랫폼)
 - 도메인 : 가비야에서 구매하였음
 
@@ -50,7 +50,7 @@
 
 ## 이미지 포멧에 대하여
 
-본 웹사이트의 모든 이미지는 기존에 png 포멧이었으나 avif 포멧으로 변경하였다.
+본 웹사이트의 모든 이미지는 기존에 png 포멧이었으나 avif 포멧으로 변경되었다.
 
 2025년 4월 4일 시점에서 모든 모던 브라우저는 avif 포멧을 지원하므로 특정 브라우저에서 이미지/비디오가 정상 표시되지 않는 일은 없다. 
 
@@ -63,7 +63,7 @@
 
 - 예약은 timeslot 단위로 관리된다. timeslot 데이터는 supabase의 timeslot 테이블을 참조할 것
 - 타임슬롯 일괄 생성 API : 해당 기능은 파이썬 fast api로 구현되어 있고 이는 AMS Lambda에 배포되었다. 해당 기능은 next.js에서 호출된다. 
-- updateSlot API : 주기적으로 타임슬롯을 연장하는 이벤트. AWS EventBridge + AMS Lambda기반으로 작성되어 있으며 하루 1회 주기적으로 호출된다. 아래 이미지 참조할 것것
+- updateSlot API : 이 함수는 타임슬롯을 연장한다. AWS EventBridge + AMS Lambda기반으로 작성되어 있으며 하루 1회 주기적으로 호출된다. 아래 이미지 참조할 것
 
 ![](/public/for_readme/updateSlot.webp)
 
@@ -81,7 +81,7 @@ checkout 페이지는 토스페이먼트의 결제창이다.
 
 결제 이후 `결제가 완료되었다`는 안내 페이지로 이동한다.
 
-결제완료와 동시에 DB의 reservation 테이블에 결제정보를 담은 row가 추가된다. 또한 해당 타임슬롯의 current_participants 숫자는 수강인원 숫자 만큼 증가된다.
+결제완료와 동시에 DB의 `reservation` 테이블에 결제정보를 담은 row가 추가된다. 또한 해당 타임슬롯의 `current_participants` 숫자는 수강인원 숫자 만큼 증가된다.
 
 즉 결제 프로세스에서 중요 역할을 하는 DB테이블은 reservation과 timeslot 테이블이다. 결제 과정에서 임시적으로 사용되는 테이블은 `pending_session`이다.
 

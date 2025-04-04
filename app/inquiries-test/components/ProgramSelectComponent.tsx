@@ -1,32 +1,22 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { Divider, Select, SelectItem, Button } from "@heroui/react";
-import { useRouter } from "next/navigation";
-import {
-  createClient,
-  createTypedSupabaseClient,
-} from "@/utils/supabase/client";
-import { useProgramStore } from "@/app/store/useProgramStore";
-import { useSelectedResult } from "@/app/store/useSelectedResult";
-import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
+import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
+import React, { useState, useEffect } from 'react';
+import { Divider, Select, SelectItem, Button } from '@heroui/react';
+import { useRouter } from 'next/navigation';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
+import { useProgramStore } from '@/app/store/useProgramStore';
+import { useSelectedResult } from '@/app/store/useSelectedResult';
+import { loadTossPayments, ANONYMOUS } from '@tosspayments/tosspayments-sdk';
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
 
-import useSelectedImageUrl from "@/app/store/useSelectedImageUrl";
-import { ToastContainer, toast } from "react-toastify";
-import { Database } from "@/utils/supabase/database.types";
-import { TypeDBprogram } from "@/utils/supabase/dbTableTypes";
-import { cn } from "@/lib/utils";
+import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
+import { ToastContainer, toast } from 'react-toastify';
+import { Database } from '@/utils/supabase/database.types';
+import { TypeDBprogram } from '@/utils/supabase/dbTableTypes';
+import { cn } from '@/lib/utils';
 
 // 프리다이빙
 // 체험다이빙
@@ -34,18 +24,13 @@ import { cn } from "@/lib/utils";
 // 언더워터
 // 스쿠버다이빙
 
-const LECTURE_CATEGORY = [
-  "스쿠버다이빙",
-  "프리다이빙",
-  "머메이드",
-  "언더워터 댄스",
-] as const;
+const LECTURE_CATEGORY = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터 댄스'] as const;
 
 const LECTURE_CATEGORY_TO_DB_CATRGORY = {
-  스쿠버다이빙: ["스쿠버다이빙", "체험다이빙"],
-  프리다이빙: ["프리다이빙"],
-  머메이드: ["머메이드"],
-  "언더워터 댄스": ["언더워터"],
+  스쿠버다이빙: ['스쿠버다이빙', '체험다이빙'],
+  프리다이빙: ['프리다이빙'],
+  머메이드: ['머메이드'],
+  '언더워터 댄스': ['언더워터'],
 };
 
 export default function ProgramSelectComponent({
@@ -62,35 +47,26 @@ export default function ProgramSelectComponent({
   // >([]);
 
   const [everyProgramObjs, setEveryProgramObjs] = useState<TypeDBprogram[]>([]);
-  const [
-    everyProgramLegacy_DO_NOT_USE_THIS,
-    setEveryProgramLegacy_DO_NOT_USE_THIS,
-  ] = useState([]);
+  const [everyProgramLegacy_DO_NOT_USE_THIS, setEveryProgramLegacy_DO_NOT_USE_THIS] = useState([]);
   // <TypeDBprogram[]>
 
   const [programTitles, setProgramTitles] = useState([]);
-  const [selectedLectureCategory, setSelectedLectureCategory] = useState<
-    (typeof LECTURE_CATEGORY)[number] | undefined
-  >();
+  const [selectedLectureCategory, setSelectedLectureCategory] = useState<(typeof LECTURE_CATEGORY)[number] | undefined>();
 
-  const targetLectureCategories = selectedLectureCategory
-    ? LECTURE_CATEGORY_TO_DB_CATRGORY[selectedLectureCategory]
-    : [];
+  const targetLectureCategories = selectedLectureCategory ? LECTURE_CATEGORY_TO_DB_CATRGORY[selectedLectureCategory] : [];
 
-  const programFiltered = everyProgramObjs.filter((programObj) => {
-    return typeof programObj.category === "string"
-      ? targetLectureCategories?.includes(programObj.category)
-      : false;
+  const programFiltered = everyProgramObjs.filter(programObj => {
+    return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
   });
 
-  console.log("programFiltered");
+  console.log('programFiltered');
   console.log(programFiltered);
 
-  const [selectedProgram, setSelectedProgram] = useState("");
+  const [selectedProgram, setSelectedProgram] = useState('');
   const [region, setRegion] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState('');
   const [instructor, setInstructor] = useState([]);
-  const [selectedInstructor, setSelectedInstructor] = useState("");
+  const [selectedInstructor, setSelectedInstructor] = useState('');
   const { programStore, setProgramStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const [noParticipants, setNoParticipants] = useState(1);
@@ -134,15 +110,12 @@ export default function ProgramSelectComponent({
     });
   }, [noParticipants]);
 
-  console.log("selectedResult33:", selectedResult);
+  console.log('selectedResult33:', selectedResult);
 
   const supabase = createTypedSupabaseClient();
   // const supabase = createTypedSupabaseClient()
   const getProgram = async () => {
-    const { data: programs, error } = await supabase
-      .from("program")
-      .select("*,instructor_id(*)")
-      .eq("available", true);
+    const { data: programs, error } = await supabase.from('program').select('*,instructor_id(*)').eq('available', true);
 
     if (error) {
       console.log(error);
@@ -162,13 +135,11 @@ export default function ProgramSelectComponent({
     setEveryProgramObjs(programsUnique);
     // setEveryProgram(programs);
     // setProgramObjArr(programs)
-    const programUniqueTitles = [
-      ...new Set(programs.map((item) => item.title)),
-    ];
+    const programUniqueTitles = [...new Set(programs.map(item => item.title))];
     setProgramTitles(programUniqueTitles);
     setEveryProgramLegacy_DO_NOT_USE_THIS(programs);
     setProgramStore(programs);
-    console.log("Loaded program data:", programs);
+    console.log('Loaded program data:', programs);
   };
 
   useEffect(() => {
@@ -176,12 +147,8 @@ export default function ProgramSelectComponent({
   }, [selectedProgram, selectedRegion, selectedInstructor]);
 
   const filterRegion = () => {
-    const filteredRegion = everyProgramLegacy_DO_NOT_USE_THIS?.filter(
-      (item) => item.title === selectedProgram
-    );
-    const uniqueRegions = [
-      ...new Set(filteredRegion.map((item) => item.region)),
-    ];
+    const filteredRegion = everyProgramLegacy_DO_NOT_USE_THIS?.filter(item => item.title === selectedProgram);
+    const uniqueRegions = [...new Set(filteredRegion.map(item => item.region))];
     setRegion(uniqueRegions);
 
     if (uniqueRegions.length === 1) {
@@ -194,12 +161,8 @@ export default function ProgramSelectComponent({
   }, [selectedProgram]);
 
   const filterInstructor = () => {
-    const filteredInstructor = everyProgramLegacy_DO_NOT_USE_THIS.filter(
-      (item) => item.title === selectedProgram && item.region === selectedRegion
-    );
-    const uniqueInstructors = [
-      ...new Set(filteredInstructor.map((item) => item.instructor_id.name)),
-    ];
+    const filteredInstructor = everyProgramLegacy_DO_NOT_USE_THIS.filter(item => item.title === selectedProgram && item.region === selectedRegion);
+    const uniqueInstructors = [...new Set(filteredInstructor.map(item => item.instructor_id.name))];
     setInstructor(uniqueInstructors);
 
     if (uniqueInstructors.length === 1) {
@@ -214,9 +177,7 @@ export default function ProgramSelectComponent({
 
   useEffect(() => {
     if (selectedResult?.program_id && programStore?.length > 0) {
-      const matchedProgram = programStore.find(
-        (program) => program.id === selectedResult.program_id
-      );
+      const matchedProgram = programStore.find(program => program.id === selectedResult.program_id);
 
       if (matchedProgram) {
         const totalPrice = matchedProgram.price * noParticipants;
@@ -230,9 +191,7 @@ export default function ProgramSelectComponent({
 
   useEffect(() => {
     if (selectedResult?.program_id && programStore?.length > 0) {
-      const matchedProgram = programStore.find(
-        (program) => program.id === selectedResult.program_id
-      );
+      const matchedProgram = programStore.find(program => program.id === selectedResult.program_id);
 
       if (matchedProgram) {
         setSelectedResult({
@@ -245,18 +204,18 @@ export default function ProgramSelectComponent({
 
   const handlePaymentClick = async () => {
     if (!selectedResult.isAgree) {
-      console.log("동의안됨");
+      console.log('동의안됨');
       onOpen();
       return;
     }
     if (!userData) {
-      router.push("/login?returnUrl=/inquiries");
+      router.push('/login?returnUrl=/inquiries');
       return;
     }
 
     try {
       const uuid = generateRandomString();
-      const { error } = await supabase.from("pending_sessions").insert({
+      const { error } = await supabase.from('pending_sessions').insert({
         uuid: uuid,
         // selected_data: selectedResult as any,
         selected_data: selectedResult as any,
@@ -268,8 +227,8 @@ export default function ProgramSelectComponent({
 
       router.push(`/inquiries/checkout?session=${uuid}`);
     } catch (error) {
-      console.log("Error creating pending session:", error);
-      toast.error("결제 진행 중 오류가 발생했습니다.");
+      console.log('Error creating pending session:', error);
+      toast.error('결제 진행 중 오류가 발생했습니다.');
     }
   };
 
@@ -292,24 +251,17 @@ export default function ProgramSelectComponent({
   //   }
   // };
 
-  const handleInstructorSelect = ({
-    selectedName,
-  }: {
-    selectedName: string;
-  }) => {
+  const handleInstructorSelect = ({ selectedName }: { selectedName: string }) => {
     // const selectedName = e.target.value;
     setSelectedInstructor(selectedName);
     setIsSelectInstructor(true);
 
     const selectedInstructorData = everyProgramLegacy_DO_NOT_USE_THIS.find(
-      (item) =>
-        item.title === selectedProgram &&
-        item.region === selectedRegion &&
-        item.instructor_id?.name === selectedName
+      item => item.title === selectedProgram && item.region === selectedRegion && item.instructor_id?.name === selectedName,
     );
-    console.log("selectedInstructorData:", selectedInstructorData);
+    console.log('selectedInstructorData:', selectedInstructorData);
 
-    console.log("instructor_id11:", selectedInstructorData.instructor_id.id);
+    console.log('instructor_id11:', selectedInstructorData.instructor_id.id);
     const newResult = {
       ...selectedResult,
       instructor: selectedName,
@@ -321,19 +273,19 @@ export default function ProgramSelectComponent({
     };
 
     setSelectedResult(newResult);
-    console.log("newResult:", newResult);
-    console.log("Updated Result:", newResult);
+    console.log('newResult:', newResult);
+    console.log('Updated Result:', newResult);
   };
 
   function selectInstructor({ instructor }: { instructor: string }) {}
   function selectRegion({ location }: { location: string }) {
-    setSelectedInstructor("");
+    setSelectedInstructor('');
     setSelectedRegion(location);
     setIsSelectInstructor(false);
     setSelectedResult({
       ...selectedResult,
       region: location,
-      instructor: "",
+      instructor: '',
       date: null,
     });
   }
@@ -342,7 +294,8 @@ export default function ProgramSelectComponent({
   // console.log("noParticipants:", noParticipants);
 
   return (
-    <div className="col-span-1 h-full flex flex-col items-center justify-center gap-y-3 md:gap-y-6">
+    // items-center col-span-1
+    <div className="order-1 md:order-2 flex flex-col items-start justify-start gap-y-3 md:gap-y-6">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -355,7 +308,7 @@ export default function ProgramSelectComponent({
         pauseOnHover
         theme="light"
       />
-      {!isSelectProgram && (
+      {/* {!isSelectProgram && (
         // w-56 h-56
         <div className=" flex items-center justify-center relative">
           <Image
@@ -367,12 +320,12 @@ export default function ProgramSelectComponent({
             className="object-contain"
           ></Image>
         </div>
-      )}
-      {isSelectProgram && selectedImageUrl && (
+      )} */}
+      {/* {isSelectProgram && selectedImageUrl && (
         <div className="w-full max-w-[500px] aspect-square flex items-center justify-center relative">
           <Image src={selectedImageUrl} alt="Program Image" fill />
         </div>
-      )}
+      )} */}
       {/* {selectedResult?.category && (
         <>
           <div className="text-center text-2xl md:text-4xl font-bold">
@@ -386,21 +339,15 @@ export default function ProgramSelectComponent({
       {/* <Divider className="w-full bg-[#A6A6A6]"></Divider> */}
       <div className="flex">
         <div className="text-lg md:text-2xl font-bold">강습프로그램</div>
-        <div className="md:text-2xl font-bold">
-          - 원하시는 강습을 선택해주세요.
-        </div>
+        <div className="md:text-2xl font-bold">- 원하시는 강습을 선택해주세요.</div>
       </div>
       <div className="flex gap-2">
-        {LECTURE_CATEGORY.map((category) => {
+        {LECTURE_CATEGORY.map(category => {
           return (
             <Badge
               key={category}
-              variant={"outline"}
-              className={cn(
-                "font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer",
-                category === selectedLectureCategory &&
-                  "bg-btnActive text-white"
-              )}
+              variant={'outline'}
+              className={cn('font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer', category === selectedLectureCategory && 'bg-btnActive text-white')}
               onClick={() => setSelectedLectureCategory(category)}
             >
               {category}
@@ -411,13 +358,13 @@ export default function ProgramSelectComponent({
       <Select
         label="프로그램명"
         aria-label="강습프로그램 선택"
-        onChange={(e) => {
-          setSelectedImageUrl("");
+        onChange={e => {
+          setSelectedImageUrl('');
           debugger;
           setSelectedProgram(e.target.value);
           setIsSelectProgram(true);
-          setSelectedRegion("");
-          setSelectedInstructor("");
+          setSelectedRegion('');
+          setSelectedInstructor('');
           setIsSelectInstructor(false);
           setNoParticipants(1);
           setSelectedResult({
@@ -425,8 +372,8 @@ export default function ProgramSelectComponent({
             noParticipants: 1,
             program_id: null,
             instructor_id: null,
-            instructor: "",
-            region: "",
+            instructor: '',
+            region: '',
             category: null,
             totalPrice: null,
             date: null,
@@ -434,7 +381,7 @@ export default function ProgramSelectComponent({
         }}
         className="w-full h-full text-xl"
       >
-        {programFiltered.map((item) => {
+        {programFiltered.map(item => {
           return (
             <SelectItem value={item.title} key={item.title}>
               {item.title}
@@ -453,7 +400,7 @@ export default function ProgramSelectComponent({
         label="지역명"
         aria-label="지역 선택"
         selectedKeys={[selectedRegion]}
-        onChange={(e) => {
+        onChange={e => {
           selectRegion({ location: e.target.value });
           // setSelectedInstructor("");
           // setSelectedRegion(e.target.value);
@@ -467,7 +414,7 @@ export default function ProgramSelectComponent({
         }}
         className="w-full h-full text-xl"
       >
-        {region.map((item) => (
+        {region.map(item => (
           <SelectItem value={item} key={item}>
             {item}
           </SelectItem>
@@ -479,12 +426,10 @@ export default function ProgramSelectComponent({
         label="강사명"
         aria-label="강사 선택"
         selectedKeys={selectedInstructor ? [selectedInstructor] : []}
-        onChange={(e) =>
-          handleInstructorSelect({ selectedName: e.target.value })
-        }
+        onChange={e => handleInstructorSelect({ selectedName: e.target.value })}
         className="w-full h-full text-xl"
       >
-        {instructor.map((item) => (
+        {instructor.map(item => (
           <SelectItem value={item} key={item}>
             {item}
           </SelectItem>
@@ -501,20 +446,8 @@ export default function ProgramSelectComponent({
             className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
             onClick={decrement}
           >
-            <svg
-              className="w-3 h-3 text-gray-900 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 2"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h16"
-              />
+            <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
             </svg>
           </button>
           <input
@@ -535,20 +468,8 @@ export default function ProgramSelectComponent({
             className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
             onClick={increment}
           >
-            <svg
-              className="w-3 h-3 text-gray-900 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
+            <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
             </svg>
           </button>
         </div>
@@ -562,9 +483,7 @@ export default function ProgramSelectComponent({
         <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
           {selectedResult?.totalPrice && (
             <>
-              <p className="text-lg md:text-2xl">
-                {selectedResult?.totalPrice.toLocaleString()}원
-              </p>
+              <p className="text-lg md:text-2xl">{selectedResult?.totalPrice.toLocaleString()}원</p>
               <p className="text-lg md:text-2xl">(vat포함)</p>
             </>
           )}
@@ -572,16 +491,13 @@ export default function ProgramSelectComponent({
       </div>
 
       <div className="w-full flex justify-center">
-        <Button
-          onClick={handlePaymentClick}
-          className="bg-[#0077B6] text-white w-full text-lg md:text-2xl h-12 md:h-16"
-        >
+        <Button onClick={handlePaymentClick} className="bg-[#0077B6] text-white w-full text-lg md:text-2xl h-12 md:h-16">
           결제하기
         </Button>
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
+          {onClose => (
             <>
               <ModalHeader className="flex flex-col gap-1">알람</ModalHeader>
               <ModalBody>
@@ -605,5 +521,5 @@ function generateRandomString() {
 }
 
 function removeSpecialCharacters(str) {
-  return str.replace(/[^a-zA-Z0-9가-힣]/g, "");
+  return str.replace(/[^a-zA-Z0-9가-힣]/g, '');
 }
