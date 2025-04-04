@@ -83,16 +83,29 @@ export default function ProgramSelectComponent({
 
   const router = useRouter();
 
-  const increment = () => {
-    const newValue = noParticipants + 1;
-    setNoParticipants(newValue);
+  const increaseNumOfParticipants = () => {
+    const newParticipants = noParticipants + 1;
+
+    if (
+      typeof selectedResult.slot_max_participants === 'number' &&
+      typeof selectedResult.slot_current_participants === 'number' &&
+      selectedResult.slot_max_participants < newParticipants + selectedResult.slot_current_participants
+    ) {
+      alert('최대 인원 수를 초과하였습니다.');
+      return;
+    }
+
+    // if(newParticipants) {
+
+    // }
+    setNoParticipants(newParticipants);
     setSelectedResult({
       ...selectedResult,
-      noParticipants: newValue,
+      noParticipants: newParticipants,
     });
   };
 
-  const decrement = () => {
+  const decreaseNumOfParticipants = () => {
     const newValue = Math.max(1, noParticipants - 1);
     setNoParticipants(newValue);
     setSelectedResult({
@@ -444,7 +457,7 @@ export default function ProgramSelectComponent({
             id="decrement-button"
             data-input-counter-decrement="quantity-input"
             className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-            onClick={decrement}
+            onClick={decreaseNumOfParticipants}
           >
             <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
@@ -466,7 +479,7 @@ export default function ProgramSelectComponent({
             id="increment-button"
             data-input-counter-increment="quantity-input"
             className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-            onClick={increment}
+            onClick={increaseNumOfParticipants}
           >
             <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />

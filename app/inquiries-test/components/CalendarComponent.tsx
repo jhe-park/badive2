@@ -142,6 +142,8 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
       slot_start_time: slot.start_time,
       slot_end_time: slot.end_time,
       slot_date: formattedDate,
+      slot_current_participants: slot.current_participants,
+      slot_max_participants: slot.max_participants,
       price: slot.program_id.price,
       totalPrice: slot.program_id.price * selectedResult.noParticipants,
     });
@@ -231,19 +233,30 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
                 <div className="py-1">오전</div>
                 <div className="flex gap-4 flex-wrap">
                   {selectedDateTimeSlotsAM.map(slot => {
+                    slot.current_participants;
                     return (
-                      <>
+                      <div key={slot.unique_id} className="flex flex-col items-center gap-1">
                         <Badge
-                          key={slot.unique_id}
                           variant={'outline'}
                           className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white')}
                           onClick={() => {
+                            // 여기에 점검 로직을 추가할 것
+                            // selectedResult.noParticipants
+                            if (slot.max_participants < selectedResult.noParticipants + slot.current_participants) {
+                              alert('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
+                              return;
+                            }
+                            // slot.current_participants + selectedResult.noParticipants
+                            // slot.max_participants
                             selectSlot({ slot });
                           }}
                         >
                           {slot.start_time}
                         </Badge>
-                      </>
+                        <div className="border-solid border-1 border-gray text-btnActive w-fit px-2">
+                          {slot.current_participants}/{slot.max_participants}
+                        </div>
+                      </div>
                     );
                   })}
                 </div>
@@ -259,16 +272,21 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
                     const formattedHour = parseInt(slot.start_time.split(':').at(0)) - 12;
 
                     return (
-                      <Badge
-                        key={slot.unique_id}
-                        variant={'outline'}
-                        className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
-                        onClick={() => {
-                          selectSlot({ slot });
-                        }}
-                      >
-                        {`${formattedHour}:00`}
-                      </Badge>
+                      <div className="" key={slot.unique_id}>
+                        <Badge
+                          variant={'outline'}
+                          className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
+                          onClick={() => {
+                            if (slot.max_participants < selectedResult.noParticipants + slot.current_participants) {
+                              alert('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
+                              return;
+                            }
+                            selectSlot({ slot });
+                          }}
+                        >
+                          {`${formattedHour}:00`}
+                        </Badge>
+                      </div>
                     );
                   })}
                 </div>

@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export type TSelectedResult = {
   instructor: string;
@@ -12,6 +12,8 @@ export type TSelectedResult = {
   slot_start_time: string;
   slot_end_time: string;
   slot_date: string;
+  slot_current_participants: number | null;
+  slot_max_participants: number | null;
   // price: string;
   price: number;
   totalPrice: number;
@@ -20,11 +22,11 @@ export type TSelectedResult = {
 
 export const useSelectedResult = create<{
   selectedResult: TSelectedResult;
-  setSelectedResult: (result: any) => void;
-}>((set) => ({
+  setSelectedResult: (result: TSelectedResult) => void;
+}>(set => ({
   selectedResult: {
-    instructor: "",
-    program: "",
+    instructor: '',
+    program: '',
     noParticipants: 1,
     date: [],
     instructor_id: null,
@@ -32,12 +34,14 @@ export const useSelectedResult = create<{
     // instructor_id: "",
     // program_id: "",
     slot_id: null,
-    slot_start_time: "",
-    slot_end_time: "",
-    slot_date: "",
+    slot_start_time: '',
+    slot_end_time: '',
+    slot_date: '',
+    slot_current_participants: null,
+    slot_max_participants: null,
     price: null,
     totalPrice: 0,
     isAgree: false,
   },
-  setSelectedResult: (result) => set({ selectedResult: result }),
+  setSelectedResult: result => set({ selectedResult: result }),
 }));
