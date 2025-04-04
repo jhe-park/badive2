@@ -5,71 +5,80 @@ import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { SlControlPause } from 'react-icons/sl';
 import { gsap } from 'gsap';
 
-const MainBanner = () => {
-  const VIDEO_SOURCE_MOBILE = [
-    {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1_1320.mp4',
-      poster: '/banner/poster1.png',
-    },
-    {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1_1320.mp4',
-      poster: '/banner/poster2.png',
-    },
-    {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1_1320.mp4',
-      poster: '/banner/poster3.png',
-    },
-    // {
-    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
-    //   poster: '/banner/poster1.png',
-    // },
-    // {
-    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
-    //   poster: '/banner/poster2.png',
-    // },
-    // {
-    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
-    //   poster: '/banner/poster3.png',
-    // },
-  ];
-  const VIDEO_SOURCE = [
-    {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4',
-      poster: '/banner/poster1.png',
-    },
-    {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1.mp4',
-      poster: '/banner/poster2.png',
-    },
-    {
-      link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1.mp4',
-      poster: '/banner/poster3.png',
-    },
-    // {
-    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
-    //   poster: '/banner/poster1.png',
-    // },
-    // {
-    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
-    //   poster: '/banner/poster2.png',
-    // },
-    // {
-    //   link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
-    //   poster: '/banner/poster3.png',
-    // },
-  ];
-  const buttons = [
-    {
-      label: '자세히보기',
-      link: ['https://www.badive.co.kr/programs/scuberdiving', 'https://www.badive.co.kr/programs/freediving', 'https://www.badive.co.kr/programs/mermaid'],
-    },
-    {
-      label: '소속강사',
-      link: 'https://www.badive.co.kr/instructors/bdn',
-    },
-  ];
-  const iconClass = 'rounded-full w-5 h-5 sm:w-[34px] sm:h-[34px] inline-flex bg-[#00000099] border border-black text-white cursor-pointer';
+const VIDEO_SOURCE_MOBILE_SAFARI = [
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
+    poster: '/banner/poster1.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
+    poster: '/banner/poster2.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
+    poster: '/banner/poster3.avif',
+  },
+];
 
+const VIDEO_SOURCE_MOBILE = [
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1_1320.mp4',
+    poster: '/banner/poster1.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1_1320.mp4',
+    poster: '/banner/poster2.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1_1320.mp4',
+    poster: '/banner/poster3.avif',
+  },
+];
+
+const VIDEO_SOURCE_SAFARI = [
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
+    poster: '/banner/poster1.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
+    poster: '/banner/poster2.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
+    poster: '/banner/poster3.avif',
+  },
+];
+
+const VIDEO_SOURCE = [
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4',
+    poster: '/banner/poster1.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1.mp4',
+    poster: '/banner/poster2.avif',
+  },
+  {
+    link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1.mp4',
+    poster: '/banner/poster3.avif',
+  },
+];
+
+const buttons = [
+  {
+    label: '자세히보기',
+    link: ['https://www.badive.co.kr/programs/scuberdiving', 'https://www.badive.co.kr/programs/freediving', 'https://www.badive.co.kr/programs/mermaid'],
+  },
+  {
+    label: '소속강사',
+    link: 'https://www.badive.co.kr/instructors/bdn',
+  },
+];
+
+const iconClass = 'rounded-full w-5 h-5 sm:w-[34px] sm:h-[34px] inline-flex bg-[#00000099] border border-black text-white cursor-pointer';
+
+const MainBanner: React.FC<{ isSafari: boolean }> = ({ isSafari }) => {
   const videoRef = useRef(null);
   const [page, setPage] = useState(0);
 
@@ -169,7 +178,7 @@ const MainBanner = () => {
               </button>
             </div>
           </div>
-        </div>   
+        </div>
         <video
           ref={videoRef}
           className="w-full h-full object-fill"
@@ -181,8 +190,16 @@ const MainBanner = () => {
           playsInline={true}
           key={`main-video-${page}`}
         >
-          <source src={VIDEO_SOURCE_MOBILE[page].link} media="(max-width: 500px)" type="video/mp4" />
-          <source src={VIDEO_SOURCE[page].link} media="(min-width: 500px)" type="video/mp4" />
+          {isSafari ? (
+            <source src={VIDEO_SOURCE_MOBILE_SAFARI[page].link} media="(max-width: 500px)" type="video/mp4" />
+          ) : (
+            <source src={VIDEO_SOURCE_MOBILE[page].link} media="(max-width: 500px)" type="video/mp4" />
+          )}
+          {isSafari ? (
+            <source src={VIDEO_SOURCE_SAFARI[page].link} media="(min-width: 500px)" type="video/mp4" />
+          ) : (
+            <source src={VIDEO_SOURCE[page].link} media="(min-width: 500px)" type="video/mp4" />
+          )}
           Your browser does not support the video tag.
         </video>
       </section>
