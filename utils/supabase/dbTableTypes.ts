@@ -1,24 +1,24 @@
-import { Database } from "./database.types";
+import { Database } from './database.types';
 
-type DBTable = Database["public"]["Tables"];
+type DBTable = Database['public']['Tables'];
 
-export type TypeDBbye = DBTable["bye"]["Row"];
-export type TypeDBfaq = DBTable["faq"]["Row"];
-export type TypeDBinstructor = DBTable["instructor"]["Row"];
-export type TypeDBnotification = DBTable["notification"]["Row"];
-export type TypeDBorder = DBTable["order"]["Row"];
-export type TypeDBpending_sessions = DBTable["pending_sessions"]["Row"];
-export type TypeDBprofiles = DBTable["profiles"]["Row"];
-export type TypeDBprogram = DBTable["program"]["Row"];
-export type TypeDBrequest = DBTable["request"]["Row"];
-export type TypeDBrequestInstructor = DBTable["requestInstructor"]["Row"];
-export type TypeDBreservation = DBTable["reservation"]["Row"];
-export type TypeDBresort = DBTable["resort"]["Row"];
-export type TypeDBtimeslot = DBTable["timeslot"]["Row"];
-export type TypeDBtour = DBTable["tour"]["Row"];
-export type TypeDBtour_input = DBTable["tour_input"]["Row"];
+export type TypeDBbye = DBTable['bye']['Row'];
+export type TypeDBfaq = DBTable['faq']['Row'];
+export type TypeDBinstructor = DBTable['instructor']['Row'];
+export type TypeDBnotification = DBTable['notification']['Row'];
+export type TypeDBorder = DBTable['order']['Row'];
+export type TypeDBpending_sessions = DBTable['pending_sessions']['Row'];
+export type TypeDBprofile = DBTable['profiles']['Row'];
+export type TypeDBprogram = DBTable['program']['Row'];
+export type TypeDBrequest = DBTable['request']['Row'];
+export type TypeDBrequestInstructor = DBTable['requestInstructor']['Row'];
+export type TypeDBreservation = DBTable['reservation']['Row'];
+export type TypeDBresort = DBTable['resort']['Row'];
+export type TypeDBtimeslot = DBTable['timeslot']['Row'];
+export type TypeDBtour = DBTable['tour']['Row'];
+export type TypeDBtour_input = DBTable['tour_input']['Row'];
 
-export type TypeDBTimeSlotJoined =  {	
+export type TypeDBTimeSlotJoined = {
   available: boolean | null;
   created_at: string;
   current_participants: number | null;
@@ -28,17 +28,17 @@ export type TypeDBTimeSlotJoined =  {
   instructor_id: number | null;
   max_participants: number | null;
   program_id: number & {
-	  available: boolean | null;
-	  category: string | null;
-	  created_at: string;
-	  id: number;
-	  images: string | null;
-	  instructor_id: number | null;
-	  participants: number | null;
-	  price: number | null;
-	  region: string | null;
-	  title: string | null;
+    available: boolean | null;
+    category: string | null;
+    created_at: string;
+    id: number;
+    images: string | null;
+    instructor_id: number | null;
+    participants: number | null;
+    price: number | null;
+    region: string | null;
+    title: string | null;
   };
   start_time: string | null;
   unique_id: string | null;
-}
+};

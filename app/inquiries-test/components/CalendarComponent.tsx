@@ -1,8 +1,8 @@
 'use client';
+// import { useDisclosure } from '@heroui/react';
 import dayjs from 'dayjs';
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useDisclosure } from '@heroui/react';
 import { useProgramStore } from '@/app/store/useProgramStore';
 import { Checkbox } from '@heroui/react';
 import { useSelectedResult } from '@/app/store/useSelectedResult';
@@ -12,7 +12,7 @@ import { getWholeMonthlyDate } from '@/utils/supabase/getWholeMonthlyDate';
 import { getMonthlySchedule } from '@/utils/supabase/getMonthlySchedule';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { TypeDBTimeSlotJoined } from '@/utils/supabase/dbTableTypes';
+import { TypeDBreservation, TypeDBTimeSlotJoined } from '@/utils/supabase/dbTableTypes';
 
 const MAPPER_FROM_NUMBER_TO_WEEKDAY = {
   0: '일',
@@ -21,9 +21,26 @@ const MAPPER_FROM_NUMBER_TO_WEEKDAY = {
   3: '수',
   4: '목',
   5: '금',
-  6: '토토',
+  6: '토',
 };
-const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstructor, setIsSelectInstructor, userReservations, setSelectedImageUrl }) => {
+
+type TProps = {
+  isSelectProgram: boolean;
+  setIsSelectProgram: React.Dispatch<React.SetStateAction<boolean>>;
+  isSelectInstructor: boolean;
+  setIsSelectInstructor: React.Dispatch<React.SetStateAction<boolean>>;
+  userReservations: TypeDBreservation[];
+  setSelectedImageUrl;
+};
+
+const CalendarComponent: React.FC<TProps> = ({
+  isSelectProgram,
+  isSelectInstructor,
+  setSelectedImageUrl,
+  // userReservations,
+  // setIsSelectProgram,
+  // setIsSelectInstructor,
+}) => {
   const supabase = createTypedSupabaseClient();
   const refForCheckbox = useRef<HTMLInputElement>(null);
   const [monthlyTimeSlots, setMonthlyTimeSlots] = useState<TypeDBTimeSlotJoined[]>([]);
@@ -37,9 +54,9 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
   } | null>(null);
   const { programStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
-  const [isAgree, setIsAgree] = useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { calendarClick, setCalendarClick } = useCalendarClick();
+  // const [isAgree, setIsAgree] = useState(false);
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     setupMonthlyTimeSlots({ newDate: new Date() });
@@ -87,7 +104,6 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
     setupMonthlyTimeSlots({ newDate });
   };
 
-  // FIXME
   const handleDateSelect = day => {
     setCalendarClick(calendarClick + 1);
     const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
@@ -129,9 +145,6 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
 
   const selectSlot = ({ slot }: { slot: TypeDBTimeSlotJoined }) => {
     const selectedDateStart = selectedDate.start;
-
-    // const year = currentDate.getFullYear();
-    // const month = currentDate.getMonth() + 1;
 
     const selectedWeekday = MAPPER_FROM_NUMBER_TO_WEEKDAY[selectedDateStart.getDay()];
     const formattedDate = `${dayjs(selectedDateStart).format('MM/DD')}(${selectedWeekday})`;
@@ -203,9 +216,7 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
               const today = new Date();
               today.setHours(0, 0, 0, 0);
               const isPastDate = currentDateObj <= today;
-
               const isSelected = selectedDate && selectedDate.start <= currentDateObj && selectedDate.end >= currentDateObj;
-
               const isValidDate = monthlyTimeSlotsSorted.some(slot => parseInt(slot.date.split('-').at(-1)) === day);
 
               return (
@@ -240,14 +251,11 @@ const CalendarComponent = ({ isSelectProgram, setIsSelectProgram, isSelectInstru
                           variant={'outline'}
                           className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white')}
                           onClick={() => {
-                            // 여기에 점검 로직을 추가할 것
-                            // selectedResult.noParticipants
                             if (slot.max_participants < selectedResult.noParticipants + slot.current_participants) {
                               alert('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
                               return;
                             }
-                            // slot.current_participants + selectedResult.noParticipants
-                            // slot.max_participants
+
                             selectSlot({ slot });
                           }}
                         >

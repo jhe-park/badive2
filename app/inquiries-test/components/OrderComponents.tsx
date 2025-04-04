@@ -5,8 +5,17 @@ import React, { useState } from 'react';
 import CalendarComponent from './CalendarComponent';
 import ProgramSelectComponent from './ProgramSelectComponent';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
+import { CheckOut } from './Checkout';
+import { User } from '@supabase/supabase-js';
+import { TypeDBprofile, TypeDBreservation } from '@/utils/supabase/dbTableTypes';
 
-export default function OrderComponents({ userReservations, userData, profile }) {
+type TProps = {
+  userReservations: TypeDBreservation[];
+  userData: User;
+  profile: TypeDBprofile;
+};
+
+const OrderComponents: React.FC<TProps> = ({ userReservations, userData, profile }) => {
   const [isSelectProgram, setIsSelectProgram] = useState(false);
   const [isSelectInstructor, setIsSelectInstructor] = useState(false);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
@@ -19,21 +28,11 @@ export default function OrderComponents({ userReservations, userData, profile })
         </div>
       )}
       {!isSelectProgram && (
-        // w-56 h-56
         <div className=" flex items-center justify-center relative">
-          <Image
-            src="/inquiries/logo.png"
-            alt="logo"
-            // fill
-            width={500}
-            height={500}
-            className="object-contain"
-          ></Image>
+          <Image src="/inquiries/logo.png" alt="logo" width={500} height={500} className="object-contain"></Image>
         </div>
       )}
-      <div style={{
-        // direction: "rtl"
-      }} className="w-full h-full grid grid-cols-1 md:grid-cols-2 items-start justify-center gap-y-6 gap-x-12 md:flex-col-reverse">
+      <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 items-start justify-center gap-y-6 gap-x-12 md:flex-col-reverse">
         <CalendarComponent
           setSelectedImageUrl={setSelectedImageUrl}
           userReservations={userReservations}
@@ -51,6 +50,9 @@ export default function OrderComponents({ userReservations, userData, profile })
           profile={profile}
         />
       </div>
+      <CheckOut profile={profile} userData={userData} showMode="MOBILE" />
     </>
   );
-}
+};
+
+export default OrderComponents;

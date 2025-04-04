@@ -18,6 +18,30 @@ export type TSelectedResult = {
   price: number;
   totalPrice: number;
   isAgree: boolean;
+  region: string | null;
+  category: string | null;
+};
+
+export const selectedResultInitializedValue = {
+  program: '',
+  noParticipants: 1,
+  date: [],
+  instructor_id: null,
+  instructor: '',
+  program_id: null,
+  // instructor_id: "",
+  // program_id: "",
+  slot_id: null,
+  slot_start_time: '',
+  slot_end_time: '',
+  slot_date: '',
+  slot_current_participants: null,
+  slot_max_participants: null,
+  price: null,
+  totalPrice: 0,
+  isAgree: false,
+  region: null,
+  category: null,
 };
 
 export const useSelectedResult = create<{
@@ -25,23 +49,7 @@ export const useSelectedResult = create<{
   setSelectedResult: (result: TSelectedResult) => void;
 }>(set => ({
   selectedResult: {
-    instructor: '',
-    program: '',
-    noParticipants: 1,
-    date: [],
-    instructor_id: null,
-    program_id: null,
-    // instructor_id: "",
-    // program_id: "",
-    slot_id: null,
-    slot_start_time: '',
-    slot_end_time: '',
-    slot_date: '',
-    slot_current_participants: null,
-    slot_max_participants: null,
-    price: null,
-    totalPrice: 0,
-    isAgree: false,
+    ...selectedResultInitializedValue,
   },
   setSelectedResult: result => set({ selectedResult: result }),
 }));
