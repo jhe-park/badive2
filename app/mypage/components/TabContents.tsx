@@ -6,26 +6,23 @@ import TourTable from './TourTable';
 import ChangeInformation from './ChangeInformation';
 import SayGoodbye from './SayGoodbye';
 import Image from 'next/image';
-// import { createClient } from '@/utils/supabase/client';
-// import { useState, useEffect } from 'react';
-// import { Skeleton } from '@heroui/react';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
 
-export default function App({ profile }) {
+export default function TabContentsForRegisteredPrograms({
+  profile,
+  registeredPrograms,
+  totalCountOfRegisteredPrograms,
+}: {
+  profile: PostgrestSingleResponse<TypeDBprofile>;
+  registeredPrograms: TypeDBreservationJoinWithTimeslot;
+  totalCountOfRegisteredPrograms: number;
+}) {
   // const supabase = createClient();
   // const [user, setUser] = useState(null);
   // const [name, setName] = useState(null);
   // const [point, setPoint] = useState(null);
-
   // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     // 데이터 로드 로직 추가
-  //     // 예: await fetchData();
-  //     setLoading(false);
-  //   };
-  //   loadData();
-  // }, []);
 
   return (
     <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full h-full flex-col">
@@ -42,9 +39,9 @@ export default function App({ profile }) {
           </div>
         </div>
       </div>
-      <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined">
+      <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined" defaultSelectedKey={'purchase'}>
         <Tab key="purchase" title="프로그램 예약 조회">
-          <ProgramTable profile={profile} />
+          <ProgramTable profile={profile} registeredProgramsInDB={registeredPrograms} totalCountOfRegisteredPrograms={totalCountOfRegisteredPrograms} />
         </Tab>
         <Tab key="tour" title="다이빙 투어 예약 조회">
           <TourTable profile={profile} />

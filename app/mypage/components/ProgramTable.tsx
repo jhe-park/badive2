@@ -2,18 +2,27 @@
 
 import React, { useState } from 'react';
 import { Card, CardHeader, CardBody, Button, Pagination } from '@nextui-org/react';
-// import { Icon } from '@iconify/react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Select, SelectItem, Divider } from '@heroui/react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
 import Image from 'next/image';
 import { FaSearch } from 'react-icons/fa';
-import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
-// import CellWrapper from './cell-wrapper';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { useEffect } from 'react';
 import useModalOpen from '@/app/store/useModalOpen';
 import { ToastContainer, toast } from 'react-toastify';
+import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
+import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 
-export default function ProgramTable({ profile }) {
+export default function ProgramTable({
+  profile,
+  registeredProgramsInDB,
+  totalCountOfRegisteredPrograms,
+}: {
+  profile: PostgrestSingleResponse<TypeDBprofile>;
+  registeredProgramsInDB: TypeDBreservationJoinWithTimeslot;
+  totalCountOfRegisteredPrograms: number;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isOpen: isCancelOpen, setIsOpen: setIsCancelOpen } = useModalOpen();
   const { isOpen: isDetailOpen, onOpen: onDetailOpen, onOpenChange: onDetailOpenChange } = useDisclosure();
@@ -21,60 +30,37 @@ export default function ProgramTable({ profile }) {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [searchFilter, setSearchFilter] = useState('제목');
   const [searchValue, setSearchValue] = useState('');
-  // const supabase = createClient();
   const supabase = createTypedSupabaseClient();
 
-  const [program, setProgram] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
+  const [registeredPrograms, setRegisteredPrograms] = useState(registeredProgramsInDB ?? []);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [totalPage, setTotalPage] = useState(() => Math.ceil(totalCountOfRegisteredPrograms / pageSize));
 
-  const handleGetProgram = async () => {
-    if (!profile?.data.id) {
-      console.log('프로필 정보가 없습니다.');
-      return;
-    }
+  console.log('totalCountOfRegisteredPrograms');
+  console.log(totalCountOfRegisteredPrograms);
 
-    let query = supabase
-      .from('reservation')
-      .select('*,time_slot_id(*, program_id(*), instructor_id(*))', {
-        count: 'exact',
-      })
-      .eq('user_id', profile?.data.id)
-      .not('time_slot_id', 'is', null)
-      .not('time_slot_id.program_id', 'is', null)
-      .not('time_slot_id.instructor_id', 'is', null)
-      .order('created_at', { ascending: false })
-      .range((currentPage - 1) * pageSize, currentPage * pageSize - 1);
-
-    if (searchValue) {
-      switch (searchFilter) {
-        case '제목':
-          query = query.ilike('time_slot_id.program_id.title', `%${searchValue}%`);
-          break;
-        case '장소':
-          query = query.ilike('time_slot_id.program_id.region', `%${searchValue}%`);
-          break;
-        case '강사':
-          query = query.ilike('time_slot_id.instructor_id.name', `%${searchValue}%`);
-          break;
-        case '상태':
-          query = query.ilike('status', `%${searchValue}%`);
-          break;
-      }
-    }
-
-    const { data, count, error } = await query;
-    if (error) {
-      console.log('Error fetching programs:', error);
-      return;
-    }
-    setProgram(data);
-    setTotalPage(Math.ceil(count / pageSize));
-  };
+  console.log('totalPage');
+  console.log(totalPage);
 
   useEffect(() => {
-    handleGetProgram();
+    (async () => {
+      const res = await handleGetProgram({
+        supabase: supabase,
+        // profile,
+        profileId: profile.data.id,
+        searchValue,
+        searchFilter,
+        currentPage,
+      });
+
+      if (res.status === 'FAILED') {
+        return;
+      }
+
+      setRegisteredPrograms(res.data);
+      setTotalPage(Math.ceil(res.count / pageSize));
+    })();
   }, [searchValue, searchFilter, currentPage]);
 
   const handleDetailOpen = program => {
@@ -116,8 +102,7 @@ export default function ProgramTable({ profile }) {
       return;
     }
 
-    // 환불 금액 계산
-    let refundAmount =
+    const refundAmount =
       diffDays <= 7
         ? selectedProgram.time_slot_id.program_id.price * selectedProgram.participants
         : selectedProgram.time_slot_id.program_id.price * selectedProgram.participants;
@@ -155,42 +140,26 @@ export default function ProgramTable({ profile }) {
       participants_count: selectedProgram.participants,
     });
 
-    console.log('isTransactionSuccess');
-    console.log(isTransactionSuccess);
-
-    console.log('errorForSupabaseTransaction');
-    console.log(errorForSupabaseTransaction);
-
     if (errorForSupabaseTransaction) {
       toast.error(`[🚫 Error in Supabase transaction]: : ${JSON.stringify(errorForSupabaseTransaction)}`);
       console.error('[🚫 Error in Supabase transaction]:', errorForSupabaseTransaction);
       return;
     }
 
-    // const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', selectedProgram.id);
-
-    // if (error) {
-    //   toast.error('프로그램 취소에 실패했습니다.');
-    //   return;
-    // }
-
-    // const { data: timeSlotData, error: timeSlotError } = await supabase
-    //   .from('timeslot')
-    //   .update({
-    //     current_participants: selectedProgram.time_slot_id.current_participants - selectedProgram.participants,
-    //   })
-    //   .eq('id', selectedProgram.time_slot_id.id);
-
-    // if (timeSlotError) {
-    //   toast.error('참가자 수 업데이트에 실패했습니다.');
-    //   return;
-    // }
-
     toast.success('프로그램 취소가 신청 완료되었습니다.');
-    handleGetProgram();
+
+    const res = await handleGetProgram({
+      supabase: supabase as any,
+      profile,
+    });
+
+    if (res.status === 'FAILED') {
+      return;
+    }
+
+    setRegisteredPrograms(res.data);
+    setTotalPage(Math.ceil(res.count / pageSize));
   };
-  console.log('currentPage:', currentPage);
-  console.log('program:', program);
 
   return (
     <div className="w-full flex-col justify-center items-center space-y-5 h-full">
@@ -234,7 +203,7 @@ export default function ProgramTable({ profile }) {
             onChange={e => setSearchValue(e.target.value)}
           ></Input>
         </div>
-        <Card className="w-full " shadow="none">
+        <Card className="w-full min-h-[500px] lg:min-h-[500px]" shadow="none">
           <CardBody className="space-y-2">
             <Table removeWrapper aria-label="Example static collection table">
               <TableHeader className="border-2 border-gray-200">
@@ -248,7 +217,7 @@ export default function ProgramTable({ profile }) {
                 <TableColumn className="w-1/7 text-center">비고</TableColumn>
               </TableHeader>
               <TableBody>
-                {program.map(item => (
+                {registeredPrograms.map(item => (
                   <TableRow key={item.id}>
                     <TableCell className="text-center">{item.id}</TableCell>
 
@@ -260,9 +229,7 @@ export default function ProgramTable({ profile }) {
                     <TableCell className="text-center whitespace-nowrap">{item?.time_slot_id?.program_id?.title}</TableCell>
                     <TableCell className="text-center whitespace-nowrap">{item?.time_slot_id?.date + ' ' + item?.time_slot_id?.start_time}</TableCell>
                     <TableCell className="text-center whitespace-nowrap">{item?.time_slot_id?.program_id?.region}</TableCell>
-
                     <TableCell className="text-center whitespace-nowrap">{item?.time_slot_id?.instructor_id?.name}</TableCell>
-
                     <TableCell className="text-center whitespace-nowrap">{item?.status}</TableCell>
                     <TableCell className="text-center whitespace-nowrap">
                       <Button
@@ -282,15 +249,9 @@ export default function ProgramTable({ profile }) {
           </CardBody>
         </Card>
         <div className="w-full flex justify-center items-center">
-          <Pagination
-            // initialPage={1}
-            onChange={page => setCurrentPage(page)}
-            page={currentPage}
-            total={totalPage}
-          />
+          <Pagination onChange={page => setCurrentPage(page)} page={currentPage} total={totalPage} />
         </div>
       </div>
-
       <Modal size="4xl" isOpen={isDetailOpen} onOpenChange={onDetailOpenChange}>
         <ModalContent>
           {onClose => (
@@ -352,7 +313,6 @@ export default function ProgramTable({ profile }) {
           )}
         </ModalContent>
       </Modal>
-
       <Modal size="3xl" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {onClose => (
@@ -392,3 +352,71 @@ export default function ProgramTable({ profile }) {
     </div>
   );
 }
+
+// import { Icon } from '@iconify/react';
+// import CellWrapper from './cell-wrapper';
+// import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
+// import { PostgrestSingleResponse } from '@supabase/supabase-js';
+
+// const handleGetProgram = async ({ profile }: { profile: PostgrestSingleResponse<TypeDBprofile> }) => {
+//   if (!profile?.data.id) {
+//     console.log('프로필 정보가 없습니다.');
+//     return;
+//   }
+
+//   let query = supabase
+//     .from('reservation')
+//     .select('*,time_slot_id(*, program_id(*), instructor_id(*))', {
+//       count: 'exact',
+//     })
+//     .eq('user_id', profile?.data.id)
+//     .not('time_slot_id', 'is', null)
+//     .not('time_slot_id.program_id', 'is', null)
+//     .not('time_slot_id.instructor_id', 'is', null)
+//     .order('created_at', { ascending: false })
+//     .range((currentPage - 1) * pageSize, currentPage * pageSize - 1);
+
+//   if (searchValue) {
+//     switch (searchFilter) {
+//       case '제목':
+//         query = query.ilike('time_slot_id.program_id.title', `%${searchValue}%`);
+//         break;
+//       case '장소':
+//         query = query.ilike('time_slot_id.program_id.region', `%${searchValue}%`);
+//         break;
+//       case '강사':
+//         query = query.ilike('time_slot_id.instructor_id.name', `%${searchValue}%`);
+//         break;
+//       case '상태':
+//         query = query.ilike('status', `%${searchValue}%`);
+//         break;
+//     }
+//   }
+
+//   const { data, count, error } = await query;
+//   if (error) {
+//     console.log('Error fetching programs:', error);
+//     return;
+//   }
+//   setRegisteredPrograms(data);
+//   setTotalPage(Math.ceil(count / pageSize));
+// };
+
+// const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', selectedProgram.id);
+
+// if (error) {
+//   toast.error('프로그램 취소에 실패했습니다.');
+//   return;
+// }
+
+// const { data: timeSlotData, error: timeSlotError } = await supabase
+//   .from('timeslot')
+//   .update({
+//     current_participants: selectedProgram.time_slot_id.current_participants - selectedProgram.participants,
+//   })
+//   .eq('id', selectedProgram.time_slot_id.id);
+
+// if (timeSlotError) {
+//   toast.error('참가자 수 업데이트에 실패했습니다.');
+//   return;
+// }
