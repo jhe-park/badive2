@@ -1,7 +1,7 @@
 import { User } from '@supabase/supabase-js';
 import { Database } from './database.types';
 import { TSelectedResult } from '@/app/store/useSelectedResult';
-import { Json } from '@/database.types';
+// import { Json } from './database.types';
 
 type DBTable = Database['public']['Tables'];
 

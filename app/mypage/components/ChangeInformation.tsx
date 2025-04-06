@@ -1,49 +1,33 @@
-import React from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  SelectItem,
-  Radio,
-  RadioGroup,
-  Divider,
-  Checkbox,
-} from "@nextui-org/react";
-import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import { programList } from "@/app/register/components/programlist";
-import { programlist } from "@/app/register/components/programlist";
-import DaumPostcode from "react-daum-postcode";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@heroui/react";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import { Form, Input, Button, Select, SelectItem, Radio, RadioGroup, Divider, Checkbox } from '@nextui-org/react';
+import { createClient } from '@/utils/supabase/client';
+import { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+// import { programList } from "@/app/register/components/programlist";
+import { programlist } from '@/app/register/components/programlist';
+import DaumPostcode from 'react-daum-postcode';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
+import { useRouter } from 'next/navigation';
+
 export default function App({ profile }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [action, setAction] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordCheck, setPasswordCheck] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [birth, setBirth] = React.useState("");
-  const [license, setLicense] = React.useState("");
-  const [classWant1, setClassWant1] = React.useState("");
-  const [classWant2, setClassWant2] = React.useState("");
-  const [classWant3, setClassWant3] = React.useState("");
-  const [gender, setGender] = React.useState("");
-  const [postCode, setPostCode] = React.useState("");
-  const [firstAddress, setFirstAddress] = React.useState("");
-  const [secondAddress, setSecondAddress] = React.useState("");
+  const [action, setAction] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [passwordCheck, setPasswordCheck] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [birth, setBirth] = React.useState('');
+  const [license, setLicense] = React.useState('');
+  const [classWant1, setClassWant1] = React.useState('');
+  const [classWant2, setClassWant2] = React.useState('');
+  const [classWant3, setClassWant3] = React.useState('');
+  const [gender, setGender] = React.useState('');
+  const [postCode, setPostCode] = React.useState('');
+  const [firstAddress, setFirstAddress] = React.useState('');
+  const [secondAddress, setSecondAddress] = React.useState('');
   const [marketingSms, setMarketingSms] = React.useState(false);
   const [marketingEmail, setMarketingEmail] = React.useState(false);
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState('');
   const router = useRouter();
 
   const supabase = createClient();
@@ -55,34 +39,35 @@ export default function App({ profile }) {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("비밀번호가 변경되었습니다.");
+      toast.success('비밀번호가 변경되었습니다.');
     }
   };
 
-  const handleComplete = (data) => {
+  const handleComplete = data => {
     // 주소 검색 완료 시 처리 로직
     setPostCode(data.zonecode); // 우편번호 설정
     setFirstAddress(data.address); // 기본주소 설정
-    onOpenChange(false); // 모달 닫기
+    // onOpenChange(false); // 모달 닫기
+    onOpenChange(); // 모달 닫기
   };
 
   React.useEffect(() => {
     if (!profile) {
-      console.log("프로필 정보가 없습니다.");
+      console.log('프로필 정보가 없습니다.');
       return;
     }
-    setName(profile?.data.name || "");
-    setPhone(profile?.data.phone || "");
-    setBirth(profile?.data.birth || "");
-    setLicense(profile?.data.license || "");
-    setClassWant1(profile?.data.classWant1 || "");
-    setClassWant2(profile?.data.classWant2 || "");
+    setName(profile?.data.name || '');
+    setPhone(profile?.data.phone || '');
+    setBirth(profile?.data.birth || '');
+    setLicense(profile?.data.license || '');
+    setClassWant1(profile?.data.classWant1 || '');
+    setClassWant2(profile?.data.classWant2 || '');
 
-    setClassWant3(profile?.data.classWant3 || "");
-    setGender(profile?.data.gender || "");
-    setPostCode(profile?.data.postCode || "");
-    setFirstAddress(profile?.data.firstAddress || "");
-    setSecondAddress(profile?.data.secondAddress || "");
+    setClassWant3(profile?.data.classWant3 || '');
+    setGender(profile?.data.gender || '');
+    setPostCode(profile?.data.postCode || '');
+    setFirstAddress(profile?.data.firstAddress || '');
+    setSecondAddress(profile?.data.secondAddress || '');
     setMarketingSms(profile?.data.marketingSms || false);
     setMarketingEmail(profile?.data.marketingEmail || false);
   }, [profile]);
@@ -90,7 +75,7 @@ export default function App({ profile }) {
   const handleSubmit = async () => {
     try {
       const { data, error } = await supabase
-        .from("profiles")
+        .from('profiles')
         .update({
           name: name,
           phone: phone,
@@ -106,18 +91,18 @@ export default function App({ profile }) {
           marketingSms: marketingSms,
           marketingEmail: marketingEmail,
         })
-        .eq("email", profile?.data.email);
+        .eq('email', profile?.data.email);
 
       if (error) {
-        toast.error("정보 수정에 실패했습니다.");
+        toast.error('정보 수정에 실패했습니다.');
         console.error(error);
         return;
       }
 
-      toast.success("정보가 성공적으로 수정되었습니다.");
+      toast.success('정보가 성공적으로 수정되었습니다.');
       router.refresh();
     } catch (error) {
-      toast.error("오류가 발생했습니다.");
+      toast.error('오류가 발생했습니다.');
       console.error(error);
     }
   };
@@ -136,9 +121,7 @@ export default function App({ profile }) {
         pauseOnHover
         theme="light"
       />
-      <div className="text-2xl font-bold w-full justify-center items-center text-center">
-        비밀번호 수정
-      </div>
+      <div className="text-2xl font-bold w-full justify-center items-center text-center">비밀번호 수정</div>
       <Divider className="w-full bg-black h-0.5"></Divider>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full gap-y-5">
         <div className="flex flex-col">
@@ -151,7 +134,7 @@ export default function App({ profile }) {
             type="password"
             className="w-full col-span-1"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             isInvalid={password !== passwordCheck}
           />
         </div>
@@ -165,34 +148,22 @@ export default function App({ profile }) {
             type="password"
             className="w-full col-span-1"
             value={passwordCheck}
-            onChange={(e) => setPasswordCheck(e.target.value)}
+            onChange={e => setPasswordCheck(e.target.value)}
             isInvalid={password !== passwordCheck}
           />
         </div>
       </div>
-      {password !== passwordCheck && (
-        <div className="text-red-500 text-sm">
-          비밀번호가 일치하지 않습니다.
-        </div>
-      )}
+      {password !== passwordCheck && <div className="text-red-500 text-sm">비밀번호가 일치하지 않습니다.</div>}
       <div className="flex gap-2 w-full">
         <Button type="reset" variant="flat" className="w-full">
           취소
         </Button>
-        <Button
-          onPress={handleChangePassword}
-          isDisabled={password !== passwordCheck}
-          color="primary"
-          type="submit"
-          className="w-full"
-        >
+        <Button onPress={handleChangePassword} isDisabled={password !== passwordCheck} color="primary" type="submit" className="w-full">
           확인
         </Button>
       </div>
 
-      <div className="text-2xl font-bold w-full justify-center items-center text-center">
-        내 정보 수정
-      </div>
+      <div className="text-2xl font-bold w-full justify-center items-center text-center">내 정보 수정</div>
       <Divider className="w-full bg-black h-0.5"></Divider>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full gap-y-5">
         <div className="flex flex-col">
@@ -220,7 +191,7 @@ export default function App({ profile }) {
             variant="bordered"
             className="w-full col-span-1"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
           />
         </div>
         <div className="flex flex-col">
@@ -233,7 +204,7 @@ export default function App({ profile }) {
             variant="bordered"
             className="w-full col-span-1"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={e => setPhone(e.target.value)}
           />
         </div>
         <div className="flex flex-col">
@@ -246,7 +217,7 @@ export default function App({ profile }) {
             variant="bordered"
             className="w-full col-span-1"
             value={birth}
-            onChange={(e) => setBirth(e.target.value)}
+            onChange={e => setBirth(e.target.value)}
           />
         </div>
         <div className="flex flex-col">
@@ -259,7 +230,7 @@ export default function App({ profile }) {
             variant="bordered"
             className="w-full col-span-1"
             value={license}
-            onChange={(e) => setLicense(e.target.value)}
+            onChange={e => setLicense(e.target.value)}
           />
         </div>
 
@@ -267,13 +238,8 @@ export default function App({ profile }) {
           {/* <div>희망하는 강습</div> */}
           <div className="flex flex-row gap-2 justify-start items-center w-full">
             {/* <span>01.</span> */}
-            <Select
-              onChange={(e) => setClassWant1(e.target.value)}
-              label="희망하는 강습1"
-              variant="bordered"
-              selectedKeys={[classWant1]}
-            >
-              {programlist.map((program) => (
+            <Select onChange={e => setClassWant1(e.target.value)} label="희망하는 강습1" variant="bordered" selectedKeys={[classWant1]}>
+              {programlist.map(program => (
                 <SelectItem key={program} value={program}>
                   {program}
                 </SelectItem>
@@ -282,13 +248,8 @@ export default function App({ profile }) {
           </div>
           <div className="flex flex-row gap-2 justify-start items-center w-full">
             {/* <span>02.</span> */}
-            <Select
-              onChange={(e) => setClassWant2(e.target.value)}
-              label="희망하는 강습2"
-              variant="bordered"
-              selectedKeys={[classWant2]}
-            >
-              {programlist.map((program) => (
+            <Select onChange={e => setClassWant2(e.target.value)} label="희망하는 강습2" variant="bordered" selectedKeys={[classWant2]}>
+              {programlist.map(program => (
                 <SelectItem key={program} value={program}>
                   {program}
                 </SelectItem>
@@ -297,13 +258,8 @@ export default function App({ profile }) {
           </div>
           <div className="flex flex-row gap-2 justify-start items-center w-full">
             {/* <span>03.</span> */}
-            <Select
-              onChange={(e) => setClassWant3(e.target.value)}
-              label="희망하는 강습3"
-              variant="bordered"
-              selectedKeys={[classWant3]}
-            >
-              {programlist.map((program) => (
+            <Select onChange={e => setClassWant3(e.target.value)} label="희망하는 강습3" variant="bordered" selectedKeys={[classWant3]}>
+              {programlist.map(program => (
                 <SelectItem key={program} value={program}>
                   {program}
                 </SelectItem>
@@ -318,7 +274,7 @@ export default function App({ profile }) {
             orientation="horizontal"
             className="w-full border-2 border-gray-200 rounded-xl p-4"
             value={gender}
-            onChange={(e) => setGender(e.target.value)}
+            onChange={e => setGender(e.target.value)}
           >
             <Radio key="male" value="male">
               남
@@ -340,7 +296,7 @@ export default function App({ profile }) {
               variant="bordered"
               className="w-full col-span-1"
               value={postCode}
-              onChange={(e) => setPostCode(e.target.value)}
+              onChange={e => setPostCode(e.target.value)}
             />
             <Button onPress={onOpenChange}>주소검색</Button>
           </div>
@@ -355,7 +311,7 @@ export default function App({ profile }) {
               variant="bordered"
               className="w-full col-span-1"
               value={firstAddress}
-              onChange={(e) => setFirstAddress(e.target.value)}
+              onChange={e => setFirstAddress(e.target.value)}
             />
           </div>
           <div>
@@ -368,30 +324,20 @@ export default function App({ profile }) {
               variant="bordered"
               className="w-full col-span-1"
               value={secondAddress}
-              onChange={(e) => setSecondAddress(e.target.value)}
+              onChange={e => setSecondAddress(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-2 justify-start items-start w-full">
             <div>광고 및 마케팅 수신 동의(선택)</div>
             <div className="flex flex-row gap-4 justify-start items-start w-full">
-              <Checkbox
-                onChange={(e) => setMarketingSms(e.target.checked)}
-                isSelected={marketingSms}
-                key="sms"
-              >
+              <Checkbox onChange={e => setMarketingSms(e.target.checked)} isSelected={marketingSms} key="sms">
                 문자 승인
               </Checkbox>
-              <Checkbox
-                onChange={(e) => setMarketingEmail(e.target.checked)}
-                isSelected={marketingEmail}
-                key="email"
-              >
+              <Checkbox onChange={e => setMarketingEmail(e.target.checked)} isSelected={marketingEmail} key="email">
                 이메일 승인
               </Checkbox>
             </div>
-            <div className="flex w-full justify-start text-xs">
-              *수신 동의 시 BDN 소식을 빠르게 받아보실 수 있습니다.
-            </div>
+            <div className="flex w-full justify-start text-xs">*수신 동의 시 BDN 소식을 빠르게 받아보실 수 있습니다.</div>
           </div>
         </div>
       </div>
@@ -400,12 +346,7 @@ export default function App({ profile }) {
         <Button type="reset" variant="flat" className="w-full">
           취소
         </Button>
-        <Button
-          onPress={handleSubmit}
-          color="primary"
-          type="submit"
-          className="w-full"
-        >
+        <Button onPress={handleSubmit} color="primary" type="submit" className="w-full">
           확인
         </Button>
       </div>
@@ -423,7 +364,7 @@ export default function App({ profile }) {
             <DaumPostcode onComplete={handleComplete} />
           </ModalBody>
           <ModalFooter>
-            <Button onPress={() => onOpenChange(false)}>닫기</Button>
+            <Button onPress={() => onOpenChange()}>닫기</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

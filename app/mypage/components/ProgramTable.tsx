@@ -149,8 +149,9 @@ export default function ProgramTable({
     toast.success('프로그램 취소가 신청 완료되었습니다.');
 
     const res = await handleGetProgram({
-      supabase: supabase as any,
-      profile,
+      supabase: supabase,
+      // profile,
+      profileId: profile.data.id,
     });
 
     if (res.status === 'FAILED') {

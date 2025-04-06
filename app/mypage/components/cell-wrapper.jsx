@@ -1,7 +1,7 @@
 import React from "react";
 import {cn} from "@nextui-org/react";
 
-const CellWrapper = React.forwardRef(({children, className, ...props}, ref) => (
+const CellWrapper  = React.forwardRef(({children, className, ...props}, ref) => (
   <div
     ref={ref}
     className={cn(
