@@ -1,67 +1,68 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { Select, SelectItem } from "@nextui-org/react";
-import { useSelectedResult } from "@/app/store/useSelectedResult";
-import useExpertStore from "../../store/useExpertStore";
-import { createClient } from "@/utils/supabase/client";
-import SelectModal from "./SelectModal";
-import { useDisclosure } from "@nextui-org/react";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Select, SelectItem } from '@nextui-org/react';
+import { useSelectedResult } from '@/app/store/useSelectedResult';
+import useExpertStore from '../../store/useExpertStore';
+import { createClient } from '@/utils/supabase/client';
+// import SelectModal from "./SelectModal";
+import { useDisclosure } from '@nextui-org/react';
+
 export default function Calendar() {
+
   // 현재 선택된 월 상태
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { expertInformation } = useExpertStore();
-  const [selectedProgram, setSelectedProgram] = useState("");
+  const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(() => {
-  
     const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
   });
   const [isSelected, setIsSelected] = useState(false);
 
   // 선택 가능한 월 목록 상태
   const [monthList, setMonthList] = useState([]);
-  
+
   // 현재 표시되는 날짜 상태
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const [userReservations, setUserReservations] = useState([]);
   const supabase = createClient();
   const [programs, setPrograms] = useState([]);
-  console.log("selectedProgra:", selectedProgram)
-  console.log('userReservations:', userReservations)
+  console.log('selectedProgra:', selectedProgram);
+  console.log('userReservations:', userReservations);
 
   // 선택된 날짜 범위를 저장할 상태 추가
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log('selectedProgram:', selectedProgram)
+  console.log('selectedProgram:', selectedProgram);
+
   // 예약 데이터 가져오기
   const getReservations = async () => {
     try {
       const { data: reservation, error: reservationError } = await supabase
-        .from("reservation")
-        .select("*,time_slot_id(*,program_id(*)),user_id(*)")
-        .ilike("time_slot_id.date", `${selectedMonth}%`)
-        .not("time_slot_id", "is", null)
-        .neq("status", "취소완료")
-        .eq('instructor_id',expertInformation?.id)
+        .from('reservation')
+        .select('*,time_slot_id(*,program_id(*)),user_id(*)')
+        .ilike('time_slot_id.date', `${selectedMonth}%`)
+        .not('time_slot_id', 'is', null)
+        .neq('status', '취소완료')
+        .eq('instructor_id', expertInformation?.id);
 
       if (reservationError) {
-        console.log("예약 조회 중 에러 발생:", reservationError);
+        console.log('예약 조회 중 에러 발생:', reservationError);
         return;
       }
       if (reservation) {
         // selectedProgram이 있는 경우 필터링
         if (selectedProgram) {
-          const filteredReservations = reservation.filter(
-            (item) => item.time_slot_id.program_id.id.toString() === selectedProgram.toString()
-          );
+          const filteredReservations = reservation.filter(item => item.time_slot_id.program_id.id.toString() === selectedProgram.toString());
           setUserReservations(filteredReservations);
         } else {
           setUserReservations(reservation);
         }
       }
     } catch (err) {
-      console.log("예약 조회 중 에러 발생:", err);
+      console.log('예약 조회 중 에러 발생:', err);
     }
   };
 
@@ -69,31 +70,31 @@ export default function Calendar() {
   const getPrograms = async () => {
     try {
       const { data: programs, error: programsError } = await supabase
-        .from("program")
-        .select("*")
-        .eq("instructor_id", expertInformation?.id)
-        .eq("available", true);
+        .from('program')
+        .select('*')
+        .eq('instructor_id', expertInformation?.id)
+        .eq('available', true);
 
       if (programsError) {
-        console.log("프로그램 조회 중 에러 발생:", programsError);
+        console.log('프로그램 조회 중 에러 발생:', programsError);
         return;
       }
       if (programs) {
         setPrograms(programs);
       }
     } catch (err) {
-      console.log("프로그램 조회 중 에러 발생:", err);
+      console.log('프로그램 조회 중 에러 발생:', err);
     }
   };
 
-  console.log('programs:',programs)
+  console.log('programs:', programs);
   // 선택된 월이 변경될 때마다 예약 데이터 가져오기
   useEffect(() => {
-    console.log('expertInformation?.id:',expertInformation?.id)
-    if (selectedMonth&&expertInformation?.id) {
+    console.log('expertInformation?.id:', expertInformation?.id);
+    if (selectedMonth && expertInformation?.id) {
       getReservations();
     }
-  }, [selectedMonth, selectedProgram,expertInformation?.id]);
+  }, [selectedMonth, selectedProgram, expertInformation?.id]);
 
   // 월 목록 생성
   useEffect(() => {
@@ -105,7 +106,7 @@ export default function Calendar() {
     for (let i = -3; i <= 3; i++) {
       const newDate = new Date(year, month + i - 1, 1);
       const newYear = newDate.getFullYear();
-      const newMonth = String(newDate.getMonth() + 1).padStart(2, "0");
+      const newMonth = String(newDate.getMonth() + 1).padStart(2, '0');
       months.push(`${newYear}-${newMonth}`);
     }
 
@@ -115,8 +116,8 @@ export default function Calendar() {
   // 선택된 월이 변경될 때 현재 날짜 업데이트
   useEffect(() => {
     if (selectedMonth) {
-      const [year, month] = selectedMonth.split("-");
-      setCurrentDate(new Date(year, month - 1, 1));
+      const [year, month] = selectedMonth.split('-');
+      setCurrentDate(new Date(parseInt(year), parseInt(month) - 1, 1));
     }
   }, [selectedMonth]);
 
@@ -128,25 +129,13 @@ export default function Calendar() {
   }, [expertInformation]);
 
   // 달력에 표시될 날짜 수 계산
-  const daysInMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
-    0
-  ).getDate();
+  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
   // 달력의 첫 날 요일 계산
-  const firstDayOfMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1
-  ).getDay();
+  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
 
-  const handleDateSelect = (day) => {
-    const selectedDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      day
-    );
+  const handleDateSelect = day => {
+    const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
     const dayOfWeek = selectedDate.getDay();
     const startOfWeek = new Date(selectedDate);
     startOfWeek.setDate(selectedDate.getDate() - dayOfWeek);
@@ -161,8 +150,8 @@ export default function Calendar() {
 
     while (tempDate <= endOfWeek) {
       const year = tempDate.getFullYear();
-      const month = String(tempDate.getMonth() + 1).padStart(2, "0");
-      const date = String(tempDate.getDate()).padStart(2, "0");
+      const month = String(tempDate.getMonth() + 1).padStart(2, '0');
+      const date = String(tempDate.getDate()).padStart(2, '0');
       dateList.push(`${year}-${month}-${date}`);
       tempDate.setDate(tempDate.getDate() + 1);
     }
@@ -175,7 +164,6 @@ export default function Calendar() {
     // 날짜 선택 후 모달 열기
     onOpen();
   };
-  
 
   return (
     <div className="w-full h-full flex flex-col gap-4 items-center justify-start">
@@ -183,46 +171,44 @@ export default function Calendar() {
       <div className="flex flex-col md:flex-row w-full justify-start gap-x-4 gap-y-2">
         <Select
           selectedKeys={[selectedMonth]}
-          onChange={(e) => setSelectedMonth(e.target.value)}
+          onChange={e => setSelectedMonth(e.target.value)}
           label="년월"
           className="w-full md:w-1/3"
           placeholder="년월 선택"
         >
-          {monthList.map((month) => (
+          {monthList.map(month => (
             <SelectItem key={month} value={month}>
               {month}
             </SelectItem>
           ))}
         </Select>
         <Select
-            selectedKeys={[selectedProgram]}
-            onChange={(e) => setSelectedProgram(e.target.value)}
-            label="프로그램"
-            className="w-full md:w-1/3"
-            placeholder="프로그램 선택"
-            isRequired={true}
-            renderValue={(items) => {
-              const selectedProgramItem = programs.find(p => p.id.toString() === selectedProgram?.toString());
-              return selectedProgramItem ? `${selectedProgramItem.title} - ${selectedProgramItem.region}` : "";
-            }}
-          >
-            {programs?.map((program) => (
-              <SelectItem key={program.id} value={program.id}>
-                {`${program.title} - ${program.region}`}
-              </SelectItem>
-            ))}
-          </Select>
+          selectedKeys={[selectedProgram]}
+          onChange={e => setSelectedProgram(e.target.value)}
+          label="프로그램"
+          className="w-full md:w-1/3"
+          placeholder="프로그램 선택"
+          isRequired={true}
+          renderValue={items => {
+            const selectedProgramItem = programs.find(p => p.id.toString() === selectedProgram?.toString());
+            return selectedProgramItem ? `${selectedProgramItem.title} - ${selectedProgramItem.region}` : '';
+          }}
+        >
+          {programs?.map(program => (
+            <SelectItem key={program.id} value={program.id}>
+              {`${program.title} - ${program.region}`}
+            </SelectItem>
+          ))}
+        </Select>
       </div>
 
       {/* 달력 그리드 */}
       <div className="grid grid-cols-7 gap-0 w-full my-6">
         {/* 요일 헤더 */}
-        {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
+        {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
-            className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${
-              index === 0 ? "text-red-500" : ""
-            }`}
+            className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${index === 0 ? 'text-red-500' : ''}`}
           >
             {day}
           </div>
@@ -234,22 +220,21 @@ export default function Calendar() {
         ))}
 
         {/* 날짜 */}
-        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
+        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
           const currentDateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          
-          const hasUnavailableReservation = userReservations.some(reservation => 
-            reservation.time_slot_id.date === currentDateStr && 
-            reservation.status === "예약불가"
+
+          const hasUnavailableReservation = userReservations.some(
+            reservation => reservation.time_slot_id.date === currentDateStr && reservation.status === '예약불가',
           );
 
-          const hasCompletedReservation = userReservations.some(reservation => 
-            reservation.time_slot_id.date === currentDateStr && 
-            reservation.status !== "예약불가"
+          const hasCompletedReservation = userReservations.some(
+            reservation => reservation.time_slot_id.date === currentDateStr && reservation.status !== '예약불가',
           );
 
           // 선택된 주 내의 날짜인지 확인
-          const isSelected = selectedDate && 
-            new Date(currentDate.getFullYear(), currentDate.getMonth(), day) >= selectedDate.start && 
+          const isSelected =
+            selectedDate &&
+            new Date(currentDate.getFullYear(), currentDate.getMonth(), day) >= selectedDate.start &&
             new Date(currentDate.getFullYear(), currentDate.getMonth(), day) <= selectedDate.end;
 
           // 선택된 주의 시작일과 마지막일 확인
@@ -260,28 +245,25 @@ export default function Calendar() {
             <div
               key={day}
               className={`relative text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition
-                ${isSelected 
-                  ? isStart
-                    ? "bg-primary-500 text-white rounded-l-full"
-                    : isEnd
-                      ? "bg-primary-500 text-white rounded-r-full"
-                      : "bg-primary-500 text-white"
-                  : ""
+                ${
+                  isSelected
+                    ? isStart
+                      ? 'bg-primary-500 text-white rounded-l-full'
+                      : isEnd
+                        ? 'bg-primary-500 text-white rounded-r-full'
+                        : 'bg-primary-500 text-white'
+                    : ''
                 }`}
               onClick={() => handleDateSelect(day)}
             >
-              {hasUnavailableReservation && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full ml-3"></div>
-              )}
-              {hasCompletedReservation && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>
-              )}
+              {hasUnavailableReservation && <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full ml-3"></div>}
+              {hasCompletedReservation && <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>}
               {day}
             </div>
           );
         })}
       </div>
-      <SelectModal
+      {/* <SelectModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         userReservations={userReservations}
@@ -291,7 +273,7 @@ export default function Calendar() {
         setIsSelected={setIsSelected}
         getReservations={getReservations}
         
-      />
+      /> */}
     </div>
   );
 }
