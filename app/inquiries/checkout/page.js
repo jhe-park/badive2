@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useRef, useState, use } from "react";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
-import { useSelectedResult } from "@/app/store/useSelectedResult";
+// import { useSelectedResult } from "@/app/store/useSelectedResult";
 import { Button } from "@heroui/react";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import {Skeleton} from "@heroui/react"
+// import {Skeleton} from "@heroui/react"
+
 export default function CheckoutPage({ searchParams }) {
   const [selectedResult, setSelectedResult] = useState(null);
   const [ready, setReady] = useState(false);

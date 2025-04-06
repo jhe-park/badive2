@@ -1,4 +1,6 @@
+import { User } from '@supabase/supabase-js';
 import { Database } from './database.types';
+import { TSelectedResult } from '@/app/store/useSelectedResult';
 
 type DBTable = Database['public']['Tables'];
 
@@ -8,6 +10,12 @@ export type TypeDBinstructor = DBTable['instructor']['Row'];
 export type TypeDBnotification = DBTable['notification']['Row'];
 export type TypeDBorder = DBTable['order']['Row'];
 export type TypeDBpending_sessions = DBTable['pending_sessions']['Row'];
+export type TypeDBpendingSessionsModified = {
+  uuid: string;
+  selected_data: TSelectedResult;
+  user_data: User;
+  profile: TypeDBprofile;
+};
 export type TypeDBprofile = DBTable['profiles']['Row'];
 export type TypeDBprogram = DBTable['program']['Row'];
 export type TypeDBrequest = DBTable['request']['Row'];

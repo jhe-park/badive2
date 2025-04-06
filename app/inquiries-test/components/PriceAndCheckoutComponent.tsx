@@ -15,7 +15,7 @@ type TProps = { userData: User; profile: TypeDBprofile; showMode: 'MOBILE' | 'DE
 
 // userReservations: TypeDBreservation[];
 
-export const CheckOut: React.FC<TProps> = ({ profile, userData, showMode }) => {
+export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData, showMode }) => {
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const supabase = createTypedSupabaseClient();
@@ -45,7 +45,9 @@ export const CheckOut: React.FC<TProps> = ({ profile, userData, showMode }) => {
 
       if (error) throw error;
 
-      router.push(`/inquiries/checkout?session=${uuid}`);
+      // router.push(`/inquiries/checkout?session=${uuid}`);
+      router.push(`/inquiries-test/checkout?session=${uuid}`);
+      
     } catch (error) {
       console.log('Error creating pending session:', error);
       toast.error('결제 진행 중 오류가 발생했습니다.');

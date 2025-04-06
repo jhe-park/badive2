@@ -17,7 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 // import { Database } from '@/utils/supabase/database.types';
 import { TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
 import { cn } from '@/lib/utils';
-import { CheckOut } from './Checkout';
+import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
 import { generateRandomString } from '@/utils/supabase/generateRandomString';
 import { User } from '@supabase/supabase-js';
 
@@ -413,7 +413,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
           </button>
         </div>
       </div>
-      <CheckOut profile={profile} userData={userData} showMode="DESKTOP" />
+      <PriceAndCheckOutComponent profile={profile} userData={userData} showMode="DESKTOP" />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {onClose => (

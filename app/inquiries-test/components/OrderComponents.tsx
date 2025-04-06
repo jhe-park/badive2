@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import CalendarComponent from './CalendarComponent';
 import ProgramSelectComponent from './ProgramSelectComponent';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
-import { CheckOut } from './Checkout';
+import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
 import { User } from '@supabase/supabase-js';
 import { TypeDBprofile, TypeDBreservation } from '@/utils/supabase/dbTableTypes';
 
@@ -50,7 +50,7 @@ const OrderComponents: React.FC<TProps> = ({ userReservations, userData, profile
           profile={profile}
         />
       </div>
-      <CheckOut profile={profile} userData={userData} showMode="MOBILE" />
+      <PriceAndCheckOutComponent profile={profile} userData={userData} showMode="MOBILE" />
     </>
   );
 };
