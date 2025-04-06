@@ -21,6 +21,7 @@
   - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡/예약 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
 - 결제 모듈 : [토스페이먼트 v2](https://docs.tosspayments.com/guides/v2/payment-widget/integration)
 - 정적파일 버킷 : AWS S3
+- alert 대안 : react-toastify
 - 로그인 : next-auth
 - 카카오톡 알림 서비스 : [알리고](https://smartsms.aligo.in/)
   - 환불시 해당 알림서비스 호출할 것
@@ -32,9 +33,10 @@
 
 ## 사이트 구성
 
-본 웹사이트는 3가지 기능으로 구분되어 있다
+본 웹사이트는 크게 4가지 기능으로 구분되어 있다
 - 일반 웹사이트 및 예약 페이지
   - https://www.badive.co.kr/ 로 접속하면 보이는 페이지이며 핵심 기능은 예약 기능이다.
+  - my페이지에서는 `예약취소` 기능을 제공한다
 - 관리자 전용 페이지 (관리자 권한의 ID만 접근 가능하다)
   - 강사 스케줄 조정이 가능하다
 - 강사전용 페이지 (강사 권한의 ID만 접근 가능하다)
@@ -84,6 +86,71 @@ checkout 페이지는 토스페이먼트의 결제창이다.
 결제완료와 동시에 DB의 `reservation` 테이블에 결제정보를 담은 row가 추가된다. 또한 해당 타임슬롯의 `current_participants` 숫자는 수강인원 숫자 만큼 증가된다.
 
 즉 결제 프로세스에서 중요 역할을 하는 DB테이블은 reservation과 timeslot 테이블이다. 결제 과정에서 임시적으로 사용되는 테이블은 `pending_session`이다.
+
+
+## 결제 취소 프로세스
+
+이 과정은 크게 2가지로 나뉜다
+
+1. 토스페이먼츠 측에 취소 요청을 보낸다. 
+   1. 이 과정은 토스페이먼츠 API를 호출하는 것으로 수행된다
+   2. 이 과정은 SECRET_KEY를 필요로 하므로 클라이언트가 아닌 서버사이드에서 수행되어야 한다
+2. 위의 과정이 정상 처리되었으면 supabase DB의 테이블 값을 업데이트한다
+   1. 업데이트할 테이블은 `reservation`과 `timeslot`이다.
+   2. 위의 테이블 업데이트는 트랜젝션으로 처리되어야 한다. 하지만 supabase API는 트랜잭션 기능을 지원하지 않는다
+   3. 그러므로 직접 SQL문을 작성하여 supabase에 등록을 해야 한다. 상세는 [여기](https://supabase.com/docs/guides/database/functions)를 참조할 것
+   4. 구현되어 있는 함수명은 `cancel_reservation`이며 상세 코드는 다음과 같다
+
+```plpgsql
+CREATE OR REPLACE FUNCTION cancel_reservation(reservation_id INT, time_slot_id INT, participants_count INT)
+RETURNS INT AS $$
+DECLARE
+  affected_rows INT;
+BEGIN   
+    -- 예약 상태를 '취소완료'로 업데이트
+    UPDATE reservation
+    SET status = '취소완료'
+    WHERE id = reservation_id;
+    
+    GET DIAGNOSTICS affected_rows = ROW_COUNT;
+    IF affected_rows = 0 THEN
+        RAISE EXCEPTION '해당 예약을 찾을 수 없습니다';
+    END IF;
+    
+    -- 타임슬롯의 현재 참가자 수 감소 및 available 상태를 항상 TRUE로 설정
+    UPDATE timeslot
+    SET 
+        current_participants = current_participants - participants_count,
+        available = TRUE
+    WHERE id = time_slot_id;
+    
+    GET DIAGNOSTICS affected_rows = ROW_COUNT;
+    IF affected_rows = 0 THEN
+        RAISE EXCEPTION '해당 타임슬롯을 찾을 수 없습니다';
+    END IF;
+    
+    -- 성공 시 1 반환
+    RETURN 1;
+    
+EXCEPTION WHEN OTHERS THEN
+    -- 실패 시 0 반환하고 예외 메시지 출력
+    RAISE NOTICE 'Error: %', SQLERRM;
+    RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+코드에는 transaction 처리가 되어있지 않지만 supabase API에서 제공하는 `rpc` 메소드를 사용하면 자동으로 트랜잭션 처리된다. 
+
+위에 작성된 함수는 아래와 같이 호출된다
+
+```typescript
+await supabase.rpc('cancel_reservation', {
+      reservation_id: selectedProgram.id,
+      time_slot_id: selectedProgram.time_slot_id.id,
+      participants_count: selectedProgram.participants,
+    });
+```
 
 ## DB 테이블 설명
 

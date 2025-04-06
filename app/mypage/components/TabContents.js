@@ -1,34 +1,34 @@
-"use client";
-import { Tabs, Tab, Card, CardBody, Spinner } from "@nextui-org/react";
-import ProgramTable from "./ProgramTable";
-import TourTable from "./TourTable";
-import ChangeInformation from "./ChangeInformation";
-import SayGoodbye from "./SayGoodbye";
-import Image from "next/image";
-import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
-import { Skeleton } from "@heroui/react";
-export default function App({ profile }) {
-  const supabase = createClient();
-  const [user, setUser] = useState(null);
-  const [name, setName] = useState(null);
-  const [point, setPoint] = useState(null);
-  const [loading, setLoading] = useState(true);
+'use client';
 
-  useEffect(() => {
-    const loadData = async () => {
-      // 데이터 로드 로직 추가
-      // 예: await fetchData();
-      setLoading(false);
-    };
-    loadData();
-  }, []);
+import { Tabs, Tab, Card, CardBody, Spinner } from '@nextui-org/react';
+import ProgramTable from './ProgramTable';
+import TourTable from './TourTable';
+import ChangeInformation from './ChangeInformation';
+import SayGoodbye from './SayGoodbye';
+import Image from 'next/image';
+// import { createClient } from '@/utils/supabase/client';
+// import { useState, useEffect } from 'react';
+// import { Skeleton } from '@heroui/react';
+
+export default function App({ profile }) {
+  // const supabase = createClient();
+  // const [user, setUser] = useState(null);
+  // const [name, setName] = useState(null);
+  // const [point, setPoint] = useState(null);
+
+  // const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     // 데이터 로드 로직 추가
+  //     // 예: await fetchData();
+  //     setLoading(false);
+  //   };
+  //   loadData();
+  // }, []);
 
   return (
-    <div
-      style={{ fontFamily: "Freesentation-9Black" }}
-      className="flex w-full h-full flex-col"
-    >
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full h-full flex-col">
       <div className="w-full bg-black"></div>
       <div className="flex justify-between items-center mt-24">
         <div className="w-full font-bold text-2xl ">MY PAGE</div>
@@ -42,7 +42,21 @@ export default function App({ profile }) {
           </div>
         </div>
       </div>
-      {loading ? (
+      <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined">
+        <Tab key="purchase" title="프로그램 예약 조회">
+          <ProgramTable profile={profile} />
+        </Tab>
+        <Tab key="tour" title="다이빙 투어 예약 조회">
+          <TourTable profile={profile} />
+        </Tab>
+        <Tab key="update" title="정보수정">
+          <ChangeInformation profile={profile} />
+        </Tab>
+        <Tab key="delete" title="회원탈퇴">
+          <SayGoodbye profile={profile} />
+        </Tab>
+      </Tabs>
+      {/* {loading ? (
         <div className="flex flex-col gap-3 justify-center items-center gap-y-6">
           <div className="max-w-[50vw] w-full flex items-center gap-3">
             <div>
@@ -100,7 +114,7 @@ export default function App({ profile }) {
             <SayGoodbye profile={profile} />
           </Tab>
         </Tabs>
-      )}
+      )} */}
     </div>
   );
 }
