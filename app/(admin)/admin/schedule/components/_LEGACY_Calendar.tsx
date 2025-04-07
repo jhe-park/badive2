@@ -1,14 +1,14 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { Select, SelectItem } from '@nextui-org/react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Checkbox } from '@heroui/react';
+// import { ChevronLeft, ChevronRight } from 'lucide-react';
+// import { Checkbox } from '@heroui/react';
 import { useDisclosure } from '@heroui/react';
 // import SelectModal from './SelectModal';
 import { useProgramStore } from '@/app/store/useProgramStore';
 import { useSelectedResult } from '@/app/store/useSelectedResult';
 // import Image from "next/image";
-import { Skeleton } from '@heroui/skeleton';
+// import { Skeleton } from '@heroui/skeleton';
 import { createClient } from '@/utils/supabase/client';
 import { Card, CardBody, CardFooter, Image, Divider, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button } from '@heroui/react';
 
@@ -17,6 +17,7 @@ export default function Calendar() {
     const date = new Date();
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
   });
+
   const [monthList, setMonthList] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
@@ -49,13 +50,16 @@ export default function Calendar() {
   useEffect(() => {
     getPrograms();
   }, [selectedInstructor]);
+  
   console.log('programs:', programs);
   console.log('selectedProgram:', selectedProgram);
 
   const supabase = createClient();
   const instructorRef = useRef(null);
+
   console.log('selectedMonth:', selectedMonth);
   console.log('selectedInstructor:', selectedInstructor);
+
   const getInstructors = async () => {
     const { data: instructors, error: instructorsError } = await supabase.from('instructor').select('*').eq('available', true);
     if (instructorsError) {
@@ -342,19 +346,24 @@ export default function Calendar() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <>
-                <TableCell className="text-center whitespace-nowrap">예약건수</TableCell>
-                {...instructors.map(instructor => (
+              {/* return if(index === 0) return <TableCell className="text-center whitespace-nowrap">예약건수</TableCell> */}
+              {[null, ...instructors].map((instructor, index) => {
+                if (index === 0)
+                  return (
+                    <TableCell key={'예약건수'} className="text-center whitespace-nowrap">
+                      예약건수
+                    </TableCell>
+                  );
+                return (
                   <TableCell key={instructor.id} className="text-center whitespace-nowrap">
                     {instructor.count}
                   </TableCell>
-                ))}
-              </>
+                );
+              })}
             </TableRow>
           </TableBody>
         </Table>
       </div>
-
       {/* <SelectModal
         userReservations={filteredUserReservations !== null ? filteredUserReservations : userReservations}
         selectedInstructor={selectedInstructor}

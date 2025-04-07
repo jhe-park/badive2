@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
 import { generateRandomString } from '@/utils/supabase/generateRandomString';
 import { User } from '@supabase/supabase-js';
+import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY } from '@/constants/constants';
 
 // 프리다이빙
 // 체험다이빙
@@ -27,14 +28,14 @@ import { User } from '@supabase/supabase-js';
 // 언더워터
 // 스쿠버다이빙
 
-const LECTURE_CATEGORY = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터 댄스'] as const;
+// const LECTURE_CATEGORY = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터 댄스'] as const;
 
-const LECTURE_CATEGORY_TO_DB_CATRGORY = {
-  스쿠버다이빙: ['스쿠버다이빙', '체험다이빙'],
-  프리다이빙: ['프리다이빙'],
-  머메이드: ['머메이드'],
-  '언더워터 댄스': ['언더워터'],
-};
+// const LECTURE_CATEGORY_TO_DB_CATRGORY = {
+//   스쿠버다이빙: ['스쿠버다이빙', '체험다이빙'],
+//   프리다이빙: ['프리다이빙'],
+//   머메이드: ['머메이드'],
+//   '언더워터 댄스': ['언더워터'],
+// };
 
 type TProps = {
   isSelectProgram: boolean;
