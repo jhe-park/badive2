@@ -22,6 +22,8 @@ type TProps = {
   selectedLectureCategory: (typeof LECTURE_CATEGORY)[number] | undefined;
   changeTimeSlots: ({ newTimeSlots }: { newTimeSlots: TFetchedTimeSlot[] }) => void;
   programs: TypeDBprogram[];
+  changeSelectedDate: ({ newDate }: { newDate: Date }) => void;
+  selectedDate: Date | undefined;
 };
 
 export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
@@ -30,11 +32,13 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
   selectedLectureCategory,
   changeTimeSlots,
   programs,
+  changeSelectedDate,
+  selectedDate
 }) => {
   const supabase = createTypedSupabaseClient();
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  // const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   const handleNextMonth = () => {
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
@@ -101,43 +105,42 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                   return;
                 }
 
-                if (!isPastDateOrToday) {
-                  setSelectedDate(currentDateObj);
-                  const {
-                    count,
-                    data: timeSlots,
-                    error,
-                  } = await supabase
-                    .from('timeslot')
-                    .select('start_time,max_participants,current_participants, program_id,time_slot_id:id')
-                    .eq('instructor_id', selectedInstructor.id)
-                    .eq('date', dayjs(currentDateObj).format('YYYY-MM-DD'))
-                    .eq('available', true);
+                changeSelectedDate({ newDate: currentDateObj });
+                // setSelectedDate(currentDateObj);
+                const {
+                  count,
+                  data: timeSlots,
+                  error,
+                } = await supabase
+                  .from('timeslot')
+                  .select('start_time,max_participants,current_participants, program_id,time_slot_id:id')
+                  .eq('instructor_id', selectedInstructor.id)
+                  .eq('date', dayjs(currentDateObj).format('YYYY-MM-DD'))
+                  .eq('available', true);
 
-                  let filteredTimeSlots: TFetchedTimeSlot[] = [];
-                  switch (selectedLectureCategory) {
-                    case '스쿠버다이빙':
-                      filteredTimeSlots = timeSlots.filter(timeslot => {
-                        const foundProgram = programs.find(program => program.id === timeslot.program_id);
+                let filteredTimeSlots: TFetchedTimeSlot[] = [];
+                switch (selectedLectureCategory) {
+                  case '스쿠버다이빙':
+                    filteredTimeSlots = timeSlots.filter(timeslot => {
+                      const foundProgram = programs.find(program => program.id === timeslot.program_id);
 
-                        return foundProgram?.category === selectedLectureCategory || foundProgram?.category === '체험다이빙' ? true : false;
-                      });
-                      break;
-                    case '머메이드':
-                    case '언더워터 댄스':
-                    case '프리다이빙':
-                      timeSlots.filter(timeslot => {
-                        const foundPrgoram = programs.find(program => program.id === timeslot.program_id);
-                        return foundPrgoram?.category === selectedLectureCategory ? true : false;
-                      });
-                      break;
+                      return foundProgram?.category === selectedLectureCategory || foundProgram?.category === '체험다이빙' ? true : false;
+                    });
+                    break;
+                  case '머메이드':
+                  case '언더워터 댄스':
+                  case '프리다이빙':
+                    timeSlots.filter(timeslot => {
+                      const foundPrgoram = programs.find(program => program.id === timeslot.program_id);
+                      return foundPrgoram?.category === selectedLectureCategory ? true : false;
+                    });
+                    break;
 
-                    default:
-                      break;
-                  }
-
-                  changeTimeSlots({ newTimeSlots: filteredTimeSlots });
+                  default:
+                    break;
                 }
+
+                changeTimeSlots({ newTimeSlots: filteredTimeSlots });
               }}
             >
               {day}

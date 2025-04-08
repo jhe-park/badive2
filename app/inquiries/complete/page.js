@@ -1,7 +1,4 @@
 import React from "react";
-import Image from "next/image";
-import { Divider } from "@heroui/react";
-import { Button } from "@heroui/react";
 import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
 import { createClient } from "@/utils/supabase/server";

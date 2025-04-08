@@ -11,6 +11,7 @@ import { TypeDBinstructor, TypeDBprofile, TypeDBprogram, TypeDBtimeslot } from '
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { X } from 'lucide-react';
 import ModalForDetailInformation from './ModalForDetailInformation';
+import dayjs from 'dayjs';
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -52,13 +53,28 @@ export type TReservationsDetail = {
 };
 
 export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyPrograms }) => {
-  const supabase = createTypedSupabaseClient();
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<(typeof LECTURE_CATEGORY)[number] | undefined>('스쿠버다이빙');
   const [selectedInstructor, setSelectedInstructor] = useState<TypeDBinstructor | undefined>();
   const [selectedInstructorProfile, setSelectedInstructorProfile] = useState<TypeDBprofile | undefined>();
+  const [selectedHHMM, setSelectedHHMM] = useState<string | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
+  const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TFetchedTimeSlot | undefined>();
   const [reservationsDetail, setReservationsDetail] = useState<TReservationsDetail[]>([]);
 
+  console.log('selectedHHMM');
+  console.log(selectedHHMM);
+
+  const supabase = createTypedSupabaseClient();
+
+  const changeSelectedDate = ({ newDate }: { newDate: Date }) => {
+    setSelectedDate(newDate);
+  };
+
+  const changeTimeSlots = ({ newTimeSlots }: { newTimeSlots: TFetchedTimeSlot[] }) => {
+    setTimeSlots(newTimeSlots);
+  };
   const changeReservationsDetail = ({ reset, newReservationsDetail }: { reset?: boolean; newReservationsDetail?: TReservationsDetail[] }) => {
     if (reset) {
       setReservationsDetail([]);
@@ -66,48 +82,6 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
       setReservationsDetail(newReservationsDetail ?? []);
     }
   };
-
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TFetchedTimeSlot | undefined>();
-  const changeTimeSlots = ({ newTimeSlots }: { newTimeSlots: TFetchedTimeSlot[] }) => {
-    setTimeSlots(newTimeSlots);
-  };
-
-  const EVERY_TIME_SLOTS_OBJ = {
-    '05:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '06:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '07:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '08:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '09:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '10:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '11:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '12:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '13:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '14:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '15:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '16:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '17:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '18:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '19:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '20:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '21:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '22:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '23:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-    '00:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
-  };
-
-  const everyTimeSlotCalculated = timeSlots.reduce((acc, curr) => {
-    const { current_participants, max_participants, start_time } = curr;
-    if (acc[curr.start_time]) {
-      acc[curr.start_time].max_participants = acc[curr.start_time].max_participants + max_participants;
-      acc[curr.start_time].current_participants = acc[curr.start_time].current_participants + current_participants;
-      acc[curr.start_time].program_ids.add(curr.program_id);
-      acc[curr.start_time].time_slot_ids.add(curr.time_slot_id);
-    }
-    return acc;
-  }, EVERY_TIME_SLOTS_OBJ);
 
   const getEveryStudentsFromPrograms = async ({ programIds, timeSlotIds }: { programIds: Set<number>; timeSlotIds: Set<number> }) => {
     try {
@@ -152,6 +126,88 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
       console.error(error);
     }
   };
+
+  const addScheduleToDB = async () => {
+    // 강사정보
+    // 프로그램 카테고리 정보 : 일단 카테고리에 속한 모든 프로그램을 가져온다
+
+    debugger;
+    everyPrograms.filter(program => program.category);
+    let filteredPrograms: TypeDBprogram[] | undefined = undefined;
+    switch (selectedLectureCategory) {
+      case '스쿠버다이빙':
+        filteredPrograms = everyPrograms.filter(program => {
+          return program?.category === selectedLectureCategory || program?.category === '체험다이빙' ? true : false;
+        });
+        break;
+      case '머메이드':
+      case '언더워터 댄스':
+      case '프리다이빙':
+        filteredPrograms = everyPrograms.filter(program => {
+          return program?.category === selectedLectureCategory ? true : false;
+        });
+        break;
+      default:
+        break;
+    }
+
+    filteredPrograms.map(async (program, index) => {
+      // for debug;
+      if (index >= 1) return;
+      const date = dayjs(selectedDate).format('YYYY-MM-DD');
+      const start_time = selectedHHMM;
+      const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
+
+      debugger;
+      await supabase.from('timeslot').insert({
+        // id,
+        // created_at,
+        date,
+        start_time,
+        end_time: start_time,
+        unique_id: uniqueId,
+        program_id: program.id,
+        instructor_id: program.instructor_id,
+        available: true,
+        current_participants: 0,
+        max_participants: program.participants,
+      });
+    });
+  };
+
+  const EVERY_TIME_SLOTS_OBJ = {
+    '05:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '06:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '07:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '08:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '09:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '10:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '11:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '12:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '13:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '14:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '15:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '16:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '17:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '18:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '19:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '20:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '21:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '22:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '23:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+    '00:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
+  };
+
+  const everyTimeSlotCalculated = timeSlots.reduce((acc, curr) => {
+    const { current_participants, max_participants, start_time } = curr;
+    if (acc[curr.start_time]) {
+      acc[curr.start_time].max_participants = acc[curr.start_time].max_participants + max_participants;
+      acc[curr.start_time].current_participants = acc[curr.start_time].current_participants + current_participants;
+      acc[curr.start_time].program_ids.add(curr.program_id);
+      acc[curr.start_time].time_slot_ids.add(curr.time_slot_id);
+    }
+    return acc;
+  }, EVERY_TIME_SLOTS_OBJ);
 
   return (
     <>
@@ -216,7 +272,12 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
             </div>
             <div className="flex gap-4">
               <div className="">
-                <Select className="w-[200px] lg:w-[200px] text-center" onChange={async e => {}}>
+                <Select
+                  className="w-[200px] lg:w-[200px] text-center"
+                  onChange={async e => {
+                    setSelectedHHMM(e.target.value);
+                  }}
+                >
                   {Object.keys(TIME_MAPPING).map(key => {
                     const timeValue = TIME_MAPPING[key];
                     return (
@@ -228,8 +289,14 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
                 </Select>
               </div>
 
-              <div className="">
-                <Button className="justify-start  data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white">등록하기</Button>
+              <div
+                onClick={() => {
+                  addScheduleToDB();
+                }}
+                className=""
+              >
+                등록하기
+                {/* <Button className="justify-start  data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"></Button> */}
               </div>
             </div>
           </div>
@@ -237,6 +304,8 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
         <div className="flex-1">
           <div className="">
             <CalendarComponentForAdminAndExpert
+              selectedDate={selectedDate}
+              changeSelectedDate={changeSelectedDate}
               selectedInstructor={selectedInstructor}
               selectedLectureCategory={selectedLectureCategory}
               selectedInstructorProfile={selectedInstructorProfile}
@@ -263,8 +332,11 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
                   )}
                   <Badge
                     variant={'outline'}
-                    className={cn('font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
+                    className={cn('cursor-pointer font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
                     key={time}
+                    onClick={() => {
+                      getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
+                    }}
                   >
                     {time}
                   </Badge>
@@ -294,8 +366,11 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
                   )}
                   <Badge
                     variant={'outline'}
-                    className={cn('font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
+                    className={cn('cursor-pointer font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
                     key={time}
+                    onClick={() => {
+                      getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
+                    }}
                   >
                     {time}
                   </Badge>
