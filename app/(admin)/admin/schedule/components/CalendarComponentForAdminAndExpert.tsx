@@ -12,6 +12,8 @@ export type TFetchedTimeSlot = {
   start_time: string;
   max_participants: number;
   current_participants: number;
+  program_id: number;
+  time_slot_id: number;
 };
 
 type TProps = {
@@ -49,22 +51,14 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
 
   return (
-    <div className={`order-2 md:order-1 col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}>
+    <div className={`order-2 md:order-1 col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-0 h-full`}>
       <div className="flex justify-between items-center md:mb-4 w-full lg:pt-[0px]">
         <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
           <ChevronLeft className="text-4xl md:text-9xl font-bold" />
           <span className="text-sm md:text-2xl">이전달</span>
         </button>
-        {/* underline */}
-        <div
-          //
-          className="flex flex-col justify-center border-b-1.5 border-solid border-black items-center my-6"
-        >
-          <div className="font-medium text-sm md:text-3xl  ">
-            {dayjs(currentDate).format('YYYY.MM')}
-            {/* {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()} */}
-          </div>
-          {/* <hr className=" w-[80%] mt-2" /> */}
+        <div className="flex flex-col justify-center border-b-1.5 border-solid border-black items-center my-6">
+          <div className="font-medium text-sm md:text-3xl  ">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
         <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
@@ -72,7 +66,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
           <ChevronRight className="text-4xl md:text-9xl font-bold" />
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-0 w-full border-1 p-6 border-gray-300 rounded-lg">
+      <div className="grid grid-cols-7 gap-0 w-full border-1 p-6  border-gray-300 rounded-lg">
         {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
@@ -90,8 +84,6 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
           today.setHours(0, 0, 0, 0);
           const isPastDateOrToday = currentDateObj <= today;
           const isSelected = selectedDate && selectedDate.getTime() === currentDateObj.getTime();
-
-          // const isValidDate = monthlyTimeSlotsSorted.some(slot => parseInt(slot.date.split('-').at(-1)) === day);
 
           return (
             <div
@@ -117,24 +109,18 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                     error,
                   } = await supabase
                     .from('timeslot')
-                    .select('start_time,max_participants,current_participants, program_id')
+                    .select('start_time,max_participants,current_participants, program_id,time_slot_id:id')
                     .eq('instructor_id', selectedInstructor.id)
                     .eq('date', dayjs(currentDateObj).format('YYYY-MM-DD'))
                     .eq('available', true);
-                  // handleDateSelect(day);
 
-                  // console.log('programs.length');
-                  // console.log(programs.length);
                   let filteredTimeSlots: TFetchedTimeSlot[] = [];
-                  // program_id 필터링할 것
                   switch (selectedLectureCategory) {
                     case '스쿠버다이빙':
                       filteredTimeSlots = timeSlots.filter(timeslot => {
                         const foundProgram = programs.find(program => program.id === timeslot.program_id);
-                        // console.log('foundPrgoram');
-                        // console.log(foundProgram);
+
                         return foundProgram?.category === selectedLectureCategory || foundProgram?.category === '체험다이빙' ? true : false;
-                        // return true
                       });
                       break;
                     case '머메이드':
@@ -143,16 +129,12 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                       timeSlots.filter(timeslot => {
                         const foundPrgoram = programs.find(program => program.id === timeslot.program_id);
                         return foundPrgoram?.category === selectedLectureCategory ? true : false;
-                        // return true
                       });
                       break;
 
                     default:
                       break;
                   }
-
-                  // console.log('filteredTimeSlots.length');
-                  // console.log(filteredTimeSlots.length);
 
                   changeTimeSlots({ newTimeSlots: filteredTimeSlots });
                 }

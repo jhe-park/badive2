@@ -1,3 +1,4 @@
+import type { Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { HeroUIProvider } from '@heroui/react';
@@ -24,15 +25,12 @@ export const metadata = {
   },
 };
 
-export function generateViewport() {
-  return {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    // 추가적인 동적 설정이 필요할 경우 여기에 로직 추가
-  };
-}
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 const geistSans = Geist({
   display: 'swap',

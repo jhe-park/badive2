@@ -230,6 +230,7 @@ export const brandItems = [
         title: "Tailwind Variants",
         startContent: (
           <TeamAvatar
+          
             classNames={{
               base: "border-1 border-primary-foreground/20",
               name: "text-primary-foreground/80",
