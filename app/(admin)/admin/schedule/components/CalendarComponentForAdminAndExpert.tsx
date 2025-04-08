@@ -7,6 +7,8 @@ import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { cn } from '@/lib/utils';
 import { TypeDBinstructor, TypeDBprofile, TypeDBprogram, TypeDBreservation, TypeDBtimeslot, TypeDBTimeSlotJoined } from '@/utils/supabase/dbTableTypes';
 import { LECTURE_CATEGORY } from '@/constants/constants';
+import { getTimeSlots } from '@/utils/supabase/getTimeSlots';
+import { getFilteredTimeSlots } from '@/utils/supabase/getFilteredTimeSlots';
 
 export type TFetchedTimeSlot = {
   start_time: string;
@@ -33,7 +35,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
   changeTimeSlots,
   programs,
   changeSelectedDate,
-  selectedDate
+  selectedDate,
 }) => {
   const supabase = createTypedSupabaseClient();
 
@@ -107,39 +109,38 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
 
                 changeSelectedDate({ newDate: currentDateObj });
                 // setSelectedDate(currentDateObj);
-                const {
-                  count,
-                  data: timeSlots,
-                  error,
-                } = await supabase
-                  .from('timeslot')
-                  .select('start_time,max_participants,current_participants, program_id,time_slot_id:id')
-                  .eq('instructor_id', selectedInstructor.id)
-                  .eq('date', dayjs(currentDateObj).format('YYYY-MM-DD'))
-                  .eq('available', true);
 
-                let filteredTimeSlots: TFetchedTimeSlot[] = [];
-                switch (selectedLectureCategory) {
-                  case '스쿠버다이빙':
-                    filteredTimeSlots = timeSlots.filter(timeslot => {
-                      const foundProgram = programs.find(program => program.id === timeslot.program_id);
+                const { count, error, timeSlots } = await getTimeSlots({ supabase, date: currentDateObj, instructor: selectedInstructor });
 
-                      return foundProgram?.category === selectedLectureCategory || foundProgram?.category === '체험다이빙' ? true : false;
-                    });
-                    break;
-                  case '머메이드':
-                  case '언더워터 댄스':
-                  case '프리다이빙':
-                    timeSlots.filter(timeslot => {
-                      const foundPrgoram = programs.find(program => program.id === timeslot.program_id);
-                      return foundPrgoram?.category === selectedLectureCategory ? true : false;
-                    });
-                    break;
+                const filteredTimeSlots = getFilteredTimeSlots({
+                  programs,
+                  selectedLectureCategory,
+                  timeSlots,
+                });
 
-                  default:
-                    break;
-                }
+                // let filteredTimeSlots: TFetchedTimeSlot[] = [];
+                // switch (selectedLectureCategory) {
+                //   case '스쿠버다이빙':
+                //     filteredTimeSlots = timeSlots.filter(timeslot => {
+                //       const foundProgram = programs.find(program => program.id === timeslot.program_id);
 
+                //       return foundProgram?.category === selectedLectureCategory || foundProgram?.category === '체험다이빙' ? true : false;
+                //     });
+                //     break;
+                //   case '머메이드':
+                //   case '언더워터 댄스':
+                //   case '프리다이빙':
+                //     timeSlots.filter(timeslot => {
+                //       const foundPrgoram = programs.find(program => program.id === timeslot.program_id);
+                //       return foundPrgoram?.category === selectedLectureCategory ? true : false;
+                //     });
+                //     break;
+
+                //   default:
+                //     break;
+                // }
+
+                debugger;
                 changeTimeSlots({ newTimeSlots: filteredTimeSlots });
               }}
             >

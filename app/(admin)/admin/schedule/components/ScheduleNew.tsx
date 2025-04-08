@@ -12,6 +12,8 @@ import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { X } from 'lucide-react';
 import ModalForDetailInformation from './ModalForDetailInformation';
 import dayjs from 'dayjs';
+import { getFilteredTimeSlots } from '@/utils/supabase/getFilteredTimeSlots';
+import { getTimeSlots } from '@/utils/supabase/getTimeSlots';
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -60,6 +62,10 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
+
+  console.log('timeSlots');
+  console.log(timeSlots);
+
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TFetchedTimeSlot | undefined>();
   const [reservationsDetail, setReservationsDetail] = useState<TReservationsDetail[]>([]);
 
@@ -128,12 +134,9 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
   };
 
   const addScheduleToDB = async () => {
-    // 강사정보
-    // 프로그램 카테고리 정보 : 일단 카테고리에 속한 모든 프로그램을 가져온다
-
     debugger;
-    everyPrograms.filter(program => program.category);
     let filteredPrograms: TypeDBprogram[] | undefined = undefined;
+
     switch (selectedLectureCategory) {
       case '스쿠버다이빙':
         filteredPrograms = everyPrograms.filter(program => {
@@ -151,28 +154,50 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
         break;
     }
 
-    filteredPrograms.map(async (program, index) => {
-      // for debug;
-      if (index >= 1) return;
-      const date = dayjs(selectedDate).format('YYYY-MM-DD');
-      const start_time = selectedHHMM;
-      const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
+    await Promise.all(
+      filteredPrograms.map(async (program, index) => {
+        // for debug;
+        if (index >= 1) return;
+        const date = dayjs(selectedDate).format('YYYY-MM-DD');
+        const start_time = selectedHHMM;
+        const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
 
-      debugger;
-      await supabase.from('timeslot').insert({
-        // id,
-        // created_at,
-        date,
-        start_time,
-        end_time: start_time,
-        unique_id: uniqueId,
-        program_id: program.id,
-        instructor_id: program.instructor_id,
-        available: true,
-        current_participants: 0,
-        max_participants: program.participants,
-      });
+        debugger;
+
+        try {
+          await supabase
+            .from('timeslot')
+            .update({
+              available: true,
+            })
+            .eq('unique_id', uniqueId);
+        } catch (error) {
+          await supabase.from('timeslot').insert({
+            // id,
+            // created_at,
+            date,
+            start_time,
+            end_time: start_time,
+            unique_id: uniqueId,
+            program_id: program.id,
+            instructor_id: program.instructor_id,
+            available: true,
+            current_participants: 0,
+            max_participants: program.participants,
+          });
+        }
+      }),
+    );
+
+    const { count, error, timeSlots } = await getTimeSlots({ supabase, date: selectedDate, instructor: selectedInstructor });
+
+    const filteredTimeSlots = getFilteredTimeSlots({
+      programs: everyPrograms,
+      selectedLectureCategory,
+      timeSlots,
     });
+
+    changeTimeSlots({ newTimeSlots: filteredTimeSlots });
   };
 
   const EVERY_TIME_SLOTS_OBJ = {
@@ -208,6 +233,106 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
     }
     return acc;
   }, EVERY_TIME_SLOTS_OBJ);
+
+  // ; program; date; start_time
+  // date, program, start_time
+
+  const deleteTimeSlots = async ({
+    timeSlotIds,
+    time,
+    date,
+    timeSlots,
+  }: {
+    timeSlots: TFetchedTimeSlot[];
+    timeSlotIds: number[];
+    time: string;
+    date: Date;
+  }) => {
+    const allRequestCompleted = await Promise.all(
+      timeSlotIds.map(async timeSlotId => {
+        // time_slot_id를 기반으로 program 정보를 찾는다
+        const foundTimeSlot = timeSlots.find(timeslot => timeslot.time_slot_id === timeSlotId);
+        const foundProgram = everyPrograms.find(program => program.id === foundTimeSlot.program_id);
+        const uniqueId = `${foundProgram.instructor_id}_${foundProgram.id}_${dayjs(date).format('YYYY-MM-DD')}_${foundTimeSlot.start_time}`;
+        console.log(foundTimeSlot);
+        console.log(foundProgram);
+        console.log(uniqueId);
+        debugger;
+        await supabase
+          .from('timeslot')
+          .update({
+            available: false,
+          })
+          .eq('unique_id', uniqueId);
+      }),
+    );
+
+    const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date, instructor: selectedInstructor });
+
+    const filteredTimeSlots = getFilteredTimeSlots({
+      programs: everyPrograms,
+      selectedLectureCategory,
+      timeSlots: timeSlotsNew,
+    });
+
+    changeTimeSlots({ newTimeSlots: filteredTimeSlots });
+
+    // TODO : 작업이후 TIMESLOT 리스트를 RE-FETCH한다
+  };
+
+  function getTimeSlotComponent({ times }: { times: string[] }) {
+    return times
+      .map(time => {
+        const { max_participants, current_participants, program_ids, time_slot_ids } = everyTimeSlotCalculated[time];
+
+        if (max_participants === 0) return;
+
+        return (
+          <div className="relative" key={time}>
+            {current_participants === 0 && (
+              <div className="absolute top-[-10px] right-0">
+                <X
+                  onClick={() => {
+                    // everyPrograms.filter(program => program.id === program_)
+                    deleteTimeSlots({
+                      timeSlotIds: [...time_slot_ids],
+                      time,
+                      date: selectedDate,
+                      timeSlots,
+                    });
+                  }}
+                  className={cn('font-normal py-1 px-1 cursor-pointer bg-btnActive rounded-full text-white')}
+                >
+                  X
+                </X>
+              </div>
+            )}
+            <Badge
+              variant={'outline'}
+              className={cn('cursor-pointer font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
+              key={time}
+              onClick={() => {
+                getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
+              }}
+            >
+              {time}
+            </Badge>
+            <div
+              onClick={() => {
+                getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
+              }}
+              className="text-center border-solid border-1 border-black cursor-pointer hover:bg-gray-100"
+            >
+              {current_participants}/{max_participants}
+            </div>
+          </div>
+        );
+      })
+      .filter(item => item != null);
+  }
+
+  const TimeSlotAMComponents = getTimeSlotComponent({ times: TIME_AM });
+  const TimeSlotPMComponents = getTimeSlotComponent({ times: TIME_PM });
 
   return (
     <>
@@ -289,14 +414,32 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
                 </Select>
               </div>
 
-              <div
-                onClick={() => {
-                  addScheduleToDB();
-                }}
-                className=""
-              >
-                등록하기
-                {/* <Button className="justify-start  data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"></Button> */}
+              <div className="">
+                <Button
+                  onPress={() => {
+                    let isForbidden = false;
+                    if (selectedLectureCategory == null) {
+                      toast.error('강의 카테고리를 선택해 주세요');
+                      isForbidden = true;
+                    }
+                    if (selectedInstructor == null) {
+                      toast.error('강사를 선택해 주세요');
+                      isForbidden = true;
+                    }
+                    if (selectedDate == null) {
+                      toast.error('달력에서 날짜를 선택해 주세요');
+                      isForbidden = true;
+                    }
+
+                    if (isForbidden) {
+                      return;
+                    }
+                    addScheduleToDB();
+                  }}
+                  className="justify-start  data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"
+                >
+                  등록하기
+                </Button>
               </div>
             </div>
           </div>
@@ -317,77 +460,23 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
       </div>
       {timeSlots.length > 0 && (
         <div className="">
-          <div className="">오전</div>
-          <div className="flex gap-4 flex-wrap">
-            {TIME_AM.map(time => {
-              const { max_participants, current_participants, program_ids, time_slot_ids } = everyTimeSlotCalculated[time];
-
-              if (max_participants === 0) return;
-              return (
-                <div className="relative" key={time}>
-                  {current_participants === 0 && (
-                    <div className="absolute top-[-10px] right-0">
-                      <X className={cn('font-normal py-1 px-1 cursor-pointer bg-btnActive rounded-full text-white')}>X</X>
-                    </div>
-                  )}
-                  <Badge
-                    variant={'outline'}
-                    className={cn('cursor-pointer font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
-                    key={time}
-                    onClick={() => {
-                      getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
-                    }}
-                  >
-                    {time}
-                  </Badge>
-                  <div
-                    onClick={() => {
-                      getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
-                    }}
-                    className="text-center border-solid border-1 border-black cursor-pointer hover:bg-gray-100"
-                  >
-                    {current_participants}/{max_participants}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="pt-12">오후</div>
-          <div className="flex gap-4 flex-wrap">
-            {TIME_PM.map(time => {
-              const { max_participants, current_participants, program_ids, time_slot_ids } = everyTimeSlotCalculated[time];
-              if (max_participants === 0) return;
-              return (
-                <div className="relative" key={time}>
-                  {current_participants === 0 && (
-                    <div className="absolute top-[-10px] right-0">
-                      <X className={cn('font-normal py-1 px-1 cursor-pointer bg-btnActive rounded-full text-white')}>X</X>
-                    </div>
-                  )}
-                  <Badge
-                    variant={'outline'}
-                    className={cn('cursor-pointer font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
-                    key={time}
-                    onClick={() => {
-                      getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
-                    }}
-                  >
-                    {time}
-                  </Badge>
-                  <div
-                    onClick={() => {
-                      getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
-                    }}
-                    className="text-center border-solid border-1 border-black cursor-pointer hover:bg-gray-100"
-                  >
-                    {current_participants}/{max_participants}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {TimeSlotAMComponents.length > 0 && (
+            <>
+              <div className="">오전</div>
+              <div className="flex gap-4 flex-wrap">{TimeSlotAMComponents}</div>
+            </>
+          )}
+          {TimeSlotPMComponents.length > 0 && (
+            <>
+              <div className="pt-12">오후</div>
+              <div className="flex gap-4 flex-wrap">{TimeSlotPMComponents}</div>
+            </>
+          )}
           <div className="pt-20"></div>
         </div>
+      )}
+      {selectedLectureCategory && selectedInstructor && selectedDate && TimeSlotAMComponents.length === 0 && TimeSlotPMComponents.length === 0 && (
+        <div className="">현재 등록된 시간대가 없습니다</div>
       )}
     </>
   );
