@@ -115,6 +115,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                 const filteredTimeSlots = getFilteredTimeSlots({
                   programs,
                   selectedLectureCategory,
+                  selectedInstructor,
                   timeSlots,
                 });
 

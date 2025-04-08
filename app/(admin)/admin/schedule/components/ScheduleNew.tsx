@@ -137,17 +137,30 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
     debugger;
     let filteredPrograms: TypeDBprogram[] | undefined = undefined;
 
+    // getFilteredTimeSlots({
+    //   programs: everyPrograms,
+    //   selectedLectureCategory,
+    //   timeSlots: timeSlots,
+    //   selectedInstructor,
+    // });
+
     switch (selectedLectureCategory) {
       case '스쿠버다이빙':
         filteredPrograms = everyPrograms.filter(program => {
-          return program?.category === selectedLectureCategory || program?.category === '체험다이빙' ? true : false;
+          const isValidCategory = program?.category === selectedLectureCategory || program?.category === '체험다이빙';
+          const isValidInstructor = program?.instructor_id === selectedInstructor.id;
+
+          return isValidInstructor && isValidCategory;
         });
         break;
       case '머메이드':
       case '언더워터 댄스':
       case '프리다이빙':
         filteredPrograms = everyPrograms.filter(program => {
-          return program?.category === selectedLectureCategory ? true : false;
+          const isValidCategory = program?.category === selectedLectureCategory;
+          const isValidInstructor = program?.instructor_id === selectedInstructor.id;
+
+          return isValidInstructor && isValidCategory;
         });
         break;
       default:
@@ -156,22 +169,34 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
 
     await Promise.all(
       filteredPrograms.map(async (program, index) => {
+        console.log('index');
+        console.log(index);
         // for debug;
-        if (index >= 1) return;
+        // if (index >= 1) return;
         const date = dayjs(selectedDate).format('YYYY-MM-DD');
         const start_time = selectedHHMM;
         const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
 
-        debugger;
-
         try {
-          await supabase
+          const { data, error, status, statusText } = await supabase
             .from('timeslot')
             .update({
               available: true,
             })
             .eq('unique_id', uniqueId);
-        } catch (error) {
+
+          console.log('data');
+          console.log(data);
+
+          console.log('error');
+          console.log(error);
+
+          console.log('status');
+          console.log(status);
+
+          console.log('statusText');
+          console.log(statusText);
+
           await supabase.from('timeslot').insert({
             // id,
             // created_at,
@@ -185,16 +210,20 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
             current_participants: 0,
             max_participants: program.participants,
           });
+        } catch (error) {
+          toast.error(error);
+          console.error(error);
         }
       }),
     );
 
-    const { count, error, timeSlots } = await getTimeSlots({ supabase, date: selectedDate, instructor: selectedInstructor });
+    const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date: selectedDate, instructor: selectedInstructor });
 
     const filteredTimeSlots = getFilteredTimeSlots({
       programs: everyPrograms,
       selectedLectureCategory,
-      timeSlots,
+      timeSlots: timeSlotsNew,
+      selectedInstructor,
     });
 
     changeTimeSlots({ newTimeSlots: filteredTimeSlots });
@@ -272,6 +301,7 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
     const filteredTimeSlots = getFilteredTimeSlots({
       programs: everyPrograms,
       selectedLectureCategory,
+      selectedInstructor,
       timeSlots: timeSlotsNew,
     });
 
