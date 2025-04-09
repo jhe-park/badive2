@@ -15,7 +15,7 @@ export default async function RSCForInquiries() {
   const userReservations = loginUserData ? reservationData.filter(reservation => reservation.user_id === loginUserData.id) : [];
 
   if (loginUserData == null) {
-    redirect('/login?returnUrl=/inquiries-test');
+    redirect('/login?returnUrl=/inquiries');
   }
 
   return (

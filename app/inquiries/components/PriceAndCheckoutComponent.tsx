@@ -40,7 +40,7 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
 
       if (error) throw error;
 
-      router.push(`/inquiries-test/checkout?session=${uuid}`);
+      router.push(`/inquiries/checkout?session=${uuid}`);
     } catch (error) {
       console.log('Error creating pending session:', error);
       toast.error('결제 진행 중 오류가 발생했습니다.');

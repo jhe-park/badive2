@@ -34,7 +34,7 @@ const menuItems = [
   },
   {
     title: '예약/문의',
-    href: '/inquiries-test',
+    href: '/inquiries',
   },
   {
     title: '커뮤니티',
