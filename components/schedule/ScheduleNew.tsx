@@ -40,12 +40,6 @@ const TIME_MAPPING = {
 const TIME_AM = ['05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00'];
 const TIME_PM = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00'];
 
-type TProps = {
-  instructors: TypeDBinstructor[];
-  profiles: TypeDBprofile[];
-  everyPrograms: TypeDBprogram[];
-};
-
 export type TReservationsDetail = {
   productName: string;
   studentName: string;
@@ -54,10 +48,18 @@ export type TReservationsDetail = {
   phone: string;
 };
 
-export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyPrograms }) => {
+type TProps = {
+  instructors: TypeDBinstructor[];
+  instructorMyself?: TypeDBinstructor;
+  profiles: TypeDBprofile[];
+  everyPrograms: TypeDBprogram[];
+  profilesForLoginUser: TypeDBprofile;
+};
+
+export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<(typeof LECTURE_CATEGORY)[number] | undefined>('스쿠버다이빙');
-  const [selectedInstructor, setSelectedInstructor] = useState<TypeDBinstructor | undefined>();
-  const [selectedInstructorProfile, setSelectedInstructorProfile] = useState<TypeDBprofile | undefined>();
+  const [selectedInstructor, setSelectedInstructor] = useState<TypeDBinstructor | undefined>(instructorMyself ?? undefined);
+  const [selectedInstructorProfile, setSelectedInstructorProfile] = useState<TypeDBprofile | undefined>(profilesForLoginUser ?? undefined);
   const [selectedHHMM, setSelectedHHMM] = useState<string | undefined>();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
@@ -81,12 +83,18 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
   const changeTimeSlots = ({ newTimeSlots }: { newTimeSlots: TFetchedTimeSlot[] }) => {
     setTimeSlots(newTimeSlots);
   };
+
   const changeReservationsDetail = ({ reset, newReservationsDetail }: { reset?: boolean; newReservationsDetail?: TReservationsDetail[] }) => {
     if (reset) {
       setReservationsDetail([]);
     } else {
       setReservationsDetail(newReservationsDetail ?? []);
     }
+  };
+
+  const resetCalendarDate = () => {
+    setSelectedDate(undefined);
+    setTimeSlots([]);
   };
 
   const getEveryStudentsFromPrograms = async ({ programIds, timeSlotIds }: { programIds: Set<number>; timeSlotIds: Set<number> }) => {
@@ -372,22 +380,25 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
         <div className="flex-1">
           <div className="flex flex-col items-center justify-center gap-6 pt-[10%]">
             <div className="text-large">스케줄 등록</div>
-            <div className="flex justify-center">
-              <Select
-                className="w-[150px] lg:w-[150px]"
-                onChange={async e => {
-                  const instructor = JSON.parse(e.target.value) as TypeDBinstructor;
-                  setSelectedInstructor(instructor);
+            {!instructorMyself && (
+              <div className="flex justify-center">
+                <Select
+                  className="w-[150px] lg:w-[150px]"
+                  onChange={async e => {
+                    const instructor = JSON.parse(e.target.value) as TypeDBinstructor;
+                    setSelectedInstructor(instructor);
 
-                  const foundProfile = profiles.find(profile => profile.email === instructor.email);
-                  setSelectedInstructorProfile(foundProfile);
-                }}
-              >
-                {instructors.map(instructor => {
-                  return <SelectItem key={JSON.stringify(instructor)}>{instructor.name}</SelectItem>;
-                })}
-              </Select>
-            </div>
+                    const foundProfile = profiles.find(profile => profile.email === instructor.email);
+                    setSelectedInstructorProfile(foundProfile);
+                    resetCalendarDate();
+                  }}
+                >
+                  {instructors.map(instructor => {
+                    return <SelectItem key={JSON.stringify(instructor)}>{instructor.name}</SelectItem>;
+                  })}
+                </Select>
+              </div>
+            )}
             <div className="flex gap-2">
               {LECTURE_CATEGORY.map(category => {
                 return (
@@ -400,6 +411,7 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
                     )}
                     onClick={() => {
                       setSelectedLectureCategory(category);
+                      resetCalendarDate();
                     }}
                   >
                     {category}

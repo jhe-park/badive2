@@ -1,8 +1,8 @@
 import React from 'react';
-import { ScheduleNew } from './components/ScheduleNew';
+import { ScheduleNew } from '@/components/schedule/ScheduleNew';
 import { createClient } from '@/utils/supabase/server';
 
-export default async function SchedulePage() {
+export default async function AdminSchedulePage() {
   const supabase = await createClient();
 
   const [{ data: instructors, error: instructorsError }, { data: profiles, error: profilesError }, { data: programs, error: errorForPrograms }] =
