@@ -127,7 +127,13 @@ export default function WelcomePopup() {
         <div className="w-full" style={{ aspectRatio: '460/600' }}>
           {tabs[activeTab].banners.map(banner => (
             <div key={banner.id} className="h-full w-full">
-              <img src={banner.image} alt={banner.title} className="w-full h-full object-cover cursor-pointer" onClick={() => handleBannerClick(banner.link)} />
+              <img
+                loading="lazy"
+                src={banner.image}
+                alt={banner.title}
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => handleBannerClick(banner.link)}
+              />
             </div>
           ))}
         </div>
