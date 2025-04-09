@@ -4,24 +4,19 @@ import { HeroImageForInquiries } from '@/components/HeroImageForInquiries';
 import { createClient } from '@/utils/supabase/server';
 import { Divider } from '@heroui/react';
 import OrderComponents from './components/OrderComponents';
+import { redirect } from 'next/navigation';
 
 export default async function RSCForInquiries() {
   const supabase = await createClient();
-
   const [{ data: reservationData }, { data: loginData }] = await Promise.all([supabase.from('reservation').select('*'), supabase.auth.getUser()]);
-
   const { data: loginUserProfile } = await supabase.from('profiles').select('*').eq('id', loginData?.user?.id).single();
 
   const loginUserData = loginData?.user;
-
   const userReservations = loginUserData ? reservationData.filter(reservation => reservation.user_id === loginUserData.id) : [];
 
-  // if (loginUserData) {
-  //   userReservations = reservationData.filter(reservation => reservation.user_id === loginUserData.id);
-  // }
-
-  console.log('userData');
-  console.log(loginUserData);
+  if (loginUserData == null) {
+    redirect('/login');
+  }
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">

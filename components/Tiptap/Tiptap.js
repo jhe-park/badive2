@@ -1,7 +1,7 @@
 'use client';
 
 import { createClient } from '@/utils/supabase/client';
-import { Document, Paragraph, Text } from '@tiptap/core';
+// import { Document, Paragraph, Text } from '@tiptap/core';
 import Heading from '@tiptap/extension-heading';
 import Image from '@tiptap/extension-image';
 import TextAlign from '@tiptap/extension-text-align';
