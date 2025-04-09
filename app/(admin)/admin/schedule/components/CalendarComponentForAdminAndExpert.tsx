@@ -1,14 +1,14 @@
 'use client';
 
-import dayjs from 'dayjs';
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { createTypedSupabaseClient } from '@/utils/supabase/client';
-import { cn } from '@/lib/utils';
-import { TypeDBinstructor, TypeDBprofile, TypeDBprogram, TypeDBreservation, TypeDBtimeslot, TypeDBTimeSlotJoined } from '@/utils/supabase/dbTableTypes';
 import { LECTURE_CATEGORY } from '@/constants/constants';
-import { getTimeSlots } from '@/utils/supabase/getTimeSlots';
+import { cn } from '@/lib/utils';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
+import { TypeDBinstructor, TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
 import { getFilteredTimeSlots } from '@/utils/supabase/getFilteredTimeSlots';
+import { getTimeSlots } from '@/utils/supabase/getTimeSlots';
+import dayjs from 'dayjs';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
 
 export type TFetchedTimeSlot = {
   start_time: string;
@@ -40,7 +40,6 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
   const supabase = createTypedSupabaseClient();
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  // const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   const handleNextMonth = () => {
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
@@ -108,7 +107,6 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                 }
 
                 changeSelectedDate({ newDate: currentDateObj });
-                // setSelectedDate(currentDateObj);
 
                 const { count, error, timeSlots } = await getTimeSlots({ supabase, date: currentDateObj, instructor: selectedInstructor });
 
@@ -119,29 +117,6 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                   timeSlots,
                 });
 
-                // let filteredTimeSlots: TFetchedTimeSlot[] = [];
-                // switch (selectedLectureCategory) {
-                //   case '스쿠버다이빙':
-                //     filteredTimeSlots = timeSlots.filter(timeslot => {
-                //       const foundProgram = programs.find(program => program.id === timeslot.program_id);
-
-                //       return foundProgram?.category === selectedLectureCategory || foundProgram?.category === '체험다이빙' ? true : false;
-                //     });
-                //     break;
-                //   case '머메이드':
-                //   case '언더워터 댄스':
-                //   case '프리다이빙':
-                //     timeSlots.filter(timeslot => {
-                //       const foundPrgoram = programs.find(program => program.id === timeslot.program_id);
-                //       return foundPrgoram?.category === selectedLectureCategory ? true : false;
-                //     });
-                //     break;
-
-                //   default:
-                //     break;
-                // }
-
-                debugger;
                 changeTimeSlots({ newTimeSlots: filteredTimeSlots });
               }}
             >

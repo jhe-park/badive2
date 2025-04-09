@@ -1,26 +1,24 @@
 "use client";
-import React from "react";
+import { createClient } from "@/utils/supabase/client";
 import {
   Button,
   Input,
+  Pagination,
   Select,
   SelectItem,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Pagination,
   Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow
 } from "@heroui/react";
-import { LuCirclePlus } from "react-icons/lu";
-import { FaSearch } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import { LuCirclePlus } from "react-icons/lu";
 
 export default function SearchTable() {
   const [selectedFilter, setSelectedFilter] = useState("title");

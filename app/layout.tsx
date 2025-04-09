@@ -1,12 +1,12 @@
-import type { Viewport } from 'next';
-import { Geist } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-import { HeroUIProvider } from '@heroui/react';
-import NavbarComponent from '@/app/components/NavbarComponent';
 import FooterComponent from '@/app/components/FooterComponent';
-import '@/app/globals.css';
-import AuthSession from '@/app/components/session-provider';
 import MainActionBar from '@/app/components/MainActionBar';
+import NavbarComponent from '@/app/components/NavbarComponent';
+import AuthSession from '@/app/components/session-provider';
+import '@/app/globals.css';
+import { HeroUIProvider } from '@heroui/react';
+import type { Viewport } from 'next';
+import { ThemeProvider } from 'next-themes';
+import { Geist } from 'next/font/google';
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
@@ -49,7 +49,6 @@ export default function RootLayout({ children }) {
           defaultTheme="light"
           forcedTheme="light"
           disableTransitionOnChange
-          // defaultTheme="system" // 이 옵션을 적용하면 배경화면이 검정색으로 변환되므로 절대 적용하지 말 것
           // enableSystem
         >
           {/* <AuthSession> */}

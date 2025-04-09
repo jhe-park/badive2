@@ -18,12 +18,6 @@ export default function TabContentsForRegisteredPrograms({
   registeredPrograms: TypeDBreservationJoinWithTimeslot;
   totalCountOfRegisteredPrograms: number;
 }) {
-  // const supabase = createClient();
-  // const [user, setUser] = useState(null);
-  // const [name, setName] = useState(null);
-  // const [point, setPoint] = useState(null);
-  // const [loading, setLoading] = useState(true);
-
   return (
     <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full h-full flex-col">
       <div className="w-full bg-black"></div>

@@ -1,10 +1,10 @@
-import MainBanner from './components/MainBanner';
-import MainStory from './components/MainStory';
-import MainInstructor from './components/MainInstructor';
-import MainCurriculum from './components/MainCurriculum';
-import MainNews from './components/MainNews';
-import WelcomePopup from './components/WelcomePopup';
 import { headers } from 'next/headers';
+import MainBanner from './components/MainBanner';
+import MainCurriculum from './components/MainCurriculum';
+import MainInstructor from './components/MainInstructor';
+import MainNews from './components/MainNews';
+import MainStory from './components/MainStory';
+import WelcomePopup from './components/WelcomePopup';
 
 export default async function Home() {
   checkIsSafariBrowser();

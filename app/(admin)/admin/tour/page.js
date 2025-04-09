@@ -1,9 +1,5 @@
-import React from "react";
-import { Input, Button } from "@heroui/react";
 import { createClient } from "@/utils/supabase/server";
-import { PiCodesandboxLogo } from "react-icons/pi";
-import { LuCirclePlus } from "react-icons/lu";
-import { FaSearch } from "react-icons/fa";
+import React from "react";
 import SearchTable from "./components/SearchTable";
 export default async function InstructorPage() {
   const supabase = await createClient();

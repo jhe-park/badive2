@@ -1,7 +1,8 @@
-import React from "react";
 import Image from "next/image";
-import TabContents from "./components/TabContents";
+import React from "react";
 import Activity from "./components/Activity";
+import TabContents from "./components/TabContents";
+
 export default function page() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">

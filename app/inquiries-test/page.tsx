@@ -1,10 +1,9 @@
-import React from 'react';
-import { Divider } from '@heroui/react';
-import OrderComponents from './components/OrderComponents';
-import { createClient } from '@/utils/supabase/server';
 import { CautionForReservation } from '@/components/CautionForReservation';
 import { ContactToCompany } from '@/components/Contact';
 import { HeroImageForInquiries } from '@/components/HeroImageForInquiries';
+import { createClient } from '@/utils/supabase/server';
+import { Divider } from '@heroui/react';
+import OrderComponents from './components/OrderComponents';
 
 export default async function RSCForInquiries() {
   const supabase = await createClient();

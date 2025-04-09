@@ -5,15 +5,12 @@ import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { generateRandomString } from '@/utils/supabase/generateRandomString';
-import { Divider, Select, SelectItem, Button } from '@heroui/react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
+import { Button, Divider, useDisclosure } from '@heroui/react';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 type TProps = { userData: User; profile: TypeDBprofile; showMode: 'MOBILE' | 'DESKTOP' };
-
-// userReservations: TypeDBreservation[];
 
 export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData, showMode }) => {
   const { selectedResult, setSelectedResult } = useSelectedResult();
@@ -22,7 +19,6 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
   const router = useRouter();
 
   const handlePaymentClick = async () => {
-    debugger;
     if (!selectedResult.isAgree) {
       console.log('동의안됨');
       onOpen();
@@ -37,7 +33,6 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
       const uuid = generateRandomString();
       const { error } = await supabase.from('pending_sessions').insert({
         uuid: uuid,
-        // selected_data: selectedResult as any,
         selected_data: selectedResult as any,
         user_data: userData as any,
         profile: profile,
@@ -45,9 +40,7 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
 
       if (error) throw error;
 
-      // router.push(`/inquiries/checkout?session=${uuid}`);
       router.push(`/inquiries-test/checkout?session=${uuid}`);
-      
     } catch (error) {
       console.log('Error creating pending session:', error);
       toast.error('결제 진행 중 오류가 발생했습니다.');
@@ -87,21 +80,13 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
 
 function checkIsSelectedResultFullyReadyForCheckout(selectedResult: TSelectedResult) {
   if (
-    // selectedResult.totalPrice &&
     selectedResult.totalPrice > 0 &&
-    // selectedResult.instructor_id &&
     selectedResult.instructor_id !== null &&
-    // selectedResult.program_id &&
     selectedResult.program_id !== null &&
-    // selectedResult.slot_id &&
     selectedResult.slot_id?.length > 0 &&
-    // selectedResult.noParticipants &&
     selectedResult.noParticipants > 0 &&
-    // selectedResult.date &&
     selectedResult.date?.length > 0 &&
     selectedResult.isAgree === true
-    // && selectedResult.region && selectedResult.region !== null
-    // && selectedResult.category && selectedResult.category !== null
   ) {
     return true;
   } else return false;

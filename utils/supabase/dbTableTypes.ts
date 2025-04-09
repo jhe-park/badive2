@@ -1,7 +1,6 @@
 import { User } from '@supabase/supabase-js';
 import { Database } from './database.types';
 import { TSelectedResult } from '@/app/store/useSelectedResult';
-// import { Json } from './database.types';
 
 type DBTable = Database['public']['Tables'];
 
@@ -22,51 +21,6 @@ export type TypeDBprogram = DBTable['program']['Row'];
 export type TypeDBrequest = DBTable['request']['Row'];
 export type TypeDBrequestInstructor = DBTable['requestInstructor']['Row'];
 export type TypeDBreservation = DBTable['reservation']['Row'];
-// type a =  Omit<TypeDBreservation, 'time_slot_id'>
-
-// export type TypeDBreservationJoinWithTimeslot = {
-//   amount: number | null;
-//   created_at: string;
-//   id: number;
-//   instructor_id: number | null;
-//   order_id: string | null;
-//   participants: number | null;
-//   pay_type: string | null;
-//   payment_key: string | null;
-//   status: string | null;
-//   time_slot_id: number & {
-//     available: boolean | null;
-//     created_at: string;
-//     current_participants: number | null;
-//     date: string | null;
-//     end_time: string | null;
-//     id: number;
-//     instructor_id: number & {
-//       available: boolean | null;
-//       birth: string | null;
-//       certifications: string | null;
-//       created_at: string;
-//       email: string | null;
-//       etc: string | null;
-//       experience: boolean | null;
-//       freediving: boolean | null;
-//       gender: string | null;
-//       id: number;
-//       license: Json | null;
-//       mermaid: boolean | null;
-//       name: string | null;
-//       no_license: number | null;
-//       no_tour: number | null;
-//       phone: string | null;
-//       profile_image: string | null;
-//       region: string | null;
-//       role: Database['public']['Enums']['instructor_role'] | null;
-//       scuba: boolean | null;
-//       underwater: boolean | null;
-//     };
-//     max_participants: number | null;
-//   };
-// };
 
 export type TypeDBreservationJoinWithTimeslot = Array<
   Omit<TypeDBreservation, 'time_slot_id'> & {

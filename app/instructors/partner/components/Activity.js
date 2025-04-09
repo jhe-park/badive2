@@ -1,23 +1,22 @@
-'use client'
-import React, { useState, useEffect } from "react";
-import VerticalCarousel from "./VerticalCarousel";
-import useInstructor from '@/app/store/useInstructor'
-import { activities } from '@/app/instructors/components/activities'
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import VerticalCarousel from './VerticalCarousel';
+import useInstructor from '@/app/store/useInstructor';
+import { activities } from '@/app/instructors/components/activities';
 
 export default function Activity() {
   const { instructor } = useInstructor();
   const [index, setIndex] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
 
-
-
   useEffect(() => {
     const filtered = activities.filter(item => item.instructor === instructor);
-    console.log('filtered:', filtered)
+    console.log('filtered:', filtered);
     setSelectedItems(filtered);
   }, [instructor]);
-  console.log('instructor:', instructor)
-  console.log('selectedItems:', selectedItems)
+  console.log('instructor:', instructor);
+  console.log('selectedItems:', selectedItems);
 
   return (
     <div className="w-full h-full md:h-[836px] flex relative flex-col items-center">
@@ -41,9 +40,7 @@ export default function Activity() {
 
             <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center pb-12">
               <div className="text-2xl md:text-[50px] font-bold">{instructor}</div>
-              <div className="text-md md:text-[20px] mt-8 md:mt-12">
-                {selectedItems[index]?.title}
-              </div>
+              <div className="text-md md:text-[20px] mt-8 md:mt-12">{selectedItems[index]?.title}</div>
             </div>
           </div>
         </div>

@@ -1,9 +1,6 @@
 "use client";
-import React from "react";
-import { Input, Button, Select, SelectItem } from "@heroui/react";
 import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
+import React, { useState } from "react";
 import SearchTable from "./components/SearchTable";
 
 export default function SubmitListPage() {

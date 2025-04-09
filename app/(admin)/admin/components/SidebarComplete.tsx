@@ -1,23 +1,19 @@
 'use client';
 
-import React from 'react';
-import { Avatar, Button, ScrollShadow, Spacer } from '@heroui/react';
-import { Icon } from '@iconify/react';
-import { cn } from '@heroui/react';
-import { sectionItemsWithTeams } from './sidebar-items';
-import Sidebar from './sidebar';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { signOut } from 'next-auth/react';
 import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import { FaArrowLeft } from 'react-icons/fa';
+import { Button, cn, ScrollShadow, Spacer } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { User } from '@supabase/supabase-js';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import Sidebar from './sidebar';
+import { sectionItemsWithTeams } from './sidebar-items';
 
 export default function SidebarComplete({ children, user }: { children: React.ReactNode; user: User }) {
-
   const supabase = createClient();
   const router = useRouter();
 

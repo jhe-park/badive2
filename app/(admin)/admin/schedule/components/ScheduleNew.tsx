@@ -1,19 +1,19 @@
 'use client';
 
-import { ToastContainer, toast } from 'react-toastify';
-import { LECTURE_CATEGORY } from '@/constants/constants';
 import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
+import { LECTURE_CATEGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
-import { Select, SelectItem, Button, Textarea, Chip } from '@heroui/react';
-import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './CalendarComponentForAdminAndExpert';
-import { TypeDBinstructor, TypeDBprofile, TypeDBprogram, TypeDBtimeslot } from '@/utils/supabase/dbTableTypes';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
-import { X } from 'lucide-react';
-import ModalForDetailInformation from './ModalForDetailInformation';
-import dayjs from 'dayjs';
+import { TypeDBinstructor, TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
 import { getFilteredTimeSlots } from '@/utils/supabase/getFilteredTimeSlots';
 import { getTimeSlots } from '@/utils/supabase/getTimeSlots';
+import { Button, Select, SelectItem } from '@heroui/react';
+import dayjs from 'dayjs';
+import { X } from 'lucide-react';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './CalendarComponentForAdminAndExpert';
+import ModalForDetailInformation from './ModalForDetailInformation';
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -134,15 +134,7 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
   };
 
   const addScheduleToDB = async () => {
-    debugger;
     let filteredPrograms: TypeDBprogram[] | undefined = undefined;
-
-    // getFilteredTimeSlots({
-    //   programs: everyPrograms,
-    //   selectedLectureCategory,
-    //   timeSlots: timeSlots,
-    //   selectedInstructor,
-    // });
 
     switch (selectedLectureCategory) {
       case '스쿠버다이빙':
@@ -171,8 +163,7 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
       filteredPrograms.map(async (program, index) => {
         console.log('index');
         console.log(index);
-        // for debug;
-        // if (index >= 1) return;
+
         const date = dayjs(selectedDate).format('YYYY-MM-DD');
         const start_time = selectedHHMM;
         const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
@@ -198,8 +189,6 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
           console.log(statusText);
 
           await supabase.from('timeslot').insert({
-            // id,
-            // created_at,
             date,
             start_time,
             end_time: start_time,
@@ -263,9 +252,6 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
     return acc;
   }, EVERY_TIME_SLOTS_OBJ);
 
-  // ; program; date; start_time
-  // date, program, start_time
-
   const deleteTimeSlots = async ({
     timeSlotIds,
     time,
@@ -279,14 +265,13 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
   }) => {
     const allRequestCompleted = await Promise.all(
       timeSlotIds.map(async timeSlotId => {
-        // time_slot_id를 기반으로 program 정보를 찾는다
         const foundTimeSlot = timeSlots.find(timeslot => timeslot.time_slot_id === timeSlotId);
         const foundProgram = everyPrograms.find(program => program.id === foundTimeSlot.program_id);
         const uniqueId = `${foundProgram.instructor_id}_${foundProgram.id}_${dayjs(date).format('YYYY-MM-DD')}_${foundTimeSlot.start_time}`;
+
         console.log(foundTimeSlot);
         console.log(foundProgram);
         console.log(uniqueId);
-        debugger;
         await supabase
           .from('timeslot')
           .update({
@@ -306,8 +291,6 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
     });
 
     changeTimeSlots({ newTimeSlots: filteredTimeSlots });
-
-    // TODO : 작업이후 TIMESLOT 리스트를 RE-FETCH한다
   };
 
   function getTimeSlotComponent({ times }: { times: string[] }) {
@@ -323,7 +306,6 @@ export const ScheduleNew: React.FC<TProps> = ({ instructors, profiles, everyProg
               <div className="absolute top-[-10px] right-0">
                 <X
                   onClick={() => {
-                    // everyPrograms.filter(program => program.id === program_)
                     deleteTimeSlots({
                       timeSlotIds: [...time_slot_ids],
                       time,

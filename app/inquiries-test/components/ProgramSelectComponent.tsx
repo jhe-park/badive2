@@ -1,41 +1,20 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import React, { useState, useEffect, useRef } from 'react';
-import { Divider, Select, SelectItem, Button } from '@heroui/react';
-import { useRouter } from 'next/navigation';
-import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { useProgramStore } from '@/app/store/useProgramStore';
-import { selectedResultInitializedValue, useSelectedResult } from '@/app/store/useSelectedResult';
-// import Image from 'next/image';
-// import { loadTossPayments, ANONYMOUS } from '@tosspayments/tosspayments-sdk';
-
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
-
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
-import { ToastContainer, toast } from 'react-toastify';
-// import { Database } from '@/utils/supabase/database.types';
-import { TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
-import { cn } from '@/lib/utils';
-import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
-import { generateRandomString } from '@/utils/supabase/generateRandomString';
-import { User } from '@supabase/supabase-js';
+import { selectedResultInitializedValue, useSelectedResult } from '@/app/store/useSelectedResult';
+import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY } from '@/constants/constants';
-
-// 프리다이빙
-// 체험다이빙
-// 머메이드
-// 언더워터
-// 스쿠버다이빙
-
-// const LECTURE_CATEGORY = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터 댄스'] as const;
-
-// const LECTURE_CATEGORY_TO_DB_CATRGORY = {
-//   스쿠버다이빙: ['스쿠버다이빙', '체험다이빙'],
-//   프리다이빙: ['프리다이빙'],
-//   머메이드: ['머메이드'],
-//   '언더워터 댄스': ['언더워터'],
-// };
+import { cn } from '@/lib/utils';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
+import { TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
+import { generateRandomString } from '@/utils/supabase/generateRandomString';
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure } from '@heroui/react';
+import { User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
 
 type TProps = {
   isSelectProgram: boolean;
@@ -74,14 +53,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
   const [noParticipants, setNoParticipants] = useState(1);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  // const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  // const [payment, setPayment] = useState(null);
-  // const [widgets, setWidgets] = useState(null);
-  // const [ready, setReady] = useState(false);
-  // const [paymentMethodWidget, setPaymentMethodWidget] = useState(null);
-  // const clientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
-  // const customerKey = userData?.id;
 
   const router = useRouter();
 
@@ -224,7 +195,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       const uuid = generateRandomString();
       const { error } = await supabase.from('pending_sessions').insert({
         uuid: uuid,
-        // selected_data: selectedResult as any,
         selected_data: selectedResult as any,
         user_data: userData as any,
         profile: profile,
@@ -259,8 +229,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
     setSelectedResult(newResult);
   };
-
-  // function selectInstructor({ instructor }: { instructor: string }) {}
 
   function selectRegion({ location }: { location: string }) {
     setSelectedInstructor('');
@@ -323,14 +291,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
           setSelectedResult({
             ...selectedResultInitializedValue,
             program: e.target.value,
-            // noParticipants: 1,
-            // program_id: null,
-            // instructor_id: null,
-            // instructor: '',
-            // region: '',
-            // category: null,
-            // totalPrice: null,
-            // date: null,
           });
         }}
         className="w-full h-full text-xl"
@@ -435,9 +395,5 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     </div>
   );
 };
-
-// function removeSpecialCharacters(str) {
-//   return str.replace(/[^a-zA-Z0-9가-힣]/g, '');
-// }
 
 export default ProgramSelectComponent;

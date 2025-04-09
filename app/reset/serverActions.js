@@ -1,32 +1,28 @@
-// app/reset/serverActions.js
-"use server";
+'use server';
 
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from '@/utils/supabase/client';
 
 export async function handlePasswordChange(code, password) {
-    const supabase = createClient();
+  const supabase = createClient();
 
-
-    console.log('code:', code);
-    console.log('password:', password);
-    if (code) {
-        console.log('code22:', code);
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
-        ;
-        console.log('error:', error);
-
-
-        if (error) {
-            return "Unable to reset Password. Link expired";
-        }
-    }
-
-    const { error } = await supabase.auth.updateUser({
-        password,
-    });
+  console.log('code:', code);
+  console.log('password:', password);
+  if (code) {
+    console.log('code22:', code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    console.log('error:', error);
 
     if (error) {
-        return "Unable to reset Password. Try again!";
+      return 'Unable to reset Password. Link expired';
     }
-    return null; // 성공 시 에러 메시지 없음
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  if (error) {
+    return 'Unable to reset Password. Try again!';
+  }
+  return null; // 성공 시 에러 메시지 없음
 }

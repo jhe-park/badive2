@@ -16,7 +16,6 @@ export const getMonthlySchedule = async ({
   supabase: SupabaseClient<Database>;
   allMonthDays: string[];
 }) => {
-  // : Promise<Array<TypeDBtimeslot & { program_id: TypeDBprogram }>> 
   try {
     console.log('Fetching schedule with:', {
       instructor_id: selectedResult?.instructor_id,
@@ -28,14 +27,6 @@ export const getMonthlySchedule = async ({
       return;
     }
 
-    // debugger;
-
-    // const formattedDateString = dayjs(selectedResult.date.at(0)).format(
-    //   "YYYY-MM-DD"
-    // );
-    // console.log("formattedDateString");
-    // console.log(formattedDateString);
-
     const { data: timeSlots, error } = await supabase
       .from('timeslot')
       .select('*,program_id(*)')
@@ -45,15 +36,6 @@ export const getMonthlySchedule = async ({
       // .eq("date", formattedDateString)
       .in('date', allMonthDays)
       .order('date', { ascending: true });
-
-    // type TypeDBTimeSlotJoin = QueryData<(typeof timeSlots)[0]>;
-    // type a = typeof timeSlots
-    // debugger;
-    // if (timeSlots.length > 0) {
-    //   alert(`data.length : ${timeSlots.length}`);
-    //   console.log("data");
-    //   console.log();
-    // }
 
     if (error) {
       console.error('데이터 조회 에러:', error);
@@ -65,5 +47,4 @@ export const getMonthlySchedule = async ({
     console.error('예외 발생:', err);
     return [];
   }
-  // return [];
 };

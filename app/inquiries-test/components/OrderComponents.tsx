@@ -1,13 +1,13 @@
 'use client';
 
+import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
+import { TypeDBprofile, TypeDBreservation } from '@/utils/supabase/dbTableTypes';
+import { User } from '@supabase/supabase-js';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import CalendarComponent from './CalendarComponent';
-import ProgramSelectComponent from './ProgramSelectComponent';
-import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
 import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
-import { User } from '@supabase/supabase-js';
-import { TypeDBprofile, TypeDBreservation } from '@/utils/supabase/dbTableTypes';
+import ProgramSelectComponent from './ProgramSelectComponent';
 
 type TProps = {
   userReservations: TypeDBreservation[];

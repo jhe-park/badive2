@@ -1,23 +1,18 @@
-'use client'
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import { useEffect, useRef } from "react";
-import { FaHeading } from "react-icons/fa";
-import { BsTypeH2 } from "react-icons/bs";
-import { FaBold, FaImage } from "react-icons/fa";
-import { 
-  MdFormatAlignLeft, 
-  MdFormatAlignCenter 
-} from "react-icons/md";
-import { createClient } from '@/utils/supabase/client';
-import TextAlign from '@tiptap/extension-text-align'
-import TextStyle from '@tiptap/extension-text-style';
-import { Document, Paragraph, Text } from "@tiptap/core";
-import Heading from '@tiptap/extension-heading'
-import './styles.scss'
-import { Heading1, Heading2, Heading3 } from 'lucide-react';
+'use client';
 
+import { createClient } from '@/utils/supabase/client';
+import { Document, Paragraph, Text } from '@tiptap/core';
+import Heading from '@tiptap/extension-heading';
+import Image from '@tiptap/extension-image';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { Heading1, Heading2, Heading3 } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { FaImage } from 'react-icons/fa';
+import { MdFormatAlignCenter, MdFormatAlignLeft } from 'react-icons/md';
+import './styles.scss';
 
 const ResizableImage = Image.extend({
   addAttributes() {
@@ -54,7 +49,7 @@ const ResizableImage = Image.extend({
       dom.style.position = 'relative';
       dom.style.display = 'inline-block';
       dom.style.width = 'fit-content';
-      
+
       if (node.attrs.textAlign === 'center') {
         dom.style.margin = '0 auto';
       }
@@ -71,7 +66,7 @@ const ResizableImage = Image.extend({
       img.style.margin = node.attrs.textAlign === 'center' ? '0 auto' : '0';
       img.style.textAlign = node.attrs.textAlign;
 
-      const createHandle = (position) => {
+      const createHandle = position => {
         const handle = document.createElement('div');
         handle.style.width = '10px';
         handle.style.height = '10px';
@@ -99,12 +94,12 @@ const ResizableImage = Image.extend({
             break;
         }
 
-        handle.addEventListener('mousedown', (event) => {
+        handle.addEventListener('mousedown', event => {
           event.preventDefault();
           const startX = event.clientX;
           const startWidth = img.offsetWidth;
 
-          const onMouseMove = (moveEvent) => {
+          const onMouseMove = moveEvent => {
             const newWidth = startWidth + (moveEvent.clientX - startX);
             img.style.width = `${newWidth}px`;
             if (typeof getPos === 'function') {
@@ -137,7 +132,7 @@ const ResizableImage = Image.extend({
 
       return {
         dom: wrapper,
-        update: (updatedNode) => {
+        update: updatedNode => {
           if (updatedNode.type.name !== 'image') {
             return false;
           }
@@ -161,7 +156,7 @@ const ResizableImage = Image.extend({
 const supabase = createClient();
 
 // Supabase 버킷 비우기 함수
-const emptyBucket = async (bucketName) => {
+const emptyBucket = async bucketName => {
   const { data, error } = await supabase.storage.emptyBucket(bucketName);
   if (error) {
     console.error('Error emptying bucket:', error.message);
@@ -172,14 +167,11 @@ const emptyBucket = async (bucketName) => {
 };
 
 // Supabase에 이미지를 업로드하고 URL을 반환하는 함수
-const uploadImageToSupabase = async (file) => {
+const uploadImageToSupabase = async file => {
   // 버킷 비우기
-  // await emptyBucket('notification');
 
   const fileName = `${Date.now()}-${file.name}`;
-  const { data, error } = await supabase.storage
-    .from('notification')
-    .upload(fileName, file);
+  const { data, error } = await supabase.storage.from('notification').upload(fileName, file);
 
   if (error) {
     console.error('Error uploading image:', error.message);
@@ -187,8 +179,7 @@ const uploadImageToSupabase = async (file) => {
   }
   console.log('data:', data);
 
-
-  const publicURL = "https://efehwvtyjlpxkpgswrfw.supabase.co/storage/v1/object/public/"+data.fullPath;
+  const publicURL = 'https://efehwvtyjlpxkpgswrfw.supabase.co/storage/v1/object/public/' + data.fullPath;
 
   console.log('Image uploaded successfully. URL:', publicURL);
 
@@ -198,7 +189,7 @@ const uploadImageToSupabase = async (file) => {
 // 글자 크기를 설정하는 함수
 const setFontSize = (editor, size) => {
   editor.chain().focus().setMark('textStyle', { fontSize: size }).run();
-}
+};
 
 export default function Tiptap({ description, setDescription }) {
   const editor = useEditor({
@@ -217,7 +208,7 @@ export default function Tiptap({ description, setDescription }) {
         levels: [1, 2, 3],
       }),
     ],
-    content: description ? description : "",
+    content: description ? description : '',
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       if (html !== description && !hasUpdated.current) {
@@ -237,20 +228,24 @@ export default function Tiptap({ description, setDescription }) {
     }
   }, [editor, description]);
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async e => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = await uploadImageToSupabase(file);
       if (imageUrl) {
-        editor.chain().focus().insertContent({
-          type: 'image',
-          attrs: {
-            src: imageUrl,
-            width: '200px',
-            textAlign: 'left',
-            style: 'display: block;margin: 0 auto;'
-          }
-        }).run();
+        editor
+          .chain()
+          .focus()
+          .insertContent({
+            type: 'image',
+            attrs: {
+              src: imageUrl,
+              width: '200px',
+              textAlign: 'left',
+              style: 'display: block;margin: 0 auto;',
+            },
+          })
+          .run();
       }
     }
   };
@@ -258,30 +253,19 @@ export default function Tiptap({ description, setDescription }) {
   if (!editor) {
     return null;
   }
-  console.log("description: ", description)
+  console.log('description: ', description);
 
   return (
     <div className="border-2 border-gray-200 rounded-lg p-4">
       <div className="mb-4 flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
         <label className="cursor-pointer inline-block">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-          />
+          <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
           <FaImage className="hover:bg-gray-200 p-2 rounded text-4xl" />
         </label>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          className="hover:bg-gray-200 p-2 rounded"
-        >
+        <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className="hover:bg-gray-200 p-2 rounded">
           <MdFormatAlignLeft className="text-2xl" />
         </button>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          className="hover:bg-gray-200 p-2 rounded"
-        >
+        <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className="hover:bg-gray-200 p-2 rounded">
           <MdFormatAlignCenter className="text-2xl" />
         </button>
         <button
@@ -312,10 +296,7 @@ export default function Tiptap({ description, setDescription }) {
           <Heading3 size={20} />
         </button>
       </div>
-      <EditorContent
-        editor={editor}
-        className="min-h-[30vh] prose w-full max-w-none"
-      />
+      <EditorContent editor={editor} className="min-h-[30vh] prose w-full max-w-none" />
     </div>
   );
 }

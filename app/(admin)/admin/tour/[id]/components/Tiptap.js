@@ -1,12 +1,10 @@
 'use client'
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import { useEffect } from "react";
-import { FaHeading } from "react-icons/fa";
-import { BsTypeH2 } from "react-icons/bs";
-import { FaBold, FaImage } from "react-icons/fa";
 import { createClient } from '@/utils/supabase/client';
+import Image from "@tiptap/extension-image";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { useEffect } from "react";
+import { FaImage } from "react-icons/fa";
 
 const ResizableImage = Image.extend({
   addNodeView() {

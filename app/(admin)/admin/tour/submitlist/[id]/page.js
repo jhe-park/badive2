@@ -1,9 +1,7 @@
 "use client";
-import React from "react";
-import { Input, Spinner } from "@heroui/react";
 import { createClient } from "@/utils/supabase/client";
-import { use } from "react";
-import { useEffect, useState } from "react";
+import { Input, Spinner } from "@heroui/react";
+import React, { use, useEffect, useState } from "react";
 export default function SubmitListPage({ params }) {
   const { id } = use(params);
   const [instructor, setInstructor] = useState(null);

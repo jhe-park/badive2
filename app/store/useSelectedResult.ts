@@ -7,14 +7,12 @@ export type TSelectedResult = {
   date: Date[];
   instructor_id: number;
   program_id: number;
-  // slot_id: string;
   slot_id: number[];
   slot_start_time: string;
   slot_end_time: string;
   slot_date: string;
   slot_current_participants: number | null;
   slot_max_participants: number | null;
-  // price: string;
   price: number;
   totalPrice: number;
   isAgree: boolean;
@@ -29,8 +27,6 @@ export const selectedResultInitializedValue = {
   instructor_id: null,
   instructor: '',
   program_id: null,
-  // instructor_id: "",
-  // program_id: "",
   slot_id: null,
   slot_start_time: '',
   slot_end_time: '',

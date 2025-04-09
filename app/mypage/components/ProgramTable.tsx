@@ -47,7 +47,6 @@ export default function ProgramTable({
     (async () => {
       const res = await handleGetProgram({
         supabase: supabase,
-        // profile,
         profileId: profile.data.id,
         searchValue,
         searchFilter,
@@ -150,7 +149,6 @@ export default function ProgramTable({
 
     const res = await handleGetProgram({
       supabase: supabase,
-      // profile,
       profileId: profile.data.id,
     });
 
@@ -353,71 +351,3 @@ export default function ProgramTable({
     </div>
   );
 }
-
-// import { Icon } from '@iconify/react';
-// import CellWrapper from './cell-wrapper';
-// import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
-// import { PostgrestSingleResponse } from '@supabase/supabase-js';
-
-// const handleGetProgram = async ({ profile }: { profile: PostgrestSingleResponse<TypeDBprofile> }) => {
-//   if (!profile?.data.id) {
-//     console.log('프로필 정보가 없습니다.');
-//     return;
-//   }
-
-//   let query = supabase
-//     .from('reservation')
-//     .select('*,time_slot_id(*, program_id(*), instructor_id(*))', {
-//       count: 'exact',
-//     })
-//     .eq('user_id', profile?.data.id)
-//     .not('time_slot_id', 'is', null)
-//     .not('time_slot_id.program_id', 'is', null)
-//     .not('time_slot_id.instructor_id', 'is', null)
-//     .order('created_at', { ascending: false })
-//     .range((currentPage - 1) * pageSize, currentPage * pageSize - 1);
-
-//   if (searchValue) {
-//     switch (searchFilter) {
-//       case '제목':
-//         query = query.ilike('time_slot_id.program_id.title', `%${searchValue}%`);
-//         break;
-//       case '장소':
-//         query = query.ilike('time_slot_id.program_id.region', `%${searchValue}%`);
-//         break;
-//       case '강사':
-//         query = query.ilike('time_slot_id.instructor_id.name', `%${searchValue}%`);
-//         break;
-//       case '상태':
-//         query = query.ilike('status', `%${searchValue}%`);
-//         break;
-//     }
-//   }
-
-//   const { data, count, error } = await query;
-//   if (error) {
-//     console.log('Error fetching programs:', error);
-//     return;
-//   }
-//   setRegisteredPrograms(data);
-//   setTotalPage(Math.ceil(count / pageSize));
-// };
-
-// const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', selectedProgram.id);
-
-// if (error) {
-//   toast.error('프로그램 취소에 실패했습니다.');
-//   return;
-// }
-
-// const { data: timeSlotData, error: timeSlotError } = await supabase
-//   .from('timeslot')
-//   .update({
-//     current_participants: selectedProgram.time_slot_id.current_participants - selectedProgram.participants,
-//   })
-//   .eq('id', selectedProgram.time_slot_id.id);
-
-// if (timeSlotError) {
-//   toast.error('참가자 수 업데이트에 실패했습니다.');
-//   return;
-// }

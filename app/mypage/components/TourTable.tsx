@@ -9,7 +9,6 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure
 import Image from 'next/image';
 import { FaSearch } from 'react-icons/fa';
 import { useEffect } from 'react';
-// import CellWrapper from './cell-wrapper';
 import { createClient } from '@/utils/supabase/client';
 import { ToastContainer, toast } from 'react-toastify';
 

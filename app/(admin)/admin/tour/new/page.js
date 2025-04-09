@@ -1,39 +1,25 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
-import Image from "next/image";
+import Froala from "@/components/Froala/Froala";
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
 import {
+  Button,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Select,
   SelectItem,
-  Button,
   Textarea,
-  Chip,
-  DatePicker,
+  useDisclosure
 } from "@heroui/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { LuCirclePlus } from "react-icons/lu";
 import { v4 as uuidv4 } from "uuid";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@heroui/react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@heroui/react";
-import Tiptap from "@/components/Tiptap/Tiptap";
 import DateEdit from "./components/DateEdit";
-import Froala from "@/components/Froala/Froala";
 export default function InstructorNewPage() {
   const {
     isOpen: isOpenAddInstructor,

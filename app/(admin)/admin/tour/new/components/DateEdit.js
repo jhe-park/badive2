@@ -1,8 +1,8 @@
 "use client"
 
 import { Input } from "@nextui-org/react";
-import { useState } from "react"
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const DateEdit = ({ date, setDate }) => {
   const [showCalendar, setShowCalendar] = useState(false)

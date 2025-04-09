@@ -1,9 +1,7 @@
 import React from 'react';
-import { Form, Input, Button, Select, SelectItem, Radio, RadioGroup, Divider, Checkbox } from '@nextui-org/react';
+import { Input, Button, Select, SelectItem, Radio, RadioGroup, Divider, Checkbox } from '@nextui-org/react';
 import { createClient } from '@/utils/supabase/client';
-import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-// import { programList } from "@/app/register/components/programlist";
 import { programlist } from '@/app/register/components/programlist';
 import DaumPostcode from 'react-daum-postcode';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';

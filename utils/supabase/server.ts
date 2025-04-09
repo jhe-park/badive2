@@ -4,7 +4,6 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from './database.types';
 
-// export const createServerClientCustom = async () => {
 export const createClient = async () => {
   const cookieStore = await cookies();
 
@@ -19,9 +18,7 @@ export const createClient = async () => {
             cookieStore.set(name, value, options);
           });
         } catch (error) {
-          // The `set` method was called from a Server Component.
-          // This can be ignored if you have middleware refreshing
-          // user sessions.
+          console.error(error);
         }
       },
     },

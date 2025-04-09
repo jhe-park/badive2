@@ -1,10 +1,8 @@
-import { PostgrestSingleResponse, SupabaseClient } from '@supabase/supabase-js';
-import { TypeDBprofile } from './dbTableTypes';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 
 export const handleGetProgram = async ({
   supabase,
-//   profile,
   profileId,
   pageSize = 5,
   currentPage = 1,
@@ -12,18 +10,12 @@ export const handleGetProgram = async ({
   searchValue = '',
 }: {
   supabase: SupabaseClient<Database>;
-//   profile: PostgrestSingleResponse<TypeDBprofile>;
   profileId: string;
   currentPage?: number;
   pageSize?: number;
   searchValue?: string;
   searchFilter?: string;
 }) => {
-//   if (!profile?.data.id) {
-//     console.error('프로필 정보가 없습니다.');
-//     return;
-//   }
-
   let query = supabase
     .from('reservation')
     .select('*,time_slot_id(*, program_id(*), instructor_id(*))', {
@@ -60,6 +52,4 @@ export const handleGetProgram = async ({
     return { status: 'FAILED' as const };
   }
   return { status: 'SUCCESS' as const, data, count };
-  //   setRegisteredPrograms(data);
-  //   setTotalPage(Math.ceil(count / pageSize));
 };
