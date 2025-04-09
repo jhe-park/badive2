@@ -53,7 +53,7 @@ type TProps = {
   instructorMyself?: TypeDBinstructor;
   profiles: TypeDBprofile[];
   everyPrograms: TypeDBprogram[];
-  profilesForLoginUser: TypeDBprofile;
+  profilesForLoginUser?: TypeDBprofile;
 };
 
 export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
