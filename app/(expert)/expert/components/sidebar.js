@@ -1,11 +1,8 @@
 "use client";
 
-import {Accordion, AccordionItem} from "@heroui/react";
+import { Accordion, AccordionItem, cn, Listbox, ListboxItem, ListboxSection, Tooltip } from "@heroui/react";
+import { Icon } from "@iconify/react";
 import React from "react";
-import {Listbox, Tooltip, ListboxItem, ListboxSection} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
-import { GiHamburgerMenu } from "react-icons/gi";
 
 export let SidebarItemType = /*#__PURE__*/ (function (SidebarItemType) {
   SidebarItemType["Nest"] = "nest";

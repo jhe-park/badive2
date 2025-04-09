@@ -1,34 +1,20 @@
-"use client";
-import React from "react";
-import {
-  Button,
-  Input,
-  Select,
-  SelectItem,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Pagination,
-  Spinner,
-} from "@heroui/react";
-import { LuCirclePlus } from "react-icons/lu";
-import { FaSearch } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import {debounce} from "lodash";
-import SubmitListButton from "./SubmitListButton";
+'use client';
+
+import { createClient } from '@/utils/supabase/client';
+import { Button, Input, Pagination, Select, SelectItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
+import { debounce } from 'lodash';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+import { LuCirclePlus } from 'react-icons/lu';
+import SubmitListButton from './SubmitListButton';
 export default function SearchTable() {
-  const [selectedSort, setSelectedSort] = useState("name");
+  const [selectedSort, setSelectedSort] = useState('name');
   const [instructor, setInstructor] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const router = useRouter();
 
   const pageSize = 10;
@@ -38,8 +24,8 @@ export default function SearchTable() {
   useEffect(() => {
     const fetchInstructor = debounce(async () => {
       let query = supabase
-        .from("instructor")
-        .select("*", { count: "exact" })
+        .from('instructor')
+        .select('*', { count: 'exact' })
         .range((page - 1) * pageSize, page * pageSize - 1)
         .eq('available', true);
 
@@ -50,7 +36,7 @@ export default function SearchTable() {
       const { data, error, count } = await query;
 
       if (error) {
-        console.log("Error fetching instructor:", error);
+        console.log('Error fetching instructor:', error);
       } else {
         setInstructor(data);
         setTotal(Math.ceil(count / pageSize));
@@ -64,10 +50,10 @@ export default function SearchTable() {
       fetchInstructor.cancel();
     };
   }, [page, pageSize, search, selectedSort]);
-  console.log("total:", total);
-  console.log("instructor:", instructor);
-  console.log("selectedSort:", selectedSort);
-  const handlePageChange = (page) => {
+  console.log('total:', total);
+  console.log('instructor:', instructor);
+  console.log('selectedSort:', selectedSort);
+  const handlePageChange = page => {
     setPage(page);
   };
 
@@ -77,17 +63,13 @@ export default function SearchTable() {
         <Button
           className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
           startContent={<LuCirclePlus className="text-white text-xl" />}
-          onPress={() => router.push("/admin/instructor/new")}
+          onPress={() => router.push('/admin/instructor/new')}
         >
           강사 등록
         </Button>
         <SubmitListButton></SubmitListButton>
-        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="검색어를 입력해주세요" label='검색' endContent={<FaSearch />}></Input>
-        <Select
-          label="검색기준"
-          selectedKeys={[selectedSort]}
-          onChange={(e) => setSelectedSort(e.target.value)}
-        >
+        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="검색어를 입력해주세요" label="검색" endContent={<FaSearch />}></Input>
+        <Select label="검색기준" selectedKeys={[selectedSort]} onChange={e => setSelectedSort(e.target.value)}>
           <SelectItem className="text-medium" value="name" key="name">
             이름
           </SelectItem>
@@ -133,38 +115,25 @@ export default function SearchTable() {
               관리
             </TableColumn>
           </TableHeader>
-          <TableBody
-            isLoading={isLoading}
-            loadingContent={<Spinner label="로딩중" className="text-xl" />}
-          >
-            {instructor.map((item) => (
+          <TableBody isLoading={isLoading} loadingContent={<Spinner label="로딩중" className="text-xl" />}>
+            {instructor.map(item => (
               <TableRow key={item.id}>
+                <TableCell className="text-center whitespace-nowrap">{item.name}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.birth}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.gender}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.phone}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">{item.role}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">
-                  {item.name}
-                </TableCell>
-                <TableCell className="text-center whitespace-nowrap">
-                  {item.birth}
-                </TableCell>
-                <TableCell className="text-center whitespace-nowrap">
-                  {item.region}
-                </TableCell>
-                <TableCell className="text-center whitespace-nowrap">
-                  {item.gender}
-                </TableCell>
-                <TableCell className="text-center whitespace-nowrap">
-                  {item.phone}
-                </TableCell>
-                <TableCell className="text-center whitespace-nowrap">
-                  {item.role}
-                </TableCell>
-                <TableCell className="text-center whitespace-nowrap">
-                  <Button color="primary" onPress={() => router.push(`/admin/instructor/${item.id}`)}>자세히 보기</Button>
+                  <Button color="primary" onPress={() => router.push(`/admin/instructor/${item.id}`)}>
+                    자세히 보기
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        
+
         <div className="flex justify-center items-center ">
           <Pagination initialPage={1} page={page} total={total} onChange={handlePageChange} />
         </div>
@@ -172,4 +141,3 @@ export default function SearchTable() {
     </>
   );
 }
-

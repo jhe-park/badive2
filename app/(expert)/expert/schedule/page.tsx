@@ -1,4 +1,3 @@
-import React from 'react';
 import { ScheduleNew } from '@/components/schedule/ScheduleNew';
 import { createClient } from '@/utils/supabase/server';
 

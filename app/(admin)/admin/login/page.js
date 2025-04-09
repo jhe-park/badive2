@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Button, Input, Checkbox, Link, Form } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import { signInAction } from "@/app/actions";
+import { signInAction } from '@/app/actions';
+import { Button, Form, Input } from '@heroui/react';
+import React from 'react';
+
 export default function Component() {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [returnUrl, setReturnUrl] = React.useState('/admin/main');
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    console.log("handleSubmit");
+    console.log('handleSubmit');
   };
-  const origin='/admin/login'
+  const origin = '/admin/login';
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
@@ -28,37 +28,24 @@ export default function Component() {
         <Form
           className="flex flex-col gap-4"
           validationBehavior="native"
-          action={async (formData) => {
+          action={async formData => {
             setIsLoading(true);
-            await signInAction(formData, returnUrl,origin);
+            await signInAction(formData, returnUrl, origin);
             setIsLoading(false);
           }}
         >
-          <Input
-            isRequired
-            label="이메일"
-            labelPlacement="outside"
-            name="email"
-            placeholder="이메일을 입력해주세요"
-            type="email"
-            variant="bordered"
-          />
+          <Input isRequired label="이메일" labelPlacement="outside" name="email" placeholder="이메일을 입력해주세요" type="email" variant="bordered" />
           <Input
             isRequired
             label="비밀번호"
             labelPlacement="outside"
             name="password"
             placeholder="비밀번호를 입력해주세요"
-            type={isVisible ? "text" : "password"}
+            type={isVisible ? 'text' : 'password'}
             variant="bordered"
           />
 
-          <Button 
-            className="w-full" 
-            color="primary" 
-            type="submit"
-            isLoading={isLoading}
-          >
+          <Button className="w-full" color="primary" type="submit" isLoading={isLoading}>
             Log In
           </Button>
         </Form>

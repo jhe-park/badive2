@@ -3,36 +3,31 @@
 import { createClient } from '@/utils/supabase/client';
 import { Button, cn, ScrollShadow, Spacer } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { User } from '@supabase/supabase-js';
 import { signOut } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import useExpertStore from '../store/useExpertStore';
 import Sidebar from './sidebar';
 import { sectionItemsWithTeams } from './sidebar-items';
 
-export default function SidebarComplete({ children, user }: { children: React.ReactNode; user: User }) {
+export default function Component({ children, user }) {
+  const [isHidden, setIsHidden] = React.useState(false);
+  const { expertInformation, setExpertInformation } = useExpertStore();
   const supabase = createClient();
   const router = useRouter();
-
-  const [isHidden, setIsHidden] = useState(false);
 
   const [pageTitle, setPageTitle] = React.useState('');
   const pathname = usePathname();
   const getPageTitle = () => {
-    if (pathname.includes('/admin/schedule')) return '스케쥴';
-    if (pathname.includes('/admin/sales')) return '매출현황';
-    if (pathname.includes('/admin/instructor')) return '강사관리';
-    if (pathname.includes('/admin/member')) return '회원관리';
-    if (pathname.includes('/admin/program')) return '프로그램';
-    if (pathname.includes('/admin/tour')) return '투어관리';
-    if (pathname.includes('/admin/main')) return '관리자 홈';
-    if (pathname.includes('/admin/notification')) return '공지사항';
-    if (pathname.includes('/admin/resort')) return '리조트';
-    if (pathname.includes('/admin/faq')) return 'FAQ';
-    if (pathname.includes('/admin/login')) return '로그인';
+    if (pathname.includes('/expert/profile')) return '프로필';
+    if (pathname.includes('/expert/schedule')) return '스케쥴';
+    if (pathname.includes('/expert/sales')) return '매출현황';
+    if (pathname.includes('/expert/member')) return '회원관리';
+    if (pathname.includes('/expert/login')) return '강사페이지';
     return '';
   };
   useEffect(() => {
@@ -43,11 +38,24 @@ export default function SidebarComplete({ children, user }: { children: React.Re
     supabase.auth.signOut();
     // 클라이언트 측에서 signOut 호출
     await signOut();
-    router.push('/admin/login');
+    router.push('/expert/login');
   };
 
+  const getSession = async () => {
+    const { data, error } = await supabase.auth.getSession();
+    console.log('data:', data);
+    if (data) {
+      const { data: instructorData, error: instructorError } = await supabase.from('instructor').select('*').eq('email', data?.session?.user?.email).single();
+      setExpertInformation(instructorData);
+    }
+  };
+
+  useEffect(() => {
+    getSession();
+  }, []);
+
   return (
-    <div className="flex h-screen w-full" id="layout_0088">
+    <div className="flex h-screen w-full ">
       <div
         className={cn(
           'relative flex h-screen w-72 max-w-[288px] flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out',
@@ -63,9 +71,14 @@ export default function SidebarComplete({ children, user }: { children: React.Re
         </div>
         <Spacer y={8} />
         <div className="flex items-center gap-3 px-3">
-          <div className="flex flex-col">
-            <p className="text-lg font-medium text-default-600">관리자</p>
-            <p className="text-sm font-medium text-default-600">{user?.email}</p>
+          <div className="flex flex-row items-center gap-2">
+            <div className="w-10 h-10 rounded-full overflow-hidden relative">
+              {expertInformation?.profile_image && <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />}
+            </div>
+            <div>
+              <p className="text-lg text-default-600 font-bold text-center">{expertInformation?.name}</p>
+              <p className="text-sm text-default-600 text-center">{user?.email}</p>
+            </div>
           </div>
         </div>
         <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">

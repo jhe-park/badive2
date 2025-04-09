@@ -1,40 +1,23 @@
-"use client";
-import React from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Button,
-} from "@heroui/react";
-import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+'use client';
 
-export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
+import { createClient } from '@/utils/supabase/client';
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
+import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
+export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
   const supabase = createClient();
   const [programs, setPrograms] = useState([]);
-  
+
   const getReservation = async () => {
-    const { data, error } = await supabase
-      .from("reservation")
-      .select("*,time_slot_id(*,instructor_id(*),program_id(*))")
-      .eq("user_id", member?.id);
+    const { data, error } = await supabase.from('reservation').select('*,time_slot_id(*,instructor_id(*),program_id(*))').eq('user_id', member?.id);
 
     if (error) {
-      console.log("Error fetching reservation:", error);
+      console.log('Error fetching reservation:', error);
     } else {
-      console.log("Reservation fetched successfully:", data);
+      console.log('Reservation fetched successfully:', data);
       setPrograms(data);
-      setTotalAmount(
-        data.reduce((acc, curr) => 
-          curr.status !== "취소완료" 
-            ? acc + curr.time_slot_id.program_id.price * curr.participants 
-            : acc
-        , 0)
-      );
+      setTotalAmount(data.reduce((acc, curr) => (curr.status !== '취소완료' ? acc + curr.time_slot_id.program_id.price * curr.participants : acc), 0));
     }
   };
 
@@ -42,7 +25,7 @@ export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
     getReservation();
   }, [member]);
 
-  const isRefundable = (date) => {
+  const isRefundable = date => {
     const programDate = new Date(date);
     const today = new Date();
 
@@ -57,8 +40,8 @@ export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
     return diffDays > 1;
   };
 
-  console.log("programs:", programs);
-  const handleConfirmRequest = async (program) => {
+  console.log('programs:', programs);
+  const handleConfirmRequest = async program => {
     //날짜 계산하기
     // 프로그램 실행 날짜와 현재 날짜 가져오기
     const programDate = new Date(program.time_slot_id.date);
@@ -70,76 +53,68 @@ export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
 
     // 지난 프로그램인 경우
     if (diffDays < 0) {
-      toast.error("지난 프로그램은 환불이 불가능합니다.");
+      toast.error('지난 프로그램은 환불이 불가능합니다.');
       return;
     }
 
     // 1일 이내 취소
     if (diffDays <= 1) {
-      toast.error("교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.");
+      toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
       return;
     }
 
     // 환불 금액 계산
-    let refundAmount =
-      program.time_slot_id.program_id.price *
-      program.participants;
+    let refundAmount = program.time_slot_id.program_id.price * program.participants;
 
     if (diffDays <= 7) {
       // 7일 이내: 100% 환불
       refundAmount = refundAmount;
     } else {
       // 7일 초과: 100% 환불
-      console.log("100% 환불");
+      console.log('100% 환불');
     }
-    console.log("refundAmount:", refundAmount);
+    console.log('refundAmount:', refundAmount);
 
-    const { data, error } = await supabase
-      .from("reservation")
-      .update({ status: "취소완료" })
-      .eq("id", program.id);
+    const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', program.id);
 
     if (error) {
-      toast.error("프로그램 취소에 실패했습니다.");
+      toast.error('프로그램 취소에 실패했습니다.');
     } else {
       const { data: timeSlotData, error: timeSlotError } = await supabase
-        .from("timeslot")
+        .from('timeslot')
         .update({
-          current_participants:
-            program.time_slot_id.current_participants -
-            program.participants,
+          current_participants: program.time_slot_id.current_participants - program.participants,
         })
-        .eq("id", program.time_slot_id.id);
+        .eq('id', program.time_slot_id.id);
 
       if (timeSlotError) {
-        toast.error("참가자 수 업데이트에 실패했습니다.");
+        toast.error('참가자 수 업데이트에 실패했습니다.');
         return;
       }
 
       // 토스페이먼츠 결제 취소 요청
       const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
 
-      const encryptedSecretKey =
-        "Basic " + Buffer.from(secretKey + ":").toString("base64");
+      const encryptedSecretKey = 'Basic ' + Buffer.from(secretKey + ':').toString('base64');
       const url = `https://api.tosspayments.com/v1/payments/${program.payment_key}/cancel`;
       const paymentResponse = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: encryptedSecretKey,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
 
         body: JSON.stringify({
-          cancelReason: "사용자 예약 취소",
+          cancelReason: '사용자 예약 취소',
           cancelAmount: refundAmount,
         }),
       });
 
       if (!paymentResponse.ok) {
-        console.log("결제 취소 실패:", paymentResponse);
+        console.log('결제 취소 실패:', paymentResponse);
       }
 
-      toast.success("프로그램 취소가 신청 완료되었습니다.");
+      toast.success('프로그램 취소가 신청 완료되었습니다.');
       getReservation();
     }
   };
@@ -147,23 +122,19 @@ export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
   return (
     <div className="w-full h-full gap-y-6 flex flex-col">
       <ToastContainer
-      position='top-center'
-      autoClose={2000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme='light'
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
       <div className="text-2xl font-bold w-full text-center">강습신청내역</div>
-      <Table
-        classNames={{ wrapper: "p-0" }}
-        aria-label="Example static collection table whitespace-nowrap overflow-x-auto"
-        shadow="none"
-      >
+      <Table classNames={{ wrapper: 'p-0' }} aria-label="Example static collection table whitespace-nowrap overflow-x-auto" shadow="none">
         <TableHeader>
           <TableColumn className="text-center w-1/4">프로그램명</TableColumn>
           <TableColumn className="text-center w-1/4">강사</TableColumn>
@@ -172,36 +143,22 @@ export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
           <TableColumn className="text-center w-1/4">환불</TableColumn>
         </TableHeader>
         <TableBody className="">
-          {programs.map((program) => (
+          {programs.map(program => (
             <TableRow key={program.id}>
+              <TableCell className="text-center whitespace-nowrap">{program.time_slot_id.program_id.title}</TableCell>
+              <TableCell className="text-center whitespace-nowrap">{program.time_slot_id.instructor_id.name}</TableCell>
+              <TableCell className="text-center whitespace-nowrap">{program.time_slot_id.date}</TableCell>
+              <TableCell className="text-center whitespace-nowrap">{program.status}</TableCell>
               <TableCell className="text-center whitespace-nowrap">
-                {program.time_slot_id.program_id.title}
-              </TableCell>
-              <TableCell className="text-center whitespace-nowrap">
-                {program.time_slot_id.instructor_id.name}
-              </TableCell>
-              <TableCell className="text-center whitespace-nowrap">
-                {program.time_slot_id.date}
-              </TableCell>
-              <TableCell className="text-center whitespace-nowrap">
-                {program.status}
-              </TableCell>
-              <TableCell className="text-center whitespace-nowrap">
-                {program.status === "예약확정" && (
+                {program.status === '예약확정' && (
                   <Button
-                  color={
-                    isRefundable(program.time_slot_id.date)
-                      ? "success"
-                      : "danger"
-                  }
-                  variant="bordered"
-                  onPress={() => handleConfirmRequest(program)}
-                  isDisabled={!isRefundable(program.time_slot_id.date)}
-                >
-                  {isRefundable(program.time_slot_id.date)
-                    ? "환불 가능"
-                    : "환불 불가"}
-                </Button>
+                    color={isRefundable(program.time_slot_id.date) ? 'success' : 'danger'}
+                    variant="bordered"
+                    onPress={() => handleConfirmRequest(program)}
+                    isDisabled={!isRefundable(program.time_slot_id.date)}
+                  >
+                    {isRefundable(program.time_slot_id.date) ? '환불 가능' : '환불 불가'}
+                  </Button>
                 )}
               </TableCell>
             </TableRow>
@@ -225,7 +182,7 @@ export default function ProgramTable({ member,totalAmount,setTotalAmount }) {
             <TableCell className="text-center"><Button color='success' variant="bordered">환불 가능</Button></TableCell>
           </TableRow> */}
         </TableBody>
-      </Table>{" "}
+      </Table>{' '}
     </div>
   );
 }
