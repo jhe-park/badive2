@@ -1,13 +1,17 @@
 'use client';
 
-import { TypeDBpendingSessionsModified } from '@/utils/supabase/dbTableTypes';
+import { usePendingSession } from '@/app/store/usePendingSession';
+import { removeSpecialCharacters } from '@/utils/removeSpecialCharacters';
+import { generateRandomString } from '@/utils/supabase/generateRandomString';
 import { Button, Skeleton } from '@heroui/react';
 import { loadTossPayments } from '@tosspayments/tosspayments-sdk';
 import { useEffect, useRef, useState } from 'react';
 
 const tossPaymentsClientKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_CLIENT_KEY;
 
-export function CheckoutMainPage({ session, sessionData }: { session: string; sessionData: TypeDBpendingSessionsModified }) {
+export function CheckoutMainPage({ session }: { session: string }) {
+  const { pendingSession: sessionData, setGlobalPendingSession } = usePendingSession();
+
   const [isTossPaymentsReady, setIsTossPaymentsReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +91,6 @@ export function CheckoutMainPage({ session, sessionData }: { session: string; se
       console.error('[🚫결제 요청 중 오류 발생] : ', error);
     }
   };
-  console.log('ready:', isTossPaymentsReady);
 
   return (
     <div className="wrapper pt-[100px] w-[100vw] h-full flex justify-center items-center px-4 md:px-12">
@@ -95,7 +98,6 @@ export function CheckoutMainPage({ session, sessionData }: { session: string; se
         <div id="payment-method" className="w-100 h-[60vh] overflow-y-auto" style={{ display: isLoading ? 'none' : 'block' }} />
         <div id="agreement" className="w-100" style={{ display: isLoading ? 'none' : 'block' }} />
         {!isTossPaymentsReady && <Skeleton className="w-full h-[610px] lg:h-[670px]" />}
-
         <div className="btn-wrapper w-full">
           <Button
             color="primary"
@@ -107,16 +109,7 @@ export function CheckoutMainPage({ session, sessionData }: { session: string; se
             결제하기
           </Button>
         </div>
-        {/* )} */}
       </div>
     </div>
   );
-}
-
-function generateRandomString() {
-  return window.btoa(Math.random().toString()).slice(0, 20);
-}
-
-function removeSpecialCharacters(str) {
-  return str.replace(/[^a-zA-Z0-9가-힣]/g, '');
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { usePendingSession } from '@/app/store/usePendingSession';
 import { TSelectedResult, useSelectedResult } from '@/app/store/useSelectedResult';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
@@ -13,6 +14,7 @@ import { toast } from 'react-toastify';
 type TProps = { userData: User; profile: TypeDBprofile; showMode: 'MOBILE' | 'DESKTOP' };
 
 export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData, showMode }) => {
+  const { pendingSession, setGlobalPendingSession } = usePendingSession();
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const supabase = createTypedSupabaseClient();
@@ -24,6 +26,7 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
       onOpen();
       return;
     }
+
     if (!userData) {
       router.push('/login?returnUrl=/inquiries');
       return;
@@ -31,14 +34,30 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
 
     try {
       const uuid = generateRandomString();
-      const { error } = await supabase.from('pending_sessions').insert({
+
+      setGlobalPendingSession({
+        uuid: uuid,
+        selected_data: selectedResult,
+        user_data: userData,
+        profile: profile,
+      });
+
+      // FIXME :  해당 코드는 더이상 사용되지 않는 것으로 추정되나 본인이 예상하지 못한 경우에 사용될 수 있으므로 일단 남겨둠
+      supabase.from('pending_sessions').insert({
         uuid: uuid,
         selected_data: selectedResult as any,
         user_data: userData as any,
         profile: profile,
       });
 
-      if (error) throw error;
+      // const { error } = await supabase.from('pending_sessions').insert({
+      //   uuid: uuid,
+      //   selected_data: selectedResult as any,
+      //   user_data: userData as any,
+      //   profile: profile,
+      // });
+
+      // if (error) throw error;
 
       router.push(`/inquiries/checkout?session=${uuid}`);
     } catch (error) {

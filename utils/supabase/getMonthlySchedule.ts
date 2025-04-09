@@ -1,10 +1,8 @@
 'use client';
 
-import dayjs from 'dayjs';
-import { TSelectedResult, useSelectedResult } from '@/app/store/useSelectedResult';
+import { TSelectedResult } from '@/app/store/useSelectedResult';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
-import { QueryData, SupabaseClient } from '@supabase/supabase-js';
-import { TypeDBprogram, TypeDBtimeslot } from './dbTableTypes';
 
 // FIXME
 export const getMonthlySchedule = async ({
