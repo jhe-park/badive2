@@ -32,10 +32,12 @@ const nextConfig: NextConfig = {
     ],
     domains: ['jhedata.s3.ap-southeast-2.amazonaws.com', 'efehwvtyjlpxkpgswrfw.supabase.co', 'www.instagram.com'],
   },
-  i18n: {
-    locales: ['en', 'fr', 'es'],
-    defaultLocale: 'en',
-  },
+  // i18n: {
+  //   // locales: ['en', 'fr', 'es'],
+  //   locales: [],
+  //   defaultLocale: 'ko',
+  //   // defaultLocale: 'en',
+  // },
 };
 
 export default withBundleAnalyzer(nextConfig);
