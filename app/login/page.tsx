@@ -1,13 +1,14 @@
 import { signInAction } from '@/app/actions';
 import { SubmitButton } from '@/components/submit-button';
-import Link from 'next/link';
-import { Input, Checkbox, Divider } from '@nextui-org/react';
 import Toast from '@/components/Toast';
-import TwoFactor from './components/TwoFactor';
+import { Checkbox, Divider, Input } from '@nextui-org/react';
+import Link from 'next/link';
 import GoogleLoginComponent from './components/GoogleLogin';
 import KakaoLoginComponent from './components/KakaoLogin';
 import NaverLoginComponent from './components/NaverLogin';
 import RegisterButton from './components/RegisterButton';
+import TwoFactor from './components/TwoFactor';
+
 export default async function Login(props) {
   const searchParams = await props.searchParams;
   const params = new URLSearchParams(searchParams.error);
@@ -40,7 +41,6 @@ export default async function Login(props) {
 
           <Input type="password" isRequired label="비밀번호" name="password" placeholder="비밀번호를 입력해주세요" variant="bordered" />
           <TwoFactor searchParams={searchParams}></TwoFactor>
-
           <div className="flex w-full items-center justify-between px-1 py-2">
             <Checkbox name="remember" size="sm">
               자동 로그인

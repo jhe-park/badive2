@@ -36,15 +36,17 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
   const password = formData.get('password') as string;
   const supabase = await createClient();
 
-  const { data: profile } = await supabase.from('profiles').select('failCount').eq('email', email).single();
+  // const { data: profile } = await supabase.from('profiles').select('failCount').eq('email', email).single();
 
-  if (profile?.failCount >= 6) {
-    return encodedRedirect('error', '/login', 'You cannot login more than 6 times');
-  }
+  // if (profile?.failCount >= 6) {
+  //   return encodedRedirect('error', '/login', 'You cannot login more than 6 times');
+  // }
+
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
+
   console.log('error', error);
 
   if (error?.code === 'invalid_credentials') {
@@ -58,18 +60,27 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
     }
   }
 
+  // invalid_credentials외에 다른 에러 발생시 FAIL COUNT를 증가시킨다
   if (error) {
-    const newFailCount = (profile?.failCount || 0) + 1;
+    // const newFailCount = (profile?.failCount || 0) + 1;
 
-    const response = await supabase.from('profiles').update({ failCount: newFailCount }).eq('email', email).select();
-    console.log('response', response);
+    // const response = await supabase.from('profiles').update({ failCount: newFailCount }).eq('email', email).select();
+    // console.log('response', response);
     const params = new URLSearchParams({
       error: error.message,
       email: email,
     });
     return encodedRedirect('error', '/login', params.toString());
   }
-  const response = await supabase.from('profiles').update({ failCount: 0 }).eq('email', email).select();
+
+  // const response = await supabase.from('profiles').update({ failCount: 0 }).eq('email', email).select();
+
+  // 로그인 성공시 FAIL COUNT를 0으로 초기화한다
+  // supabase.from('profiles').update({ failCount: 0 }).eq('email', email).select();
+
+  console.log('returnUrl');
+  console.log(returnUrl);
+
   if (returnUrl) {
     return redirect(returnUrl);
   }
