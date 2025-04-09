@@ -1,12 +1,11 @@
 'use client'
-import React, { useState, useEffect } from "react";
-import { PiCertificate } from "react-icons/pi";
-import { MdLocationPin } from "react-icons/md";
-import { BsTelephoneForward } from "react-icons/bs";
-import { RiKakaoTalkFill } from "react-icons/ri";
-import { FaChevronUp } from "react-icons/fa6";
-import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { BsTelephoneForward } from "react-icons/bs";
+import { FaChevronUp } from "react-icons/fa6";
+import { MdLocationPin } from "react-icons/md";
+import { PiCertificate } from "react-icons/pi";
+import { RiKakaoTalkFill } from "react-icons/ri";
 export default function Actionbar() {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);

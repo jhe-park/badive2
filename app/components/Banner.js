@@ -1,10 +1,9 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
-import BannerDotCarousel from "./BannerDotCarousel";
-import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { Button } from "@nextui-org/react";
-import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import { FaPauseCircle, FaPlayCircle } from "react-icons/fa";
+import BannerDotCarousel from "./BannerDotCarousel";
 export default function Banner() {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);

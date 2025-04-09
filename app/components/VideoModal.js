@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import ReactPlayer from 'react-player'
+import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi'
 import { IoMdClose } from 'react-icons/io'
-import { BiFullscreen, BiExitFullscreen } from 'react-icons/bi'
+import ReactPlayer from 'react-player'
 
 const VideoModal = ({ selected, onClose }) => {
   const [isFullScreen, setIsFullScreen] = useState(false)

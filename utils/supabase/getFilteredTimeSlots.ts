@@ -1,4 +1,5 @@
-import { TFetchedTimeSlot } from '@/app/(admin)/admin/schedule/components/CalendarComponentForAdminAndExpert';
+// import { TFetchedTimeSlot } from '@/app/(admin)/admin/schedule/components/CalendarComponentForAdminAndExpert';
+import { TFetchedTimeSlot } from '@/components/schedule/CalendarComponentForAdminAndExpert';
 import { TypeDBinstructor, TypeDBprogram, TypeDBtimeslot } from './dbTableTypes';
 
 export function getFilteredTimeSlots({

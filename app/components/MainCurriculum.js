@@ -1,8 +1,8 @@
 'use client';
 
+import { useImageAnimation } from '../../hooks/useAnimation';
 import MainSectionHeader from './MainSectionHeader';
 import ViewMoreButton from './ViewMoreButton';
-import { useImageAnimation } from '../../hooks/useAnimation';
 
 const MainCurriculum = () => {
   const CURRICULUMS = [

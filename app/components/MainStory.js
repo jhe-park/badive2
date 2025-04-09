@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import MainSectionHeader from "./MainSectionHeader";
-import { useImageAnimation } from "../../hooks/useAnimation";
-import VideoModal from "./VideoModal";
 import { IoIosPlayCircle } from "react-icons/io";
+import { useImageAnimation } from "../../hooks/useAnimation";
+import MainSectionHeader from "./MainSectionHeader";
+import VideoModal from "./VideoModal";
 
 const MainStory = () => {
   const THUMBNAILS = [

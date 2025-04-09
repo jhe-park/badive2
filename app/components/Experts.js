@@ -1,7 +1,7 @@
-import React from "react";
 import SlideUp from "@/components/animation/SlideUp";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 export default function Experts() {
   return (
     <div className="w-full xl:max-w-[1280px] h-full md:h-auto xl:aspect-[1280/754] md:aspect-[768/552] aspect-[375/314] flex flex-col justify-evenly items-start md:my-0 px-1 md:px-0">

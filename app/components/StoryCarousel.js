@@ -1,20 +1,18 @@
-"use client";
-import React, { useState, useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
-import { IoIosPlayCircle } from "react-icons/io";
-import Link from "next/link";
-import SlideUp from "@/components/animation/SlideUp";
-import ReactPlayer from "react-player";
-import { IoMdClose } from "react-icons/io";
-import { BiFullscreen } from "react-icons/bi";
-import { BiExitFullscreen } from "react-icons/bi";
+'use client';
+
 import useModalOpen from '@/app/store/useModalOpen';
+import SlideUp from '@/components/animation/SlideUp';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
+import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
+import { IoIosPlayCircle, IoMdClose } from 'react-icons/io';
+import ReactPlayer from 'react-player';
 
 const MultiImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
-  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const [currentVideoUrl, setCurrentVideoUrl] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -28,62 +26,59 @@ const MultiImageCarousel = () => {
   const images = [
     {
       id: 1,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/youtube_1.png",
-      title: "",
-      link: "https://youtu.be/zzZoKMPZeqY",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/youtube_1.png',
+      title: '',
+      link: 'https://youtu.be/zzZoKMPZeqY',
     },
     {
       id: 2,
       // url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/2.png",
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/2.avif",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/2.avif',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
     {
       id: 3,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/3.png",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/3.png',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
     {
       id: 4,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/4.png",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/4.png',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
     {
       id: 5,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/5.png",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/5.png',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
     {
       id: 6,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/6.png",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/6.png',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
     {
       id: 7,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/7.png",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/7.png',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
     {
       id: 8,
-      url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/8.png",
-      title: "",
-      link: "https://www.youtube.com/@badive_official",
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/8.png',
+      title: '',
+      link: 'https://www.youtube.com/@badive_official',
     },
-
-
-    
   ];
 
   // 컴포넌트 마운트 시 window width 설정
   useEffect(() => {
     setWindowWidth(window.innerWidth);
-    
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -94,21 +89,19 @@ const MultiImageCarousel = () => {
 
   const handlePrev = () => {
     const itemsPerView = windowWidth < 768 ? 2 : 4;
-    setCurrentIndex((prev) =>
-      prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)
-    );
+    setCurrentIndex(prev => (prev === 0 ? Math.max(0, images.length - itemsPerView) : Math.max(0, prev - 1)));
   };
 
   const handleNext = () => {
     const itemsPerView = windowWidth < 768 ? 2 : 4;
-    setCurrentIndex((prev) => (prev >= images.length - itemsPerView ? 0 : prev + 1));
+    setCurrentIndex(prev => (prev >= images.length - itemsPerView ? 0 : prev + 1));
   };
 
-  const handleVideoClick = (url) => {
+  const handleVideoClick = url => {
     setCurrentVideoUrl(url);
   };
 
-  const handleImageClick = (image) => {
+  const handleImageClick = image => {
     setSelectedImage(image);
     setIsModalOpen(true);
     setIsOpen(true);
@@ -144,11 +137,7 @@ const MultiImageCarousel = () => {
   // Fullscreen 변경 이벤트 감지
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullScreen(
-        document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.msFullscreenElement
-      );
+      setIsFullScreen(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -162,12 +151,12 @@ const MultiImageCarousel = () => {
     };
   }, []);
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = e => {
     setIsDragging(true);
     setStartX(e.clientX);
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = e => {
     if (!isDragging) return;
     const currentX = e.clientX;
     const diff = startX - currentX;
@@ -184,12 +173,12 @@ const MultiImageCarousel = () => {
     setIsDragging(false);
   };
 
-  const handleTouchStart = (e) => {
+  const handleTouchStart = e => {
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = e => {
     if (!isDragging) return;
     const currentX = e.touches[0].clientX;
     const diff = startX - currentX;
@@ -249,12 +238,7 @@ const MultiImageCarousel = () => {
               >
                 <div className="relative bg-gray-100 rounded-lg overflow-hidden group mt-2 md:mt-0 mx-auto aspect-[16/9] w-full ">
                   {image.url ? (
-                    <Image
-                      src={image.url}
-                      alt={image.title}
-                      fill
-                      className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover"
-                    />
+                    <Image src={image.url} alt={image.title} fill className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover" />
                   ) : (
                     <div className="w-full h-full bg-black"></div>
                   )}
@@ -277,28 +261,17 @@ const MultiImageCarousel = () => {
       {/* Modal for Image and Video */}
       {isModalOpen && selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[1000]">
-          <div 
-            ref={modalRef}
-            className="relative w-full h-full flex items-center justify-center"
-            style={{ isolation: 'isolate' }}
-          >
+          <div ref={modalRef} className="relative w-full h-full flex items-center justify-center" style={{ isolation: 'isolate' }}>
             <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
               <button className="" onClick={toggleFullScreen}>
-                  {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}
+                {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}
               </button>
               <button className="" onClick={closeModal}>
                 <IoMdClose className="w-10 h-10 text-white" />
               </button>
             </div>
-            
-            <ReactPlayer
-              className="react-player"
-              url={selectedImage.link}
-              playing
-              controls
-              width="80%"
-              height="80%"
-            />
+
+            <ReactPlayer className="react-player" url={selectedImage.link} playing controls width="80%" height="80%" />
           </div>
         </div>
       )}

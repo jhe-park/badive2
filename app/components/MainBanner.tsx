@@ -1,9 +1,9 @@
 'use client';
 
+import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
 import { SlControlPause } from 'react-icons/sl';
-import { gsap } from 'gsap';
 
 const VIDEO_SOURCE_MOBILE_SAFARI = [
   {

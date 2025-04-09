@@ -1,9 +1,8 @@
 'use client'
-import React from "react";
-import Link from "next/link";
 import SlideUp from "@/components/animation/SlideUp";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import React from "react";
 export default function Curriculum() {
   const router = useRouter();
   return (

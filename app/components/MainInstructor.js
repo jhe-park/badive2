@@ -1,8 +1,8 @@
 'use client';
 
+import { useImageAnimation, useTextAnimation } from '../../hooks/useAnimation';
 import MainSectionHeader from './MainSectionHeader';
 import ViewMoreButton from './ViewMoreButton';
-import { useTextAnimation, useImageAnimation } from '../../hooks/useAnimation';
 
 const MainInstructor = () => {
   const textClass = 'text-[#004EA2] font-bold';

@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from 'react-icons/ri';
-import { useTextAnimation } from '../../hooks/useAnimation'
-import useTouch from '../../hooks/useTouch'
+import { useTextAnimation } from '../../hooks/useAnimation';
+import useTouch from '../../hooks/useTouch';
 
 const MainNews = () => {
   const NEWS = [
