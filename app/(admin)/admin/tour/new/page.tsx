@@ -5,16 +5,15 @@ import { createClient } from '@/utils/supabase/client';
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Textarea, useDisclosure } from '@heroui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { use, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { LuCirclePlus } from 'react-icons/lu';
 import { v4 as uuidv4 } from 'uuid';
 import DateEdit from './components/DateEdit';
 
-export default function InstructorNewPage({ params }) {
+export default function InstructorNewPage() {
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDelete, setIsDelete] = useState(false);
   const [selectedRole, setSelectedRole] = useState('bdn');
   const [selectedProgram, setSelectedProgram] = useState(['scuba']);
   const [imageUrl, setImageUrl] = useState('');
@@ -27,13 +26,18 @@ export default function InstructorNewPage({ params }) {
   const [status, setStatus] = useState('모집중');
   const [etc, setEtc] = useState('');
   const [isSave, setIsSave] = useState(false);
-  const [price, setPrice] = useState(0);
-  const [max_participants, setMaxParticipants] = useState(10);
+  const [price, setPrice] = useState('0');
+  const [max_participants, setMaxParticipants] = useState('10');
   const router = useRouter();
   const supabase = createClient();
   const [description, setDescription] = useState('');
-  const { id } = use(params);
   const [content, setContent] = useState('');
+
+  console.log('price');
+  console.log(price);
+
+  console.log('max_participants');
+  console.log(max_participants);
 
   const handleEditorChange = model => {
     setContent(model);
@@ -57,76 +61,42 @@ export default function InstructorNewPage({ params }) {
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
-      error: urlError,
+      // error: urlError,
     } = supabase.storage.from('resort').getPublicUrl(data.path);
     console.log('publicURL:', publicUrl);
 
-    if (urlError) {
-      console.error('Error getting public URL:', urlError);
-      return;
-    }
+    // if (urlError) {
+    //   console.error("Error getting public URL:", urlError);
+    //   return;
+    // }
 
     // 이미지 URL 설정
     setImageUrl(publicUrl);
   };
 
-  const getData = async () => {
-    const { data, error } = await supabase.from('tour').select('*').eq('id', id).single();
-    if (error) {
-      console.error('Error getting data:', error);
-      return;
-    }
-    setTitle(data.title);
-    setSubtitle(data.subtitle);
-    setRegion(data.region);
-    setDate(data.date);
-    setStatus(data.status);
-    setEtc(data.etc);
-    setPrice(data.price);
-    setMaxParticipants(data.max_participants);
-    setContent(data.description);
-    setImageUrl(data.image);
-    setIsLoading(false);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
-
   const handleSave = async () => {
     const cleanedContent = content.replace(/Powered by/g, '').replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
-    const { data, error } = await supabase
-      .from('tour')
-      .update({
-        title: title,
-        subtitle: subtitle,
-        region: region,
-        date: date,
-        status: status,
-        etc: etc,
-        price: Number(price ? price.replace(/[^0-9]/g, '') : 0),
-        max_participants: max_participants,
-        image: imageUrl,
-        description: cleanedContent,
-      })
-      .eq('id', id);
+    const { data, error } = await supabase.from('tour').insert({
+      title: title,
+      subtitle: subtitle,
+      region: region,
+      date: date,
+      status: status,
+      etc: etc,
+      price: price ? Number(price.replace(/[^0-9]/g, '')) : 0,
+      max_participants: max_participants,
+      image: imageUrl,
+      description: content,
+    });
     setIsSave(true);
     if (error) {
       console.error('Error saving data:', error);
       return;
     }
 
+    console.log('data:', data);
     router.push('/admin/tour');
   };
-  const handleDelete = async () => {
-    const { data, error } = await supabase.from('tour').delete().eq('id', id);
-    if (error) {
-      console.error('Error deleting data:', error);
-      return;
-    }
-    setIsDelete(true);
-    router.push('/admin/tour');
-  };
-  console.log('description:', description);
 
   return (
     <div className="flex flex-col w-full h-full">
@@ -184,7 +154,7 @@ export default function InstructorNewPage({ params }) {
             <DateEdit date={date} setDate={setDate}></DateEdit>
           </div>
           <div className="w-full">
-            <Select label="상태" onChange={e => setStatus(e.target.value)} selectedKeys={[status]}>
+            <Select label="상태" onChange={e => setStatus(e.target.value)} selectedKeys={['모집중']}>
               <SelectItem key="모집중" value="모집중">
                 모집중
               </SelectItem>
@@ -210,12 +180,9 @@ export default function InstructorNewPage({ params }) {
           {/* <Tiptap description={description} setDescription={setDescription}></Tiptap> */}
           <Froala value={content} onChange={handleEditorChange}></Froala>
 
-          <div className="w-full flex justify-end gap-x-2">
-            <Button isLoading={isSave} color="success" onPress={handleSave}>
-              수정
-            </Button>
-            <Button isLoading={isDelete} color="danger" onPress={handleDelete}>
-              삭제
+          <div className="w-full flex justify-end">
+            <Button isLoading={isSave} color="primary" onPress={handleSave}>
+              저장
             </Button>
           </div>
         </div>

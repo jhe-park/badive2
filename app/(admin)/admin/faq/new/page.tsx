@@ -7,19 +7,19 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function InstructorNewPage() {
+  const supabase = createClient();
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('bdn');
-  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  const [imageUrl, setImageUrl] = useState('');
-  const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState('');
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [selectedRole, setSelectedRole] = useState('bdn');
+  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
+  // const [imageUrl, setImageUrl] = useState('');
+  // const [certifications, setCertifications] = useState([]);
+  // const [certification, setCertification] = useState('');
   const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
+  // const [answer, setAnswer] = useState('');
   const [isSave, setIsSave] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
   const [content, setContent] = useState('');
 
   const handleEditorChange = model => {

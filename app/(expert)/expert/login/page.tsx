@@ -1,28 +1,27 @@
-"use client";
+'use client';
 
-import React, { useEffect, use } from "react";
-import { Button, Input, Checkbox, Link, Form } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import { signInAction } from "@/app/actions";
-import { ToastContainer, toast } from "react-toastify";
+import { signInAction } from '@/app/actions';
+import { Button, Form, Input } from '@heroui/react';
+import React, { use, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Component({ searchParams }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [returnUrl, setReturnUrl] = React.useState("/expert/main");
+  const [returnUrl, setReturnUrl] = React.useState('/expert/main');
   const toggleVisibility = () => setIsVisible(!isVisible);
   const searchParamsData = use(searchParams);
-  const origin='/expert/login'
+  const origin = '/expert/login';
 
   useEffect(() => {
-    if (searchParamsData.error) {
-      toast.error(searchParamsData.error);
+    if ((searchParamsData as any).error) {
+      toast.error((searchParamsData as any).error);
     }
   }, [searchParamsData]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    console.log("handleSubmit");
+    console.log('handleSubmit');
   };
 
   return (
@@ -49,37 +48,24 @@ export default function Component({ searchParams }) {
         <Form
           className="flex flex-col gap-4"
           validationBehavior="native"
-          action={async (formData) => {
+          action={async formData => {
             setIsLoading(true);
-            await signInAction(formData, returnUrl,origin);
+            await signInAction(formData, returnUrl, origin);
             setIsLoading(false);
           }}
         >
-          <Input
-            isRequired
-            label="이메일"
-            labelPlacement="outside"
-            name="email"
-            placeholder="이메일을 입력해주세요"
-            type="email"
-            variant="bordered"
-          />
+          <Input isRequired label="이메일" labelPlacement="outside" name="email" placeholder="이메일을 입력해주세요" type="email" variant="bordered" />
           <Input
             isRequired
             label="비밀번호"
             labelPlacement="outside"
             name="password"
             placeholder="비밀번호를 입력해주세요"
-            type={isVisible ? "text" : "password"}
+            type={isVisible ? 'text' : 'password'}
             variant="bordered"
           />
 
-          <Button
-            className="w-full"
-            color="primary"
-            type="submit"
-            isLoading={isLoading}
-          >
+          <Button className="w-full" color="primary" type="submit" isLoading={isLoading}>
             Log In
           </Button>
         </Form>

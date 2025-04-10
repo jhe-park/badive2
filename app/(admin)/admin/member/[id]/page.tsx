@@ -28,10 +28,10 @@ export default function MemberNewPage({ params }) {
   const [region, setRegion] = useState('');
   const [phone, setPhone] = useState('');
   const [payment, setPayment] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState('0');
   const [etc, setEtc] = useState('');
   const [isSave, setIsSave] = useState(false);
-  const { id } = use(params);
+  const { id } = use(params) as any;
 
   const fetchMember = async () => {
     const { data, error } = await supabase.from('profiles').select('*').eq('id', id).single();
@@ -51,16 +51,17 @@ export default function MemberNewPage({ params }) {
     }
   };
 
-  const fetchReservation = async () => {
-    const { data, error } = await supabase.from('reservation').select('*').eq('user_id', member?.id);
+  // const fetchReservation = async () => {
+  //   const { data, error } = await supabase.from('reservation').select('*').eq('user_id', member?.id);
 
-    if (error) {
-      console.log('Error fetching reservation:', error);
-    } else {
-      console.log('Reservation fetched successfully:', data);
-      setReservation(data);
-    }
-  };
+  //   if (error) {
+  //     console.log('Error fetching reservation:', error);
+  //   } else {
+  //     console.log('Reservation fetched successfully:', data);
+  //     setReservation(data);
+  //   }
+  // };
+
   const handleSave = async () => {
     const { data, error } = await supabase.from('profiles').update({ etc }).eq('id', member?.id);
     setIsSave(true);

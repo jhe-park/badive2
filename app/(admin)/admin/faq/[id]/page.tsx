@@ -8,13 +8,13 @@ import React, { use, useEffect, useState } from 'react';
 
 export default function FaqEditPage({ params }) {
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('bdn');
-  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  const [imageUrl, setImageUrl] = useState('');
-  const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState('');
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [selectedRole, setSelectedRole] = useState('bdn');
+  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
+  // const [imageUrl, setImageUrl] = useState('');
+  // const [certifications, setCertifications] = useState([]);
+  // const [certification, setCertification] = useState('');
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [description, setDescription] = useState('');
@@ -35,8 +35,17 @@ export default function FaqEditPage({ params }) {
   };
 
   useEffect(() => {
+    if (unwrappedParams == null) {
+      console.error('unwrappedParams == null');
+      return;
+    }
+
     const fetchFaq = async () => {
-      const { data, error } = await supabase.from('faq').select('*').eq('id', unwrappedParams.id).single();
+      const { data, error } = await supabase
+        .from('faq')
+        .select('*')
+        .eq('id', (unwrappedParams as any).id)
+        .single();
       if (error) {
         console.error('Error fetching faq:', error);
       } else {
@@ -50,7 +59,10 @@ export default function FaqEditPage({ params }) {
 
   const handleSaveFaq = async () => {
     const cleanedContent = content.replace(/Powered by/g, '').replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
-    const { data, error } = await supabase.from('faq').update({ question, answer: cleanedContent }).eq('id', unwrappedParams.id);
+    const { data, error } = await supabase
+      .from('faq')
+      .update({ question, answer: cleanedContent })
+      .eq('id', (unwrappedParams as any).id);
 
     if (error) {
       console.error('Error saving faq:', error);
@@ -62,7 +74,10 @@ export default function FaqEditPage({ params }) {
     }
   };
   const handleDeleteFaq = async () => {
-    const { data, error } = await supabase.from('faq').delete().eq('id', unwrappedParams.id);
+    const { data, error } = await supabase
+      .from('faq')
+      .delete()
+      .eq('id', (unwrappedParams as any).id);
 
     if (error) {
       console.error('Error saving faq:', error);
