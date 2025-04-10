@@ -93,7 +93,8 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   };
 
   const handleDateSelect = day => {
-    setCalendarClick(calendarClick + 1);
+    // setCalendarClick(calendarClick + 1);
+    setCalendarClick();
     const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
 
     setSelectedDate({ start: selectedDate, end: selectedDate });
