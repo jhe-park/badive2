@@ -57,14 +57,25 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
       return;
     }
 
-    // 1일 이내 취소
-    if (diffDays <= 1) {
-      toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
+    if (diffDays === 0) {
+      toast.error('당일 프로그램은 환불이 불가능합니다.');
       return;
     }
 
+    // 1일 이내 취소. 50% 환불
+    // if (diffDays === 1) {
+    //   toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
+    //   return;
+    // }
+
     // 환불 금액 계산
-    let refundAmount = program.time_slot_id.program_id.price * program.participants;
+    // ✅ 명세
+    // 1. 당일 전액 환불 불가
+    // 2. 교육 시작 하루 전, 50% 환불가능
+    // 3. 그이전은 그냥 다 100% 환불가능
+    let refundAmount =
+      diffDays === 1 ? program.time_slot_id.program_id.price * program.participants * 0.5 : program.time_slot_id.program_id.price * program.participants;
+
 
     if (diffDays <= 7) {
       // 7일 이내: 100% 환불
@@ -73,6 +84,7 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
       // 7일 초과: 100% 환불
       console.log('100% 환불');
     }
+
     console.log('refundAmount:', refundAmount);
 
     const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', program.id);
