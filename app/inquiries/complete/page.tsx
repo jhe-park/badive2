@@ -116,7 +116,11 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     console.log(updatedCurrentParticipants);
 
     if (updatedCurrentParticipants > timeSlot.max_participants) {
-      redirect(`/inquiries/fail?code=${-1}&message=${'참여인원이 최대 허용인원을 초과하였습니다. 관리자에게 문의해 주세요'}`);
+      const searchParams = new URLSearchParams({
+        code: '-1',
+        message: "참여인원이 최대 허용인원을 초과하였습니다. 관리자에게 문의해 주세요'",
+      });
+      redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
     const isFullyBooked = updatedCurrentParticipants === timeSlot.max_participants;
@@ -160,7 +164,13 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     console.log(transactionResult);
 
     if (transactionResult.success === false) {
-      redirect(`/inquiries/fail?code=${-1}&message=${transactionResult.error}`);
+      console.log('✅ transactionResult 에러발생');
+      const searchParams = new URLSearchParams({
+        code: '-1',
+        message: `${JSON.stringify(transactionResult.error)} / ${JSON.stringify(transactionResult?.error_detail ?? '')}`,
+      });
+      console.log(searchParams.toString());
+      redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
     const [{ data: userProfile }, { data: programData }] = await Promise.all([

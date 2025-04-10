@@ -291,7 +291,6 @@ const CalendarComponent: React.FC<TProps> = ({
 
               return (
                 <div className="" key={slot.unique_id}>
-                  111
                   <Badge
                     variant={'outline'}
                     className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white')}
