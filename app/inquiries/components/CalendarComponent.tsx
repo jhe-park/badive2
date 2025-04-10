@@ -171,13 +171,13 @@ const CalendarComponent: React.FC<TProps> = ({
         });
 
   const selectedDateTimeSlotsAM = selectedDateTimeSlots.filter(slot => {
-    if (slot.start_time > '12:00') {
+    if (slot.start_time < '12:00') {
       return true;
     } else return false;
   });
 
   const selectedDateTimeSlotsPM = selectedDateTimeSlots.filter(slot => {
-    if (slot.start_time <= '12:00') {
+    if (slot.start_time >= '12:00') {
       return true;
     } else return false;
   });
@@ -285,13 +285,17 @@ const CalendarComponent: React.FC<TProps> = ({
           <div className="py-0">오후</div>
           <div className="flex gap-4 flex-wrap">
             {selectedDateTimeSlotsPM.map(slot => {
+              console.log('✅ slot.start_time');
+              console.log(slot.start_time);
               const formattedHour = parseInt(slot.start_time.split(':').at(0)) - 12;
 
               return (
                 <div className="" key={slot.unique_id}>
+                  111
                   <Badge
                     variant={'outline'}
-                    className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
+                    className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white')}
+                    // className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
                     onClick={() => {
                       if (slot.max_participants < selectedResult.noParticipants + slot.current_participants) {
                         alert('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
