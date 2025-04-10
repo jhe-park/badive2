@@ -31,7 +31,7 @@
 
 ## 사이트 구성
 
-본 웹사이트는 크게 4가지 기능으로 구분되어 있다
+본 웹사이트는 크게 3가지 기능으로 구분되어 있다
 
 - 일반 웹사이트 및 예약 페이지
   - https://www.badive.co.kr/ 로 접속하면 보이는 페이지이며 핵심 기능은 예약 기능이다.
@@ -81,8 +81,29 @@
 - GAME_GIFT_CERTIFICATE("게임문화상품권"),
 - BOOK_GIFT_CERTIFICATE("도서문화상품권"),
 
+## 토스페이먼츠의 가상계좌 사용시 이용자가 입금을 완료하였을 경우
+
+이 경우 토스페이먼츠 측에서 webhook을 호출한다. 해당 웹훅은 POST request를 호출하며 post body에는 입금정보가 포함되어 있다. 데이터 포멧은 아래와 같다
+
+```javascript
+{
+  createdAt: '2023-05-23T14:42:26.000000',
+  secret: 'ps_Z1aOwX7K8mYpalqAGRwj8yQxzvNP',
+  orderId: '3f9c765d-60ed-4735-8af5-ab9d1142a3e8',
+  status: 'DONE',
+  transactionKey: '83B3CD71DF004878066FEDCB7C21E775'
+}
+```
+
+개발자는 자신의 토스페이먼츠 계정으로 로그인하여 webhook URL을 설정할 수 있다. 개발자는 개발용 URL과 production용 URL을 등록해야 하는데 개발용 URL의 경우는 ngrok를 사용하도록 한다
+
+상세는 토스페이먼츠의 공식 가이드인 [여기](https://docs.tosspayments.com/blog/virtual-account-webhook)를 참조할 것
 
 ## 결제 프로세스
+
+결제 프로세스는 `/inquiries` ->  `/inquiries/checkout`  -> `/inquiries/complete` 페이지의 순으로 이어진다
+
+### `/inquiries` 페이지
 
 결제는 타임슬롯(time_slot) 단위로 처리된다.
 
@@ -90,15 +111,35 @@
 
 각 타임슬롯에는 최대 수강 인원이 있으며 이 최대 수강 인원 이상인 경우 수강신청이 불가능하다
 
-타임슬롯 선택 이후 checkout 페이지로 이동한다. 이동하기 전 uuid로 랜덤한 고유의 문자열을 생성하는데 이는 토스페이먼츠의 paymentId로 사용된다
+타임슬롯 선택 이후 checkout 페이지로 이동한다. 이동 전 uuid로 랜덤한 고유의 문자열을 생성하는데 이는 토스페이먼츠의 paymentId로 사용된다
+또한 기존의 레거시 코드에서는 `/inquiries/checkout` 페이지로 이동 전 DB의 
+`pending_session` 테이블에 새로운 row를 생성하였지만 이 코드는 현재 제거되었다. 
 
-checkout 페이지는 토스페이먼트의 결제창이다.
+`pending_session` 테이블은  결제 과정에서 임시적으로 사용되는 테이블이었지만 
+`pending_session` 테이블에 삽입될 데이터는 전역 상태변수로 대체되었으며 `/inquiries/checkout` 페이지에서는 전역 상태변수의 값을 참조한다.
+
+### `/inquiries/checkout` 페이지
+
+해당 페이지는 토스페이먼트에서 제공하는 결제 모듈을 호출한다.
 
 결제 이후 `결제가 완료되었다`는 안내 페이지로 이동한다.
 
-결제완료와 동시에 DB의 `reservation` 테이블에 결제정보를 담은 row가 추가된다. 또한 해당 타임슬롯의 `current_participants` 숫자는 수강인원 숫자 만큼 증가된다.
+### `/inquiries/complete` 페이지
 
-즉 결제 프로세스에서 중요 역할을 하는 DB테이블은 reservation과 timeslot 테이블이다. 결제 과정에서 임시적으로 사용되는 테이블은 `pending_session`이다.
+결제완료와 동시에 DB의 `reservation` 테이블에 결제정보를 담은 row가 추가된다. 또한 해당 타임슬롯의 `current_participants` 숫자는 수강인원 숫자 만큼 증가된다. 
+
+정리하면 결제 프로세스에서 중요 역할을 하는 DB테이블은 `reservation`과 `timeslot` 테이블이다.
+
+이 두가지 테이블을 업데이트하는 프로세스는 반드시 트랜젝션 기반으로 수행되어야 하며 레이스 컨디션 방지 기능이 추가되어야 한다.
+
+안타깝게도 supabase api는 쿼리빌더를 사용할 때 트랜잭션 기능을 사용할 수 없다. 하지만  Postgresql의 네이티브 쿼리문을 직접 작성한 후에 이 쿼리문을 Supabase API의 rpc 메소드로 호출하면 트랜잭션 처리가 가능하다. 상세 튜토리얼은 [여기](https://www.youtube.com/watch?v=xUeuy19a-Uw)를 참조할 것
+
+
+DB 업데이트 이후 결제한 유저의 휴대폰 번호를 확인하여 휴대폰 번호가 존재한다면 알람톡을 보낸다.
+
+
+
+
 
 ## 결제 취소 프로세스
 
@@ -181,8 +222,6 @@ await supabase.rpc('cancel_reservation', {
   - time_slot_id는 시간에 따라서 리니어하게 설정되어 있다. 예를 들어 특정 날짜의 오전 10시의 time_slot_id가 400000이라면 같은 날짜의 오전 11시 time_slot_id는 400001이다
 - tour 페이지 : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
 - tour_input : 사용하지 않는 테이블로 추정됨
-
-
 
 ## TODO
 
