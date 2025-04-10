@@ -33,14 +33,7 @@ type TProps = {
   setSelectedImageUrl;
 };
 
-const CalendarComponent: React.FC<TProps> = ({
-  isSelectProgram,
-  isSelectInstructor,
-  setSelectedImageUrl,
-  // userReservations,
-  // setIsSelectProgram,
-  // setIsSelectInstructor,
-}) => {
+const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstructor, setSelectedImageUrl }) => {
   const supabase = createTypedSupabaseClient();
   const refForCheckbox = useRef<HTMLInputElement>(null);
   const [monthlyTimeSlots, setMonthlyTimeSlots] = useState<TypeDBTimeSlotJoined[]>([]);
@@ -55,8 +48,6 @@ const CalendarComponent: React.FC<TProps> = ({
   const { programStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { calendarClick, setCalendarClick } = useCalendarClick();
-  // const [isAgree, setIsAgree] = useState(false);
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     setupMonthlyTimeSlots({ newDate: new Date() });
@@ -91,16 +82,13 @@ const CalendarComponent: React.FC<TProps> = ({
 
   const handleNextMonth = () => {
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-
     setCurrentDate(newDate);
-
     setupMonthlyTimeSlots({ newDate });
   };
 
   const handlePrevMonth = async () => {
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
     setCurrentDate(newDate);
-
     setupMonthlyTimeSlots({ newDate });
   };
 
@@ -193,16 +181,11 @@ const CalendarComponent: React.FC<TProps> = ({
           <ChevronLeft className="text-4xl md:text-9xl font-bold" />
           <span className="text-sm md:text-2xl">이전달</span>
         </button>
-        {/* underline */}
         <div
           //
           className="flex flex-col justify-center border-b-1.5 border-solid border-black items-center my-6"
         >
-          <div className="font-medium text-sm md:text-3xl  ">
-            {dayjs(currentDate).format('YYYY.MM')}
-            {/* {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()} */}
-          </div>
-          {/* <hr className=" w-[80%] mt-2" /> */}
+          <div className="font-medium text-sm md:text-3xl  ">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
         <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
@@ -210,7 +193,7 @@ const CalendarComponent: React.FC<TProps> = ({
           <ChevronRight className="text-4xl md:text-9xl font-bold" />
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-0 w-full border-1 p-6 border-gray-300 rounded-lg">
+      <div className="grid grid-cols-7 gap-0 w-full border-1 p-6 border-gray-300 rounded-lg h-[306px] lg:h-[498px]">
         {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
