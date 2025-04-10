@@ -95,7 +95,7 @@ export default function Banner() {
           <div className="flex flex-row gap-2 md:gap-4">
             <Button
               className="text-black bg-white font-bold text-xs md:text-2xl relative group h-6 md:w-36 md:h-16 opacity-25 hover:opacity-100"
-              color=""
+              // color=""
               variant="solid"
               onPress={() => router.push(selectMode === "mode1" ? "/programs/scuberdiving" : selectMode === "mode2" ? "/programs/freediving" : selectMode === "mode3" ? "/programs/mermaid" : "/")}
             >
@@ -104,7 +104,7 @@ export default function Banner() {
             </Button>
             <Button
               className="text-black bg-white font-bold text-xs md:text-2xl relative group  h-6 md:w-36 md:h-16 opacity-25 hover:opacity-100"
-              color=""
+              // color=""
               variant="flat"
               onPress={() => router.push("/instructors/bdn")}
             >

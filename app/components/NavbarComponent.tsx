@@ -71,7 +71,11 @@ export default function Navbar() {
 
     // Clean up the subscription on unmount
     return () => {
-      authListener?.unsubscribe();
+      authListener.subscription.unsubscribe();
+
+      // 아래 코드는 더이상 유효하지 않음 (deprecated)
+      // 참고 : https://github.com/orgs/supabase/discussions/5282
+      // authListener?.unsubscribe();
     };
   }, []);
 

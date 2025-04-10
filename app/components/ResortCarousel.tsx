@@ -120,10 +120,10 @@ const MultiImageCarousel = () => {
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
       }
     }
     setIsFullScreen(!isFullScreen);
@@ -131,7 +131,7 @@ const MultiImageCarousel = () => {
 
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullScreen(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+      setIsFullScreen(document.fullscreenElement || (document as any).webkitFullscreenElement || (document as any).msFullscreenElement);
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);

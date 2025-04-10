@@ -45,6 +45,8 @@ const MainCurriculum = () => {
           <a key={item.img} href={item.link} className="relative curriculum overflow-hidden rounded-[15px] sm:rounded-[30px]">
             <img loading="lazy" src={item.img} alt={item.link} className={['transform transition-transform ease-out w-full', duration[idx]].join(' ')} />
             <ViewMoreButton
+              useReverse={false}
+              onClick={() => {}}
               className={
                 '[&>span]:!text-white [&>span]:!border-white absolute z-10 bottom-2 right-[21px] sm:bottom-[15px] md:bottom-[21px] md:right-[23px] lg:bottom-[15px] lg:right-6'
               }
