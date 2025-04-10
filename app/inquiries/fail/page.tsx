@@ -3,7 +3,13 @@ import Link from 'next/link';
 import { FaCheckCircle } from 'react-icons/fa';
 
 const page: NextPage<NextPageProps> = async ({ searchParams }) => {
-  const { fail, message } = await searchParams;
+  const { code, fail, message } = await searchParams;
+
+  console.log('code');
+  console.log(code);
+
+  console.log('message');
+  console.log(message);
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">
@@ -18,7 +24,7 @@ const page: NextPage<NextPageProps> = async ({ searchParams }) => {
         <div className="flex flex-col gap-4 text-center">
           <div className="">
             <div className="">status code</div>
-            <div className="">{fail ?? 'unknown'}</div>
+            <div className="">{code ?? 'unknown'}</div>
           </div>
           <div className="">
             <div className="">message</div>

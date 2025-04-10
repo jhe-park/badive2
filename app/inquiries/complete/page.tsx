@@ -1,4 +1,7 @@
+import { Database } from '@/utils/supabase/database.types';
+import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
+import { SupabaseClient } from '@supabase/supabase-js';
 import axios from 'axios';
 import { NextPage } from 'next';
 import Link from 'next/link';
@@ -19,9 +22,9 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     program_id,
   }); // 디버깅용
 
-  const numOfParticipants = parseInt(participants as string);
+  const numOfParticipantsForCheckout = parseInt(participants as string);
 
-  if (isNaN(numOfParticipants)) {
+  if (isNaN(numOfParticipantsForCheckout)) {
     redirect(`/inquiries/fail?code=${-1}&message=${'participants 데이터가 없습니다. 관리자에게 문의해 주세요'}`);
   }
 
@@ -53,10 +56,10 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       redirect(`/inquiries/fail?code=${errorData.code}&message=${errorData.message}`);
     }
 
-    const paymentData = await tossPaymentResponse.json();
+    const tossPaymentsResJson = await tossPaymentResponse.json();
 
     console.log('✅paymentData');
-    console.log(paymentData);
+    console.log(tossPaymentsResJson);
 
     // 기존의 예약 생성 로직
     const supabase = await createClient();
@@ -110,16 +113,16 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
 
     console.log('슬롯잇음');
 
-    const newParticipants = timeSlot.current_participants + numOfParticipants;
+    const updatedCurrentParticipants = timeSlot.current_participants + numOfParticipantsForCheckout;
 
     console.log('✅newParticipants');
-    console.log(newParticipants);
+    console.log(updatedCurrentParticipants);
 
-    if (newParticipants > timeSlot.max_participants) {
+    if (updatedCurrentParticipants > timeSlot.max_participants) {
       redirect(`/inquiries/fail?code=${-1}&message=${'참여인원이 최대 허용인원을 초과하였습니다. 관리자에게 문의해 주세요'}`);
     }
 
-    const isFullyBooked = newParticipants === timeSlot.max_participants;
+    const isFullyBooked = updatedCurrentParticipants === timeSlot.max_participants;
 
     console.log('✅isFullyBooked');
     console.log(isFullyBooked);
@@ -127,59 +130,80 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     console.log('✅reservation insert value');
 
     console.log({
-      status: paymentData.method === '가상계좌' ? '입금대기' : '예약확정',
-      order_id: orderId as string,
-      time_slot_id: parseInt(slotId),
+      updatedCurrentParticipants: updatedCurrentParticipants,
+      isFullyBooked,
+      orderId: orderId as string,
+      participants: numOfParticipantsForCheckout,
+      slotId: parseInt(slotId),
       user_id: user_id as string,
-      participants: numOfParticipants,
-      payment_key: paymentKey as string,
+      timeSlot,
+      paymentKey: paymentKey as string,
       instructor_id: parseInt(instructor_id as string),
       amount: parseInt(amount as string),
-      pay_type: paymentData.method,
+      paymentMethod: tossPaymentsResJson.method,
+      paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
     });
 
     console.log('✅ timeslot insert value');
 
-    console.log({
-      current_participants: newParticipants,
-      available: !isFullyBooked,
+    const transactionResult = await doTransactionForReservation({
+      supabase,
+      orderId: orderId as string,
+      slotId: parseInt(slotId),
+      user_id: user_id as string,
+      instructor_id: parseInt(instructor_id as string),
+      paymentKey: paymentKey as string,
+      amount: parseInt(amount as string),
+      numOfParticipantsForCheckout: numOfParticipantsForCheckout,
+      paymentMethod: tossPaymentsResJson.method,
+      paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
     });
 
-    const [{ error: reservationError }, { error: updateError }] = await Promise.all([
-      supabase.from('reservation').insert([
-        {
-          status: paymentData.method === '가상계좌' ? '입금대기' : '예약확정',
-          order_id: orderId as string,
-          time_slot_id: parseInt(slotId),
-          user_id: user_id as string,
-          participants: numOfParticipants,
-          payment_key: paymentKey as string,
-          instructor_id: parseInt(instructor_id as string),
-          amount: parseInt(amount as string),
-          pay_type: paymentData.method,
-        },
-      ]),
-      supabase
-        .from('timeslot')
-        .update({
-          current_participants: newParticipants,
-          available: !isFullyBooked,
-        })
-        .eq('id', parseInt(slotId)),
-    ]);
+    console.log('✅ transactionResult');
+    console.log(transactionResult);
+    // updatedCurrentParticipants: updatedCurrentParticipants,
+    // isFullyBooked,
+    // timeSlot,
 
-    if (reservationError) {
-      console.log('reservation 테이블의 row 생성 오류:', reservationError);
-      return;
-    } else {
-      console.log('reservation 테이블의 row 생성 성공:');
+    if (transactionResult.success === false) {
+      redirect(`/inquiries/fail?code=${-1}&message=${transactionResult.error}`);
     }
 
-    if (updateError) {
-      console.log(`타임슬롯 ${slotId} 업데이트 오류:`, updateError);
-    } else {
-      console.log(`타임슬롯 ${slotId} 업데이트 성공`);
-    }
+    // const [{ error: reservationError }, { error: updateError }] = await Promise.all([
+    //   supabase.from('reservation').insert([
+    //     {
+    //       status: paymentData.method === '가상계좌' ? '입금대기' : '예약확정',
+    //       order_id: orderId as string,
+    //       time_slot_id: parseInt(slotId),
+    //       user_id: user_id as string,
+    //       participants: numOfParticipants,
+    //       payment_key: paymentKey as string,
+    //       instructor_id: parseInt(instructor_id as string),
+    //       amount: parseInt(amount as string),
+    //       pay_type: paymentData.method,
+    //     },
+    //   ]),
+    //   supabase
+    //     .from('timeslot')
+    //     .update({
+    //       current_participants: newParticipants,
+    //       available: !isFullyBooked,
+    //     })
+    //     .eq('id', parseInt(slotId)),
+    // ]);
+
+    // if (reservationError) {
+    //   console.log('reservation 테이블의 row 생성 오류:', reservationError);
+    //   return;
+    // } else {
+    //   console.log('reservation 테이블의 row 생성 성공:');
+    // }
+
+    // if (updateError) {
+    //   console.log(`타임슬롯 ${slotId} 업데이트 오류:`, updateError);
+    // } else {
+    //   console.log(`타임슬롯 ${slotId} 업데이트 성공`);
+    // }
 
     const [{ data: userProfile }, { data: programData }] = await Promise.all([
       supabase
@@ -203,33 +227,42 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
 
     // const { data: programData } = await supabase.from('program').select('*,instructor_id(*)').eq('id', program_id).single();
 
-    if (userProfile.phone) {
+    if (userProfile.phone == null) {
+      console.log('전화번호가 없습니다.');
+    } else if (userProfile.phone) {
       console.log('전화번호가 있습니다.');
       // 알림톡 전송
-      try {
-        const response = await axios.post(
-          'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
-          {
-            phone: userProfile.phone,
-            name: userProfile.name,
-            program: programData.title,
-            region: programData.region,
-            instructor: programData.instructor_id.name,
-            date: timeSlot.date + ' ' + timeSlot.start_time,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              accept: 'application/json',
-            },
-          },
-        );
-        console.log('알림톡 전송 성공:', response.data);
-      } catch (error) {
-        console.error('알림톡 전송 실패:', error);
-      }
-    } else {
-      console.log('전화번호가 없습니다.');
+
+      await sendAlarmTalk({
+        userProfile,
+        dateStr: timeSlot.date + ' ' + timeSlot.start_time,
+        instructorName: programData.instructor_id.name,
+        programRegion: programData.region,
+        programTitle: programData.title,
+      });
+
+      // try {
+      //   const response = await axios.post(
+      //     'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
+      //     {
+      //       phone: userProfile.phone,
+      //       name: userProfile.name,
+      //       program: programData.title,
+      //       region: programData.region,
+      //       instructor: programData.instructor_id.name,
+      //       date: timeSlot.date + ' ' + timeSlot.start_time,
+      //     },
+      //     {
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //         accept: 'application/json',
+      //       },
+      //     },
+      //   );
+      //   console.log('알림톡 전송 성공:', response.data);
+      // } catch (error) {
+      //   console.error('알림톡 전송 실패:', error);
+      // }
     }
   } catch (error) {
     redirect(`/inquiries/fail?code=${error.code}&message=${error.message}`);
@@ -253,7 +286,66 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
   );
 };
 
-async function 트랜잭션으로_처리되어야_함() {
+const doTransactionForReservation = async ({
+  supabase,
+  orderId,
+  slotId,
+  user_id,
+  paymentKey,
+  instructor_id,
+  amount,
+  numOfParticipantsForCheckout,
+  paymentMethod,
+  paymentStatus,
+  // timeSlot,
+  // isFullyBooked,
+  // updatedCurrentParticipants,
+}: {
+  // updatedCurrentParticipants: number;
+  // isFullyBooked: boolean;
+  supabase: SupabaseClient<Database>;
+  paymentStatus: string;
+  orderId: string;
+  slotId: number;
+  user_id: string;
+  numOfParticipantsForCheckout: number;
+  paymentKey: string;
+  instructor_id: number;
+  paymentMethod: string;
+  amount: number;
+  // timeSlot: {
+  //   current_participants: number;
+  //   max_participants: number;
+  // };
+}): Promise<
+  { success: true; message: string; updated_participants: number; is_available: boolean } | { success: false; error: string; error_detail?: string }
+> => {
+  // @ts-ignore
+  const { data: transactionResult, error } = await supabase.rpc('create_reservation_transaction', {
+    p_order_id: orderId,
+    p_time_slot_id: slotId,
+    p_user_id: user_id,
+    p_payment_key: paymentKey,
+    p_instructor_id: instructor_id,
+    p_amount: amount,
+    p_pay_type: paymentMethod,
+    p_payment_status: paymentStatus,
+    p_number_of_participants_for_checkout: numOfParticipantsForCheckout,
+    // p_current_participants: timeSlot.current_participants,
+    // p_is_fully_booked: isFullyBooked,
+    // p_updated_current_participants: updatedCurrentParticipants,
+  });
+
+  if (error) {
+    console.error('🚫 예약 트랜잭션 오류:', error);
+    console.error(error);
+
+    return { success: false, error: JSON.stringify(error) };
+  }
+  return transactionResult;
+};
+
+async function funtionThatShouldBeTransactionProcessed() {
   // 예약이 없는 경우에만 새로운 예약 생성
   // const { error: reservationError } = await supabase.from('reservation').insert([
   //   {
@@ -268,47 +360,62 @@ async function 트랜잭션으로_처리되어야_함() {
   //     pay_type: paymentData.method,
   //   },
   // ]);
+  // const { error: updateError } = await supabase
+  //   .from('timeslot')
+  //   .update({
+  //     current_participants: timeSlot.current_participants + parseInt(participants),
+  //     available: !isFullyBooked,
+  //   })
+  //   .eq('id', parseInt(slotId));
   // if (reservationError) {
   //   console.log('예약 생성 오류:', reservationError);
   //   return;
   // }
-  // const { error: updateError } = await supabase
-  //     .from('timeslot')
-  //     .update({
-  //       current_participants: timeSlot.current_participants + parseInt(participants),
-  //       available: !isFullyBooked,
-  //     })
-  //     .eq('id', parseInt(slotId));
-  //   if (updateError) {
-  //     console.log(`타임슬롯 ${slotId} 업데이트 오류:`, updateError);
-  //   } else {
-  //     console.log(`타임슬롯 ${slotId} 업데이트 성공`);
-  //   }
+  // if (updateError) {
+  //   console.log(`타임슬롯 ${slotId} 업데이트 오류:`, updateError);
+  // } else {
+  //   console.log(`타임슬롯 ${slotId} 업데이트 성공`);
+  // }
 }
 
-// async function sendAlarmTalk({ userData, programData, timeSlot }: { userData: TypeDBprofile; programData: TypeDBprogram; timeSlot: TypeDBtimeslot }) {
-//   try {
-//     const response = await axios.post(
-//       'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
-//       {
-//         phone: userData.phone,
-//         name: userData.name,
-//         program: programData.title,
-//         region: programData.region,
-//         instructor: programData.instructor_id.name,
-//         date: timeSlot.date + ' ' + timeSlot.start_time,
-//       },
-//       {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           accept: 'application/json',
-//         },
-//       },
-//     );
-//     console.log('알림톡 전송 성공:', response.data);
-//   } catch (error) {
-//     console.error('알림톡 전송 실패:', error);
-//   }
-// }
+async function sendAlarmTalk({
+  userProfile,
+  dateStr,
+  instructorName,
+  programRegion,
+  programTitle,
+}: {
+  dateStr: string;
+  programTitle: string;
+  programRegion: string;
+  instructorName: string;
+  userProfile: TypeDBprofile;
+}) {
+  try {
+    const response = await axios.post(
+      'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
+      {
+        phone: userProfile.phone,
+        name: userProfile.name,
+        program: programTitle,
+        region: programRegion,
+        instructor: instructorName,
+        date: dateStr,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      },
+    );
+
+    console.log('✅ 알림톡 전송 성공:', response.data);
+    return response;
+  } catch (error) {
+    console.error('🚫 알림톡 전송 실패:');
+    console.error(error);
+  }
+}
 
 export default PageForPaymentComplete;

@@ -2,21 +2,21 @@
 
 <img src="/public/logo/logo_big.png" width="100%" />
 
-
 본 프로젝트는 `https://www.badive.co.kr`의 구현체이다
 
 ## 개발관련 문서
+
 - [기획서(PDF)](http://naver.me/GfCNuDIo)
 - [피그마](https://www.figma.com/design/yo6vVmRLJSGXgWrpm3xTrn/BND-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80%2C-%EC%96%B4%EB%93%9C%EB%AF%BC?node-id=0-1&t=dhMoTfKEbXrbEHHB-1)
 - [피그마(서브페이지)](https://www.figma.com/design/LBkwOpjAxdEWo14DaAd6Bk/BDN-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%84%9C%EB%B8%8C%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=0-1&m=dev&t=davo5JCMO0E72klg-1)
 - 개발자료공유(배너영상, 기타 필요한 대용량자료) : http://naver.me/xZVUO0Sz
 
-## 스택 
+## 스택
 
 - Next.js App Route (v 15.1.4이며 추후 버전업될 수 있음)
 - 상태관리 : Zustand
 - Typescript 5.8
-- 백엔드 FastAPI 
+- 백엔드 FastAPI
   - DB는 Supabase 구축되었고, 알람톡/예약 기능 일의 경우 fast api + lambda로 api 구축
   - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡/예약 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
 - 결제 모듈 : [토스페이먼트 v2](https://docs.tosspayments.com/guides/v2/payment-widget/integration)
@@ -29,23 +29,22 @@
 - 배포 플랫폼 : Vercel (서버리스 플랫폼)
 - 도메인 : 가비야에서 구매하였음
 
-
-
 ## 사이트 구성
 
 본 웹사이트는 크게 4가지 기능으로 구분되어 있다
+
 - 일반 웹사이트 및 예약 페이지
   - https://www.badive.co.kr/ 로 접속하면 보이는 페이지이며 핵심 기능은 예약 기능이다.
   - my페이지에서는 `예약취소` 기능을 제공한다
 - 관리자 전용 페이지 (관리자 권한의 ID만 접근 가능하다)
   - 강사 스케줄 조정이 가능하다
 - 강사전용 페이지 (강사 권한의 ID만 접근 가능하다)
-  - 강사 스케줄 조정이 가능하다  - 
+  - 강사 스케줄 조정이 가능하다 -
 
 ## 로그인/OAuth 관련
 
 - AUTH 관련된 사항은 Supabase 기반으로 구성
-- 공식 문서는 [여기](https://supabase.com/docs/guides/auth)를 참조할 것 
+- 공식 문서는 [여기](https://supabase.com/docs/guides/auth)를 참조할 것
 - 지원하는 OAuth는 네이버, 카카오, 구글이며 카카오와 구글은 Supabase에서 기본적으로 지원한다. 네이버의 경우는 개발자 센터에서 key 발급하여 직접 구현이 필요하다.
 - middleware 기반으로 client, master, expert가 구분되어 role 구성
 - supabase 내에 profiles 테이블에 보면 role 기능이 구성되어있으니 참고 요망
@@ -54,24 +53,38 @@
 
 본 웹사이트의 모든 이미지는 기존에 png 포멧이었으나 avif 포멧으로 변경되었다.
 
-2025년 4월 4일 시점에서 모든 모던 브라우저는 avif 포멧을 지원하므로 특정 브라우저에서 이미지/비디오가 정상 표시되지 않는 일은 없다. 
+2025년 4월 4일 시점에서 모든 모던 브라우저는 avif 포멧을 지원하므로 특정 브라우저에서 이미지/비디오가 정상 표시되지 않는 일은 없다.
 
 웹 브라우저의 avif 지원 현황은 [여기](https://caniuse.com/avif)를 참조할 것
 
 이용자가 Internet Explorer를 사용중이라면 정상 표시되지 않을 수 있지만 2024년 4월 시점에 IE 점유율은 0.21%이며 1년이 지난 현재는 거의 0에 가깝다고 봐도 무방하다. ([출처](https://www.koreanextweb.kr/front/stats/browser/browserUseStats.do))
 
-
 ## 예약기능
 
 - 예약은 timeslot 단위로 관리된다. timeslot 데이터는 supabase의 timeslot 테이블을 참조할 것
-- 타임슬롯 일괄 생성 API : 해당 기능은 파이썬 fast api로 구현되어 있고 이는 AMS Lambda에 배포되었다. 해당 기능은 next.js에서 호출된다. 
+- 타임슬롯 일괄 생성 API : 해당 기능은 파이썬 fast api로 구현되어 있고 이는 AMS Lambda에 배포되었다. 해당 기능은 next.js에서 호출된다.
 - updateSlot API : 이 함수는 타임슬롯을 연장한다. AWS EventBridge + AMS Lambda기반으로 작성되어 있으며 하루 1회 주기적으로 호출된다. 아래 이미지 참조할 것
 
 ![](/public/for_readme/updateSlot.webp)
 
+## 토스페이먼츠의 결제방식
+
+상세는 [여기](https://docs.tosspayments.com/codes/enum-codes#%EA%B2%B0%EC%A0%9C%EC%88%98%EB%8B%A8-%EC%9D%91%EB%8B%B5-%ED%83%80%EC%9E%85)를 참조할 것
+
+아래 목록에서 "계좌이체"로 결제한 경우 즉각적으로 "결제완료"가 되어서는 안되며 반드시 "입금대기" 상태가 되어야 한다
+
+- CARD("카드"),
+- TRANSFER("계좌이체")
+- MOBILE_PHONE("휴대폰"),
+- VIRTUAL_ACCOUNT("가상계좌"),
+- CULTURE_GIFT_CERTIFICATE("문화상품권"),
+- GAME_GIFT_CERTIFICATE("게임문화상품권"),
+- BOOK_GIFT_CERTIFICATE("도서문화상품권"),
+
+
 ## 결제 프로세스
 
-결제는 타임슬롯(time_slot) 단위로 처리된다. 
+결제는 타임슬롯(time_slot) 단위로 처리된다.
 
 예를 들어 `스쿠버다이빙 초급반`수업의 타임슬롯이 `2025년 1월 1일 오후 1시` 날짜에 존재한다면 수강 희망자는 이 타임슬롯에 예약할 수 있다.
 
@@ -87,12 +100,11 @@ checkout 페이지는 토스페이먼트의 결제창이다.
 
 즉 결제 프로세스에서 중요 역할을 하는 DB테이블은 reservation과 timeslot 테이블이다. 결제 과정에서 임시적으로 사용되는 테이블은 `pending_session`이다.
 
-
 ## 결제 취소 프로세스
 
 이 과정은 크게 2가지로 나뉜다
 
-1. 토스페이먼츠 측에 취소 요청을 보낸다. 
+1. 토스페이먼츠 측에 취소 요청을 보낸다.
    1. 이 과정은 토스페이먼츠 API를 호출하는 것으로 수행된다
    2. 이 과정은 SECRET_KEY를 필요로 하므로 클라이언트가 아닌 서버사이드에서 수행되어야 한다
 2. 위의 과정이 정상 처리되었으면 supabase DB의 테이블 값을 업데이트한다
@@ -106,32 +118,32 @@ CREATE OR REPLACE FUNCTION cancel_reservation(reservation_id INT, time_slot_id I
 RETURNS INT AS $$
 DECLARE
   affected_rows INT;
-BEGIN   
+BEGIN
     -- 예약 상태를 '취소완료'로 업데이트
     UPDATE reservation
     SET status = '취소완료'
     WHERE id = reservation_id;
-    
+
     GET DIAGNOSTICS affected_rows = ROW_COUNT;
     IF affected_rows = 0 THEN
         RAISE EXCEPTION '해당 예약을 찾을 수 없습니다';
     END IF;
-    
+
     -- 타임슬롯의 현재 참가자 수 감소 및 available 상태를 항상 TRUE로 설정
     UPDATE timeslot
-    SET 
+    SET
         current_participants = current_participants - participants_count,
         available = TRUE
     WHERE id = time_slot_id;
-    
+
     GET DIAGNOSTICS affected_rows = ROW_COUNT;
     IF affected_rows = 0 THEN
         RAISE EXCEPTION '해당 타임슬롯을 찾을 수 없습니다';
     END IF;
-    
+
     -- 성공 시 1 반환
     RETURN 1;
-    
+
 EXCEPTION WHEN OTHERS THEN
     -- 실패 시 0 반환하고 예외 메시지 출력
     RAISE NOTICE 'Error: %', SQLERRM;
@@ -140,16 +152,16 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-코드에는 transaction 처리가 되어있지 않지만 supabase API에서 제공하는 `rpc` 메소드를 사용하면 자동으로 트랜잭션 처리된다. 
+코드에는 transaction 처리가 되어있지 않지만 supabase API에서 제공하는 `rpc` 메소드를 사용하면 자동으로 트랜잭션 처리된다.
 
 위에 작성된 함수는 아래와 같이 호출된다
 
 ```typescript
 await supabase.rpc('cancel_reservation', {
-      reservation_id: selectedProgram.id,
-      time_slot_id: selectedProgram.time_slot_id.id,
-      participants_count: selectedProgram.participants,
-    });
+  reservation_id: selectedProgram.id,
+  time_slot_id: selectedProgram.time_slot_id.id,
+  participants_count: selectedProgram.participants,
+});
 ```
 
 ## DB 테이블 설명
@@ -169,3 +181,21 @@ await supabase.rpc('cancel_reservation', {
   - time_slot_id는 시간에 따라서 리니어하게 설정되어 있다. 예를 들어 특정 날짜의 오전 10시의 time_slot_id가 400000이라면 같은 날짜의 오전 11시 time_slot_id는 400001이다
 - tour 페이지 : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
 - tour_input : 사용하지 않는 테이블로 추정됨
+
+
+
+## TODO
+
+### 레이스컨디션 방지 로직이 없음
+
+예시) 2명이 동시에 같은 시간대에 예약하는 상황
+
+- 최대 수용인원이 1명인 강의를 2명이 동시에 예약한다면 둘 중 조금이라도 먼저 예약하기를 시도한 사람의 예약을 확정하고 늦은 예약자의 예약은 취소해야 한다
+
+- 다른 예로 온라인 티켓팅시에 같은 좌석을 2명이 거의 비슷한 타이밍에 예약했다면 먼저 예약하기를 시도한 사람을 예약하고 조금이라도 늦게 예약한 사람의 주문건은 취소되어야 한다
+
+- 이를 레이스 컨디션 방지라고 한다
+
+- 하지만 현재 구현된 로직에서 이런 레이스 컨디션 방지 로직은 없다. 그러므로 최대 수용인원이 1명인 강의에서 2명이 동시에 예약하는 상황이 발생할 수 있다.
+
+- 또는 예약상태가 5/6인 상태에서 2명이 동시에 예약한다면 총 예약인원이 7명이 될 수도 있다.
