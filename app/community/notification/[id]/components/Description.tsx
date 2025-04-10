@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+'use client';
 
 export default function Description({ noticeData }) {
   return (
@@ -12,10 +11,7 @@ export default function Description({ noticeData }) {
             border-radius: 10px;
           }
         `}</style>
-        <div
-          className="w-full flex flex-col justify-start gap-y-2 content"
-          dangerouslySetInnerHTML={{ __html: noticeData.description }}
-        />
+        <div className="w-full flex flex-col justify-start gap-y-2 content" dangerouslySetInnerHTML={{ __html: noticeData.description }} />
       </div>
     </div>
   );

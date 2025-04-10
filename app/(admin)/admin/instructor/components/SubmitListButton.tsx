@@ -2,7 +2,6 @@
 
 import { Button } from '@heroui/react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 
 export default function SubmitListButton() {
   const router = useRouter();

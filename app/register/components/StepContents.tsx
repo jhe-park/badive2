@@ -1,9 +1,8 @@
-'use client'
-import React from "react";
-import Agreement from "./Agreement";
-import useStep from "@/app/store/useStep";
-import Information from "./Information";
-import Complete from "./Complete";
+'use client';
+import useStep from '@/app/store/useStep';
+import Agreement from './Agreement';
+import Complete from './Complete';
+import Information from './Information';
 
 export default function StepContents() {
   const { step, setStep } = useStep();

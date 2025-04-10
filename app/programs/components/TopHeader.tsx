@@ -1,5 +1,4 @@
-import React from "react";
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function TopHeader() {
   return (
@@ -11,11 +10,9 @@ export default function TopHeader() {
       </div>
 
       <div className="flex flex-col items-center justify-center z-10 text-[30px] md:text-[35px] xl:text-[64px]">
-        <p className=" font-bold">
-          이제 안전한 다이빙을 원한다면
-        </p>
+        <p className=" font-bold">이제 안전한 다이빙을 원한다면</p>
         <p className="font-bold">
-          <span className="text-[#0054CA]">바다이브</span>와 함께 !{" "}
+          <span className="text-[#0054CA]">바다이브</span>와 함께 !{' '}
         </p>
       </div>
     </div>
