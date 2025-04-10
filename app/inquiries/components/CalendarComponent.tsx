@@ -290,7 +290,7 @@ const CalendarComponent: React.FC<TProps> = ({
               const formattedHour = parseInt(slot.start_time.split(':').at(0)) - 12;
 
               return (
-                <div className="" key={slot.unique_id}>
+                <div key={slot.unique_id} className="flex flex-col items-center gap-1">
                   <Badge
                     variant={'outline'}
                     className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white')}
@@ -305,6 +305,9 @@ const CalendarComponent: React.FC<TProps> = ({
                   >
                     {`${formattedHour}:00`}
                   </Badge>
+                  <div className="border-solid border-1 border-gray text-btnActive w-fit px-2">
+                    {slot.current_participants}/{slot.max_participants}
+                  </div>
                 </div>
               );
             })}
