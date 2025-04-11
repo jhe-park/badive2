@@ -16,7 +16,7 @@ export default function WelcomePopup() {
         {
           id: 1,
           title: '인천수영장오픈안내',
-          link: 'https://www.badive.co.kr/community/notification/49',
+          link: '/community/notification/49',
           image: '/popup/popup1.avif',
         },
       ],
@@ -27,7 +27,7 @@ export default function WelcomePopup() {
         {
           id: 2,
           title: '인천수영장 개인연습',
-          link: 'https://www.badive.co.kr/community/notification/50',
+          link: '/community/notification/50',
           image: '/popup/popup2.avif',
         },
       ],
@@ -38,7 +38,7 @@ export default function WelcomePopup() {
         {
           id: 3,
           title: '바다이브 OPEN 이벤트',
-          link: 'https://www.badive.co.kr/community/notification/51',
+          link: '/community/notification/51',
           image: '/popup/popup3.avif',
         },
       ],
@@ -49,7 +49,7 @@ export default function WelcomePopup() {
         {
           id: 4,
           title: '바다이브 무료클래스',
-          link: 'https://www.badive.co.kr/community/notification/52',
+          link: '/community/notification/52',
           image: '/popup/popup4.avif',
         },
       ],
@@ -60,7 +60,7 @@ export default function WelcomePopup() {
         {
           id: 5,
           title: '바다이브 다이빙투어',
-          link: 'https://www.badive.co.kr/divingtours',
+          link: '/divingtours',
           // image: "/popup/popup5.png",
           image: '/popup/popup5.avif',
         },

@@ -12,14 +12,14 @@ const MainNews = () => {
       description: '모든 라이센스 교육 프로그램을 결제하신 회원분들께 다이빙 매쉬 더블백을 선물로 드립니다',
       category: 'EVENT',
       date: '2025-03-24',
-      link: 'https://www.badive.co.kr/community/notification/51',
+      link: '/community/notification/51',
     },
     {
       title: '바다이브 무료클래스',
       description: '매주 화요일 스쿠버 다이빙 원포인트 레슨과 매주 목요일 스쿠버 다이빙 무료 체험다이빙 진행!',
       category: 'NOTICE',
       date: '2025-03-24',
-      link: 'https://www.badive.co.kr/community/notification/52',
+      link: '/community/notification/52',
     },
     {
       title: '한국 여성 최초 프리다이빙 강사',

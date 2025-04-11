@@ -8,19 +8,19 @@ const MainCurriculum = () => {
   const CURRICULUMS = [
     {
       img: '/curriculum/program1.avif',
-      link: 'https://www.badive.co.kr/programs/scuberdiving',
+      link: '/programs/scuberdiving',
     },
     {
       img: '/curriculum/program2.avif',
-      link: 'https://www.badive.co.kr/programs/freediving',
+      link: '/programs/freediving',
     },
     {
       img: '/curriculum/program3.avif',
-      link: 'https://www.badive.co.kr/programs/mermaid',
+      link: '/programs/mermaid',
     },
     {
       img: '/curriculum/program4.avif',
-      link: 'https://www.badive.co.kr/programs/underwater',
+      link: '/programs/underwater',
     },
   ];
 
