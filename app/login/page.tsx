@@ -8,6 +8,7 @@ import KakaoLoginComponent from './components/KakaoLogin';
 import NaverLoginComponent from './components/NaverLogin';
 import RegisterButton from './components/RegisterButton';
 import TwoFactor from './components/TwoFactor';
+import { getDomain } from '@/utils/getDomain';
 
 export default async function Login(props) {
   const searchParams = await props.searchParams;
@@ -17,6 +18,8 @@ export default async function Login(props) {
   const returnUrl = searchParams.returnUrl || '/'; // returnUrl이 없으면 기본값으로 '/' 설정
 
   const origin = '/login';
+
+  const {domainWithProtocol} = await getDomain()
 
   return (
     <div className="flex h-full  w-full flex-col items-center justify-center gap-y-10 my-32">
@@ -66,8 +69,8 @@ export default async function Login(props) {
           <Divider className="flex-1" />
         </div>
         <div className="flex justify-center items-center gap-5">
-          <GoogleLoginComponent />
-          <KakaoLoginComponent />
+          <GoogleLoginComponent domainWithProtocol={domainWithProtocol}/>
+          <KakaoLoginComponent  domainWithProtocol={domainWithProtocol}/>
           <NaverLoginComponent />
         </div>
       </div>

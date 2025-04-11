@@ -68,11 +68,11 @@ const VIDEO_SOURCE = [
 const buttons = [
   {
     label: '자세히보기',
-    link: ['https://www.badive.co.kr/programs/scuberdiving', 'https://www.badive.co.kr/programs/freediving', 'https://www.badive.co.kr/programs/mermaid'],
+    link: ['/programs/scuberdiving', '/programs/freediving', '/programs/mermaid'],
   },
   {
     label: '소속강사',
-    link: 'https://www.badive.co.kr/instructors/bdn',
+    link: '/instructors/bdn',
   },
 ];
 

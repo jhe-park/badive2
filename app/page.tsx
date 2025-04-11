@@ -8,6 +8,7 @@ import WelcomePopup from './components/WelcomePopup';
 
 export default async function Home() {
   checkIsSafariBrowser();
+
   return (
     <div className="flex w-full h-full flex-col items-center justify-start">
       <WelcomePopup />

@@ -1,26 +1,26 @@
 'use client';
-import React from 'react';
 import Image from 'next/image';
 
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
+import { usePathname, useRouter } from 'next/navigation';
 
-const GoogleLoginComponent = () => {
+const GoogleLoginComponent = ({ domainWithProtocol }: { domainWithProtocol: string }) => {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
+  const pathName = usePathname();
 
   const handleGoogleLogin = async () => {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
+      // const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
 
-      console.log('✅ baseUrl');
-      console.log(baseUrl);
+      // console.log('✅ baseUrl');
+      // console.log(baseUrl);
 
       // debugger;
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${baseUrl}/auth/callback`,
+          redirectTo: `${domainWithProtocol}/auth/callback`,
         },
       });
 

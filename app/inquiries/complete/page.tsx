@@ -1,3 +1,4 @@
+import { getDomain } from '@/utils/getDomain';
 import { Database } from '@/utils/supabase/database.types';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
@@ -10,6 +11,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 
 const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams }) => {
   const { orderId, instructor_id, time_slot_id, user_id, participants, paymentKey, amount, pay_type, program_id } = await searchParams;
+  const { domainWithProtocol } = await getDomain();
 
   console.log('받은 파라미터들:', {
     orderId,
@@ -29,12 +31,12 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
   }
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
+    // const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
 
-    console.log('baseUrl');
-    console.log(baseUrl);
+    // console.log('baseUrl');
+    // console.log(baseUrl);
 
-    const tossPaymentResponse = await fetch(`${baseUrl}/api/payment`, {
+    const tossPaymentResponse = await fetch(`${domainWithProtocol}/api/payment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
