@@ -76,7 +76,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     let refundAmount =
       diffDays === 1 ? program.time_slot_id.program_id.price * program.participants * 0.5 : program.time_slot_id.program_id.price * program.participants;
 
-
     if (diffDays <= 7) {
       // 7일 이내: 100% 환불
       refundAmount = refundAmount;

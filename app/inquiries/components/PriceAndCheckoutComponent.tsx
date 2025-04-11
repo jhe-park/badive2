@@ -69,7 +69,9 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
   const isReadyForCheckout = checkIsSelectedResultFullyReadyForCheckout(selectedResult);
 
   return (
-    <div className={cn('w-full', showMode === 'MOBILE' && 'block lg:hidden w-[85%]', showMode === 'DESKTOP' && 'hidden lg:block')}>
+    <div
+      className={cn('w-full mt-6 lg:mt-0', showMode === 'MOBILE' && 'block lg:hidden w-full sm:w-[85%] md:w-full', showMode === 'DESKTOP' && 'hidden lg:block')}
+    >
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
       <div className="w-full text-lg md:text-2xl font-bold py-4">결제</div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
@@ -79,7 +81,7 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
           {selectedResult?.totalPrice && (
             <>
               <p className="text-lg md:text-2xl">{selectedResult?.totalPrice.toLocaleString()}원</p>
-              <p className="text-lg md:text-2xl">(vat포함)</p>
+              {/* <p className="text-lg md:text-2xl">(vat포함)</p> */}
             </>
           )}
         </div>

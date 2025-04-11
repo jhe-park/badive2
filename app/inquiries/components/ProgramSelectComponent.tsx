@@ -242,7 +242,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
   }
 
   return (
-    <div className="order-1 md:order-2 flex flex-col items-start justify-start gap-y-3 md:gap-y-6">
+    <div className="order-1 md:order-2 flex flex-col items-start justify-start gap-y-3 md:gap-y-6 pt-6 md:pt-0">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -255,17 +255,20 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         pauseOnHover
         theme="light"
       />
-      <div className="flex">
+      <div className="flex items-center gap-2">
         <div className="text-lg md:text-2xl font-bold">강습프로그램</div>
-        <div className="md:text-2xl font-bold">- 원하시는 강습을 선택해주세요.</div>
+        <div className="text-[12px] font-bold text-[#8C8C8C]"> - 원하시는 강습을 선택해주세요.</div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex w-full gap-2 lg:gap-2 justify-center">
         {LECTURE_CATEGORY.map(category => {
           return (
             <Badge
               key={category}
               variant={'outline'}
-              className={cn('font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer', category === selectedLectureCategory && 'bg-btnActive text-white')}
+              className={cn(
+                'font-bold text-[12px] lg:text-[14px] py-2 lg:px-7 cursor-pointer',
+                category === selectedLectureCategory && 'bg-btnActive text-white',
+              )}
               onClick={() => {
                 setSelectedLectureCategory(category);
               }}
@@ -342,10 +345,12 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             type="button"
             id="decrement-button"
             data-input-counter-decrement="quantity-input"
-            className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+            // dark:hover:bg-gray-600 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-gray-700
+            className="bg-white   hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100  focus:ring-2 focus:outline-none"
             onClick={decreaseNumOfParticipants}
           >
-            <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+            {/* dark:text-white */}
+            <svg className="w-3 h-3 text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
             </svg>
           </button>
@@ -354,7 +359,8 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             id="quantity-input"
             data-input-counter
             aria-describedby="helper-text-explanation"
-            className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            // dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+            className="bg-[#CECECE] border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5    "
             placeholder="999"
             required
             value={noParticipants}
@@ -364,10 +370,12 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             type="button"
             id="increment-button"
             data-input-counter-increment="quantity-input"
-            className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+            // dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 dark:focus:ring-gray-700
+            className="bg-white  hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100  focus:ring-2 focus:outline-none"
             onClick={increaseNumOfParticipants}
           >
-            <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            {/* dark:text-white */}
+            <svg className="w-3 h-3 text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
             </svg>
           </button>
