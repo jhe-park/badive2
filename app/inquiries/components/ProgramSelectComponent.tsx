@@ -12,7 +12,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selec
 import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
 
 type TProps = {
@@ -63,7 +63,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       typeof selectedResult.slot_current_participants === 'number' &&
       selectedResult.slot_max_participants < newParticipants + selectedResult.slot_current_participants
     ) {
-      alert('최대 인원 수를 초과하였습니다.');
+      toast.error('최대 인원 수를 초과하였습니다.');
       return;
     }
 
@@ -266,7 +266,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
               key={category}
               variant={'outline'}
               className={cn(
-                'font-bold text-[12px] lg:text-[14px] py-2 lg:px-7 cursor-pointer',
+                'font-bold text-[12px] md:text-[14px] lg:text-[14px] py-2 lg:px-7 cursor-pointer',
                 category === selectedLectureCategory && 'bg-btnActive text-white',
               )}
               onClick={() => {

@@ -13,6 +13,7 @@ import { Checkbox } from '@heroui/react';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const MAPPER_FROM_NUMBER_TO_WEEKDAY = {
   0: '일',
@@ -235,7 +236,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
       </div>
       {selectedDate?.start && selectedDateTimeSlotsAM.length > 0 && (
         <div className="flex flex-col gap-4 flex-wrap w-full px-0">
-          <div className="py-1 font-[20px]">오전</div>
+          <div className="py-1 text-[20px]">오전</div>
           <div className="flex gap-4 flex-wrap">
             {selectedDateTimeSlotsAM.map(slot => {
               slot.current_participants;
@@ -243,10 +244,13 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                 <div key={slot.unique_id} className="flex flex-col items-center gap-1">
                   <Badge
                     variant={'outline'}
-                    className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white')}
+                    className={cn(
+                      'text-[18px] md:text-[20px] border-[#7A7A7A] font-normal py-2 px-7 cursor-pointer',
+                      selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white',
+                    )}
                     onClick={() => {
                       if (slot.max_participants < selectedResult.noParticipants + slot.current_participants) {
-                        alert('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
+                        toast.error('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
                         return;
                       }
 
@@ -266,7 +270,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
       )}
       {selectedDate?.start && selectedDateTimeSlotsPM.length > 0 && (
         <div className="flex flex-col gap-4 flex-wrap w-full px-0">
-          <div className="py-0 font-[20px]">오후</div>
+          <div className="py-0 text-[20px]">오후</div>
           <div className="flex gap-4 flex-wrap">
             {selectedDateTimeSlotsPM.map(slot => {
               console.log('✅ slot.start_time');
@@ -278,7 +282,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                   <Badge
                     variant={'outline'}
                     className={cn(
-                      'border-[#7A7A7A] font-normal py-2 px-7 cursor-pointer',
+                      'text-[18px] md:text-[20px] border-[#7A7A7A] font-normal py-2 px-7 cursor-pointer',
                       selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white',
                     )}
                     // className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
