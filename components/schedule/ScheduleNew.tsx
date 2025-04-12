@@ -1,5 +1,6 @@
 'use client';
 
+import IconLogout from '@/public/icons/logout.svg';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY } from '@/constants/constants';
@@ -17,6 +18,8 @@ import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './Calendar
 import ModalForDetailInformation from './ModalForDetailInformation';
 import useExpertStore from '@/app/(expert)/expert/store/useExpertStore';
 import { User } from '@supabase/supabase-js';
+import { usePathname, useRouter } from 'next/navigation';
+import { logoutInClientSide } from '@/utils/logout';
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -61,6 +64,15 @@ type TProps = {
 };
 
 export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  console.log('pathname');
+  console.log(pathname);
+
+  // if (pathname.endsWith('schedule')) {
+  //   console.log('ㅁㅁㅁㅁ');
+  // }
+
   const { expertInformation, setExpertInformation } = useExpertStore();
 
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<(typeof LECTURE_CATEGORY)[number] | undefined>('스쿠버다이빙');
@@ -360,6 +372,8 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   const TimeSlotAMComponents = getTimeSlotComponent({ times: TIME_AM });
   const TimeSlotPMComponents = getTimeSlotComponent({ times: TIME_PM });
 
+  const logOut = () => {};
+
   return (
     <>
       <ModalForDetailInformation
@@ -393,13 +407,22 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                 <p className="text-[25px] sm:text-[36px] font-[600] text-center">{expertInformation?.name}</p>
               </div>
             </div>
-            <div className="absolute hidden sm:block cursor-pointer top-0 right-0">로그아웃</div>
+            <div
+              onClick={() => {
+                // logOut();
+                logoutInClientSide({ router, supabase });
+              }}
+              className="absolute hidden cursor-pointer top-0 right-0 sm:flex gap-2 sm:items-center md:hidden"
+            >
+              <Image src={IconLogout} alt="로그아웃" />
+              <span>로그아웃</span>
+            </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 font-[400] justify-center gap-0 text-[25px] sm:text-[32px]">
-            <div className="">· 내 프로필</div>
-            <div className="">· 매출현황</div>
-            <div className="">· 고객관리</div>
-            <div className="">· 스케줄표 관리</div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 items-center font-[400] justify-center gap-0 text-[25px] sm:text-[32px] font-freesentationVF">
+            <div className={cn('', pathname.endsWith('profile') && 'font-freesentation')}>· 내 프로필</div>
+            <div className={cn('', pathname.endsWith('sales') && 'font-freesentation')}>· 매출현황</div>
+            <div className={cn('', pathname.endsWith('member') && 'font-freesentation')}>· 고객관리</div>
+            <div className={cn('sm:text-[28px]', pathname.endsWith('schedule') && 'font-freesentation')}>· 스케줄표 관리</div>
           </div>
         </div>
         <div className="flex-1">

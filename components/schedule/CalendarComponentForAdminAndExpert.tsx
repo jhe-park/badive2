@@ -94,7 +94,8 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
             <div
               key={day}
               className={cn(
-                `text-center text-[25px] sm:text-[32px] w-full h-8 md:h-16 flex items-center justify-center transition font-[400]`,
+                // h-8
+                `font-freesentationVF text-center text-[25px] sm:text-[32px] w-full md:h-16 sm:py-0 md:py-0 flex items-center justify-center transition font-[400]`,
                 isPastDateOrToday || selectedInstructorProfile == null || selectedLectureCategory == null
                   ? 'text-gray-300 cursor-not-allowed'
                   : 'cursor-pointer hover:bg-gray-200',
