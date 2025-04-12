@@ -59,23 +59,23 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
     <div className={`order-2 md:order-1 col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-0 h-full`}>
       <div className="flex justify-between items-center md:mb-4 w-full lg:pt-[0px]">
         <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
-          <ChevronLeft className="text-4xl md:text-9xl font-bold" />
-          <span className="text-sm md:text-2xl">이전달</span>
+          <ChevronLeft className="text-[20px] md:text-9xl font-bold" />
+          <span className="text-[20px] sm:text-[32px]">이전달</span>
         </button>
         <div className="flex flex-col justify-center border-b-1.5 border-solid border-black items-center my-6">
-          <div className="font-medium text-sm md:text-3xl  ">{dayjs(currentDate).format('YYYY.MM')}</div>
+          <div className="text-[25px] sm:text-[32px] font-bold">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
         <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
-          <span className="text-sm md:text-2xl">다음달</span>
+          <span className="text-[20px] sm:text-[32px]">다음달</span>
           <ChevronRight className="text-4xl md:text-9xl font-bold" />
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-0 w-full border-1 p-6  border-gray-300 rounded-lg">
+      <div className="grid grid-cols-7 gap-0 gap-y-2 sm:gap-y-6 md:gap-y-0 w-full border-1 pt-0 pb-6 md:p-6  border-gray-300 rounded-lg">
         {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
-            className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${index === 0 ? 'text-red-500' : ''}`}
+            className={`font-bold text-[25px] sm:text-[32px] text-center h-16 flex items-center justify-center w-full ${index === 0 ? 'text-red-500' : ''}`}
           >
             {day}
           </div>
@@ -94,7 +94,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
             <div
               key={day}
               className={cn(
-                `text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center transition`,
+                `text-center text-[25px] sm:text-[32px] w-full h-8 md:h-16 flex items-center justify-center transition font-[400]`,
                 isPastDateOrToday || selectedInstructorProfile == null || selectedLectureCategory == null
                   ? 'text-gray-300 cursor-not-allowed'
                   : 'cursor-pointer hover:bg-gray-200',

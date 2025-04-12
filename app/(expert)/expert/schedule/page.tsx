@@ -25,6 +25,7 @@ export default async function ExpertSchedulePage() {
   return (
     <div className="w-full h-full flex flex-col gap-4">
       <ScheduleNew
+        user={user}
         profilesForLoginUser={profilesForLoginUser}
         instructorMyself={instructorMyself}
         instructors={instructors}

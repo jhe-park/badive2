@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
@@ -14,6 +15,8 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './CalendarComponentForAdminAndExpert';
 import ModalForDetailInformation from './ModalForDetailInformation';
+import useExpertStore from '@/app/(expert)/expert/store/useExpertStore';
+import { User } from '@supabase/supabase-js';
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -54,9 +57,12 @@ type TProps = {
   profiles: TypeDBprofile[];
   everyPrograms: TypeDBprogram[];
   profilesForLoginUser?: TypeDBprofile;
+  user: User;
 };
 
-export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
+export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
+  const { expertInformation, setExpertInformation } = useExpertStore();
+
   const [selectedLectureCategory, setSelectedLectureCategory] = useState<(typeof LECTURE_CATEGORY)[number] | undefined>('스쿠버다이빙');
   const [selectedInstructor, setSelectedInstructor] = useState<TypeDBinstructor | undefined>(instructorMyself ?? undefined);
   const [selectedInstructorProfile, setSelectedInstructorProfile] = useState<TypeDBprofile | undefined>(profilesForLoginUser ?? undefined);
@@ -376,10 +382,29 @@ export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructor
         pauseOnHover
         theme="light"
       />
-      <div className="flex w-full">
+      <div className="flex flex-col md:flex-row w-full">
+        <div className="md:hidden flex flex-col items-center gap-3 justify-center border-[#0077B6] border-solid border-1 rounded-2xl px-6 py-6">
+          <div className="relative w-full flex  justify-center items-center gap-12">
+            <div className="flex flex-row items-center gap-2 pb-4 sm:pb-8 md:pb-0">
+              <div className="w-10 h-10 rounded-full overflow-hidden relative">
+                {expertInformation?.profile_image && <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />}
+              </div>
+              <div>
+                <p className="text-[25px] sm:text-[36px] font-[600] text-center">{expertInformation?.name}</p>
+              </div>
+            </div>
+            <div className="absolute hidden sm:block cursor-pointer top-0 right-0">로그아웃</div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 font-[400] justify-center gap-0 text-[25px] sm:text-[32px]">
+            <div className="">· 내 프로필</div>
+            <div className="">· 매출현황</div>
+            <div className="">· 고객관리</div>
+            <div className="">· 스케줄표 관리</div>
+          </div>
+        </div>
         <div className="flex-1">
           <div className="flex flex-col items-center justify-center gap-6 pt-[10%]">
-            <div className="text-large">스케줄 등록</div>
+            <div className="text-large sm:text-[40px] md:text-2xl sm:py-4 md:py-0">스케줄</div>
             {!instructorMyself && (
               <div className="flex justify-center">
                 <Select
@@ -399,14 +424,14 @@ export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructor
                 </Select>
               </div>
             )}
-            <div className="flex gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {LECTURE_CATEGORY.map(category => {
                 return (
                   <Badge
                     key={category}
                     variant={'outline'}
                     className={cn(
-                      'font-bold text-[12px] lg:text-[14px] py-2 px-7 cursor-pointer',
+                      'font-bold text-[12px] sm:text-[14px] py-2 px-6 sm:px-4 md:px-7 cursor-pointer flex justify-center',
                       category === selectedLectureCategory && 'bg-btnActive text-white',
                     )}
                     onClick={() => {
@@ -419,7 +444,7 @@ export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructor
                 );
               })}
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 sm:pt-8 sm:pb-8 md:pt-0 md:pb-0">
               <div className="">
                 <Select
                   className="w-[200px] lg:w-[200px] text-center"
@@ -460,7 +485,7 @@ export const ScheduleNew: React.FC<TProps> = ({ profilesForLoginUser, instructor
                     }
                     addScheduleToDB();
                   }}
-                  className="justify-start  data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"
+                  className="justify-center data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"
                 >
                   등록하기
                 </Button>
