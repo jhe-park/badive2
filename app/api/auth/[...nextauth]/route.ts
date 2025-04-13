@@ -47,8 +47,9 @@ const handler = NextAuth({
         });
 
         if (createError) {
+          // createError.__isAuthError
           // 이미 가입된 사용자가 있는 경우 (이메일 중복)
-          if (createError.__isAuthError && createError.code === 'email_exists') {
+          if (createError.code === 'email_exists') {
             console.log('이미 가입된 이메일입니다:', email);
 
             // 기존 사용자 정보 가져오기

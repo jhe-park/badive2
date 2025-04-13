@@ -1,8 +1,8 @@
 'use client'
-import React, { useState, useEffect } from 'react'
-import IntroductionCarousel from './IntroductionCarousel'
-import { useRouter, usePathname } from 'next/navigation'
 import useInstructor from '@/app/store/useInstructor'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import IntroductionCarousel from './IntroductionCarousel'
 
 export default function TabContents() {
   const [activeTab, setActiveTab] = useState(0);

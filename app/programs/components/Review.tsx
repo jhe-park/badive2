@@ -1,5 +1,3 @@
-import React from "react";
-import Image from "next/image";
 export default function Review() {
   return (
     <div className="w-full h-auto xl:aspect-[1280/880] md:aspect-[771/880] aspect-[375/902]  max-h-[902px] md:max-h-none flex flex-col items-center justify-evenly my-6 md:my-0">

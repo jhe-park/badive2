@@ -11,7 +11,6 @@ import { BiFullscreen, BiExitFullscreen } from "react-icons/bi"
 import ReactPlayer from "react-player"
 import useModalOpen from '@/app/store/useModalOpen'
 import useInstructor from '@/app/store/useInstructor'
-import { createPortal } from 'react-dom'
 
 export default function VerticalCarousel({images, index, setIndex}) {
   const { instructor, setInstructor } = useInstructor();
@@ -20,17 +19,13 @@ export default function VerticalCarousel({images, index, setIndex}) {
   const [isFullScreen, setIsFullScreen] = useState(false)
   const { isOpen, setIsOpen } = useModalOpen()
   const modalRef = useRef(null)
-  const [mounted, setMounted] = useState(false)
   const [emblaRef, emblaApi] = useEmblaCarousel({
     axis: "y",
     containScroll: "trimSnaps",
     dragFree: false
   })
 
-  useEffect(() => {
-    setMounted(true)
-    return () => setMounted(false)
-  }, [])
+  
 
   const onSelect = () => {
     if (!emblaApi) return
@@ -59,8 +54,8 @@ export default function VerticalCarousel({images, index, setIndex}) {
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen()
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen()
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen()
       }
     }
     setIsFullScreen(!isFullScreen)
@@ -82,7 +77,7 @@ export default function VerticalCarousel({images, index, setIndex}) {
     if (!emblaApi) return
     
     emblaApi.on('select', onSelect)
-    return () => emblaApi.off('select', onSelect)
+    return () =>{ emblaApi.off('select', onSelect)}
   }, [emblaApi])
 
   useEffect(() => {
@@ -147,21 +142,20 @@ export default function VerticalCarousel({images, index, setIndex}) {
         </div>
       </div>
 
-      {isModalOpen && mounted && createPortal(
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999]" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div 
             ref={modalRef}
             className="relative w-full h-full flex items-center justify-center"
-            style={{ isolation: 'isolate' }}
           >
-            <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-[10000]">
-              <button onClick={toggleFullScreen} className="bg-black bg-opacity-50 p-2 rounded-full">
+            <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
+              <button onClick={toggleFullScreen}>
                 {isFullScreen ? 
                   <BiExitFullscreen className="w-8 h-8 text-white" /> : 
                   <BiFullscreen className="w-8 h-8 text-white" />
                 }
               </button>
-              <button onClick={closeModal} className="bg-black bg-opacity-50 p-2 rounded-full">
+              <button onClick={closeModal}>
                 <IoMdClose className="w-10 h-10 text-white" />
               </button>
             </div>
@@ -172,11 +166,9 @@ export default function VerticalCarousel({images, index, setIndex}) {
               controls
               width="80%"
               height="80%"
-              style={{ zIndex: 9999 }}
             />
           </div>
-        </div>,
-        document.body
+        </div>
       )}
     </div>
   )

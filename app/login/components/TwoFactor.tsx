@@ -1,10 +1,10 @@
 'use client'
-import { Input } from "@nextui-org/react";
-import { useState, useEffect } from "react";
 import useSecurityNumber from "@/app/store/useSecurityNumber";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { useSearchParams } from "next/navigation";
+import { Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function TwoFactor({ searchParams }) {
     const { securityNumber, setSecurityNumber } = useSecurityNumber();
     const [securityCode, setSecurityCode] = useState("");
@@ -32,7 +32,7 @@ export default function TwoFactor({ searchParams }) {
                     setFailCount(profile.failCount);
                     if (profile.failCount >= 4) {
                         setIsVisible(true);
-                        setSecurityNumber(generateRandomSixDigitNumber());
+                        setSecurityNumber((generateRandomSixDigitNumber() as any));
                     }
                 }
             };

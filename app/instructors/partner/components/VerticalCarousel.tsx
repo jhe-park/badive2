@@ -54,8 +54,8 @@ export default function VerticalCarousel({images, index, setIndex}) {
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen()
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen()
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen()
       }
     }
     setIsFullScreen(!isFullScreen)
@@ -77,7 +77,7 @@ export default function VerticalCarousel({images, index, setIndex}) {
     if (!emblaApi) return
     
     emblaApi.on('select', onSelect)
-    return () => emblaApi.off('select', onSelect)
+    return () => {emblaApi.off('select', onSelect)}
   }, [emblaApi])
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function VerticalCarousel({images, index, setIndex}) {
   }, [])
 
   return (
-    <div className="relative w-full h-[30vh] md:h-1/2 mx-auto">
+    <div className="relative w-full h-1/2 mx-auto">
       <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-2">
         <button
           onClick={scrollPrev}
@@ -124,14 +124,14 @@ export default function VerticalCarousel({images, index, setIndex}) {
           {images.map((image, index) => (
             <div 
               key={index} 
-              className="relative flex-[0_0_100%] h-full w-auto group cursor-pointer"
+              className="relative flex-[0_0_100%] h-[400px] w-[600px] group cursor-pointer"
               onClick={() => handleImageClick(image)}
             >
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
-                className="object-contain"
+                className="object-cover"
                 priority={index === 0}
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
