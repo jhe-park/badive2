@@ -65,10 +65,10 @@ function IntroductionCarousel() {
     isDraggingRef.current = false;
   };
 
-  const handleButtonClick = (e, callback) => {
-    e.stopPropagation();
-    callback();
-  };
+  // const handleButtonClick = (e, callback) => {
+  //   e.stopPropagation();
+  //   callback();
+  // };
 
   return (
     <>

@@ -1,18 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
-import { Button } from "@heroui/react";
-import TopHeader from "../../components/TopHeader";
-import MainTitle from "../../components/MainTitle";
-import MainDetail from "../../components/MainDetail";
-import { Divider } from "@heroui/react";
 import Instruction from "../../components/Instruction";
+import MainDetail from "../../components/MainDetail";
+import MainTitle from "../../components/MainTitle";
 import MiddleBanner from "../../components/MiddleBanner";
-import Review from "../../components/Review";
 import Phone from "../../components/Phone";
 import Requirement from "../../components/Requirement";
-import SpecialAdvantage from "../../components/SpecialAdvantage";
-import Strength from "../../components/Strength";
+import Review from "../../components/Review";
+import TopHeader from "../../components/TopHeader";
+
 export default function () {
   const data = {
     title: "머메이드",

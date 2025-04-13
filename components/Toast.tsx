@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function Toast({ searchParams }) {
-  const router = useRouter();
   useEffect(() => {
     if (searchParams?.error?.includes('Invalid+login+credentials')) {
       toast.error('비밀번호 혹은 아이디가 올바르지 않습니다');

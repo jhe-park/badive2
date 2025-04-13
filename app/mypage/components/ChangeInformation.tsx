@@ -1,11 +1,11 @@
-import React from 'react';
-import { Input, Button, Select, SelectItem, Radio, RadioGroup, Divider, Checkbox } from '@nextui-org/react';
-import { createClient } from '@/utils/supabase/client';
-import { ToastContainer, toast } from 'react-toastify';
 import { programlist } from '@/app/register/components/programlist';
-import DaumPostcode from 'react-daum-postcode';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
+import { createClient } from '@/utils/supabase/client';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/react';
+import { Button, Checkbox, Divider, Input, Radio, RadioGroup, Select, SelectItem } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+import DaumPostcode from 'react-daum-postcode';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function App({ profile }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

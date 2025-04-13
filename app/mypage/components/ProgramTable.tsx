@@ -1,18 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Button, Pagination } from '@nextui-org/react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Select, SelectItem, Divider } from '@heroui/react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
-import Image from 'next/image';
-import { FaSearch } from 'react-icons/fa';
-import { createTypedSupabaseClient } from '@/utils/supabase/client';
-import { useEffect } from 'react';
 import useModalOpen from '@/app/store/useModalOpen';
-import { ToastContainer, toast } from 'react-toastify';
-import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
+import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
+import { Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
+import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ProgramTable({
   profile,

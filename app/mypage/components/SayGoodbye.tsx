@@ -1,10 +1,9 @@
 'use client';
-import React from 'react';
-import { Button, Divider } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { Button, Divider } from '@nextui-org/react';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function SayGoodbye({ profile }) {
   const router = useRouter();

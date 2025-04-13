@@ -1,15 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Button, Pagination } from '@nextui-org/react';
-import { Icon } from '@iconify/react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Select, SelectItem, Divider } from '@heroui/react';
 import useModalOpen from '@/app/store/useModalOpen';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
-import Image from 'next/image';
-import { FaSearch } from 'react-icons/fa';
-import { useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import { Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
+import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function TourTable({ profile }) {
@@ -59,10 +56,10 @@ export default function TourTable({ profile }) {
     onDetailOpen();
   };
 
-  const handleDetailClose = () => {
-    setSelectedTour(null);
-    onDetailOpenChange();
-  };
+  // const handleDetailClose = () => {
+  //   setSelectedTour(null);
+  //   onDetailOpenChange();
+  // };
 
   const handleConfirmClose = onClose => {
     setSelectedTour(null);

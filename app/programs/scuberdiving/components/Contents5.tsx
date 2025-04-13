@@ -1,16 +1,11 @@
-import React from "react";
-import Image from "next/image";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
-import { Button } from "@heroui/react";
-import TopHeader from "@/app/programs/components/TopHeader";
 import MainTitle from "@/app/programs/components/MainTitle";
-import MainDetail from "../../components/MainDetail";
-import { Divider } from "@heroui/react";
+import TopHeader from "@/app/programs/components/TopHeader";
 import Instruction from "../../components/Instruction";
+import MainDetail from "../../components/MainDetail";
 import MiddleBanner from "../../components/MiddleBanner";
-import Review from "../../components/Review";
 import Phone from "../../components/Phone";
 import Requirement from "../../components/Requirement";
+import Review from "../../components/Review";
 import SpecialAdvantage from "../../components/SpecialAdvantage";
 import Strength from "../../components/Strength";
 export default function () {

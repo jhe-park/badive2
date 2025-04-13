@@ -1,13 +1,13 @@
 'use client';
 
-import { Tabs, Tab, Card, CardBody, Spinner } from '@nextui-org/react';
-import ProgramTable from './ProgramTable';
-import TourTable from './TourTable';
-import ChangeInformation from './ChangeInformation';
-import SayGoodbye from './SayGoodbye';
-import Image from 'next/image';
-import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
+import { Tab, Tabs } from '@nextui-org/react';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import Image from 'next/image';
+import ChangeInformation from './ChangeInformation';
+import ProgramTable from './ProgramTable';
+import SayGoodbye from './SayGoodbye';
+import TourTable from './TourTable';
 
 export default function TabContentsForRegisteredPrograms({
   profile,

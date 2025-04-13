@@ -1,10 +1,6 @@
-import React from "react";
+import { Button, Divider } from "@nextui-org/react";
 import Image from "next/image";
-import { Divider } from "@nextui-org/react";
-import { FaRegCheckCircle } from "react-icons/fa";
 import Link from "next/link";
-import { FaChevronRight } from "react-icons/fa";
-import { Button } from "@nextui-org/react";
 import { GoShieldCheck } from "react-icons/go";
 
 export default function Contents6() {

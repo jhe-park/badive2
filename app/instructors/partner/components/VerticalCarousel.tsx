@@ -1,16 +1,16 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import Image from "next/image"
-import { IoIosPlayCircle, IoIosArrowUp, IoIosArrowDown } from "react-icons/io"
-import { FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
+import { useEffect, useRef, useState } from "react"
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6"
+import { IoIosPlayCircle } from "react-icons/io"
 
-import { IoMdClose } from "react-icons/io"
-import { BiFullscreen, BiExitFullscreen } from "react-icons/bi"
-import ReactPlayer from "react-player"
-import useModalOpen from '@/app/store/useModalOpen'
 import useInstructor from '@/app/store/useInstructor'
+import useModalOpen from '@/app/store/useModalOpen'
+import { BiExitFullscreen, BiFullscreen } from "react-icons/bi"
+import { IoMdClose } from "react-icons/io"
+import ReactPlayer from "react-player"
 
 export default function VerticalCarousel({images, index, setIndex}) {
   const { instructor, setInstructor } = useInstructor();

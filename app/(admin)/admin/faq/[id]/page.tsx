@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 
 export default function FaqEditPage({ params }) {
-  const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
+  const { isOpen: isOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
   // const [isOpen, setIsOpen] = useState(false);
   // const [isLoading, setIsLoading] = useState(true);
   // const [selectedRole, setSelectedRole] = useState('bdn');
@@ -16,10 +16,10 @@ export default function FaqEditPage({ params }) {
   // const [certifications, setCertifications] = useState([]);
   // const [certification, setCertification] = useState('');
   const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
+  const [answer] = useState('');
   const [description, setDescription] = useState('');
   const [isSave, setIsSave] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
+  const [isDelete] = useState(false);
   const router = useRouter();
   const supabase = createClient();
   const unwrappedParams = use(params);
