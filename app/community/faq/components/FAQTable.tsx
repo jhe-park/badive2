@@ -1,17 +1,8 @@
 "use client";
-import { FaChevronRight } from "react-icons/fa6";
-import {
-  HiChevronDoubleRight,
-  HiChevronDoubleLeft,
-  HiChevronRight,
-  HiChevronLeft,
-} from "react-icons/hi";
-import Link from "next/link";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Pagination } from "@heroui/react";
 import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
 import { Skeleton } from "@heroui/react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function FAQTable() {
   const [openIndex, setOpenIndex] = useState(0); // 첫 번째 항목을 기본으로 열어둠

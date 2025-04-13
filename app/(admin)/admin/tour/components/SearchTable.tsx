@@ -16,7 +16,7 @@ import {
 } from "@heroui/react";
 import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { LuCirclePlus } from "react-icons/lu";
 

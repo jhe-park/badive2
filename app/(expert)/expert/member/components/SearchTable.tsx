@@ -1,5 +1,4 @@
-'use client';
-
+"use client";
 import {
   Button,
   Input,
@@ -15,22 +14,20 @@ import {
   TableCell,
   TableColumn,
   TableHeader,
-  TableRow,
-} from '@heroui/react';
-import React from 'react';
+  TableRow
+} from "@heroui/react";
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from "@/utils/supabase/client";
 import { debounce } from 'lodash';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 export default function SearchTable() {
-  const [selectedSort, setSelectedSort] = useState('name');
+  const [selectedSort, setSelectedSort] = useState("name");
   const [member, setMember] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(10);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [reservations, setReservations] = useState([]);
   const [noMember, setNoMember] = useState(0);
@@ -40,36 +37,40 @@ export default function SearchTable() {
 
   const supabase = createClient();
 
-  const fetchMember = async searchTerm => {
+  const fetchMember = async (searchTerm) => {
     let query = supabase
-      .from('profiles')
-      .select('*', { count: 'exact' })
+      .from("profiles")
+      .select("*", { count: "exact" })
       .range((page - 1) * pageSize, page * pageSize - 1)
-      .eq('role', 'client');
+      .eq("role", "client");
 
     if (searchTerm) {
       query = query.ilike(selectedSort, `%${searchTerm}%`);
     }
 
+
     const { data, error, count } = await query;
 
     if (error) {
-      console.log('Error fetching instructor:', error);
+      console.log("Error fetching instructor:", error);
     } else {
       setNoMember(count);
       const numberedData = data.map((item, index) => ({
         ...item,
-        no: (page - 1) * pageSize + index + 1,
+        no: (page - 1) * pageSize + index + 1
       }));
 
       // member의 id 리스트 생성
       const memberIds = data.map(member => member.id);
-
+      
       // reservation 테이블에서 해당 member들의 예약 정보 조회
-      const { data: reservationData, error: reservationError } = await supabase.from('reservation').select('*').in('user_id', memberIds);
-
+      const { data: reservationData, error: reservationError } = await supabase
+        .from("reservation")
+        .select("*")
+        .in("user_id", memberIds);
+        
       if (reservationError) {
-        console.log('Error fetching reservations:', reservationError);
+        console.log("Error fetching reservations:", reservationError);
       } else {
         // 각 사용자별 amount 합계 계산 (취소완료 제외)
         const userTotalAmounts = reservationData.reduce((acc, reservation) => {
@@ -84,20 +85,20 @@ export default function SearchTable() {
         // profiles 데이터에 payment 정보 추가
         const dataWithPayments = numberedData.map(profile => ({
           ...profile,
-          payment: userTotalAmounts[profile.id] || 0,
+          payment: userTotalAmounts[profile.id] || 0
         }));
 
         setMember(dataWithPayments);
         setReservations(reservationData);
       }
-
+      
       setTotal(Math.ceil(count / pageSize));
       setIsLoading(false);
     }
   };
 
   // 디바운스된 검색 함수 생성
-  const debouncedFetch = debounce(searchTerm => {
+  const debouncedFetch = debounce((searchTerm) => {
     fetchMember(searchTerm);
   }, 500);
 
@@ -109,16 +110,23 @@ export default function SearchTable() {
     };
   }, [page, pageSize, search, selectedSort]);
 
-  console.log('total:', total);
-  console.log('member:', member);
-  console.log('selectedSort:', selectedSort);
-  console.log('member:', member);
+
   return (
     <>
       <div className="flex flex-col md:flex-row gap-4 w-full px-4 ">
-        <Input isDisabled label="총회원수" value={noMember}></Input>
-        <Input placeholder="검색어를 입력해주세요" label="검색" value={search} onChange={e => setSearch(e.target.value)} endContent={<FaSearch />}></Input>
-        <Select label="검색기준" selectedKeys={[selectedSort]} onChange={e => setSelectedSort(e.target.value)}>
+        <Input isDisabled label="총회원수" value={noMember as any}></Input>
+        <Input
+          placeholder="검색어를 입력해주세요"
+          label="검색"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          endContent={<FaSearch />}
+        ></Input>
+        <Select
+          label="검색기준"
+          selectedKeys={[selectedSort]}
+          onChange={(e) => setSelectedSort(e.target.value)}
+        >
           <SelectItem className="text-medium" value="name" key="name">
             이름
           </SelectItem>
@@ -176,13 +184,27 @@ export default function SearchTable() {
               비고
             </TableColumn>
           </TableHeader>
-          <TableBody items={member} isLoading={isLoading} loadingContent={<Spinner label="로딩중" className="text-xl" />}>
-            {item => (
-              <TableRow className="" key={item?.no}>
-                <TableCell className="text-center whitespace-nowrap">{item.no}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.name}</TableCell>
+          <TableBody
+            items={member}
+            isLoading={isLoading}
+            loadingContent={<Spinner label="로딩중" className="text-xl" />}
+          >
+            {(item) => (
+              <TableRow
+                className=""
+                key={item?.no}
+              >
                 <TableCell className="text-center whitespace-nowrap">
-                  <div className="select-wrapper" onClick={e => e.stopPropagation()}>
+                  {item.no}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.name}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  <div
+                    className="select-wrapper"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Popover placement="bottom" showArrow={true}>
                       <PopoverTrigger>
                         <Button variant="bordered" className="w-full">
@@ -191,7 +213,9 @@ export default function SearchTable() {
                       </PopoverTrigger>
                       <PopoverContent>
                         <div className="px-1 py-2">
-                          <div className="text-small font-bold">희망 강습 목록</div>
+                          <div className="text-small font-bold">
+                            희망 강습 목록
+                          </div>
                           <div className="text-tiny flex flex-col gap-1">
                             <div>1순위: {item.classWant1 || '-'}</div>
                             <div>2순위: {item.classWant2 || '-'}</div>
@@ -202,22 +226,28 @@ export default function SearchTable() {
                     </Popover>
                   </div>
                 </TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.email}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.birth}</TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.email}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.birth}
+                </TableCell>
                 <TableCell className="text-center whitespace-nowrap">
                   {item.gender === 'female' ? '여자' : item.gender === 'male' ? '남자' : item.gender}
                 </TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.phone}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.payment}</TableCell>
                 <TableCell className="text-center whitespace-nowrap">
-                  <Button
-                    onPress={() => {
-                      router.push(`/admin/member/${item.id}`);
-                    }}
-                    color="primary"
-                    className="w-full"
-                  >
+                  {item.region}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.phone}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  {item.payment}
+                </TableCell>
+                <TableCell className="text-center whitespace-nowrap">
+                  <Button onPress={() => {
+                    router.push(`/expert/member/${item.id}`);
+                  }} color='primary' className="w-full">
                     비고
                   </Button>
                 </TableCell>

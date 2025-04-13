@@ -1,29 +1,11 @@
 "use client";
 
-import React from "react";
-import { Input, Select, SelectItem } from "@heroui/react";
-import { cn } from "@heroui/react";
-import { ScrollShadow } from "@heroui/react";
-import { Divider } from "@heroui/react";
-import companyTypes from "./company-types";
-import states from "./states";
-import companyIndustries from "./company-industries";
-import { RadioGroup, Radio } from "@heroui/react";
-import { Button } from "@heroui/react";
-import { useState, useEffect } from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@heroui/react";
-import { Router } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { toast, ToastContainer } from "react-toastify";
 import { createClient } from "@/utils/supabase/client";
+import { Button, cn, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Radio, RadioGroup, ScrollShadow, Select, SelectItem, useDisclosure } from "@heroui/react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function RequestForm({ className, tourData, user, ...props }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -306,7 +288,7 @@ export default function RequestForm({ className, tourData, user, ...props }) {
         </ScrollShadow>
         <RadioGroup
           orientation="horizontal"
-          onChange={(e) => setAgree(e.target.value)}
+          onChange={(e) => setAgree((e.target.value as any))}
         >
           <Radio value="agree">동의함</Radio>
           <Radio value="disagree">동의하지 않음</Radio>

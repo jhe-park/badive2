@@ -185,6 +185,7 @@ export const brandItems = [
         title: "HeroUI",
         startContent: (
           <TeamAvatar
+          // @ts-ignore
             classNames={{
               base: "border-1 border-primary-foreground/20",
               name: "text-primary-foreground/80",
@@ -199,6 +200,7 @@ export const brandItems = [
         title: "Tailwind Variants",
         startContent: (
           <TeamAvatar
+          // @ts-ignore
             classNames={{
               base: "border-1 border-primary-foreground/20",
               name: "text-primary-foreground/80",
@@ -213,6 +215,7 @@ export const brandItems = [
         title: "HeroUI Pro",
         startContent: (
           <TeamAvatar
+          // @ts-ignore
             classNames={{
               base: "border-1 border-primary-foreground/20",
               name: "text-primary-foreground/80",
@@ -328,7 +331,7 @@ export const sectionNestedItems = [
     key: "cap_table",
     title: "Cap Table",
     icon: "solar:pie-chart-2-outline",
-    type: SidebarItemType.Nest,
+    type: (SidebarItemType as any).Nest,
     items: [
       {
         key: "shareholders",

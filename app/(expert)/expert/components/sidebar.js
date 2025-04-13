@@ -25,6 +25,7 @@ const Sidebar = React.forwardRef(
       className,
       ...props
     },
+    
     ref,
   ) => {
     const [selected, setSelected] = React.useState(defaultSelectedKey);

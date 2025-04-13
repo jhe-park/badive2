@@ -34,8 +34,8 @@ export default function ChartComplete() {
   const supabase = createClient();
   console.log("expertInformation:", expertInformation);
   const getReservations = async () => {
-    const startDate = new Date(startYear, startMonth - 1, 1).toISOString();
-    const endDate = new Date(endYear, endMonth, 0, 23, 59, 59, 999).toISOString();
+    const startDate = new Date(parseInt(startYear), parseInt(startMonth) - 1, 1).toISOString();
+    const endDate = new Date(parseInt(endYear), parseInt(endMonth), 0, 23, 59, 59, 999).toISOString();
 
     const { data, error } = await supabase
       .from("reservation")
@@ -75,8 +75,8 @@ export default function ChartComplete() {
       const monthlySalesData = {};
       
       // 시작 날짜부터 종료 날짜까지의 모든 월을 초기화
-      let currentDate = new Date(startYear, startMonth - 1);
-      const endDateObj = new Date(endYear, endMonth - 1);
+      let currentDate = new Date(parseInt(startYear), parseInt(startMonth) - 1);
+      const endDateObj = new Date(parseInt(endYear), parseInt(endMonth) - 1);
       
       while (currentDate <= endDateObj) {
         const yearMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
@@ -111,8 +111,8 @@ export default function ChartComplete() {
   
   const getTourInput = async () => {
     let totalAmount = 0;
-    let currentDate = new Date(startYear, startMonth - 1);
-    const endDateObj = new Date(endYear, endMonth - 1);
+    let currentDate = new Date(parseInt(startYear), parseInt(startMonth) - 1);
+    const endDateObj = new Date(parseInt(endYear), parseInt(endMonth) - 1);
 
     while (currentDate <= endDateObj) {
       const yearMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;

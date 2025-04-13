@@ -108,6 +108,7 @@ const formatWeekday = (weekday) => {
 };
 
 const BarChartCard = React.forwardRef(
+  //@ts-ignore
   ({className, title, value, unit, color, chartData, ...props}, ref) => {
     const router = useRouter();
     
@@ -133,7 +134,7 @@ const BarChartCard = React.forwardRef(
 
     return (
       <Card
-        ref={ref}
+        ref={ref as any}
         className={cn("h-[300px] border border-transparent dark:border-default-100 ", className)}
         shadow="none"
         {...props}
@@ -148,7 +149,7 @@ const BarChartCard = React.forwardRef(
                 합계: {formattedTotal}
               </div>
               <div>
-                <Button size='sm' variant='light' className="underline" onPress={() => router.push('/expert/sales/detail')}>
+                <Button size='sm' variant='light' className="underline" onPress={() => router.push('/admin/sales/detail')}>
                   자세히 보기
                 </Button>
               </div>
@@ -180,7 +181,10 @@ const BarChartCard = React.forwardRef(
               style={{fontSize: "var(--heroui-font-size-tiny)"}}
               tickLine={false}
             />
-            <Tooltip content={<CustomTooltip />} cursor={false} />
+            <Tooltip content={
+              // @ts-ignore
+              <CustomTooltip />
+              } cursor={false} />
             <Bar
               dataKey="sales"
               fill={`hsl(var(--heroui-${color}-400))`}

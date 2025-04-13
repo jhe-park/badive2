@@ -1,6 +1,5 @@
 'use client'
-import { Divider, Button } from "@heroui/react";
-import Link from "next/link";
+import { Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 export default function Requirement({ data }) {
   const router = useRouter();
