@@ -21,9 +21,9 @@ const VideoModal = ({ selected, onClose }) => {
       modalRef.current?.webkitRequestFullscreen?.();
       modalRef.current?.msRequestFullscreen?.();
     } else {
-      (document as any).exitFullscreen?.();
-      (document as any).webkitExitFullscreen?.();
-      (document as any).msExitFullscreen?.();
+      document.exitFullscreen?.();
+      document.webkitExitFullscreen?.();
+      document.msExitFullscreen?.();
     }
     setIsFullScreen(!isFullScreen);
   };

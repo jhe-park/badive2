@@ -125,10 +125,10 @@ const MultiImageCarousel = () => {
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
-      } else if ((document as any).webkitExitFullscreen) {
-        (document as any).webkitExitFullscreen();
-      } else if ((document as any).msExitFullscreen) {
-        (document as any).msExitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
       }
     }
     setIsFullScreen(!isFullScreen);
@@ -137,7 +137,7 @@ const MultiImageCarousel = () => {
   // Fullscreen 변경 이벤트 감지
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullScreen(document.fullscreenElement || (document as any).webkitFullscreenElement || (document as any).msFullscreenElement);
+      setIsFullScreen((document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) as any);
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);

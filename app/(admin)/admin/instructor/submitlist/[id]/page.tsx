@@ -5,7 +5,7 @@ import { Input, Spinner } from '@heroui/react';
 import React, { use, useEffect, useState } from 'react';
 
 export default function SubmitListPage({ params }) {
-  const { id } = (use(params) as any);
+  const { id } = use<RouteParams>(params);
   const [instructor, setInstructor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const getInstructor = async () => {

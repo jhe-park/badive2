@@ -179,35 +179,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     }
   }, [selectedResult?.program_id, programStore]);
 
-  // const handlePaymentClick = async () => {
-  //   if (!selectedResult.isAgree) {
-  //     console.log('동의안됨');
-  //     onOpen();
-  //     return;
-  //   }
-  //   if (!userData) {
-  //     router.push('/login?returnUrl=/inquiries');
-  //     return;
-  //   }
-
-  //   try {
-  //     const uuid = generateRandomString();
-  //     const { error } = await supabase.from('pending_sessions').insert({
-  //       uuid: uuid,
-  //       selected_data: selectedResult as any,
-  //       user_data: userData as any,
-  //       profile: profile,
-  //     });
-
-  //     if (error) throw error;
-
-  //     router.push(`/inquiries/checkout?session=${uuid}`);
-  //   } catch (error) {
-  //     console.log('Error creating pending session:', error);
-  //     toast.error('결제 진행 중 오류가 발생했습니다.');
-  //   }
-  // };
-
   const handleInstructorSelect = ({ selectedName }: { selectedName: string }) => {
     setSelectedInstructor(selectedName);
     setIsSelectInstructor(true);

@@ -28,7 +28,7 @@ export default function ResortNewPage({ params }) {
   const [isDelete, setIsDelete] = useState(false);
   const router = useRouter();
   const supabase = createClient();
-  const { id } = use(params) as any;
+  const { id } = use<RouteParams>(params);
 
   useEffect(() => {
     const fetchData = async () => {

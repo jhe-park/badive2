@@ -31,7 +31,7 @@ export default function MemberNewPage({ params }) {
   const [totalAmount, setTotalAmount] = useState('0');
   const [etc, setEtc] = useState('');
   const [isSave, setIsSave] = useState(false);
-  const { id } = use(params) as any;
+  const { id } = use<RouteParams>(params);
 
   const fetchMember = async () => {
     const { data, error } = await supabase.from('profiles').select('*').eq('id', id).single();

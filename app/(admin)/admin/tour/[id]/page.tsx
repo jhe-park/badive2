@@ -27,12 +27,13 @@ export default function InstructorNewPage({ params }) {
   const [status, setStatus] = useState('모집중');
   const [etc, setEtc] = useState('');
   const [isSave, setIsSave] = useState(false);
-  const [price, setPrice] = useState("0");
-  const [max_participants, setMaxParticipants] = useState("10");
+  const [price, setPrice] = useState('0');
+  const [max_participants, setMaxParticipants] = useState('10');
   const router = useRouter();
   const supabase = createClient();
   const [description, setDescription] = useState('');
-  const { id } = use(params) as any;
+  const { id } = use<RouteParams>(params);
+
   const [content, setContent] = useState('');
 
   const handleEditorChange = model => {

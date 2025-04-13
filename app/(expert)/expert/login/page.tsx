@@ -5,17 +5,21 @@ import { Button, Form, Input } from '@heroui/react';
 import React, { use, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
+interface RouteParamsForLogin {
+  error?: any;
+}
+
 export default function Component({ searchParams }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [returnUrl, setReturnUrl] = React.useState('/expert/main');
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  const searchParamsData = use(searchParams);
+  // const toggleVisibility = () => setIsVisible(!isVisible);
+  const searchParamsData = use<RouteParamsForLogin>(searchParams);
   const origin = '/expert/login';
 
   useEffect(() => {
-    if ((searchParamsData as any).error) {
-      toast.error((searchParamsData as any).error);
+    if (searchParamsData.error) {
+      toast.error(searchParamsData.error);
     }
   }, [searchParamsData]);
 

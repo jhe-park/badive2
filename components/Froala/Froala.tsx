@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { createClient } from '@/utils/supabase/client';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
@@ -25,15 +25,43 @@ import { v4 as uuidv4 } from 'uuid';
 
 const supabase = createClient();
 
-const FroalaEditorComponent = ({ 
-  value, 
-  onChange, 
-  placeholder = '내용을 입력해주세요...', 
+interface FroalaEditorComponentProps {
+  /** 에디터의 현재 내용 */
+  value: string;
+
+  /** 에디터 내용이 변경될 때 호출되는 함수 */
+  onChange: (value: string) => void;
+
+  /** 에디터 내용이 비어있을 때 표시되는 텍스트 */
+  placeholder?: string;
+
+  /** 에디터 높이 (픽셀 단위) */
+  height?: number;
+
+  /** 이미지 업로드 URL */
+  imageUploadURL?: string | null;
+
+  /** 이미지 업로드 시 함께 전송할 파라미터 */
+  imageUploadParams?: Record<string, any>;
+
+  /** 이미지 업로드 HTTP 메서드 */
+  imageUploadMethod?: 'POST' | 'PUT';
+
+  /** 에디터 이벤트 핸들러 */
+  events?: {
+    [eventName: string]: (e?: any, editor?: any, ...args: any[]) => void;
+  };
+}
+
+const FroalaEditorComponent: React.FC<FroalaEditorComponentProps> = ({
+  value,
+  onChange,
+  placeholder = '내용을 입력해주세요...',
   height = 400,
   imageUploadURL = null,
   imageUploadParams = {},
   imageUploadMethod = 'POST',
-  events = {}
+  events = {},
 }) => {
   const [editorContent, setEditorContent] = useState(value || '');
   const editorRef = useRef(null);
@@ -42,7 +70,7 @@ const FroalaEditorComponent = ({
     setEditorContent(value || '');
   }, [value]);
 
-  const handleModelChange = (model) => {
+  const handleModelChange = model => {
     // Powered by 텍스트와 Froala Editor 링크 제거
 
     setEditorContent(model);
@@ -52,27 +80,25 @@ const FroalaEditorComponent = ({
   };
 
   // Supabase에 이미지를 업로드하는 함수
-  const uploadImageToSupabase = async (file) => {
+  const uploadImageToSupabase = async file => {
     try {
       // 파일 확장자 추출
       const fileExtension = file.name.split('.').pop().toLowerCase();
-      
+
       // UUID를 사용하여 고유한 파일명 생성
       const uniqueFileName = `${uuidv4()}.${fileExtension}`;
-      
+
       // Supabase에 업로드
-      const { data, error } = await supabase.storage
-        .from('notification')
-        .upload(uniqueFileName, file);
+      const { data, error } = await supabase.storage.from('notification').upload(uniqueFileName, file);
 
       if (error) {
         console.error('Error uploading image:', error.message);
         return null;
       }
-      
-      const publicURL = "https://efehwvtyjlpxkpgswrfw.supabase.co/storage/v1/object/public/"+data.fullPath;
+
+      const publicURL = 'https://efehwvtyjlpxkpgswrfw.supabase.co/storage/v1/object/public/' + data.fullPath;
       console.log('Image uploaded successfully. URL:', publicURL);
-      
+
       return publicURL;
     } catch (error) {
       console.error('이미지 업로드 중 예외 발생:', error);
@@ -87,20 +113,20 @@ const FroalaEditorComponent = ({
     const setupEditor = () => {
       if (editorRef.current && editorRef.current.editor) {
         const editor = editorRef.current.editor;
-        
+
         // 이미지 업로드 커스텀 핸들러 등록
-        editor.events.on('image.beforeUpload', async function(images) {
+        editor.events.on('image.beforeUpload', async function (images) {
           // 이미 업로드 중이면 중복 방지
           if (isImageBeingUploaded) return false;
-          
+
           isImageBeingUploaded = true;
-          
+
           try {
             // 각 이미지를 Supabase에 업로드
             for (let i = 0; i < images.length; i++) {
               const file = images[i];
               const imageUrl = await uploadImageToSupabase(file);
-              
+
               if (imageUrl) {
                 // 업로드된 이미지 URL을 에디터에 삽입
                 editor.image.insert(imageUrl, null, null, editor.image.get());
@@ -111,28 +137,28 @@ const FroalaEditorComponent = ({
           } finally {
             isImageBeingUploaded = false;
           }
-          
+
           // 기본 업로드 방식 중단
           return false;
         });
 
         // 이미지 삽입 방지 (중복 방지)
-        editor.events.on('image.uploaded', function(response) {
+        editor.events.on('image.uploaded', function (response) {
           // 이미 커스텀 핸들러에서 이미지를 삽입했으므로 여기서는 아무것도 하지 않음
           return false;
         });
 
         // 이미지 업로드 에러 처리
-        editor.events.on('image.error', function(error, response) {
+        editor.events.on('image.error', function (error, response) {
           console.error('Froala 이미지 업로드 에러:', error, response);
           isImageBeingUploaded = false;
         });
       }
     };
-    
+
     // 에디터가 초기화된 후에 이벤트 핸들러 설정
     setTimeout(setupEditor, 100);
-    
+
     return () => {
       if (editorRef.current && editorRef.current.editor) {
         editorRef.current.editor.events.off('image.beforeUpload');
@@ -151,7 +177,7 @@ const FroalaEditorComponent = ({
     toolbarStickyOffset: 50,
     toolbarButtons: [
       ['fontSize', 'textColor', 'insertImage', 'align'],
-      ['undo', 'redo']
+      ['undo', 'redo'],
     ],
     fontSizeSelection: true,
     fontSizeDefaultSelection: '16',
@@ -169,45 +195,43 @@ const FroalaEditorComponent = ({
     },
     // 이미지 업로드 관련 추가 설정
     imageInsertButtons: ['imageUpload'], // 이미지 삽입 버튼 설정
-    
+
     // 정렬 관련 설정 - 클래스 대신 인라인 스타일 사용
     useClasses: false,
     htmlUseStyle: true,
-    
+
     // 이미지 정렬 시 스타일 직접 적용
     imageStyles: {
       'fr-fil': 'style="float: left; margin: 5px 20px 5px 0;"',
       'fr-fic': 'style="text-align: center; display: block; margin: 5px auto;"',
-      'fr-fir': 'style="float: right; margin: 5px 0 5px 20px;"'
+      'fr-fir': 'style="float: right; margin: 5px 0 5px 20px;"',
     },
-    
+
     // 텍스트 정렬 시 스타일 직접 적용
     paragraphStyles: {
       'fr-text-left': 'text-align: left;',
       'fr-text-center': 'text-align: center;',
       'fr-text-right': 'text-align: right;',
-      'fr-text-justify': 'text-align: justify;'
+      'fr-text-justify': 'text-align: justify;',
     },
-    
+
     events: {
-      'initialized': function() {
+      initialized: function () {
         // 에디터 초기화 후 실행할 코드
-        if ((events as any).initialized) (events as any).initialized();
+        if (events.initialized) events.initialized();
       },
-      'focus': function() {
+      focus: function () {
         // 에디터에 포커스가 갔을 때 실행할 코드
-        if ((events as any).focus) (events as any).focus();
+        if (events.focus) events.focus();
       },
-      'blur': function() {
+      blur: function () {
         // 에디터에서 포커스가 빠졌을 때 실행할 코드
-        if ((events as any).blur) (events as any).blur();
+        if (events.blur) events.blur();
       },
-      ...events
+      ...events,
     },
     // 모바일 환경에서의 설정
-    pluginsEnabled: [
-      'colors', 'fontSize', 'image', 'align'
-    ],
+    pluginsEnabled: ['colors', 'fontSize', 'image', 'align'],
     // preview 기능 비활성화
     htmlAllowedEmptyTags: ['textarea', 'a', 'iframe', 'object', 'video', 'style', 'script'],
     htmlDoNotWrapTags: ['script', 'style'],
@@ -228,14 +252,8 @@ const FroalaEditorComponent = ({
   };
 
   return (
-    <div className="froala-editor-container" >
-      <FroalaEditor
-        ref={editorRef}
-        tag='textarea'
-        model={editorContent}
-        onModelChange={handleModelChange}
-        config={config}
-      />
+    <div className="froala-editor-container">
+      <FroalaEditor ref={editorRef} tag="textarea" model={editorContent} onModelChange={handleModelChange} config={config} />
       <style jsx>{`
         :global(.fr-box) {
           border-radius: 8px;
@@ -275,7 +293,7 @@ const FroalaEditorComponent = ({
         :global(.fr-preview) {
           display: none !important;
         }
-        
+
         /* fr-wrapper와 show-placeholder 클래스를 모두 가진 요소 하위의 a 태그 숨기기 */
         :global(.fr-wrapper a) {
           display: none !important;

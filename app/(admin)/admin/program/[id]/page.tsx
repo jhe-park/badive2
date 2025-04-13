@@ -48,7 +48,7 @@ export default function InstructorNewPage({ params }) {
   const [tableData, setTableData] = useState([]);
   const router = useRouter();
   const supabase = createClient();
-  const { id } = use(params) as any;
+  const { id } = use<RouteParams>(params);
   const getProgram = async () => {
     const { data, error } = await supabase.from('program').select('*,instructor_id(*)').eq('id', id).single();
     if (error) {

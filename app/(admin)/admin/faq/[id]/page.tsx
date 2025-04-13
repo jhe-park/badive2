@@ -22,7 +22,7 @@ export default function FaqEditPage({ params }) {
   const [isDelete] = useState(false);
   const router = useRouter();
   const supabase = createClient();
-  const unwrappedParams = use(params);
+  const unwrappedParams = use<RouteParams>(params);
   const [content, setContent] = useState('');
 
   const handleEditorChange = model => {
@@ -41,11 +41,7 @@ export default function FaqEditPage({ params }) {
     }
 
     const fetchFaq = async () => {
-      const { data, error } = await supabase
-        .from('faq')
-        .select('*')
-        .eq('id', (unwrappedParams as any).id)
-        .single();
+      const { data, error } = await supabase.from('faq').select('*').eq('id', unwrappedParams.id).single();
       if (error) {
         console.error('Error fetching faq:', error);
       } else {
@@ -59,10 +55,7 @@ export default function FaqEditPage({ params }) {
 
   const handleSaveFaq = async () => {
     const cleanedContent = content.replace(/Powered by/g, '').replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
-    const { data, error } = await supabase
-      .from('faq')
-      .update({ question, answer: cleanedContent })
-      .eq('id', (unwrappedParams as any).id);
+    const { data, error } = await supabase.from('faq').update({ question, answer: cleanedContent }).eq('id', unwrappedParams.id);
 
     if (error) {
       console.error('Error saving faq:', error);
@@ -74,10 +67,7 @@ export default function FaqEditPage({ params }) {
     }
   };
   const handleDeleteFaq = async () => {
-    const { data, error } = await supabase
-      .from('faq')
-      .delete()
-      .eq('id', (unwrappedParams as any).id);
+    const { data, error } = await supabase.from('faq').delete().eq('id', unwrappedParams.id);
 
     if (error) {
       console.error('Error saving faq:', error);

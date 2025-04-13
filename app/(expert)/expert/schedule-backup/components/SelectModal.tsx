@@ -251,10 +251,6 @@ export default function SelectModal({
     setSelectedCellInfo(null);
   };
 
-  // const generateTimeSlots = () => {
-  //   return tableData.map(slot => (slot as any).time);
-  // };
-
   const getStatusColor = status => {
     switch (status) {
       case 0:

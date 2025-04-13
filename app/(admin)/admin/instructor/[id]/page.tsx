@@ -28,7 +28,7 @@ export default function InstructorNewPage({ params }) {
   const [etc, setEtc] = useState('');
   const [isSave, setIsSave] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const { id } = (use(params) as any);
+  const { id } = use<RouteParams>(params);
   const [noLicense, setNoLicense] = useState(0);
   const [noTour, setNoTour] = useState(0);
   const [reservation, setReservation] = useState([]);
@@ -212,7 +212,7 @@ export default function InstructorNewPage({ params }) {
               selectionMode="multiple"
               labelPlacement="inside"
               selectedKeys={selectedProgram}
-              onSelectionChange={keys => setSelectedProgram((Array.from(keys) as any))}
+              onSelectionChange={keys => setSelectedProgram(Array.from(keys) as any)}
             >
               <SelectItem value="scuba" key="scuba">
                 스쿠버다이빙
@@ -253,10 +253,15 @@ export default function InstructorNewPage({ params }) {
               <TableCell className="text-center">{totalAmount}</TableCell>
               <TableCell className="text-center">{totalStudent}</TableCell>
               <TableCell className="text-center">
-                <Input classNames={{ input: 'text-center' }} variant="flat" value={(noLicense as any)} onChange={e => setNoLicense((e.target.value as any))}></Input>
+                <Input
+                  classNames={{ input: 'text-center' }}
+                  variant="flat"
+                  value={noLicense as any}
+                  onChange={e => setNoLicense(e.target.value as any)}
+                ></Input>
               </TableCell>
               <TableCell className="text-center">
-                <Input classNames={{ input: 'text-center' }} variant="flat" value={(noTour as any)} onChange={e => setNoTour((e.target.value as any))}></Input>
+                <Input classNames={{ input: 'text-center' }} variant="flat" value={noTour as any} onChange={e => setNoTour(e.target.value as any)}></Input>
               </TableCell>
             </TableRow>
           </TableBody>

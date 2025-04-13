@@ -21,7 +21,7 @@ export default function NotificationEditPage({ params }) {
   const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const supabase = createClient();
-  const unwrappedParams = use(params);
+  const unwrappedParams = use<RouteParams>(params);
   const [isDelete, setIsDelete] = useState(false);
   const [content, setContent] = useState('');
 
@@ -35,12 +35,12 @@ export default function NotificationEditPage({ params }) {
   };
 
   const handleDeleteNotification = async () => {
-    const { data, error } = await supabase.from('notification').delete().eq('id', (unwrappedParams as any).id);
+    const { data, error } = await supabase.from('notification').delete().eq('id', unwrappedParams.id);
   };
 
   const handleSaveNotification = async () => {
     const cleanedContent = content.replace(/Powered by/g, '').replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
-    const { data, error } = await supabase.from('notification').update({ title, description: cleanedContent, pinned }).eq('id', (unwrappedParams as any).id);
+    const { data, error } = await supabase.from('notification').update({ title, description: cleanedContent, pinned }).eq('id', unwrappedParams.id);
 
     if (error) {
       console.error('Error saving faq:', error);
@@ -52,7 +52,7 @@ export default function NotificationEditPage({ params }) {
     }
   };
   const getNotification = async () => {
-    const { data, error } = await supabase.from('notification').select('*').eq('id', (unwrappedParams as any).id).single();
+    const { data, error } = await supabase.from('notification').select('*').eq('id', unwrappedParams.id).single();
     setTitle(data.title);
     setContent(data.description);
     setPinned(data.pinned);

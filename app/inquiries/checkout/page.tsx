@@ -14,12 +14,7 @@ const CheckoutPage: NextPage<NextPageProps> = async ({ searchParams }) => {
     redirect(`/inquiries/fail?code=${-1}&message=${'로그인 정보를 찾지 못하였습니다. 관리자에게 문의해 주세요'}`);
   }
 
-  return (
-    <CheckoutMainPage
-      session={session}
-      // sessionData={sessionData as any}
-    />
-  );
+  return <CheckoutMainPage session={session} />;
 };
 
 export default CheckoutPage;

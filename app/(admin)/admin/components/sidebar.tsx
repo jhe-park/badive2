@@ -10,9 +10,8 @@ import React from 'react';
 //   return SidebarItemType;
 // })({});
 
-
 export enum SidebarItemType {
-  Nest = 'nest'
+  Nest = 'nest',
 }
 
 interface EndContent {
@@ -287,12 +286,12 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
         }}
         {...props}
       >
-        {item => {
-          return (item as any).items && (item as any).items?.length > 0 && (item as any)?.type === SidebarItemType.Nest ? (
+        {(item: any) => {
+          return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
             renderNestItem(item)
-          ) : (item as any).items && (item as any).items?.length > 0 ? (
-            <ListboxSection key={(item as any).key} classNames={sectionClasses} showDivider={isCompact} title={(item as any).title}>
-              {(item as any).items.map(renderItem)}
+          ) : item.items && item.items?.length > 0 ? (
+            <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
+              {item.items.map(renderItem)}
             </ListboxSection>
           ) : (
             renderItem(item)
