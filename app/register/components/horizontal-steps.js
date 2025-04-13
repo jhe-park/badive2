@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
-import { useControlledState } from "@react-stately/utils";
-import { m, LazyMotion, domAnimation } from "framer-motion";
-import { cn } from "@heroui/react";
 import useStep from "@/app/store/useStep";
+import { cn } from "@heroui/react";
+import { useControlledState } from "@react-stately/utils";
+import { LazyMotion, domAnimation, m } from "framer-motion";
+import React from "react";
 function CheckIcon(props) {
   const { step, setStep } = useStep();
   return (

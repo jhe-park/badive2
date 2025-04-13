@@ -192,15 +192,15 @@ const FroalaEditorComponent = ({
     events: {
       'initialized': function() {
         // 에디터 초기화 후 실행할 코드
-        if (events.initialized) events.initialized();
+        if ((events as any).initialized) (events as any).initialized();
       },
       'focus': function() {
         // 에디터에 포커스가 갔을 때 실행할 코드
-        if (events.focus) events.focus();
+        if ((events as any).focus) (events as any).focus();
       },
       'blur': function() {
         // 에디터에서 포커스가 빠졌을 때 실행할 코드
-        if (events.blur) events.blur();
+        if ((events as any).blur) (events as any).blur();
       },
       ...events
     },

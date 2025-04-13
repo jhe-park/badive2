@@ -285,7 +285,7 @@ export default function RequestForm({ className, ...props }) {
         <ScrollShadow hideScrollBar className="w-full max-h-[50vh]">
           <PrivacyContent />
         </ScrollShadow>
-        <RadioGroup orientation="horizontal" onChange={e => setAgree(e.target.value)}>
+        <RadioGroup orientation="horizontal" onChange={e => setAgree(e.target.value as any)}>
           <Radio value="agree">동의함</Radio>
           <Radio value="disagree">동의하지 않음</Radio>
         </RadioGroup>

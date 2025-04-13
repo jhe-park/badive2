@@ -1,16 +1,17 @@
-'use client'
-import React, { useEffect, useCallback } from "react";
-import { Input } from "@nextui-org/react";
-import { debounce } from "lodash";
+'use client';
+import React, { useEffect, useCallback } from 'react';
+import { Input } from '@nextui-org/react';
+import { debounce } from 'lodash';
 import { createClient } from '@/utils/supabase/client';
 
 // Supabase 클라이언트 초기화
-const supabase = createClient('https://your-project.supabase.co', 'public-anon-key');
+// const supabase = createClient('https://your-project.supabase.co', 'public-anon-key');
+const supabase = createClient();
 
 const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) => {
   // 날짜별로 데이터를 그룹핑
   const groupedData = reservation.reduce((acc, curr) => {
-    const date = curr.created_at.split("T")[0];
+    const date = curr.created_at.split('T')[0];
     if (!acc[date]) {
       acc[date] = [];
     }
@@ -30,46 +31,37 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
   }));
 
   // Supabase에 tourInput 업데이트 함수
-  const updateTourInput = async (value) => {
+  const updateTourInput = async value => {
     try {
       // 먼저 해당 월의 데이터가 있는지 확인
-      const { data: existingData } = await supabase
-        .from('tour_input')
-        .select('*')
-        .eq('date', selectedMonth)
-        .single();
+      const { data: existingData } = await supabase.from('tour_input').select('*').eq('date', selectedMonth).single();
 
       if (existingData) {
         // 데이터가 있으면 업데이트
-        const { error } = await supabase
-          .from('tour_input')
-          .update({ amount: value })
-          .eq('date', selectedMonth);
-        
+        const { error } = await supabase.from('tour_input').update({ amount: value }).eq('date', selectedMonth);
+
         if (error) throw error;
       } else {
         // 데이터가 없으면 새로 생성
-        const { error } = await supabase
-          .from('tour_input')
-          .insert([{ date: selectedMonth, amount: value }]);
-        
+        const { error } = await supabase.from('tour_input').insert([{ date: selectedMonth, amount: value }]);
+
         if (error) throw error;
       }
     } catch (error) {
-      console.error("Error handling tour input:", error);
+      console.error('Error handling tour input:', error);
     }
   };
 
   // debounce된 업데이트 함수 생성
   const debouncedUpdate = useCallback(
-    debounce(async (value) => {
+    debounce(async value => {
       await updateTourInput(value);
     }, 500),
-    [selectedMonth] // selectedMonth가 변경될 때마다 함수 재생성
+    [selectedMonth], // selectedMonth가 변경될 때마다 함수 재생성
   );
 
   // Input의 onChange 핸들러 수정
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const newValue = e.target.value;
     setTourInput(newValue);
     debouncedUpdate(newValue);
@@ -79,12 +71,8 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
   useEffect(() => {
     const fetchTourInput = async () => {
       try {
-        const { data, error } = await supabase
-          .from('tour_input')
-          .select('amount')
-          .eq('date', selectedMonth)
-          .single();
-        
+        const { data, error } = await supabase.from('tour_input').select('amount').eq('date', selectedMonth).single();
+
         if (error) throw error;
         if (data) {
           setTourInput(data.amount.toString());
@@ -92,14 +80,14 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
           setTourInput(''); // 데이터가 없으면 입력값 초기화
         }
       } catch (error) {
-        console.error("Error fetching tour input:", error);
+        console.error('Error fetching tour input:', error);
       }
     };
 
     fetchTourInput();
   }, [selectedMonth]);
 
-  console.log("selectedMonth",selectedMonth)
+  console.log('selectedMonth', selectedMonth);
   return (
     <div className="container mx-auto whitespace-nowrap overflow-x-auto">
       <table className="w-full border border-gray-300 text-left rounded-2xl ">
@@ -115,13 +103,10 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
         <tbody>
           {data.map((entry, entryIndex) => (
             <React.Fragment key={entryIndex}>
-              {entry.items.map((item, itemIndex) => (
+              {(entry.items as any).map((item, itemIndex) => (
                 <tr key={`${entryIndex}-${itemIndex}`}>
                   {itemIndex === 0 ? (
-                    <td
-                      rowSpan={entry.items.length}
-                      className="border px-4 py-2 text-center font-bold bg-gray-100"
-                    >
+                    <td rowSpan={(entry.items as any).length} className="border px-4 py-2 text-center font-bold bg-gray-100">
                       {entry.date}
                     </td>
                   ) : null}
@@ -134,9 +119,7 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
             </React.Fragment>
           ))}
           <tr className="">
-            <td className="border px-4 py-2 text-center font-bold bg-gray-100 font-bold">
-              {selectedMonth}(전체)
-            </td>
+            <td className="border px-4 py-2 text-center font-bold bg-gray-100 font-bold">{selectedMonth}(전체)</td>
             <td className="border px-4 py-2 text-center ">다이빙투어</td>
             <td className="border px-4 py-2 text-center">-</td>
             <td className="border px-4 py-2 text-center font-bold">수동입력</td>
@@ -144,9 +127,11 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
               <Input
                 value={tourInput}
                 onChange={handleInputChange}
-                classNames={{ wrapper: "text-center", input: "text-center" }}
-                variant='solid'
-                placeholder='금액 입력'
+                classNames={
+                  // @ts-ignore
+                  { wrapper: 'text-center', input: 'text-center' }}
+                variant={'solid' as any}
+                placeholder="금액 입력"
               />
             </td>
           </tr>
@@ -157,10 +142,8 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
               총 합계
             </td>
             <td className="border px-4 py-2 text-center">
-              {(
-                reservation.reduce((sum, curr) => sum + curr.amount, 0) +
-                (parseFloat(tourInput) || 0) // tourInput을 숫자로 변환하여 합산
-              ).toLocaleString()}
+              {(reservation.reduce((sum, curr) => sum + curr.amount, 0) + (parseFloat(tourInput) || 0)) // tourInput을 숫자로 변환하여 합산
+                .toLocaleString()}
             </td>
           </tr>
         </tfoot>

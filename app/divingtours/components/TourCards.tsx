@@ -1,31 +1,9 @@
 "use client";
-import React from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Clock,
-} from "lucide-react";
-import { Pagination } from "@heroui/react";
-import Link from "next/link";
-import { Chip } from "@heroui/react";
-import { IoMdAlarm } from "react-icons/io";
-import { Alert } from "@heroui/react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Skeleton,
-  Card,
-} from "@heroui/react";
 import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
+import { Button, Card, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Pagination, Skeleton, useDisclosure } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoMdAlarm } from "react-icons/io";
 
 
 

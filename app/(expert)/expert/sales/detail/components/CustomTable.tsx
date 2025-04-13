@@ -1,11 +1,11 @@
 'use client'
-import React, { useEffect, useCallback } from "react";
-import { Input } from "@nextui-org/react";
-import { debounce } from "lodash";
 import { createClient } from '@/utils/supabase/client';
 import { Spinner } from "@heroui/react";
+import { debounce } from "lodash";
+import React, { useCallback, useEffect } from "react";
 // Supabase 클라이언트 초기화
-const supabase = createClient('https://your-project.supabase.co', 'public-anon-key');
+// const supabase = createClient('https://your-project.supabase.co', 'public-anon-key');
+const supabase = createClient();
 
 const CustomTable = ({ isLoading, setIsLoading, tourInput, setTourInput, selectedMonth, reservation }) => {
   // 날짜별로 데이터를 그룹핑
@@ -120,11 +120,11 @@ const CustomTable = ({ isLoading, setIsLoading, tourInput, setTourInput, selecte
         <tbody>
           {data.map((entry, entryIndex) => (
             <React.Fragment key={entryIndex}>
-              {entry.items.map((item, itemIndex) => (
+              {(entry.items as any).map((item, itemIndex) => (
                 <tr key={`${entryIndex}-${itemIndex}`}>
                   {itemIndex === 0 ? (
                     <td
-                      rowSpan={entry.items.length}
+                      rowSpan={(entry.items as any).length}
                       className="border px-4 py-2 text-center font-bold bg-gray-100"
                     >
                       {entry.date}

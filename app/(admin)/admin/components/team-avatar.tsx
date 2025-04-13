@@ -3,10 +3,11 @@
 import { Avatar, cn } from '@heroui/react';
 import React from 'react';
 
+// @ts-ignore
 const TeamAvatar = React.forwardRef(({ name, className, classNames = {}, ...props }, ref) => (
   <Avatar
     {...props}
-    ref={ref}
+    ref={ref as any}
     classNames={{
       ...classNames,
       base: cn('bg-transparent border border-divider', classNames?.base, className),

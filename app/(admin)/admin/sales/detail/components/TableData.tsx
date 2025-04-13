@@ -1,23 +1,10 @@
 "use client";
-import React from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Spinner
-} from "@heroui/react";
-import { Button, Select, SelectItem } from "@heroui/react";
-import { MdDownload } from "react-icons/md";
-import CustomTable from "./CustomTable";
-import { useState, useEffect } from "react";
-import { MdEdit } from "react-icons/md";
 import { createClient } from "@/utils/supabase/client";
+import { Button, Select, SelectItem } from "@heroui/react";
+import { useEffect, useState } from "react";
+import { MdDownload } from "react-icons/md";
 import * as XLSX from "xlsx";
-import useExpertStore from "../../../store/useExpertStore";
+import CustomTable from "./CustomTable";
 
 export default function TableData() {
   // 월 목록 생성 함수
@@ -44,11 +31,20 @@ export default function TableData() {
   const [selectedInstructor, setSelectedInstructor] = useState("");
   const [reservation, setReservation] = useState([]);
   const [tourInput, setTourInput] = useState(0);
-  const {expertInformation} = useExpertStore();
-  const [isLoading, setIsLoading] = useState(true);
 
+  const getTourInput = async () => {
+    const { data, error } = await supabase.from("tour_input").select("*").eq("date", selectedMonth).single();
+    if (error) {
+      console.log("Error fetching tour input:", error);
+    } else {
+      setTourInput(data.amount);
+    }
+  };
+  useEffect(() => { 
+    getTourInput();
+  }, [selectedMonth]);
 
-
+  console.log('tourInput:', tourInput);
 
 
 
@@ -77,8 +73,7 @@ export default function TableData() {
     let query = supabase
       .from("reservation")
       .select("*,time_slot_id(*,instructor_id(*),program_id(*))")
-      .eq("status", "예약확정")
-      .eq("instructor_id", expertInformation?.id);
+      .eq("status", "예약확정");
 
     if (selectedMonth) {
       // selectedMonth는 'YYYY-MM' 형식이므로, 해당 월의 시작과 끝 날짜를 계산
@@ -114,12 +109,11 @@ export default function TableData() {
       console.log("Error fetching reservation:", error);
     } else {
       setReservation(data);
-      setIsLoading(false);
     }
   };
   useEffect(() => {
     getReservation();
-  }, [selectedMonth, selectedProgram, selectedInstructor, expertInformation]);
+  }, [selectedMonth, selectedProgram, selectedInstructor]);
   console.log("selectedInstructor:", selectedInstructor);
   console.log("reservation:", reservation);
   console.log("selectedProgram:", selectedProgram);
@@ -195,10 +189,33 @@ export default function TableData() {
             </SelectItem>
           ))}
         </Select>
-        
+        <Select
+          selectedKeys={[selectedProgram]}
+          onChange={(e) => setSelectedProgram(e.target.value)}
+          className="w-full md:w-1/3"
+          label="프로그램"
+        >
+          {programList.map((program) => (
+            <SelectItem key={program} value={program}>
+              {program}
+            </SelectItem>
+          ))}
+        </Select>
+        <Select
+          selectedKeys={[selectedInstructor]}
+          onChange={(e) => setSelectedInstructor(e.target.value)}
+          className="w-full md:w-1/3"
+          label="강사"
+        >
+          {instructors.map((instructor) => (
+            <SelectItem key={instructor.id} value={instructor.id}>
+              {instructor.name}
+            </SelectItem>
+          ))}
+        </Select>
       </div>
       <div>
-        <CustomTable isLoading={isLoading} setIsLoading={setIsLoading} tourInput={tourInput} setTourInput={setTourInput} selectedMonth={selectedMonth} reservation={reservation}></CustomTable>
+        <CustomTable tourInput={tourInput} setTourInput={setTourInput} selectedMonth={selectedMonth} reservation={reservation}></CustomTable>
       </div>
       {/* <div className="w-full h-full flex justify-end ">
         <Button startContent={<MdEdit />} variant="flat" className="mb-6">
