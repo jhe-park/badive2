@@ -1,10 +1,10 @@
 import {
   Table,
-  TableHeader,
-  TableColumn,
   TableBody,
-  TableRow,
   TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
   getKeyValue,
 } from "@heroui/react";
 
@@ -39,7 +39,7 @@ export default function DetailSales({ detailSales}) {
       </TableHeader>
       <TableBody items={detailSales}>
         {(item) => (
-          <TableRow key={item.key}>
+          <TableRow key={(item as any).key}>
             {(columnKey) => (
               <TableCell className="text-center">
                 {columnKey === 'sales' && item[columnKey]

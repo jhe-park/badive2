@@ -137,7 +137,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
         const foundTimeSlot = timeSlots.find(timeSlot => timeSlot.time_slot_id === foundReservation.time_slot_id);
         if (foundTimeSlot == null) {
-          console.error('foundTimeSlot을 찾을 수 없음');
+          console.error( 'foundTimeSlot을 찾을 수 없음');
         }
 
         const foundProgram = everyPrograms.find(program => program.id === foundTimeSlot.program_id);

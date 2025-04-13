@@ -1,15 +1,4 @@
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Button,
-} from "@heroui/react";
-import { divider } from "@nextui-org/react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 const rows = [
   {
     key: "1",

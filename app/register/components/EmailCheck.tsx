@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import { Input, Button } from "@heroui/react";
 import {createClient} from "@/utils/supabase/client";
+
 export default function EmailCheck() {
+
   const [email, setEmail] = useState("");
   const supabase = createClient();
 
