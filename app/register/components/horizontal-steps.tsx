@@ -1,38 +1,57 @@
 "use client";
 
-import useStep from "@/app/store/useStep";
 import { cn } from "@heroui/react";
 import { useControlledState } from "@react-stately/utils";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import React from "react";
-function CheckIcon(props) {
-  const { step, setStep } = useStep();
-  return (
-    <svg
-      {...props}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
-    >
-      <m.path
-        animate={{ pathLength: 1 }}
-        d="M5 13l4 4L19 7"
-        initial={{ pathLength: 0 }}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        transition={{
-          delay: 0.2,
-          type: "tween",
-          ease: "easeOut",
-          duration: 0.3,
-        }}
-      />
-    </svg>
-  );
+// function CheckIcon(props) {
+//   const { step, setStep } = useStep();
+//   return (
+//     <svg
+//       {...props}
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth={2}
+//       viewBox="0 0 24 24"
+//     >
+//       <m.path
+//         animate={{ pathLength: 1 }}
+//         d="M5 13l4 4L19 7"
+//         initial={{ pathLength: 0 }}
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         transition={{
+//           delay: 0.2,
+//           type: "tween",
+//           ease: "easeOut",
+//           duration: 0.3,
+//         }}
+//       />
+//     </svg>
+//   );
+// }
+
+
+interface Step {
+  icon: React.ReactNode;
+  title: string;
+  description?: string;
 }
 
-const HorizontalSteps = React.forwardRef(
+type ColorType = "primary" | "secondary" | "success" | "warning" | "danger" | "default";
+
+interface HorizontalStepsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  color?: ColorType;
+  steps?: Step[];
+  defaultStep?: number;
+  onStepChange?: (step: number) => void;
+  currentStep?: number;
+  hideProgressBars?: boolean;
+  stepClassName?: string;
+  className?: string;
+}
+
+const HorizontalSteps = React.forwardRef<HTMLButtonElement, HorizontalStepsProps>(
   (
     {
       color = "primary",

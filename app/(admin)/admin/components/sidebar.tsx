@@ -4,13 +4,91 @@ import { Accordion, AccordionItem, cn, Listbox, ListboxItem, ListboxSection, Too
 import { Icon } from '@iconify/react';
 import React from 'react';
 
-export let SidebarItemType = /*#__PURE__*/ (function (SidebarItemType) {
-  SidebarItemType['Nest'] = 'nest';
+// export let SidebarItemType = /*#__PURE__*/ (function (SidebarItemType) {
+//   SidebarItemType['Nest'] = 'nest';
 
-  return SidebarItemType;
-})({});
+//   return SidebarItemType;
+// })({});
 
-const Sidebar = React.forwardRef(
+
+export enum SidebarItemType {
+  Nest = 'nest'
+}
+
+interface EndContent {
+  content?: React.ReactNode;
+  className?: string;
+}
+
+interface SidebarItemBase {
+  key: string;
+  title: string;
+  icon?: string;
+  endContent?: React.ReactNode | EndContent;
+  startContent?: React.ReactNode;
+  href?: string;
+  type?: SidebarItemType;
+  [key: string]: any;
+}
+
+interface SidebarNestedItem extends SidebarItemBase {
+  items?: SidebarItemBase[];
+}
+
+interface SidebarSection {
+  key: string;
+  title: string;
+  items: SidebarItemBase[];
+}
+
+type SidebarItem = SidebarNestedItem | SidebarSection;
+
+interface SectionClasses {
+  base?: string;
+  group?: string;
+  heading?: string;
+}
+
+interface ItemClasses {
+  base?: string;
+  title?: string;
+}
+
+// ListboxProps의 기본 타입 가정 (실제 라이브러리에 따라 조정 필요)
+type ListboxProps = Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> & {
+  items?: any[];
+  selectedKeys?: string[] | Set<string>;
+  selectionMode?: 'single' | 'multiple';
+  variant?: string;
+  color?: string;
+  hideSelectedIcon?: boolean;
+  as?: React.ElementType;
+  itemClasses?: ItemClasses & { [key: string]: string };
+  classNames?: { list?: string; [key: string]: any };
+  onSelectionChange?: (keys: Set<string>) => void;
+  children?: (item: any) => React.ReactNode;
+};
+
+interface SidebarProps {
+  items: SidebarItem[];
+  isCompact?: boolean;
+  defaultSelectedKey?: string;
+  onSelect?: (key: string) => void;
+  hideEndContent?: boolean;
+  sectionClasses?: SectionClasses;
+  itemClasses?: ItemClasses;
+  iconClassName?: string;
+  classNames?: {
+    list?: string;
+    [key: string]: any;
+  };
+  className?: string;
+  // ListboxProps에서 onSelectionChange를 제외한 나머지 속성을 상속
+  // ListboxProps 타입의 나머지 속성도 허용
+  [key: string]: any;
+}
+
+const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
   (
     {
       items,
@@ -210,11 +288,11 @@ const Sidebar = React.forwardRef(
         {...props}
       >
         {item => {
-          return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
+          return (item as any).items && (item as any).items?.length > 0 && (item as any)?.type === SidebarItemType.Nest ? (
             renderNestItem(item)
-          ) : item.items && item.items?.length > 0 ? (
-            <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
-              {item.items.map(renderItem)}
+          ) : (item as any).items && (item as any).items?.length > 0 ? (
+            <ListboxSection key={(item as any).key} classNames={sectionClasses} showDivider={isCompact} title={(item as any).title}>
+              {(item as any).items.map(renderItem)}
             </ListboxSection>
           ) : (
             renderItem(item)
