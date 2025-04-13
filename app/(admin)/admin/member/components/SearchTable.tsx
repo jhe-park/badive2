@@ -19,7 +19,7 @@ import {
 } from '@heroui/react';
 import React from 'react';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -38,7 +38,7 @@ export default function SearchTable() {
 
   const pageSize = 10;
 
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
 
   const fetchMember = async searchTerm => {
     let query = supabase

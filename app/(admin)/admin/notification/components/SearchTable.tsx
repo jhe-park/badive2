@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import {
   Button,
   Input,
@@ -32,7 +32,7 @@ export default function SearchTable() {
 
   const pageSize = 5;
 
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
 
   useEffect(() => {
     const fetchFaq = debounce(async () => {

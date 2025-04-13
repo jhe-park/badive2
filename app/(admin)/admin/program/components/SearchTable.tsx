@@ -18,7 +18,7 @@ import {
 import { LuCirclePlus } from "react-icons/lu";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient, createTypedSupabaseClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
 import Image from "next/image";
@@ -35,7 +35,7 @@ export default function SearchTable() {
 
   const pageSize = 5;
 
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
 
   useEffect(() => {
     const fetchPrograms = debounce(async () => {

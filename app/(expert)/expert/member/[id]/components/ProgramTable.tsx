@@ -1,12 +1,13 @@
 'use client';
+
 import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button } from '@heroui/react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
   const [programs, setPrograms] = useState([]);
 
   const getReservation = async () => {

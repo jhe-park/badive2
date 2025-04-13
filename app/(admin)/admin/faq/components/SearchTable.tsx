@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { Button, Input, Pagination, Select, SelectItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
@@ -19,7 +19,7 @@ export default function SearchTable() {
 
   const pageSize = 5;
 
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
 
   useEffect(() => {
     const fetchFaq = debounce(async () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { Button, cn, ScrollShadow, Spacer } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { User } from '@supabase/supabase-js';
@@ -14,7 +14,7 @@ import Sidebar from './sidebar';
 import { sectionItemsWithTeams } from './sidebar-items';
 
 export default function SidebarComplete({ children, user }: { children: React.ReactNode; user: User }) {
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
   const router = useRouter();
 
   const [isHidden, setIsHidden] = useState(false);

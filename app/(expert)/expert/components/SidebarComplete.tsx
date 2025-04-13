@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { Button, cn, ScrollShadow, Spacer } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { signOut } from 'next-auth/react';
@@ -17,7 +17,7 @@ import { sectionItemsWithTeams } from './sidebar-items';
 export default function Component({ children, user }) {
   const [isHidden, setIsHidden] = React.useState(false);
   const { expertInformation, setExpertInformation } = useExpertStore();
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
   const router = useRouter();
 
   const [pageTitle, setPageTitle] = React.useState('');

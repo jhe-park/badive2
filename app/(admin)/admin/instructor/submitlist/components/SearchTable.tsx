@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { Button, Input, Pagination, Select, SelectItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
@@ -9,7 +9,7 @@ import { FaSearch } from 'react-icons/fa';
 
 export default function SearchTable() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
   const [submitList, setSubmitList] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('name');

@@ -2,11 +2,11 @@
 import React, { useEffect, useCallback } from 'react';
 import { Input } from '@nextui-org/react';
 import { debounce } from 'lodash';
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 
 // Supabase 클라이언트 초기화
 // const supabase = createClient('https://your-project.supabase.co', 'public-anon-key');
-const supabase = createClient();
+const supabase = createTypedSupabaseClient();
 
 const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) => {
   // 날짜별로 데이터를 그룹핑

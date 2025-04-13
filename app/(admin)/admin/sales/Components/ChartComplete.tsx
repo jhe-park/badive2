@@ -1,13 +1,9 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
-import { Select, SelectItem, DateRangePicker, Button } from "@heroui/react";
-import { createClient } from "@/utils/supabase/client";
-import {parseDate} from "@internationalized/date";
+import { createTypedSupabaseClient } from "@/utils/supabase/client";
+import { Select, SelectItem } from "@heroui/react";
+import { useEffect, useState } from "react";
 import BarChart from "./BarChart";
-import TotalSales from "./TotalSales";
 import DetailSales from "./DetailSales";
-import { MdEdit } from "react-icons/md";
 
 export default function ChartComplete() {
   // 현재 날짜 계산
@@ -30,7 +26,7 @@ export default function ChartComplete() {
   const [monthlySales, setMonthlySales] = useState([]);
   const [tourInput, setTourInput] = useState(0);
   const programList=['스쿠버다이빙','프리다이빙','머메이드','언더워터','체험다이빙']
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
 
   const getReservations = async () => {
     const startDate = new Date( parseInt(startYear), parseInt(startMonth) - 1, 1).toISOString();

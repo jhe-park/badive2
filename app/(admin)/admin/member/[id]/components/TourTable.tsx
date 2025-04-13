@@ -1,11 +1,11 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
 import { Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
 import React, { useEffect, useState } from 'react';
 
 export default function TourTable({ member }) {
-  const supabase = createClient();
+  const supabase = createTypedSupabaseClient();
   const [tours, setTours] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
   console.log('member:', member);
