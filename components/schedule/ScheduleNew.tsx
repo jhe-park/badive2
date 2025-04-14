@@ -52,6 +52,8 @@ export type TReservationsDetail = {
   studentLocation: string;
   birthday: string;
   phone: string;
+  status: string;
+  participants: number;
 };
 
 type TProps = {
@@ -122,7 +124,8 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         .from('reservation')
         .select('*')
         .in('time_slot_id', [...timeSlotIds])
-        .eq('status', '예약확정');
+        .in('status', ['예약확정', '입금대기']);
+      // .eq('status', '예약확정');
 
       const { data: studentProfiles, error: errorForProfiles } = await supabase
         .from('profiles')
@@ -137,7 +140,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
         const foundTimeSlot = timeSlots.find(timeSlot => timeSlot.time_slot_id === foundReservation.time_slot_id);
         if (foundTimeSlot == null) {
-          console.error( 'foundTimeSlot을 찾을 수 없음');
+          console.error('foundTimeSlot을 찾을 수 없음');
         }
 
         const foundProgram = everyPrograms.find(program => program.id === foundTimeSlot.program_id);
@@ -154,6 +157,8 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
           studentLocation: studentProfile.firstAddress?.split(' ').at(0) ?? '알 수 없음',
           birthday: studentProfile.birth,
           phone: studentProfile.phone,
+          status: foundReservation.status,
+          participants: foundReservation.participants,
         };
       });
 
@@ -323,7 +328,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     changeTimeSlots({ newTimeSlots: filteredTimeSlots });
   };
 
-  function getTimeSlotComponent({ times }: { times: string[] }) {
+  function TimeSlotComponent({ times }: { times: string[] }) {
     return times
       .map(time => {
         const { max_participants, current_participants, program_ids, time_slot_ids } = everyTimeSlotCalculated[time];
@@ -373,8 +378,8 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       .filter(item => item != null);
   }
 
-  const TimeSlotAMComponents = getTimeSlotComponent({ times: TIME_AM });
-  const TimeSlotPMComponents = getTimeSlotComponent({ times: TIME_PM });
+  const TimeSlotAMComponents = TimeSlotComponent({ times: TIME_AM });
+  const TimeSlotPMComponents = TimeSlotComponent({ times: TIME_PM });
 
   const logOut = () => {};
 
