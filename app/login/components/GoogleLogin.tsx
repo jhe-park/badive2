@@ -16,15 +16,12 @@ const GoogleLoginComponent = ({ domainWithProtocol }: { domainWithProtocol: stri
       // console.log('✅ baseUrl');
       // console.log(baseUrl);
 
-      // debugger;
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${domainWithProtocol}/auth/callback`,
         },
       });
-
-      debugger;
 
       if (error) {
         console.error('Google 로그인 에러:', error.message);

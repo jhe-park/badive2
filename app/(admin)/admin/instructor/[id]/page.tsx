@@ -61,7 +61,6 @@ export default function InstructorNewPage({ params }) {
       setSelectedProgram(programs);
     };
     const fetchReservation = async () => {
-      debugger;
       const { data, error } = await supabase.from('reservation').select('*,time_slot_id(*)').eq('instructor_id', id);
       // const { data, error } = await supabase.from('reservation').select('*,time_slot_id(*))').eq('instructor_id', id);
 

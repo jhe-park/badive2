@@ -118,7 +118,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   };
 
   const getEveryStudentsFromPrograms = async ({ programIds, timeSlotIds }: { programIds: Set<number>; timeSlotIds: Set<number> }) => {
-    debugger;
     try {
       const { data: reservations, error } = await supabase
         .from('reservation')
@@ -148,8 +147,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         if (foundProgram == null) {
           console.error('프로그램을 찾을 수 없음');
         }
-
-        debugger;
 
         return {
           productName: foundProgram.title,

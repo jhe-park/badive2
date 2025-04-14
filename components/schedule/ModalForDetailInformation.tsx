@@ -1,5 +1,8 @@
 import { Modal, ModalBody, ModalContent, ModalHeader, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
 import { TReservationsDetail } from './ScheduleNew';
+import { X } from 'lucide-react';
+import React from 'react';
+import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 
 export default function ModalForDetailInformation({
   reservationsDetail,
@@ -14,10 +17,63 @@ export default function ModalForDetailInformation({
 }) {
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
 
+  const closeModal = () => {
+    onClose();
+  };
+
   return (
     <>
+      {reservationsDetail.length >= 1 && (
+        <div className="z-1000 block fixed top-0 left-0 md:hidden w-screen h-[100dvh] bg-white">
+          <div onClick={() => closeModal()} className="absolute top-3 right-3">
+            <X size={20}></X>
+          </div>
+          <div className="flex flex-col gap-4 pt-12 px-4">
+            {reservationsDetail.map((reservation, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <div className="relative flex flex-col border-block border-solid border-1 gap-4 px-4 py-4">
+                    <div className="flex">
+                      <div className="w-[30%]">상품명</div>
+                      <div className="text-center">{reservation.productName}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[30%]">이름</div>
+                      <div className="text-center">{reservation.studentName}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[30%]">지역</div>
+                      <div className="text-center">{reservation.studentLocation}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[30%]">생년월일</div>
+                      <div className="text-center">{reservation.birthday ?? '-'}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[30%]">연락처</div>
+                      <div className="text-center">{typeof reservation.phone === 'string' ? formatPhoneNumber(reservation.phone) : '-'}</div>
+                    </div>
+                    <div className="flex font-[700]">
+                      <div className="w-[30%]">예약</div>
+                      <div className="text-center font-[700]">{reservation.status}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[30%]">인원</div>
+                      <div className="text-center">{reservation.participants}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[30%]">상품명</div>
+                      <div className="text-center">{reservation.productName}</div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
+      )}
       <Modal
-        classNames={{ base: 'z-9999 max-h-[10vh] bg-white py-8' }}
+        classNames={{ base: 'hidden md:block z-9999 max-h-[10vh] bg-white py-8' }}
         size="4xl"
         isOpen={isOpenProps}
         onClose={onClose}
@@ -33,7 +89,7 @@ export default function ModalForDetailInformation({
                   <Table aria-label="Schedule table" shadow="none" removeWrapper className="">
                     <TableHeader>
                       <>
-                        {['상품명', '이름', '지역', '생년월일', '연락처', '인원', '예약'].map((slot, index) => (
+                        {['상품명', '이름', '지역', '생년월일', '연락처', '예약', '인원'].map((slot, index) => (
                           // border
                           <TableColumn
                             key={index}
@@ -53,9 +109,8 @@ export default function ModalForDetailInformation({
                             <TableCell className="text-center">{reservation.studentLocation}</TableCell>
                             <TableCell className="text-center">{reservation.birthday}</TableCell>
                             <TableCell className="text-center">{reservation.phone}</TableCell>
-                            <TableCell className="text-center">{reservation.participants}</TableCell>
                             <TableCell className="text-center font-[700]">{reservation.status}</TableCell>
-                            {/* <TableCell className="text-center">{reservation.}</TableCell> */}
+                            <TableCell className="text-center">{reservation.participants}</TableCell>
                           </TableRow>
                         );
                       })}
