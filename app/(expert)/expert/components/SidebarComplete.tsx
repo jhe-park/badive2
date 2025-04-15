@@ -76,7 +76,7 @@ export default function Component({ children, user }) {
               {expertInformation?.profile_image && <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />}
             </div>
             <div>
-              <p className="text-lg text-default-600 font-bold text-center">{expertInformation?.name}</p>
+              <p className="text-lg text-default-600 font-bold text-center">{expertInformation?.name}강강강강강</p>
               <p className="text-sm text-default-600 text-center">{user?.email}</p>
             </div>
           </div>

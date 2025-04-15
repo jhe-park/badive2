@@ -403,7 +403,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         theme="light"
       />
       <div className="flex flex-col md:flex-row w-full">
-        <div className="md:hidden flex flex-col items-center gap-3 justify-center border-[#0077B6] border-solid border-1 rounded-2xl px-6 py-6">
+        {/* <div className="md:hidden flex flex-col items-center gap-3 justify-center border-[#0077B6] border-solid border-1 rounded-2xl px-6 py-6">
           <div className="relative w-full flex  justify-center items-center gap-12">
             <div className="flex flex-row items-center gap-2 pb-4 sm:pb-8 md:pb-0">
               <div className="w-10 h-10 rounded-full overflow-hidden relative">
@@ -430,7 +430,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
             <div className={cn('', pathname.endsWith('member') && 'font-freesentation')}>· 고객관리</div>
             <div className={cn('sm:text-[28px]', pathname.endsWith('schedule') && 'font-freesentation')}>· 스케줄표 관리</div>
           </div>
-        </div>
+        </div> */}
         <div className="flex-1">
           <div className="flex flex-col items-center justify-center gap-6 pt-[10%]">
             <div className="text-large sm:text-[40px] md:text-2xl sm:py-4 md:py-0">스케줄</div>

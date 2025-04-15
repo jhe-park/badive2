@@ -56,18 +56,6 @@ export default function SidebarComplete({ children, user }: { children: React.Re
           !isHidden && 'lg:-ml-0 lg:-translate-x-0',
         )}
       >
-        <div className="flex items-center gap-2 px-2">
-          <Link href="/admin/main">
-            <span className="text-2xl font-bold uppercase">BADIVE</span>
-          </Link>
-        </div>
-        <Spacer y={8} />
-        <div className="flex items-center gap-3 px-3">
-          <div className="flex flex-col">
-            <p className="text-lg font-medium text-default-600">관리자</p>
-            <p className="text-sm font-medium text-default-600">{user?.email}</p>
-          </div>
-        </div>
         <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
           <Sidebar
             // @ts-ignore
