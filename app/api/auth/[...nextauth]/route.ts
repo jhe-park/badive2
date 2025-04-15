@@ -12,6 +12,7 @@ const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
     persistSession: false,
   },
 });
+
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 const handler = NextAuth({

@@ -247,8 +247,12 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                     className={cn(
                       'text-[18px] md:text-[20px] border-[#7A7A7A] font-normal py-2 px-7 cursor-pointer',
                       selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white',
+                      slot.max_participants === slot.current_participants && 'bg-[#7A7A7A] cursor-not-allowed',
                     )}
                     onClick={() => {
+                      if (slot.max_participants === slot.current_participants) {
+                        return;
+                      }
                       if (slot.max_participants < selectedResult.noParticipants + slot.current_participants) {
                         toast.error('예약인원이 초과되었습니다. 예약인원을 줄여주세요.');
                         return;
