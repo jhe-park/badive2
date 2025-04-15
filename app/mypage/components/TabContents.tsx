@@ -15,7 +15,7 @@ export default function TabContentsForRegisteredPrograms({
   totalCountOfRegisteredPrograms,
 }: {
   profile: PostgrestSingleResponse<TypeDBprofile>;
-  registeredPrograms: TypeDBreservationJoinWithTimeslot;
+  registeredPrograms: TypeDBreservationJoinWithTimeslot[];
   totalCountOfRegisteredPrograms: number;
 }) {
   return (

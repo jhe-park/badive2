@@ -1,3 +1,4 @@
+import { createClient } from '@/utils/supabase/server';
 import { type NextRequest } from 'next/server';
 import z from 'zod';
 
@@ -11,7 +12,11 @@ const zodSchema = z.object({
   transactionKey: z.string(),
 });
 
+export async function GET(request: NextRequest) {
+  console.log('✅in (get)toss/despoit-callback');
+}
 export async function POST(request: NextRequest) {
+  console.log('✅ in (post)toss/despoit-callback');
   // 아래 튜토리얼을 참조할 것
   // @doc https://docs.tosspayments.com/blog/virtual-account-webhook
   //  응답 포멧은 아래와 같다
@@ -31,12 +36,26 @@ export async function POST(request: NextRequest) {
 
   const reqJson = await request.json();
 
-  const data = {};
+  // const data = {};
   const parsedResult = zodSchema.safeParse(reqJson);
+
   if (parsedResult.error) {
     return Response.json({ status: 'FAILED', error: parsedResult.error });
   }
-  const parsedReqJson = parsedResult.data;
+  // const parsedReqJson = parsedResult.data;
+
+  const { createdAt, orderId, secret, status, transactionKey } = parsedResult.data;
+
+  console.log('✅createdAt');
+  console.log(createdAt);
+  console.log('✅ orderId');
+  console.log(orderId);
+  console.log('✅ secret');
+  console.log(secret);
+  console.log('✅ status');
+  console.log(status);
+  console.log('✅ transactionKey');
+  console.log(transactionKey);
 
   if (status !== 'DONE') {
     console.error('입금완료 상태가 아닙니다');
@@ -44,19 +63,49 @@ export async function POST(request: NextRequest) {
     return;
   }
 
-  const requestBody = {};
-  try {
-    const res = await fetch('', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-    });
+  // 입금완료 상태가 되었다면 DB의 값을 수정한다
 
-    const objFromAPI = await res.json();
-    return Response.json({ status: 'SUCCESS', data: objFromAPI });
-  } catch (error) {
-    return Response.json({ status: 'FAILED', error });
+  const supabaseClient = await createClient();
+
+  // payment_key
+  // const { data, error } = await supabaseClient.from('reservation').select('*').eq('payment_key', transactionKey);
+  const { data, error } = await supabaseClient.from('reservation').update({ status: '예약확정' }).eq('order_id', orderId);
+
+  console.log('✅ data');
+  console.log(data);
+
+  console.log('✅ error');
+  console.log(error);
+
+  if (error == null) {
+    console.log('✅ 성공적으로 업데이트 되었습니다');
+  } else if (error) {
+    console.error(error.name);
+    console.error(error.code);
+    console.error(error.details);
+    console.error(error.hint);
+    console.error(error.message);
   }
+
+  // res.status(200).end() // 성공 응답 보내기
+
+  return Response.json({
+    status: 200,
+  });
+
+  // const requestBody = {};
+  // try {
+  //   const res = await fetch('', {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     method: 'POST',
+  //     body: JSON.stringify(requestBody),
+  //   });
+
+  //   const objFromAPI = await res.json();
+  //   return Response.json({ status: 'SUCCESS', data: objFromAPI });
+  // } catch (error) {
+  //   return Response.json({ status: 'FAILED', error });
+  // }
 }

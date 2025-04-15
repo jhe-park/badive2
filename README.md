@@ -81,6 +81,14 @@
 - GAME_GIFT_CERTIFICATE("게임문화상품권"),
 - BOOK_GIFT_CERTIFICATE("도서문화상품권"),
 
+## 입금완료시 호출되는 토스페이먼츠의 webhook을 테스트하는 방법
+
+입금완료시 토스페이먼츠의 개발자 페이지에 등록된 webhook으로 입급 정보가 전달된다. 
+
+이를 로컬 환경에서 테스트하기 위해서는 `ngrok`를 사용하도록 한다
+
+상세는 [여기](https://dashboard.ngrok.com/get-started/setup/windows)를 참조할 것
+
 ## 토스페이먼츠의 가상계좌 사용시 이용자가 입금을 완료하였을 경우
 
 이 경우 토스페이먼츠 측에서 webhook을 호출한다. 해당 웹훅은 POST request를 호출하며 post body에는 입금정보가 포함되어 있다. 데이터 포멧은 아래와 같다

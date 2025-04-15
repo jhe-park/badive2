@@ -1,10 +1,28 @@
 'use client';
 
 import useModalOpen from '@/app/store/useModalOpen';
+import { BANK_LIST } from '@/constants/constants';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
 import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
-import { Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
+import {
+  Divider,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  useDisclosure,
+} from '@heroui/react';
 import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import Image from 'next/image';
@@ -18,14 +36,27 @@ export default function ProgramTable({
   totalCountOfRegisteredPrograms,
 }: {
   profile: PostgrestSingleResponse<TypeDBprofile>;
-  registeredProgramsInDB: TypeDBreservationJoinWithTimeslot;
+  registeredProgramsInDB: TypeDBreservationJoinWithTimeslot[];
   totalCountOfRegisteredPrograms: number;
 }) {
+  const [refundInfos, setRefundInfos] = useState<
+    | {
+        bankCode: string | null;
+        accountNumber: string | null;
+        accountOwnerName: string | null;
+      }
+    | undefined
+  >({
+    bankCode: null,
+    accountNumber: null,
+    accountOwnerName: null,
+  });
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isOpen: isCancelOpen, setIsOpen: setIsCancelOpen } = useModalOpen();
   const { isOpen: isDetailOpen, onOpen: onDetailOpen, onOpenChange: onDetailOpenChange } = useDisclosure();
 
-  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [selectedProgram, setSelectedProgram] = useState<TypeDBreservationJoinWithTimeslot | null>(null);
   const [searchFilter, setSearchFilter] = useState('제목');
   const [searchValue, setSearchValue] = useState('');
   const supabase = createTypedSupabaseClient();
@@ -60,7 +91,7 @@ export default function ProgramTable({
     })();
   }, [searchValue, searchFilter, currentPage]);
 
-  const handleDetailOpen = program => {
+  const handleDetailOpen = (program: TypeDBreservationJoinWithTimeslot) => {
     setSelectedProgram(program);
     onDetailOpen();
   };
@@ -78,6 +109,44 @@ export default function ProgramTable({
   };
 
   const handleConfirmRequest = async onClose => {
+    let accountNumberRefined: string | null = null;
+    if (selectedProgram?.pay_type === '가상계좌') {
+      refundInfos.accountNumber;
+
+      let isInvalid = false;
+      if (refundInfos.accountOwnerName == null) {
+        toast.error('계좌 소유주 이름을 입력해주세요');
+        isInvalid = true;
+      }
+
+      if (refundInfos.bankCode == null) {
+        toast.error('은행을 선택해주세요');
+        isInvalid = true;
+      }
+
+      if (refundInfos.accountNumber == null) {
+        toast.error('계좌번호를 입력해주세요');
+        isInvalid = true;
+      }
+
+      if (refundInfos.accountOwnerName.length <= 1) {
+        toast.error('계좌 소유주의 이름은 2글자 이상이어야 합니다');
+        isInvalid = true;
+      }
+
+      accountNumberRefined = refundInfos.accountNumber.replace(/[^0-9]/g, '');
+
+      if (accountNumberRefined.length < 8 || accountNumberRefined.length > 16) {
+        toast.error('계좌번호는 8글자 이상, 16글자 이하여야 합니다');
+        isInvalid = true;
+      }
+
+      if (isInvalid) {
+        // toast.error('환불 정보를 정확히 입력해주세요');
+        return;
+      }
+    } // 가상계좌 데이터 검토 끝
+
     //날짜 계산하기
     // 프로그램 실행 날짜와 현재 날짜 가져오기
     const programDate = new Date(selectedProgram.time_slot_id.date);
@@ -111,6 +180,12 @@ export default function ProgramTable({
     setSelectedProgram(null);
     setIsCancelOpen(false);
 
+    // refundInfos.accountOwnerName;
+
+    // const bankName = '';
+    // const accountNumber = '';
+    // const accountOwnerName = '';
+
     const tossPaymentCancelRes = await fetch('/api/cancel-payment', {
       method: 'POST',
       headers: {
@@ -119,6 +194,9 @@ export default function ProgramTable({
       body: JSON.stringify({
         payment_key: selectedProgram.payment_key,
         refundAmount: refundAmount,
+        bankCode: refundInfos.bankCode,
+        accountNumber: accountNumberRefined,
+        accountOwnerName: refundInfos.accountOwnerName,
       }),
     });
 
@@ -144,6 +222,13 @@ export default function ProgramTable({
     }
 
     toast.success('프로그램 취소가 신청 완료되었습니다.');
+
+    // 초기화
+    setRefundInfos({
+      bankCode: null,
+      accountNumber: null,
+      accountOwnerName: null,
+    });
 
     const res = await handleGetProgram({
       supabase: supabase,
@@ -319,6 +404,61 @@ export default function ProgramTable({
                 <p>(환불금액은 환불규정에 따라 환불이 진행됩니다. 환불 시 2-3일 이내에 환불이 완료됩니다.</p>
                 <p>카드 ·현금 결제에 따라 환불 일시가 변경될 수 있습니다.)</p>
                 <p>예약취소 시 철회는 불가하며, 해당 프로그램을 재 예약하셔야 합니다.</p>
+                {selectedProgram?.pay_type === '가상계좌' && (
+                  <>
+                    <div className="pt-8 text-[18px] font-bold">무통장입금 환불 계좌 정보</div>
+                    <div className="flex gap-4 w-full">
+                      <Input
+                        onChange={e => {
+                          console.log('e.target.value');
+                          console.log(e.target.value);
+                          setRefundInfos(prev => {
+                            return {
+                              ...prev,
+                              accountOwnerName: e.target.value,
+                            };
+                          });
+                        }}
+                        placeholder="예금주"
+                      />
+                      <Select
+                        onChange={e => {
+                          console.log('e.target.value');
+                          console.log(e.target.value);
+                          setRefundInfos(prev => {
+                            return {
+                              ...prev,
+                              bankCode: e.target.value,
+                            };
+                          });
+                        }}
+                        placeholder="은행"
+                      >
+                        {BANK_LIST.map(bank => {
+                          return (
+                            <SelectItem key={bank.bankCode} value={bank.bankCode}>
+                              {bank.bankName}
+                            </SelectItem>
+                          );
+                        })}
+                      </Select>
+                      <Input
+                        onChange={e => {
+                          console.log('e.target.value');
+                          console.log(e.target.value);
+                          setRefundInfos(prev => {
+                            return {
+                              ...prev,
+                              accountNumber: e.target.value,
+                            };
+                          });
+                        }}
+                        width={250}
+                        placeholder="계좌번호('-'없이 숫자만 입력해주세요)"
+                      />
+                    </div>
+                  </>
+                )}
               </ModalBody>
               <ModalFooter>
                 <div className="w-full flex flex-row justify-center items-center gap-x-4">
