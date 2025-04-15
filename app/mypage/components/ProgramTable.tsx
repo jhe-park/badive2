@@ -110,6 +110,7 @@ export default function ProgramTable({
 
   const handleConfirmRequest = async onClose => {
     let accountNumberRefined: string | null = null;
+
     if (selectedProgram?.pay_type === '가상계좌') {
       refundInfos.accountNumber;
 
@@ -175,11 +176,6 @@ export default function ProgramTable({
 
     console.log('refundAmount:', refundAmount);
 
-    onClose();
-    onDetailOpenChange();
-    setSelectedProgram(null);
-    setIsCancelOpen(false);
-
     // refundInfos.accountOwnerName;
 
     // const bankName = '';
@@ -223,12 +219,17 @@ export default function ProgramTable({
 
     toast.success('프로그램 취소가 신청 완료되었습니다.');
 
-    // 초기화
+    onClose();
+    onDetailOpenChange();
+
+    // 이하 초기화
     setRefundInfos({
       bankCode: null,
       accountNumber: null,
       accountOwnerName: null,
     });
+    setSelectedProgram(null);
+    setIsCancelOpen(false);
 
     const res = await handleGetProgram({
       supabase: supabase,
@@ -381,7 +382,7 @@ export default function ProgramTable({
                     <Button
                       isDisabled={selectedProgram.status === '취소완료'}
                       color="primary"
-                      onPress={() => {
+                      onPress={e => {
                         onOpen();
                         handleCancel();
                       }}
@@ -473,7 +474,8 @@ export default function ProgramTable({
                   </Button>
                   <Button
                     color="primary"
-                    onPress={() => {
+                    onPress={e => {
+                      // e.target
                       handleConfirmRequest(onClose);
                     }}
                     className="w-1/3"

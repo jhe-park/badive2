@@ -15,6 +15,8 @@ const zodSchema = z.object({
 export async function POST(request: NextRequest) {
   const reqJson = await request.json();
 
+  console.log('✅ in app\api\cancel-payment');
+  console.log();
   console.log('reqJson');
   console.log(reqJson);
 
@@ -24,6 +26,9 @@ export async function POST(request: NextRequest) {
     return Response.json({ status: 'FAILED', error: parsedResult.error });
   }
   const { payment_key, refundAmount, accountNumber, accountOwnerName, bankCode } = parsedResult.data;
+
+  console.log('{ payment_key, refundAmount, accountNumber, accountOwnerName, bankCode }');
+  console.log({ payment_key, refundAmount, accountNumber, accountOwnerName, bankCode });
 
   const requestBody = {};
   try {
@@ -49,7 +54,9 @@ export async function POST(request: NextRequest) {
       },
 
       body: JSON.stringify(
-        bankCode != null
+        // 가상계좌 결제 환불하기
+        // @doc https://docs.tosspayments.com/guides/v2/cancel-payment
+        typeof bankCode === 'string'
           ? {
               cancelReason: '사용자 예약 취소',
               cancelAmount: refundAmount,

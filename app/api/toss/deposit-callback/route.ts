@@ -60,7 +60,9 @@ export async function POST(request: NextRequest) {
   if (status !== 'DONE') {
     console.error('입금완료 상태가 아닙니다');
     console.error('status', status);
-    return;
+    return Response.json({
+      status: 400,
+    });
   }
 
   // 입금완료 상태가 되었다면 DB의 값을 수정한다
@@ -79,19 +81,21 @@ export async function POST(request: NextRequest) {
 
   if (error == null) {
     console.log('✅ 성공적으로 업데이트 되었습니다');
+    return Response.json({
+      status: 200,
+    });
   } else if (error) {
     console.error(error.name);
     console.error(error.code);
     console.error(error.details);
     console.error(error.hint);
     console.error(error.message);
+    return Response.json({
+      status: 400,
+    });
   }
 
   // res.status(200).end() // 성공 응답 보내기
-
-  return Response.json({
-    status: 200,
-  });
 
   // const requestBody = {};
   // try {
