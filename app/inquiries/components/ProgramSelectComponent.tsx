@@ -234,7 +234,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         <div className="text-lg md:text-2xl font-bold">강습프로그램</div>
         <div className="text-[12px] font-bold text-[#8C8C8C]"> - 원하시는 강습을 선택해주세요.</div>
       </div>
-      <div className="flex w-full gap-2 lg:gap-2 justify-center">
+      <div className="flex w-full gap-0 sm:gap-2 lg:gap-2 justify-between md:justify-center">
         {LECTURE_CATEGORY.map(category => {
           return (
             <Badge
