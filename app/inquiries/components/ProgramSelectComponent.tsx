@@ -2,7 +2,7 @@
 
 import { useProgramStore } from '@/app/store/useProgramStore';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
-import { selectedResultInitializedValue, useSelectedResult } from '@/app/store/useSelectedResult';
+import { selectedResultInitializedValue, TSelectedResult, useSelectedResult } from '@/app/store/useSelectedResult';
 import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
@@ -39,24 +39,18 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
   });
 
-  // targetLectureCategories.length > 0
-  //   ? everyProgramObjs.filter(programObj => {
-  //       return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
-  //     })
-  //   : [...everyProgramObjs];
-
   const [selectedProgram, setSelectedProgram] = useState('');
-  const [region, setRegion] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState('');
-  const [instructor, setInstructor] = useState([]);
   const [selectedInstructor, setSelectedInstructor] = useState('');
-  const { programStore, setProgramStore } = useProgramStore();
   const { selectedResult, setSelectedResult } = useSelectedResult();
-  const [noParticipants, setNoParticipants] = useState(1);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
+  const [region, setRegion] = useState([]);
+  const [instructor, setInstructor] = useState([]);
+  const { programStore, setProgramStore } = useProgramStore();
+  const [noParticipants, setNoParticipants] = useState(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const increaseNumOfParticipants = () => {
     const newParticipants = noParticipants + 1;
@@ -215,6 +209,13 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     });
   }
 
+  const initializeRegionAndInstructor = () => {
+    setSelectedImageUrl('');
+    setSelectedRegion('');
+    setSelectedInstructor('');
+    setIsSelectInstructor(false);
+  };
+
   return (
     <div className="order-1 md:order-2 flex flex-col items-start justify-start gap-y-3 md:gap-y-6 pt-6 md:pt-0">
       <ToastContainer
@@ -244,7 +245,22 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
                 category === selectedLectureCategory && 'bg-btnActive text-white',
               )}
               onClick={() => {
+                initializeRegionAndInstructor();
+
+                setIsSelectProgram(false);
+                setSelectedProgram('');
+                refForProgramSelect.current.value = '';
+
                 setSelectedLectureCategory(category);
+
+                // setSelectedResult(prev => {
+                //   const a: TSelectedResult = {
+                //     ...prev,
+                //   };
+                //   return {
+                //     ...prev,
+                //   };
+                // });
               }}
             >
               {category}
@@ -256,14 +272,22 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         ref={refForProgramSelect}
         label="프로그램명"
         aria-label="강습프로그램 선택"
+        selectedKeys={[selectedProgram]}
+        // value={selectedProgram}
         onChange={e => {
-          setSelectedImageUrl('');
-          setSelectedProgram(e.target.value);
-          setIsSelectProgram(true);
-          setSelectedRegion('');
-          setSelectedInstructor('');
-          setIsSelectInstructor(false);
+          // setSelectedImageUrl('');
+          // setIsSelectProgram(true);
+          // setSelectedRegion('');
+          // setSelectedInstructor('');
+          // setIsSelectInstructor(false);
+          // setNoParticipants(1);
+
+          initializeRegionAndInstructor();
+
           setNoParticipants(1);
+          setIsSelectProgram(true);
+          setSelectedProgram(e.target.value);
+
           setSelectedResult({
             ...selectedResultInitializedValue,
             program: e.target.value,

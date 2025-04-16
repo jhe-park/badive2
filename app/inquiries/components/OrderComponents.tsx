@@ -28,8 +28,13 @@ const OrderComponents: React.FC<TProps> = ({ userReservations, userData, profile
         </div>
       )}
       {!isSelectProgram && (
-        <div className=" flex items-center justify-center relative">
-          <Image src="/inquiries/logo.png" alt="logo" width={500} height={500} className="object-contain"></Image>
+        <div
+          style={{
+            aspectRatio: '1/1',
+          }}
+          className="w-full md:w-[500px] md:h-[500px] flex items-center justify-center relative"
+        >
+          <Image src="/inquiries/logo.png" alt="badive logo" width={500} height={500} className="object-contain"></Image>
         </div>
       )}
       <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 items-start justify-center gap-y-6 gap-x-12 md:flex-col-reverse">
