@@ -3,6 +3,7 @@ import { TReservationsDetail } from './ScheduleNew';
 import { X } from 'lucide-react';
 import React from 'react';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
+import { formatDateString } from '@/utils/formatDateString';
 
 export default function ModalForDetailInformation({
   reservationsDetail,
@@ -24,11 +25,20 @@ export default function ModalForDetailInformation({
   return (
     <>
       {reservationsDetail.length >= 1 && (
-        <div className="z-1000 block fixed top-0 left-0 md:hidden w-screen h-[100dvh] bg-white">
-          <div onClick={() => closeModal()} className="absolute top-3 right-3">
-            <X size={20}></X>
+        <div className="z-[99999] block fixed top-0 left-0 md:hidden w-screen h-[100dvh] bg-white">
+          <div className="absolute top-6 left-6">
+            <X
+              onClick={e => {
+                console.log('onclick on reservation detail');
+                console.log();
+                e.stopPropagation();
+                e.preventDefault();
+                closeModal();
+              }}
+              size={20}
+            ></X>
           </div>
-          <div className="flex flex-col gap-4 pt-12 px-4">
+          <div className="flex flex-col gap-4 pt-16 px-4">
             {reservationsDetail.map((reservation, index) => {
               return (
                 <React.Fragment key={index}>
@@ -47,7 +57,7 @@ export default function ModalForDetailInformation({
                     </div>
                     <div className="flex">
                       <div className="w-[30%]">생년월일</div>
-                      <div className="text-center">{reservation.birthday ?? '-'}</div>
+                      <div className="text-center">{typeof reservation.birthday === 'string' ? formatDateString(reservation.birthday) : '-'}</div>
                     </div>
                     <div className="flex">
                       <div className="w-[30%]">연락처</div>

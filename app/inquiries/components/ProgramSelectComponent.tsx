@@ -35,12 +35,15 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
   const targetLectureCategories = selectedLectureCategory ? LECTURE_CATEGORY_TO_DB_CATRGORY[selectedLectureCategory] : [];
 
-  const programFiltered =
-    targetLectureCategories.length > 0
-      ? everyProgramObjs.filter(programObj => {
-          return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
-        })
-      : [...everyProgramObjs];
+  const programFiltered = everyProgramObjs.filter(programObj => {
+    return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
+  });
+
+  // targetLectureCategories.length > 0
+  //   ? everyProgramObjs.filter(programObj => {
+  //       return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
+  //     })
+  //   : [...everyProgramObjs];
 
   const [selectedProgram, setSelectedProgram] = useState('');
   const [region, setRegion] = useState([]);

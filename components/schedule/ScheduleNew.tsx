@@ -1,7 +1,6 @@
 'use client';
 
-import IconLogout from '@/public/icons/logout.svg';
-import Image from 'next/image';
+import useExpertStore from '@/app/(expert)/expert/store/useExpertStore';
 import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
@@ -10,16 +9,14 @@ import { TypeDBinstructor, TypeDBprofile, TypeDBprogram } from '@/utils/supabase
 import { getFilteredTimeSlots } from '@/utils/supabase/getFilteredTimeSlots';
 import { getTimeSlots } from '@/utils/supabase/getTimeSlots';
 import { Button, Select, SelectItem } from '@heroui/react';
+import { User } from '@supabase/supabase-js';
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './CalendarComponentForAdminAndExpert';
 import ModalForDetailInformation from './ModalForDetailInformation';
-import useExpertStore from '@/app/(expert)/expert/store/useExpertStore';
-import { User } from '@supabase/supabase-js';
-import { usePathname, useRouter } from 'next/navigation';
-import { logoutInClientSide } from '@/utils/logout';
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -403,34 +400,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         theme="light"
       />
       <div className="flex flex-col md:flex-row w-full">
-        {/* <div className="md:hidden flex flex-col items-center gap-3 justify-center border-[#0077B6] border-solid border-1 rounded-2xl px-6 py-6">
-          <div className="relative w-full flex  justify-center items-center gap-12">
-            <div className="flex flex-row items-center gap-2 pb-4 sm:pb-8 md:pb-0">
-              <div className="w-10 h-10 rounded-full overflow-hidden relative">
-                {expertInformation?.profile_image && <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />}
-              </div>
-              <div>
-                <p className="text-[25px] sm:text-[36px] font-[600] text-center">{expertInformation?.name}</p>
-              </div>
-            </div>
-            <div
-              onClick={() => {
-                // logOut();
-                logoutInClientSide({ router, supabase });
-              }}
-              className="absolute hidden cursor-pointer top-0 right-0 sm:flex gap-2 sm:items-center md:hidden"
-            >
-              <Image src={IconLogout} alt="로그아웃" />
-              <span>로그아웃</span>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 items-center font-[400] justify-center gap-0 text-[25px] sm:text-[32px] font-freesentationVF">
-            <div className={cn('', pathname.endsWith('profile') && 'font-freesentation')}>· 내 프로필</div>
-            <div className={cn('', pathname.endsWith('sales') && 'font-freesentation')}>· 매출현황</div>
-            <div className={cn('', pathname.endsWith('member') && 'font-freesentation')}>· 고객관리</div>
-            <div className={cn('sm:text-[28px]', pathname.endsWith('schedule') && 'font-freesentation')}>· 스케줄표 관리</div>
-          </div>
-        </div> */}
         <div className="flex-1">
           <div className="flex flex-col items-center justify-center gap-6 pt-[10%]">
             <div className="text-large sm:text-[40px] md:text-2xl sm:py-4 md:py-0">스케줄</div>

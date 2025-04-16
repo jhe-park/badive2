@@ -16,11 +16,11 @@ export default async function ({ children }) {
     { url: '/admin/member', name: '회원관리' },
     { url: '/admin/program', name: '프로그램' },
     { url: '/admin/tour', name: '투어관리' },
-    { url: '/admin/main', name: '홈' },
     { url: '/admin/notification', name: '공지사항' },
     { url: '/admin/resort', name: '리조트' },
     { url: '/admin/faq', name: 'FAQ' },
     { url: '/admin/login', name: '로그인' },
+    // { url: '/admin/main', name: '홈' },
   ];
 
   return (
