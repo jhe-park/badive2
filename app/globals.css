@@ -24,6 +24,34 @@
 }
 
 @font-face {
+  font-family: 'Freesentation-4Regular';
+  src: url('/fonts/Freesentation-4Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Freesentation-5Medium';
+  src: url('/fonts/Freesentation-5Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Freesentation-6SemiBold';
+  src: url('/fonts/Freesentation-6SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Freesentation-7Bold';
+  src: url('/fonts/Freesentation-7Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'Freesentation-9Black';
   src: url('/fonts/Freesentation-9Black.woff2') format('woff2');
   font-weight: 900;

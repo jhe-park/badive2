@@ -401,13 +401,15 @@ export default function ProgramTable({
           {onClose => (
             <>
               <ModalBody className="flex flex-col justify-center items-center gap-y-4 py-6">
-                <p>예약을 취소하시겠습니까?</p>
-                <p>(환불금액은 환불규정에 따라 환불이 진행됩니다. 환불 시 2-3일 이내에 환불이 완료됩니다.</p>
-                <p>카드 ·현금 결제에 따라 환불 일시가 변경될 수 있습니다.)</p>
-                <p>예약취소 시 철회는 불가하며, 해당 프로그램을 재 예약하셔야 합니다.</p>
+                <div className="font-freesentation600 font-[600] text-[18px] text-center">
+                  <p>예약을 취소하시겠습니까?</p>
+                  <p>(환불금액은 환불규정에 따라 환불이 진행됩니다. 환불 시 2-3일 이내에 환불이 완료됩니다.</p>
+                  <p>카드 ·현금 결제에 따라 환불 일시가 변경될 수 있습니다.)</p>
+                  <p>예약취소 시 철회는 불가하며, 해당 프로그램을 재 예약하셔야 합니다.</p>
+                </div>
                 {selectedProgram?.pay_type === '가상계좌' && (
                   <>
-                    <div className="pt-8 text-[18px] font-bold">무통장입금 환불 계좌 정보</div>
+                    <div className="pt-8 text-[18px] font-freesentation800 font-[800]">※무통장입금 환불 계좌 정보</div>
                     <div className="flex gap-4 w-full">
                       <Input
                         onChange={e => {

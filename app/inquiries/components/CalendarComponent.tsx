@@ -318,7 +318,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
           {/* h-16 */}
           <div className="w-full flex flex-col items-center justify-center border-2 border-[#0077B6] rounded-lg px-2 py-2">
             <div className="text-sm md:text-3xl">{selectedResult.program}</div>
-            <div className="">
+            <div className="pt-1 text-[16px] sm:text-[16px] md:text-[18px]">
               {selectedResult?.slot_date} {selectedResult?.slot_start_time} · {selectedResult?.instructor}
             </div>
           </div>
