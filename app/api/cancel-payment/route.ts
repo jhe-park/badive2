@@ -7,9 +7,9 @@ const TOSS_SECRET_KEY = process.env.TOSSPAYMENTS_SECRET_KEY;
 const zodSchema = z.object({
   payment_key: z.string().min(1, { message: '결제 키는 필수입니다.' }),
   refundAmount: z.number().min(0, { message: '환불 금액은 0보다 커야 합니다.' }),
-  bankCode: z.string().optional(),
-  accountNumber: z.string().optional(),
-  accountOwnerName: z.string().optional(),
+  bankCode: z.string().nullish(),
+  accountNumber: z.string().nullish(),
+  accountOwnerName: z.string().nullish(),
 });
 
 export async function POST(request: NextRequest) {

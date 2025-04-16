@@ -111,7 +111,7 @@ export default function ProgramTable({
   const handleConfirmRequest = async onClose => {
     let accountNumberRefined: string | null = null;
 
-    if (selectedProgram?.pay_type === '가상계좌') {
+    if (selectedProgram.status === '예약확정' && selectedProgram?.pay_type === '가상계좌') {
       refundInfos.accountNumber;
 
       let isInvalid = false;
@@ -407,7 +407,7 @@ export default function ProgramTable({
                   <p>카드 ·현금 결제에 따라 환불 일시가 변경될 수 있습니다.)</p>
                   <p>예약취소 시 철회는 불가하며, 해당 프로그램을 재 예약하셔야 합니다.</p>
                 </div>
-                {selectedProgram?.pay_type === '가상계좌' && (
+                {selectedProgram.status === '예약확정' && selectedProgram?.pay_type === '가상계좌' && (
                   <>
                     <div className="pt-8 text-[18px] font-freesentation800 font-[800]">※무통장입금 환불 계좌 정보</div>
                     <div className="flex gap-4 w-full">
