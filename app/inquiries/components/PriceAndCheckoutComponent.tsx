@@ -27,6 +27,12 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
       return;
     }
 
+    if (selectedResult.price < 200) {
+      toast.error('결제금액은 200원 이상이어야 합니다');
+      onOpen();
+      return;
+    }
+
     if (!userData) {
       router.push('/login?returnUrl=/inquiries');
       return;

@@ -25,6 +25,7 @@ import {
 } from '@heroui/react';
 import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import { throttle } from 'lodash';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
@@ -52,6 +53,7 @@ export default function ProgramTable({
     accountOwnerName: null,
   });
 
+  const [isCancelWorkInProgress, setIsCancelWorkInProgress] = useState<boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isOpen: isCancelOpen, setIsOpen: setIsCancelOpen } = useModalOpen();
   const { isOpen: isDetailOpen, onOpen: onDetailOpen, onOpenChange: onDetailOpenChange } = useDisclosure();
@@ -109,8 +111,17 @@ export default function ProgramTable({
   };
 
   const handleConfirmRequest = async onClose => {
+    console.log('✅ in handleConfirmRequest');
+    console.log();
+    if (isCancelWorkInProgress) {
+      console.log('isCancelWorkInProgress === true');
+      console.log();
+      return;
+    }
+
     let accountNumberRefined: string | null = null;
 
+    setIsCancelWorkInProgress(true);
     if (selectedProgram.status === '예약확정' && selectedProgram?.pay_type === '가상계좌') {
       refundInfos.accountNumber;
 
@@ -144,6 +155,8 @@ export default function ProgramTable({
 
       if (isInvalid) {
         // toast.error('환불 정보를 정확히 입력해주세요');
+        setIsCancelWorkInProgress(false);
+
         return;
       }
     } // 가상계좌 데이터 검토 끝
@@ -160,12 +173,16 @@ export default function ProgramTable({
     // 지난 프로그램인 경우
     if (diffDays < 0) {
       toast.error('지난 프로그램은 환불이 불가능합니다.');
+      setIsCancelWorkInProgress(false);
+
       return;
     }
 
     // 1일 이내 취소
     if (diffDays <= 1) {
       toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
+      setIsCancelWorkInProgress(false);
+
       return;
     }
 
@@ -201,6 +218,7 @@ export default function ProgramTable({
     if (tossPaymentCancelResJson.status === 'FAILED') {
       toast.error(`토스페이먼트 취소 요청이 실패 하였습니다 : ${JSON.stringify(tossPaymentCancelResJson)}`);
       console.error('tossPaymentCancelResJson:', tossPaymentCancelResJson);
+      setIsCancelWorkInProgress(false);
       return;
     }
 
@@ -214,6 +232,7 @@ export default function ProgramTable({
     if (errorForSupabaseTransaction) {
       toast.error(`[🚫 Error in Supabase transaction]: : ${JSON.stringify(errorForSupabaseTransaction)}`);
       console.error('[🚫 Error in Supabase transaction]:', errorForSupabaseTransaction);
+      setIsCancelWorkInProgress(false);
       return;
     }
 
@@ -237,11 +256,13 @@ export default function ProgramTable({
     });
 
     if (res.status === 'FAILED') {
+      setIsCancelWorkInProgress(false);
       return;
     }
 
     setRegisteredPrograms(res.data);
     setTotalPage(Math.ceil(res.count / pageSize));
+    setIsCancelWorkInProgress(false);
   };
 
   return (
@@ -477,8 +498,8 @@ export default function ProgramTable({
                   <Button
                     color="primary"
                     onPress={e => {
-                      // e.target
-                      handleConfirmRequest(onClose);
+                      console.log('✅ in onpress');
+                      throttle(() => handleConfirmRequest(onClose), 1000, { leading: true, trailing: false });
                     }}
                     className="w-1/3"
                   >
