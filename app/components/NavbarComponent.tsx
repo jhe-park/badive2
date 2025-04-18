@@ -315,8 +315,10 @@ export default function Navbar() {
                   </button>
                 </>
               ) : (
-                ['로그인', '회원가입'].map((item, index) => (
-                  <Link key={index} href={`/${item === '로그인' ? 'login' : 'register'}`} className="text-[14px] text-black hover:text-gray-500">
+                // '회원가입'
+                ['로그인'].map((item, index) => (
+                  // text-[14px]
+                  <Link key={index} href={`/login`} className="text-[18px] text-black hover:text-gray-500">
                     {item}
                   </Link>
                 ))
@@ -324,7 +326,7 @@ export default function Navbar() {
             </div>
 
             {/* 모바일 메인 메뉴 */}
-            <div className="py-4">
+            <div className="py-4 backdrop-blur-lg">
               {menuItems.map((item, index) => (
                 <div key={index} className="relative">
                   <div className="flex justify-between items-center px-6 py-3 text-black ">
