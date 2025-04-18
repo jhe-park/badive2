@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'; // 상단에 import 추가
 import useModalOpen from '@/app/store/useModalOpen';
 import { createClient } from '@/utils/supabase/client';
 import { signOut } from 'next-auth/react';
+import { cn } from '@/lib/utils';
 
 // Add menu data structure
 const menuItems = [
@@ -205,7 +206,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="nav w-full fixed z-20 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black"
+      className={cn('nav w-full fixed z-20 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black', pathname.startsWith('/event/') && 'hidden')}
       style={{
         top: pathname === '/' && !isMobileMenuOpen ? (isOpen ? '-100px' : '0') : '0',
       }}
