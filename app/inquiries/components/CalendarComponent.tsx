@@ -50,12 +50,17 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { calendarClick, setCalendarClick } = useCalendarClick();
 
-  useEffect(() => {
-    setupMonthlyTimeSlots({ newDate: new Date() });
-  }, [isSelectInstructor]);
+  console.log('selectedResult');
+  console.log(selectedResult);
 
   useEffect(() => {
-    if (!selectedResult?.date) {
+    console.log('✅ before setupMonthlyTimeSlots');
+    // console.log();
+    setupMonthlyTimeSlots({ newDate: new Date() });
+  }, [selectedResult?.instructor?.length > 0 && typeof selectedResult?.instructor_id === 'number']);
+
+  useEffect(() => {
+    if (!selectedResult?.date || selectedResult?.date.length === 0) {
       setSelectedDate(null);
     }
   }, [selectedResult?.date]);
@@ -161,9 +166,6 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
           if (dayjs(selectedDate.start).format('YYYY-MM-DD') !== slot.date) return false;
           return true;
         });
-
-  console.log('selectedDateTimeSlots');
-  console.log(selectedDateTimeSlots);
 
   const selectedDateTimeSlotsAM = selectedDateTimeSlots.filter(slot => {
     if (slot.start_time < '12:00') {

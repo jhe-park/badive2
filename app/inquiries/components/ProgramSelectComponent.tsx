@@ -2,20 +2,14 @@
 
 import { useProgramStore } from '@/app/store/useProgramStore';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
-import {
-  selectedResultInitializedValue,
-  selectedResultInitializedValueWhenChangeCategory,
-  TSelectedResult,
-  useSelectedResult,
-} from '@/app/store/useSelectedResult';
+import { selectedResultInitializedValue, useSelectedResult } from '@/app/store/useSelectedResult';
 import { Badge } from '@/components/ui/badge';
-import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY } from '@/constants/constants';
+import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY, LECTURE_CATEGORY_TYPE } from '@/constants/constants';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure } from '@heroui/react';
 import { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
@@ -31,7 +25,7 @@ type TProps = {
 
 const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSelectInstructor, userData, profile }) => {
   const [everyProgramObjs, setEveryProgramObjs] = useState<TypeDBprogram[]>([]);
-  const [everyProgramLegacy_DO_NOT_USE_THIS, setEveryProgramLegacy_DO_NOT_USE_THIS] = useState([]);
+  const [everyProgramLegacy, setEveryProgramLegacy] = useState([]);
 
   const refForProgramSelect = useRef<HTMLSelectElement>(null);
 
@@ -44,21 +38,74 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
   });
 
-  const [selectedProgram, setSelectedProgram] = useState('');
+  const [selectedProgramTitle, setSelectedProgramTitle] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedInstructor, setSelectedInstructor] = useState('');
   const { selectedResult, setSelectedResult } = useSelectedResult();
+
+  console.log('selectedResult.noParticipants');
+  console.log(selectedResult.noParticipants);
+
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
   const [region, setRegion] = useState([]);
   const [instructor, setInstructor] = useState([]);
   const { programStore, setProgramStore } = useProgramStore();
-  const [noParticipants, setNoParticipants] = useState(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // const router = useRouter();
+  // const [noParticipants, setNoParticipants] = useState(1);
+
+  useEffect(() => {
+    if (selectedResult?.program_id && programStore?.length > 0) {
+      const matchedProgram = programStore.find(program => program.id === selectedResult.program_id);
+
+      if (matchedProgram) {
+        const totalPrice = matchedProgram.price * selectedResult.noParticipants;
+        setSelectedResult({
+          ...selectedResult,
+          totalPrice: totalPrice,
+        });
+      }
+    }
+  }, [selectedResult.noParticipants]);
+
+  useEffect(() => {
+    getProgram();
+  }, [selectedProgramTitle, selectedRegion, selectedInstructor]);
+
+  useEffect(() => {
+    filterRegion();
+  }, [selectedProgramTitle]);
+
+  useEffect(() => {
+    filterInstructor();
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    if (selectedResult?.program_id && programStore?.length > 0) {
+      const matchedProgram = programStore.find(program => program.id === selectedResult.program_id);
+
+      if (matchedProgram) {
+        setSelectedResult({
+          ...selectedResult,
+          category: matchedProgram.category,
+        });
+      }
+    }
+  }, [selectedResult?.program_id, programStore]);
+
+  const filterInstructor = () => {
+    const filteredInstructor = everyProgramLegacy.filter(item => item.title === selectedProgramTitle && item.region === selectedRegion);
+    const uniqueInstructors = [...new Set(filteredInstructor.map(item => item.instructor_id.name))];
+    setInstructor(uniqueInstructors);
+
+    if (uniqueInstructors.length === 1) {
+      selectInstructor({ selectedName: uniqueInstructors.at(0) });
+    }
+  };
 
   const increaseNumOfParticipants = () => {
-    const newParticipants = noParticipants + 1;
+    const newParticipants = selectedResult.noParticipants + 1;
+    // const newParticipants = noParticipants + 1;
 
     if (
       typeof selectedResult.slot_max_participants === 'number' &&
@@ -69,7 +116,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       return;
     }
 
-    setNoParticipants(newParticipants);
+    // setNoParticipants(newParticipants);
     setSelectedResult({
       ...selectedResult,
       noParticipants: newParticipants,
@@ -77,22 +124,14 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
   };
 
   const decreaseNumOfParticipants = () => {
-    const newValue = Math.max(1, noParticipants - 1);
-    setNoParticipants(newValue);
+    const newValue = Math.max(1, selectedResult.noParticipants - 1);
+    // const newValue = Math.max(1, noParticipants - 1);
+    // setNoParticipants(newValue);
     setSelectedResult({
       ...selectedResult,
       noParticipants: newValue,
     });
   };
-
-  useEffect(() => {
-    setSelectedResult({
-      ...selectedResult,
-      isAgree: false,
-      date: null,
-      noParticipants: noParticipants,
-    });
-  }, [noParticipants]);
 
   const supabase = createTypedSupabaseClient();
 
@@ -117,17 +156,12 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
     const programUniqueTitles = [...new Set(programs.map(item => item.title))];
     setProgramTitles(programUniqueTitles);
-    setEveryProgramLegacy_DO_NOT_USE_THIS(programs);
+    setEveryProgramLegacy(programs);
     setProgramStore(programs);
-    console.log('Loaded program data:', programs);
   };
 
-  useEffect(() => {
-    getProgram();
-  }, [selectedProgram, selectedRegion, selectedInstructor]);
-
   const filterRegion = () => {
-    const filteredRegion = everyProgramLegacy_DO_NOT_USE_THIS?.filter(item => item.title === selectedProgram);
+    const filteredRegion = everyProgramLegacy?.filter(item => item.title === selectedProgramTitle);
     const uniqueRegions = [...new Set(filteredRegion.map(item => item.region))];
     setRegion(uniqueRegions);
 
@@ -136,89 +170,80 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     }
   };
 
-  useEffect(() => {
-    filterRegion();
-  }, [selectedProgram]);
+  const selectCategory = ({ category }: { category: LECTURE_CATEGORY_TYPE }) => {
+    setSelectedLectureCategory(category);
+    initializeSelectedProgram();
+    initializeSelectedRegionAndInstructor();
 
-  const filterInstructor = () => {
-    const filteredInstructor = everyProgramLegacy_DO_NOT_USE_THIS.filter(item => item.title === selectedProgram && item.region === selectedRegion);
-    const uniqueInstructors = [...new Set(filteredInstructor.map(item => item.instructor_id.name))];
-    setInstructor(uniqueInstructors);
-
-    if (uniqueInstructors.length === 1) {
-      handleInstructorSelect({ selectedName: uniqueInstructors.at(0) });
-    }
+    setSelectedResult({
+      ...selectedResultInitializedValue,
+      category,
+      noParticipants: selectedResult.noParticipants,
+    });
   };
 
-  useEffect(() => {
-    filterInstructor();
-  }, [selectedRegion]);
+  const selectProgram = ({ programTitle }: { programTitle: string }) => {
+    setIsSelectProgram(true);
+    setSelectedProgramTitle(programTitle);
+    initializeSelectedRegionAndInstructor();
 
-  useEffect(() => {
-    if (selectedResult?.program_id && programStore?.length > 0) {
-      const matchedProgram = programStore.find(program => program.id === selectedResult.program_id);
-
-      if (matchedProgram) {
-        const totalPrice = matchedProgram.price * noParticipants;
-        setSelectedResult({
-          ...selectedResult,
-          totalPrice: totalPrice,
-        });
-      }
-    }
-  }, [noParticipants]);
-
-  useEffect(() => {
-    if (selectedResult?.program_id && programStore?.length > 0) {
-      const matchedProgram = programStore.find(program => program.id === selectedResult.program_id);
-
-      if (matchedProgram) {
-        setSelectedResult({
-          ...selectedResult,
-          category: matchedProgram.category,
-        });
-      }
-    }
-  }, [selectedResult?.program_id, programStore]);
-
-  const handleInstructorSelect = ({ selectedName }: { selectedName: string }) => {
-    setSelectedInstructor(selectedName);
-    setIsSelectInstructor(true);
-
-    const selectedInstructorData = everyProgramLegacy_DO_NOT_USE_THIS.find(
-      item => item.title === selectedProgram && item.region === selectedRegion && item.instructor_id?.name === selectedName,
-    );
-
-    const newResult = {
-      ...selectedResult,
-      instructor: selectedName,
-      instructor_id: selectedInstructorData.instructor_id.id,
-      program_id: selectedInstructorData.id,
-      totalPrice: selectedInstructorData.price || 0,
-      slot_id: null,
-      date: null,
-    };
-
-    setSelectedResult(newResult);
+    setSelectedResult({
+      ...selectedResultInitializedValue,
+      category: selectedResult.category,
+      program: programTitle,
+      noParticipants: selectedResult.noParticipants,
+    });
   };
 
   function selectRegion({ location }: { location: string }) {
-    setSelectedInstructor('');
     setSelectedRegion(location);
-    setIsSelectInstructor(false);
+    initializeSelectedInstructor();
+
     setSelectedResult({
-      ...selectedResult,
+      ...selectedResultInitializedValue,
+      category: selectedResult.category,
+      program: selectedResult.program,
       region: location,
-      instructor: '',
-      date: null,
+      noParticipants: selectedResult.noParticipants,
     });
   }
 
-  const initializeRegionAndInstructor = () => {
-    setSelectedImageUrl('');
-    setSelectedRegion('');
+  const selectInstructor = ({ selectedName }: { selectedName: string }) => {
+    setSelectedInstructor(selectedName);
+    setIsSelectInstructor(true);
+
+    const foundProgram = everyProgramLegacy.find(
+      item => item.title === selectedProgramTitle && item.region === selectedRegion && item.instructor_id?.name === selectedName,
+    );
+
+    setSelectedResult({
+      ...selectedResultInitializedValue,
+      category: selectedResult.category,
+      program: selectedResult.program,
+      program_id: foundProgram.id,
+      region: selectedResult.region,
+      instructor: selectedName,
+      instructor_id: foundProgram.instructor_id.id,
+      noParticipants: selectedResult.noParticipants,
+      totalPrice: foundProgram.price * selectedResult.noParticipants,
+    });
+  };
+
+  const initializeSelectedProgram = () => {
+    setIsSelectProgram(false);
+    setSelectedProgramTitle('');
+    refForProgramSelect.current.value = '';
+  };
+
+  const initializeSelectedInstructor = () => {
     setSelectedInstructor('');
     setIsSelectInstructor(false);
+  };
+
+  const initializeSelectedRegionAndInstructor = () => {
+    setSelectedImageUrl('');
+    setSelectedRegion('');
+    initializeSelectedInstructor();
   };
 
   return (
@@ -250,28 +275,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
                 category === selectedLectureCategory && 'bg-btnActive text-white',
               )}
               onClick={() => {
-                initializeRegionAndInstructor();
-
-                setIsSelectProgram(false);
-                setSelectedProgram('');
-                refForProgramSelect.current.value = '';
-
-                setSelectedLectureCategory(category);
-
-                setSelectedResult({
-                  ...selectedResultInitializedValue,
-                  category,
-                  noParticipants: selectedResult.noParticipants,
-                });
-
-                // setSelectedResult(prev => {
-                //   const a: TSelectedResult = {
-                //     ...prev,
-                //   };
-                //   return {
-                //     ...prev,
-                //   };
-                // });
+                selectCategory({ category });
               }}
             >
               {category}
@@ -281,30 +285,12 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       </div>
       <Select
         ref={refForProgramSelect}
-        label="프로그램명11"
+        label="프로그램명"
         aria-label="강습프로그램 선택"
-        selectedKeys={[selectedProgram]}
+        selectedKeys={[selectedProgramTitle]}
         // value={selectedProgram}
         onChange={e => {
-          // setSelectedImageUrl('');
-          // setIsSelectProgram(true);
-          // setSelectedRegion('');
-          // setSelectedInstructor('');
-          // setIsSelectInstructor(false);
-          // setNoParticipants(1);
-
-          initializeRegionAndInstructor();
-
-          setNoParticipants(selectedResult.noParticipants);
-          setIsSelectProgram(true);
-          setSelectedProgram(e.target.value);
-
-          setSelectedResult({
-            ...selectedResultInitializedValue,
-            category: selectedResult.category,
-            program: e.target.value,
-            noParticipants: selectedResult.noParticipants,
-          });
+          selectProgram({ programTitle: e.target.value });
         }}
         className="w-full h-full text-xl"
       >
@@ -339,7 +325,9 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         label="강사명"
         aria-label="강사 선택"
         selectedKeys={selectedInstructor ? [selectedInstructor] : []}
-        onChange={e => handleInstructorSelect({ selectedName: e.target.value })}
+        onChange={e => {
+          selectInstructor({ selectedName: e.target.value });
+        }}
         className="w-full h-full text-xl"
       >
         {instructor.map(item => (
@@ -374,7 +362,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             className="bg-[#CECECE] border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5    "
             placeholder="999"
             required
-            value={noParticipants}
+            value={selectedResult.noParticipants}
             readOnly
           />
           <button
@@ -415,3 +403,12 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 };
 
 export default ProgramSelectComponent;
+
+// useEffect(() => {
+//   setSelectedResult({
+//     ...selectedResult,
+//     isAgree: false,
+//     date: null,
+//     noParticipants: noParticipants,
+//   });
+// }, [noParticipants]);

@@ -61,12 +61,14 @@ export const selectedResultInitializedValueWhenChangeCategory = {
 };
 
 export const selectedResultInitializedValue = {
+  category: null,
   program: '',
-  noParticipants: 1,
-  date: [],
+  program_id: null,
+  region: null,
   instructor_id: null,
   instructor: '',
-  program_id: null,
+  noParticipants: 1,
+  date: [],
   slot_id: null,
   slot_start_time: '',
   slot_end_time: '',
@@ -76,8 +78,6 @@ export const selectedResultInitializedValue = {
   price: null,
   totalPrice: 0,
   isAgree: false,
-  region: null,
-  category: null,
 };
 
 export const useSelectedResult = create<{

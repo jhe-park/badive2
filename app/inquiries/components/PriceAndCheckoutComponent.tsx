@@ -84,12 +84,7 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
       <div className="flex justify-between items-center w-full">
         <div className="text-lg md:text-2xl py-4">최종 결제 금액</div>
         <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
-          {selectedResult?.totalPrice && (
-            <>
-              <p className="text-lg md:text-2xl">{selectedResult?.totalPrice.toLocaleString()}원</p>
-              {/* <p className="text-lg md:text-2xl">(vat포함)</p> */}
-            </>
-          )}
+          {selectedResult?.totalPrice ? <div className="text-lg md:text-2xl">{selectedResult?.totalPrice.toLocaleString()}원</div> : <div className=""></div>}
         </div>
       </div>
 
