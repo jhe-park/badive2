@@ -306,6 +306,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         console.log(foundTimeSlot);
         console.log(foundProgram);
         console.log(uniqueId);
+
         await supabase
           .from('timeslot')
           .update({
@@ -315,7 +316,19 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       }),
     );
 
+    console.log('getTimeSlots 전');
+    console.log('dayjs(date)');
+    console.log(dayjs(date).format('YYYY-MM-DD'));
+    console.log('selectedInstructor');
+    console.log(selectedInstructor);
+
     const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date, instructor: selectedInstructor });
+    console.log('getTimeSlots 후');
+    console.log('timeSlotsNew.length');
+    console.log(timeSlotsNew.length);
+
+    console.log('timeSlotsNew');
+    console.log(timeSlotsNew);
 
     const filteredTimeSlots = getFilteredTimeSlots({
       programs: everyPrograms,
@@ -423,11 +436,17 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                 <Select
                   className="w-[150px] lg:w-[150px]"
                   onChange={async e => {
-                    const instructor = JSON.parse(e.target.value) as TypeDBinstructor;
-                    setSelectedInstructor(instructor);
+                    if (e.target.value == null || e.target.value === '') {
+                      setSelectedInstructor(undefined);
+                      setSelectedInstructorProfile(undefined);
+                    } else {
+                      const instructor = JSON.parse(e.target.value) as TypeDBinstructor;
+                      setSelectedInstructor(instructor);
 
-                    const foundProfile = profiles.find(profile => profile.email === instructor.email);
-                    setSelectedInstructorProfile(foundProfile);
+                      const foundProfile = profiles.find(profile => profile.email === instructor.email);
+                      setSelectedInstructorProfile(foundProfile);
+                    }
+
                     resetCalendarDate();
                   }}
                 >
