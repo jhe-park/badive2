@@ -287,6 +287,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         ref={refForProgramSelect}
         label="프로그램명"
         aria-label="강습프로그램 선택"
+        showScrollIndicators={true}
         selectedKeys={[selectedProgramTitle]}
         // value={selectedProgram}
         onChange={e => {
