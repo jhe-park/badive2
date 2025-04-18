@@ -1,19 +1,14 @@
-"use client";
+'use client';
 
-import { Button } from "@nextui-org/react";
-import { type ComponentProps } from "react";
-import { useFormStatus } from "react-dom";
-import { useState, useEffect } from "react";
+import { Button } from '@nextui-org/react';
+import { useEffect, useState, type ComponentProps } from 'react';
+import { useFormStatus } from 'react-dom';
 
 type Props = ComponentProps<typeof Button> & {
   pendingText?: string;
 };
 
-export function SubmitButton({
-  children,
-  pendingText = "로그인 중...",
-  ...props
-}: Props) {
+export function SubmitButton({ children, pendingText = '로그인 중...', ...props }: Props) {
   const { pending } = useFormStatus();
   const [isPending, setIsPending] = useState(false);
 

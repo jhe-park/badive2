@@ -1,0 +1,23 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+	  "ecmaVersion": 2024,
+	  "sourceType": "module",
+	  "ecmaFeatures": {
+		"jsx": true
+	  }
+	},
+	"plugins": ["@typescript-eslint"],
+	"extends": [],
+	"rules": {
+	  "no-unused-vars": [
+		"allow",
+		{
+		  "vars": "local",
+		  "args": "none",
+		  "ignoreRestSiblings": false
+		}
+	  ]
+	}
+  }
