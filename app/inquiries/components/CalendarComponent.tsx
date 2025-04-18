@@ -63,7 +63,6 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   useEffect(() => {
     if (selectedResult?.program) {
       const program = programStore.find(item => item.title === selectedResult.program);
-      console.log('program111:', program);
       if (program?.images) {
         setSelectedImageUrl(program.images);
       }
@@ -156,9 +155,15 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
     selectedDate == null
       ? []
       : monthlyTimeSlotsSorted.filter(slot => {
+          if (slot.start_time === '' || slot.start_time == null) {
+            return false;
+          }
           if (dayjs(selectedDate.start).format('YYYY-MM-DD') !== slot.date) return false;
           return true;
         });
+
+  console.log('selectedDateTimeSlots');
+  console.log(selectedDateTimeSlots);
 
   const selectedDateTimeSlotsAM = selectedDateTimeSlots.filter(slot => {
     if (slot.start_time < '12:00') {
@@ -277,8 +282,6 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
           <div className="py-0 text-[20px]">오후</div>
           <div className="flex gap-4 flex-wrap">
             {selectedDateTimeSlotsPM.map(slot => {
-              console.log('✅ slot.start_time');
-              console.log(slot.start_time);
               const formattedHour = parseInt(slot.start_time.split(':').at(0)) - 12;
 
               return (

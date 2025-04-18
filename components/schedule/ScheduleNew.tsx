@@ -195,6 +195,11 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
         const date = dayjs(selectedDate).format('YYYY-MM-DD');
         const start_time = selectedHHMM;
+
+        if (selectedHHMM == null) {
+          return;
+        }
+
         const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
 
         try {
@@ -327,7 +332,13 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       .map(time => {
         const { max_participants, current_participants, program_ids, time_slot_ids } = everyTimeSlotCalculated[time];
 
+        console.log(' everyTimeSlotCalculated[time]');
+        console.log(everyTimeSlotCalculated[time]);
+
         if (max_participants === 0) return;
+
+        // console.log('time');
+        // console.log(time);
 
         return (
           <div className="relative" key={time}>
@@ -372,7 +383,11 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       .filter(item => item != null);
   }
 
+  console.log('✅✅✅ before am');
+  console.log();
   const TimeSlotAMComponents = TimeSlotComponent({ times: TIME_AM });
+  console.log('✅✅✅ after am');
+
   const TimeSlotPMComponents = TimeSlotComponent({ times: TIME_PM });
 
   const logOut = () => {};
@@ -478,9 +493,15 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                       isForbidden = true;
                     }
 
+                    if (selectedHHMM == null) {
+                      toast.error('등록할 시간을 선택해 주세요');
+                      isForbidden = true;
+                    }
+
                     if (isForbidden) {
                       return;
                     }
+
                     addScheduleToDB();
                   }}
                   className="justify-center data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"

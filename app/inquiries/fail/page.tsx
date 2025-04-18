@@ -21,6 +21,7 @@ const page: NextPage<NextPageProps> = async ({ searchParams }) => {
           <p>결제 재요청 후 결제 진행 부탁드립니다.</p>
           <p>궁금하신 점은 언제든지 전화, 카카오톡으로 문의 부탁드립니다.</p>
         </div>
+        {/* 이하 디버그용 코드 */}
         {/* <div className="flex flex-col gap-4 text-center">
           <div className="">
             <div className="">status code</div>
