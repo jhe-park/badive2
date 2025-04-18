@@ -27,7 +27,7 @@ export function getFilteredTimeSlots({
     case '머메이드':
     case '언더워터 댄스':
     case '프리다이빙':
-      timeSlots.filter(timeslot => {
+      filteredTimeSlots = timeSlots.filter(timeslot => {
         const foundProgram = programs.find(program => program.id === timeslot.program_id);
         const isValidCategory = foundProgram?.category === selectedLectureCategory ? true : false;
         const isValidInstructor = foundProgram?.instructor_id === selectedInstructor.id;
