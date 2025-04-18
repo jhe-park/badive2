@@ -1,6 +1,5 @@
-// import { TFetchedTimeSlot } from '@/app/(admin)/admin/schedule/components/CalendarComponentForAdminAndExpert';
 import { TFetchedTimeSlot } from '@/components/schedule/CalendarComponentForAdminAndExpert';
-import { TypeDBinstructor, TypeDBprogram, TypeDBtimeslot } from './dbTableTypes';
+import { TypeDBinstructor, TypeDBprogram } from './dbTableTypes';
 
 export function getFilteredTimeSlots({
   programs,
@@ -14,6 +13,7 @@ export function getFilteredTimeSlots({
   programs: TypeDBprogram[];
 }) {
   let filteredTimeSlots: TFetchedTimeSlot[] = [];
+
   switch (selectedLectureCategory) {
     case '스쿠버다이빙':
       filteredTimeSlots = timeSlots.filter(timeslot => {

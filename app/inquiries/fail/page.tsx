@@ -21,7 +21,7 @@ const page: NextPage<NextPageProps> = async ({ searchParams }) => {
           <p>결제 재요청 후 결제 진행 부탁드립니다.</p>
           <p>궁금하신 점은 언제든지 전화, 카카오톡으로 문의 부탁드립니다.</p>
         </div>
-        <div className="flex flex-col gap-4 text-center">
+        {/* <div className="flex flex-col gap-4 text-center">
           <div className="">
             <div className="">status code</div>
             <div className="">{code ?? 'unknown'}</div>
@@ -30,7 +30,7 @@ const page: NextPage<NextPageProps> = async ({ searchParams }) => {
             <div className="">message</div>
             <div className="">{message ?? 'unknown'}</div>
           </div>
-        </div>
+        </div> */}
         <Link className="text-2xl font-bold text-[#0077B6]" href="/">
           홈으로 이동
         </Link>
