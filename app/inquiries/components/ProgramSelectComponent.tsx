@@ -2,7 +2,12 @@
 
 import { useProgramStore } from '@/app/store/useProgramStore';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
-import { selectedResultInitializedValue, TSelectedResult, useSelectedResult } from '@/app/store/useSelectedResult';
+import {
+  selectedResultInitializedValue,
+  selectedResultInitializedValueWhenChangeCategory,
+  TSelectedResult,
+  useSelectedResult,
+} from '@/app/store/useSelectedResult';
 import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
@@ -253,6 +258,12 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
                 setSelectedLectureCategory(category);
 
+                setSelectedResult({
+                  ...selectedResultInitializedValue,
+                  category,
+                  noParticipants: selectedResult.noParticipants,
+                });
+
                 // setSelectedResult(prev => {
                 //   const a: TSelectedResult = {
                 //     ...prev,
@@ -270,7 +281,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       </div>
       <Select
         ref={refForProgramSelect}
-        label="프로그램명"
+        label="프로그램명11"
         aria-label="강습프로그램 선택"
         selectedKeys={[selectedProgram]}
         // value={selectedProgram}
@@ -284,13 +295,15 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
           initializeRegionAndInstructor();
 
-          setNoParticipants(1);
+          setNoParticipants(selectedResult.noParticipants);
           setIsSelectProgram(true);
           setSelectedProgram(e.target.value);
 
           setSelectedResult({
             ...selectedResultInitializedValue,
+            category: selectedResult.category,
             program: e.target.value,
+            noParticipants: selectedResult.noParticipants,
           });
         }}
         className="w-full h-full text-xl"

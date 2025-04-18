@@ -20,6 +20,46 @@ export type TSelectedResult = {
   category: string | null;
 };
 
+export const selectedResultInitializedValueWhenChangeProgram = {
+  // program: '',
+  noParticipants: 1,
+  date: [],
+  instructor_id: null,
+  instructor: '',
+  program_id: null,
+  slot_id: null,
+  slot_start_time: '',
+  slot_end_time: '',
+  slot_date: '',
+  slot_current_participants: null,
+  slot_max_participants: null,
+  price: null,
+  totalPrice: 0,
+  isAgree: false,
+  region: null,
+  category: null,
+};
+
+export const selectedResultInitializedValueWhenChangeCategory = {
+  instructor_id: null,
+  instructor: '',
+  region: null,
+  program: '',
+  program_id: null,
+  date: [],
+  slot_id: null,
+  slot_start_time: '',
+  slot_end_time: '',
+  slot_date: '',
+  slot_current_participants: null,
+  slot_max_participants: null,
+  price: null,
+  totalPrice: 0,
+  isAgree: false,
+  // category: null,
+  // noParticipants: 1,
+};
+
 export const selectedResultInitializedValue = {
   program: '',
   noParticipants: 1,
