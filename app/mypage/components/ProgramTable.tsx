@@ -2,6 +2,7 @@
 
 import useModalOpen from '@/app/store/useModalOpen';
 import { BANK_LIST } from '@/constants/constants';
+import { useCancelStatus } from '@/hooks/useCancelStatus';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
 import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
@@ -26,6 +27,7 @@ import {
 import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { throttle } from 'lodash';
+import { LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
@@ -52,6 +54,8 @@ export default function ProgramTable({
     accountNumber: null,
     accountOwnerName: null,
   });
+
+  const { cancelStatus, changeCancelStatus } = useCancelStatus();
 
   const [isCancelWorkInProgress, setIsCancelWorkInProgress] = useState<boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -111,17 +115,18 @@ export default function ProgramTable({
   };
 
   const handleConfirmRequest = async onClose => {
-    console.log('✅ in handleConfirmRequest');
-    console.log();
-    if (isCancelWorkInProgress) {
-      console.log('isCancelWorkInProgress === true');
-      console.log();
+    if (cancelStatus === 'CANCEL_COMPLETED' || cancelStatus === 'CANCEL_WORK_IN_PROGRESS') {
       return;
     }
 
+    console.log('✅ in handleConfirmRequest');
+    console.log();
+
     let accountNumberRefined: string | null = null;
 
-    setIsCancelWorkInProgress(true);
+    // setIsCancelWorkInProgress(true);
+    changeCancelStatus({ status: 'CANCEL_WORK_IN_PROGRESS' });
+
     if (selectedProgram.status === '예약확정' && selectedProgram?.pay_type === '가상계좌') {
       refundInfos.accountNumber;
 
@@ -155,8 +160,8 @@ export default function ProgramTable({
 
       if (isInvalid) {
         // toast.error('환불 정보를 정확히 입력해주세요');
-        setIsCancelWorkInProgress(false);
 
+        changeCancelStatus({ status: 'CANCEL_READY' });
         return;
       }
     } // 가상계좌 데이터 검토 끝
@@ -173,7 +178,8 @@ export default function ProgramTable({
     // 지난 프로그램인 경우
     if (diffDays < 0) {
       toast.error('지난 프로그램은 환불이 불가능합니다.');
-      setIsCancelWorkInProgress(false);
+
+      changeCancelStatus({ status: 'CANCEL_READY' });
 
       return;
     }
@@ -181,7 +187,8 @@ export default function ProgramTable({
     // 1일 이내 취소
     if (diffDays <= 1) {
       toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
-      setIsCancelWorkInProgress(false);
+
+      changeCancelStatus({ status: 'CANCEL_READY' });
 
       return;
     }
@@ -218,7 +225,11 @@ export default function ProgramTable({
     if (tossPaymentCancelResJson.status === 'FAILED') {
       toast.error(`토스페이먼트 취소 요청이 실패 하였습니다 : ${JSON.stringify(tossPaymentCancelResJson)}`);
       console.error('tossPaymentCancelResJson:', tossPaymentCancelResJson);
-      setIsCancelWorkInProgress(false);
+      //
+      // changeCancelStatus({ status: 'CANCEL_READY' });
+      setTimeout(() => {
+        changeCancelStatus({ status: 'CANCEL_READY' });
+      }, 500);
       return;
     }
 
@@ -232,7 +243,10 @@ export default function ProgramTable({
     if (errorForSupabaseTransaction) {
       toast.error(`[🚫 Error in Supabase transaction]: : ${JSON.stringify(errorForSupabaseTransaction)}`);
       console.error('[🚫 Error in Supabase transaction]:', errorForSupabaseTransaction);
-      setIsCancelWorkInProgress(false);
+
+      setTimeout(() => {
+        changeCancelStatus({ status: 'CANCEL_READY' });
+      }, 500);
       return;
     }
 
@@ -250,19 +264,22 @@ export default function ProgramTable({
     setSelectedProgram(null);
     setIsCancelOpen(false);
 
+    changeCancelStatus({ status: 'CANCEL_COMPLETED' });
+
     const res = await handleGetProgram({
       supabase: supabase,
       profileId: profile.data.id,
     });
 
     if (res.status === 'FAILED') {
-      setIsCancelWorkInProgress(false);
+      changeCancelStatus({ status: 'CANCEL_COMPLETED' });
+
       return;
     }
 
     setRegisteredPrograms(res.data);
     setTotalPage(Math.ceil(res.count / pageSize));
-    setIsCancelWorkInProgress(false);
+    changeCancelStatus({ status: 'CANCEL_COMPLETED' });
   };
 
   return (
@@ -399,7 +416,6 @@ export default function ProgramTable({
                     >
                       닫기
                     </Button>
-
                     <Button
                       isDisabled={selectedProgram.status === '취소완료'}
                       color="primary"
@@ -497,13 +513,18 @@ export default function ProgramTable({
                   </Button>
                   <Button
                     color="primary"
+                    isDisabled={cancelStatus === 'CANCEL_WORK_IN_PROGRESS' || cancelStatus === 'CANCEL_COMPLETED'}
                     onPress={e => {
-                      console.log('✅ in onpress');
-                      throttle(() => handleConfirmRequest(onClose), 1000, { leading: true, trailing: false });
+                      handleConfirmRequest(onClose);
+                      // console.log('✅ in onpress');
+                      // throttle(() => , 1000, { leading: true, trailing: false });
                     }}
                     className="w-1/3"
                   >
-                    예약취소
+                    {/* <LoaderCircle size={20} /> */}
+                    {cancelStatus === 'CANCEL_READY' && <p>예약취소</p>}
+                    {cancelStatus === 'CANCEL_WORK_IN_PROGRESS' && <LoaderCircle size={20} />}
+                    {cancelStatus === 'CANCEL_COMPLETED' && <p>취소완료</p>}
                   </Button>
                 </div>
               </ModalFooter>
