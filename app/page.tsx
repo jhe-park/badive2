@@ -5,8 +5,20 @@ import MainInstructor from './components/MainInstructor';
 import MainNews from './components/MainNews';
 import MainStory from './components/MainStory';
 import WelcomePopup from './components/WelcomePopup';
+import { NextPage } from 'next';
+import { redirect } from 'next/navigation';
 
-export default async function Home() {
+const Home: NextPage<NextPageProps> = async ({ params, searchParams }) => {
+  const { returnUrl } = await searchParams;
+
+  console.log('in home');
+  console.log('returnUrl');
+  console.log(returnUrl);
+
+  if (typeof returnUrl === 'string' && returnUrl.length > 0) {
+    redirect(returnUrl);
+  }
+
   checkIsSafariBrowser();
 
   return (
@@ -19,7 +31,7 @@ export default async function Home() {
       <MainNews />
     </div>
   );
-}
+};
 
 async function checkIsSafariBrowser() {
   const headersList = headers();
@@ -27,3 +39,5 @@ async function checkIsSafariBrowser() {
   const isSafari = userAgent.includes('Safari') && !userAgent.includes('Chrome') && !userAgent.includes('Edg');
   return isSafari;
 }
+
+export default Home;

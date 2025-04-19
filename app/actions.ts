@@ -36,6 +36,9 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
   const password = formData.get('password') as string;
   const supabase = await createClient();
 
+  console.log('in server action');
+  console.log('returnUrl');
+  console.log(returnUrl);
   // const { data: profile } = await supabase.from('profiles').select('failCount').eq('email', email).single();
 
   // if (profile?.failCount >= 6) {

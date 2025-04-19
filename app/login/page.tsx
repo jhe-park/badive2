@@ -69,9 +69,9 @@ export default async function Login(props) {
           <Divider className="flex-1" />
         </div>
         <div className="flex justify-center items-center gap-5">
-          <GoogleLoginComponent domainWithProtocol={domainWithProtocol}/>
-          <KakaoLoginComponent  domainWithProtocol={domainWithProtocol}/>
-          <NaverLoginComponent />
+          <GoogleLoginComponent returnUrl={returnUrl} domainWithProtocol={domainWithProtocol}/>
+          <KakaoLoginComponent  returnUrl={returnUrl} domainWithProtocol={domainWithProtocol}/>
+          <NaverLoginComponent  returnUrl={returnUrl}  />
         </div>
       </div>
     </div>

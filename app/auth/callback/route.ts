@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   // https://supabase.com/docs/guides/auth/server-side/nextjs
 
   console.log('✅in  app\auth\callback\route.ts');
-  
+
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
   const origin = requestUrl.origin;
@@ -18,6 +18,7 @@ export async function GET(request: Request) {
   console.log(origin);
 
   const redirectTo = requestUrl.searchParams.get('redirect_to')?.toString();
+  const returnUrl = requestUrl.searchParams.get('returnUrl')?.toString();
 
   if (code) {
     const supabase = await createClient();
@@ -85,10 +86,21 @@ export async function GET(request: Request) {
     }
   }
 
+  console.log('returnUrl');
+  console.log(returnUrl);
+
+  // if (typeof returnUrl === 'string' && returnUrl.length > 0) {
+  //   return NextResponse.redirect(returnUrl);
+  // }
+
   if (redirectTo) {
-    return NextResponse.redirect(`${origin}${redirectTo}`);
+    const targetUrl = typeof returnUrl === 'string' ? `${origin}${redirectTo}?returnUrl=${returnUrl}` : `${origin}${redirectTo}`;
+
+    return NextResponse.redirect(targetUrl);
   }
 
+  const targetUrl = typeof returnUrl === 'string' ? `${origin}/?returnUrl=${returnUrl}` : `${origin}/`;
+
   // URL to redirect to after sign up process completes
-  return NextResponse.redirect(`${origin}/`);
+  return NextResponse.redirect(targetUrl);
 }
