@@ -18,14 +18,16 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.
 const handler = NextAuth({
   providers: [
     NaverProvider({
-      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID ?? '',
-      clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET ?? '',
+      clientId: process.env.NAVER_CLIENT_ID ?? '',
+      clientSecret: process.env.NAVER_CLIENT_SECRET ?? '',
+      // clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID ?? '',
+      // clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET ?? '',
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account, profile, credentials }) {
       // user, account, profile 중 하나라도 값이 있는지 확인
-      console.log('123444');
+      console.log('in nextauth callbacks');
       if (!user && !account && !profile) {
         console.log('인증 정보가 없습니다');
         return false;
@@ -35,54 +37,50 @@ const handler = NextAuth({
       // profiles 테이블에서 사용자 조회
       const { data, error } = await supabaseAdmin.from('profiles').select('*').eq('email', email).single();
 
-      let userId;
+      // let userId;
       console.log('테이블조회결과:', data);
       console.log('가입할이메일:', email);
-      if (error) {
-        // 사용자가 없는 경우, 새로운 사용자 생성
-        console.log('사용자가 없는 경우, 새로운 사용자 생성');
-        const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-          email,
-          password: 'defaultPassword',
-          email_confirm: true,
-        });
 
-        if (createError) {
-          // createError.__isAuthError
-          // 이미 가입된 사용자가 있는 경우 (이메일 중복)
-          if (createError.code === 'email_exists') {
-            console.log('이미 가입된 이메일입니다:', email);
+      if (!error) {
+        // const password = `defaultPassword`; // 강제 비밀번호 설정
+        // const { data, error } = await supabase.auth.signInWithPassword({
+        //   email,
+        //   password,
+        // });
+        return true;
+      }
 
-            // 기존 사용자 정보 가져오기
-            const { data: existingUser, error: fetchError } = await supabaseAdmin.from('profiles').select('*').eq('email', email).single();
+      console.log('error');
+      console.log(error);
 
-            if (fetchError) {
-              console.error('기존 사용자 정보 조회 실패:', fetchError);
-              return false;
-            }
+      // if (error) {
+      // 사용자가 없는 경우, 새로운 사용자 생성
+      console.log('사용자가 없는 경우, 새로운 사용자 생성');
 
-            userId = existingUser.user.id;
-            console.log('기존 사용자 ID:', userId);
+      const { data: newUser, error: createUserError } = await supabaseAdmin.auth.admin.createUser({
+        email,
+        password: 'defaultPassword',
+        email_confirm: true,
+      });
 
-            // 프로필 테이블에 사용자 정보가 없는 경우 추가
-            const { error: profileError } = await supabaseAdmin.from('profiles').upsert(
-              { id: userId, email: email, snsRegister: true },
-              {
-                onConflict: 'id',
-              },
-            );
+      if (createUserError) {
+        // createError.__isAuthError
+        // 이미 가입된 사용자가 있는 경우 (이메일 중복)
+        if (createUserError.code === 'email_exists') {
+          console.log('이미 가입된 이메일입니다:', email);
 
-            if (profileError) {
-              console.error('기존 사용자 프로필 업데이트 오류:', profileError);
-            }
-          } else {
-            console.error('사용자 생성 오류:', createError);
+          // 기존 사용자 정보 가져오기
+          const { data: profileData, error: errorForProfile } = await supabaseAdmin.from('profiles').select('*').eq('email', email).single();
+
+          if (errorForProfile) {
+            console.error('기존 사용자 정보 조회 실패:', errorForProfile);
             return false;
           }
-        } else {
-          userId = newUser.user.id;
-          console.log('새로운 사용자 생성:', userId);
-          // profiles 테이블 업데이트
+
+          const userId = profileData.user.id;
+          console.log('기존 사용자 ID:', userId);
+
+          // 프로필 테이블에 사용자 정보가 없는 경우 추가
           const { error: profileError } = await supabaseAdmin.from('profiles').upsert(
             { id: userId, email: email, snsRegister: true },
             {
@@ -91,15 +89,35 @@ const handler = NextAuth({
           );
 
           if (profileError) {
-            console.error('프로필 업데이트 오류:', profileError);
+            console.error('기존 사용자 프로필 업데이트 오류:', profileError);
           }
+        } else {
+          console.error('사용자 생성 오류:', createUserError);
+          return false;
         }
       } else {
-        userId = data.id;
-      }
-      console.log('로긴시도!');
+        // supabaseAdmin.auth.admin.createUser 호출결과 에러가 없음
+        const userId = newUser.user.id;
+        console.log('새로운 사용자 생성:', userId);
+        // profiles 테이블 업데이트
+        const { error: profileError } = await supabaseAdmin.from('profiles').upsert(
+          { id: userId, email: email, snsRegister: true },
+          {
+            onConflict: 'id',
+          },
+        );
 
-      return true;
+        if (profileError) {
+          console.error('프로필 업데이트 오류:', profileError);
+        }
+      }
+
+      // }
+      // else {
+      //   userId = data.id;
+      // }
+
+      // return true;
     },
   },
 });

@@ -26,6 +26,7 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
     try {
       const res = await fetch('/api/membership-withdrawal', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile: profile.data }),
       });
 

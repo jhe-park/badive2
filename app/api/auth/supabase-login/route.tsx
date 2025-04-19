@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
+// 이 경로는 오직 네이버 로그인만을 처리한다
 export async function POST(request) {
   const supabase = await createClient();
   const { email } = await request.json();
@@ -15,8 +17,11 @@ export async function POST(request) {
   });
 
   if (error) {
-    console.log('로그인 에러 발생:', error.message);
+    console.log('로그인 에러 발생:');
+    console.error(error.message);
     // 필수값이 없거나 기타 오류 발생 시 /register/sns로 리다이렉트
+    // redirect('/register/sns');
+    //  return
     return NextResponse.json(
       {
         redirect: '/register/sns',
@@ -25,6 +30,8 @@ export async function POST(request) {
     );
   }
 
+  // 로그인 성공
+  
   // 사용자 프로필 정보 확인
   const { data: profileData, error: profileError } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
 
@@ -38,6 +45,10 @@ export async function POST(request) {
   // snsRegister가 true이고 필수 정보(name, gender, phone, birth)가 비어있는지 확인
   if (profileData.snsRegister === true && (!profileData.name || !profileData.gender || !profileData.phone || !profileData.birth)) {
     console.log('SNS 사용자의 필수 정보 미입력. 추가 정보 입력 페이지로 이동');
+    // redirect('/register/sns');
+    // console.log('');
+    // console.log();
+    // return;
     return NextResponse.json(
       {
         redirect: '/register/sns',
@@ -45,6 +56,8 @@ export async function POST(request) {
       { status: 200 },
     );
   }
+
+  // redirect('/');
 
   return NextResponse.json(
     {
