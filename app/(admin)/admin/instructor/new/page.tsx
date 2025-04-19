@@ -5,14 +5,14 @@ import { Button, Chip, Input, Select, SelectItem, Textarea } from '@heroui/react
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LuCirclePlus } from 'react-icons/lu';
 import { ToastContainer, toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function InstructorNewPage() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState('bdn');
   const [selectedProgram, setSelectedProgram] = useState(['scuba']);
   const [imageUrl, setImageUrl] = useState('');
@@ -76,8 +76,10 @@ export default function InstructorNewPage() {
       toast.error('연락처는 하이픈이나 공백 없이 입력해주세요 (예: 01012345678)');
       return;
     }
-    const { data: userData, error: userError } = await supabaseAdmin.from('profiles').select('*').eq('email', email).single();
-    if (userError) {
+
+    const { data: userData, error: profileError } = await supabaseAdmin.from('profiles').select('*').eq('email', email).single();
+
+    if (profileError) {
       const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
         email,
         password: password,
@@ -120,8 +122,10 @@ export default function InstructorNewPage() {
       certifications: certifications,
       ...programFlags,
     });
+
     if (error) {
       console.log('Error saving data:', error);
+      toast.error(error.message, { autoClose: false, style: { width: 'full' } });
     } else {
       setIsSave(true);
       console.log('Data saved successfully:', data);
@@ -182,7 +186,7 @@ export default function InstructorNewPage() {
           selectionMode="multiple"
           labelPlacement="inside"
           selectedKeys={selectedProgram}
-          onSelectionChange={keys => setSelectedProgram((Array.from(keys) as any))}
+          onSelectionChange={keys => setSelectedProgram(Array.from(keys) as any)}
         >
           <SelectItem value="scuba" key="scuba">
             스쿠버다이빙

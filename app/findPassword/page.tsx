@@ -9,10 +9,10 @@ export default function Login(props) {
   const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState('');
-//   const [phone, setPhone] = useState('');
-//   const [findEmail, setFindEmail] = useState('');
-//   const [findPhone, setFindPhone] = useState('');
-//   const [id, setId] = useState('');
+  //   const [phone, setPhone] = useState('');
+  //   const [findEmail, setFindEmail] = useState('');
+  //   const [findPhone, setFindPhone] = useState('');
+  //   const [id, setId] = useState('');
 
   const handleFindPassword = async () => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -21,7 +21,12 @@ export default function Login(props) {
     if (error) {
       console.error('에러 발생:', error);
     }
-    toast.success('비밀번호 찾기 이메일을 확인해주세요.');
+
+    toast.success('비밀번호 재설정 링크가 입력하신 이메일 주소로 전송되었습니다. 이메일을 확인해주세요.', {
+      autoClose: 10000,
+    });
+
+    // toast.success('비밀번호 찾기 이메일을 확인해주세요.');
   };
 
   return (

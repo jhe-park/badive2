@@ -316,7 +316,7 @@ export default function Navbar() {
                 </>
               ) : (
                 // '회원가입'
-                ['로그인'].map((item, index) => (
+                ['로그인/회원가입'].map((item, index) => (
                   // text-[14px]
                   <Link key={index} href={`/login`} className="text-[18px] text-black hover:text-gray-500">
                     {item}

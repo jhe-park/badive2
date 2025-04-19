@@ -193,7 +193,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           </ListboxItem>
         );
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line
       [isCompact, hideEndContent, iconClassName, items],
     );
 
