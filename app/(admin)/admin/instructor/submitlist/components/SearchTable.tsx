@@ -78,8 +78,8 @@ export default function SearchTable() {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full">
-      <div className="flex flex-col md:flex-row gap-4 w-full">
+    <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-4 md:flex-row">
         <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="검색어를 입력해주세요" label="검색" endContent={<FaSearch />}></Input>
         <Select label="검색기준" selectedKeys={[selectedFilter]} onChange={e => setSelectedFilter(e.target.value)}>
           <SelectItem className="text-medium" value="name" key="name">
@@ -123,13 +123,13 @@ export default function SearchTable() {
         <TableBody isLoading={isLoading} loadingContent={<Spinner label="로딩중" className="text-xl" />}>
           {submitList.map(item => (
             <TableRow key={item.id}>
-              <TableCell className="text-center whitespace-nowrap">{item.name}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{item.birth}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{item.gender}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{item.phone}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{item.name}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{item.birth}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{item.region}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{item.gender}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{item.phone}</TableCell>
 
-              <TableCell className="text-center whitespace-nowrap">
+              <TableCell className="whitespace-nowrap text-center">
                 <Button color="primary" onPress={() => router.push(`/admin/instructor/submitlist/${item.id}`)}>
                   자세히 보기
                 </Button>
@@ -139,7 +139,7 @@ export default function SearchTable() {
         </TableBody>
       </Table>
 
-      <div className="flex justify-center items-center ">
+      <div className="flex items-center justify-center">
         <Pagination page={page} total={total || 1} initialPage={1} onChange={handlePageChange} />
       </div>
     </div>

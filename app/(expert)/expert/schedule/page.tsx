@@ -23,7 +23,7 @@ export default async function ExpertSchedulePage() {
   const profilesForLoginUser = profiles.find(profile => profile.email === user.email);
 
   return (
-    <div className="w-full h-full flex flex-col gap-4">
+    <div className="flex h-full w-full flex-col gap-4">
       <ScheduleNew
         user={user}
         profilesForLoginUser={profilesForLoginUser}

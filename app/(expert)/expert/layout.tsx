@@ -22,7 +22,7 @@ export default async function ({ children }) {
     <>
       <div className="block md:hidden">
         <SideBarForMobile type="EXPERT" user={user} menuItems={menuItems} />
-        <div className="px-4 pt-8 pb-4">{children}</div>
+        <div className="px-4 pb-4 pt-8">{children}</div>
       </div>
       <div className="hidden md:block">
         <SidebarAndMainContents children={children} user={user} />

@@ -38,7 +38,6 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
     console.log('e.currentTarget');
     console.log(e.currentTarget);
 
-
     console.log('⭕toggleSidebar');
     setIsOpen(!isOpen);
   };
@@ -68,7 +67,7 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
   return (
     <div className="relative">
       <button
-        className="fixed top-3 right-3 z-[10000] bg-white bg-opacity-90 p-2.5 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+        className="fixed right-3 top-3 z-[10000] rounded-full bg-white bg-opacity-90 p-2.5 shadow-md transition-colors hover:bg-gray-100"
         onClick={toggleSidebar}
         aria-label="Toggle sidebar menu"
       >
@@ -76,7 +75,7 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
       </button>
 
       <div
-        className={`fixed top-0 h-screen bg-white shadow-lg overflow-y-auto transition-all duration-300 ease-in-out z-[9999] ${
+        className={`fixed top-0 z-[9999] h-screen overflow-y-auto bg-white shadow-lg transition-all duration-300 ease-in-out ${
           isOpen ? 'left-0' : '-left-full'
         }`}
         style={{ width: sidebarWidth }}
@@ -86,8 +85,8 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
             <Menu className="text-gray-700" size={24} />
           </button>
         </div> */}
-        <nav className="flex flex-col justify-between gap-12  h-full">
-          <ul className="list-none p-0 pt-6 pl-4 m-0 ">
+        <nav className="flex h-full flex-col justify-between gap-12">
+          <ul className="m-0 list-none p-0 pl-4 pt-6">
             <div className="flex items-center gap-2 px-2">
               <Link href="/admin/main">
                 <span className="text-2xl font-bold uppercase">BADIVE</span>
@@ -97,8 +96,8 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
             <div className="flex items-center gap-3 px-3">
               <div className="flex flex-col">
                 {type === 'EXPERT' && (
-                  <div className="flex gap-2 items-center">
-                    <div className="w-10 h-10 rounded-full overflow-hidden relative">
+                  <div className="flex items-center gap-2">
+                    <div className="relative h-10 w-10 overflow-hidden rounded-full">
                       {expertInformation?.profile_image && <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />}
                     </div>
                     <p className="text-lg font-medium text-default-600">{expertInformation?.name}</p>
@@ -112,7 +111,7 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
               {menuItems.map((item, index) => (
                 <li key={index}>
                   {/* hover:bg-gray-50 */}
-                  <a href={item.url} className="cursor-pointer block py-4 px-5 text-gray-700 border-b border-gray-200  transition-colors">
+                  <a href={item.url} className="block cursor-pointer border-b border-gray-200 px-5 py-4 text-gray-700 transition-colors">
                     {item.name}
                   </a>
                 </li>

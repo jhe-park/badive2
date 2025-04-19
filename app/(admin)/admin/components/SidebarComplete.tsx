@@ -83,17 +83,17 @@ export default function SidebarComplete({ children, user }: { children: React.Re
           </Button>
         </div>
       </div>
-      <div className="w-[95%] md:w-full h-[100vh] flex flex-col gap-y-4 md:mx-4 mx-auto">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4 h-[10vh] w-full mt-4">
+      <div className="mx-auto flex h-[100vh] w-[95%] flex-col gap-y-4 md:mx-4 md:w-full">
+        <header className="mt-4 flex h-[10vh] w-full items-center gap-3 rounded-medium border-small border-divider p-4">
           <Button isIconOnly size="sm" variant="light" onPress={() => setIsHidden(!isHidden)}>
-            <RxHamburgerMenu className="text-black text-xl" />
+            <RxHamburgerMenu className="text-xl text-black" />
           </Button>
           <h2 className="text-2xl font-bold text-default-700">{pageTitle}</h2>
         </header>
-        <main className="w-full h-full mb-4 overflow-y-auto">
+        <main className="mb-4 h-full w-full overflow-y-auto">
           <div
             style={{ fontFamily: 'Freesentation-9Black' }}
-            className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-auto scrollbar-hide p-6"
+            className="flex h-full w-full flex-col gap-4 overflow-auto rounded-medium border-small border-divider p-6 scrollbar-hide"
           >
             {children}
           </div>

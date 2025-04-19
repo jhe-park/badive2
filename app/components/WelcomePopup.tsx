@@ -121,8 +121,8 @@ export default function WelcomePopup() {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]">
-      <div className="bg-white rounded-lg shadow-lg xl:w-[25vw] md:w-[60vw] w-[80vw] h-auto overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-50">
+      <div className="flex h-auto w-[80vw] flex-col overflow-hidden rounded-lg bg-white shadow-lg md:w-[60vw] xl:w-[25vw]">
         {/* 배너 영역 - 460x600 비율 유지 */}
         <div className="w-full" style={{ aspectRatio: '460/600' }}>
           {tabs[activeTab].banners.map(banner => (
@@ -131,7 +131,7 @@ export default function WelcomePopup() {
                 loading="lazy"
                 src={banner.image}
                 alt={banner.title}
-                className="w-full h-full object-cover cursor-pointer"
+                className="h-full w-full cursor-pointer object-cover"
                 onClick={() => handleBannerClick(banner.link)}
               />
             </div>
@@ -139,12 +139,11 @@ export default function WelcomePopup() {
         </div>
 
         {/* 탭 영역 - 3x2 배열 */}
-        <div className="grid grid-cols-3 grid-rows-2 gap-0.5 border-t border-gray-200 w-full">
+        <div className="grid w-full grid-cols-3 grid-rows-2 gap-0.5 border-t border-gray-200">
           {Object.entries(tabs).map(([tabId, tabData]) => (
             <Button
               key={tabId}
-              className={`py-1.5 px-2 text-[12px] sm:text-sm text-center cursor-pointer transition-all duration-300 rounded-none
-                ${activeTab === tabId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-50'}`}
+              className={`cursor-pointer rounded-none px-2 py-1.5 text-center text-[12px] transition-all duration-300 sm:text-sm ${activeTab === tabId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-50'}`}
               onPress={() => setActiveTab(tabId)}
               style={{ wordWrap: 'break-word', whiteSpace: 'normal', minHeight: '40px' }}
             >
@@ -154,11 +153,11 @@ export default function WelcomePopup() {
         </div>
 
         {/* 하단 컨트롤 */}
-        <div className="flex justify-between items-center px-2.5 py-2 w-full border-t border-gray-200">
+        <div className="flex w-full items-center justify-between border-t border-gray-200 px-2.5 py-2">
           <Checkbox type="checkbox" className="m-0" onChange={e => handleClose(e.target.checked)}>
             <span className="text-xs sm:text-sm">하루 동안 보지 않기</span>
           </Checkbox>
-          <Button className="px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs sm:text-sm" onPress={() => handleClose(false)}>
+          <Button className="rounded bg-blue-500 px-3 py-1.5 text-xs text-white hover:bg-blue-600 sm:text-sm" onPress={() => handleClose(false)}>
             닫기
           </Button>
         </div>

@@ -8,7 +8,7 @@ export default async function InstructorPage() {
   const bdnInstructorCount = instructor?.filter(item => item.role === 'bdn').length || 0;
   const nonBdnInstructorCount = instructor?.filter(item => item.role !== 'bdn').length || 0;
   return (
-    <div className="flex flex-col w-full h-full gap-y-6">
+    <div className="flex h-full w-full flex-col gap-y-6">
       <SearchTable></SearchTable>
     </div>
   );

@@ -56,7 +56,7 @@ export default function Actionbar() {
   }, []);
 
   return isVisible || isMobile ? (
-    <div className="fixed right-4 bottom-4 flex flex-col bg-[#F5F5F5] rounded-lg p-2 fade-in z-50 xl:w-[8%] max-w-[100px] md:w-[14%] w-[17%] md:text-[20px] text-[10px]">
+    <div className="fade-in fixed bottom-4 right-4 z-50 flex w-[17%] max-w-[100px] flex-col rounded-lg bg-[#F5F5F5] p-2 text-[10px] md:w-[14%] md:text-[20px] xl:w-[8%]">
       {[
         {
           label: '소속강사',
@@ -86,7 +86,7 @@ export default function Actionbar() {
       ].map(({ label, src, url, Icon }, index) => (
         <div
           key={index}
-          className={`text-white md:p-2 py-1 flex flex-col items-center justify-center hover:cursor-pointer ${index !== 4 ? 'border-b border-gray-300' : ''}`}
+          className={`flex flex-col items-center justify-center py-1 text-white hover:cursor-pointer md:p-2 ${index !== 4 ? 'border-b border-gray-300' : ''}`}
           onClick={() => {
             if (label === 'TOP') {
               if (typeof window !== 'undefined') {
@@ -98,15 +98,15 @@ export default function Actionbar() {
           }}
         >
           <div>
-            <Icon className="text-black md:text-2xl text-sm" />
+            <Icon className="text-sm text-black md:text-2xl" />
           </div>
-          <div className="text-black text-[9px] md:text-sm">{label}</div>
+          <div className="text-[9px] text-black md:text-sm">{label}</div>
         </div>
       ))}
-      <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-full h-full bg-black text-lg rounded-md md:p-2">
-        <p className="font-bold text-sm md:text-2xl text-white text-center blink">{daysSinceFebFirst}일</p>
-        <p className="text-white text-center text-sm md:text-2xl font-bold">
-          <span className="text-red-500 font-bold">無</span>사고
+      <div style={{ fontFamily: 'Freesentation-9Black' }} className="h-full w-full rounded-md bg-black text-lg md:p-2">
+        <p className="blink text-center text-sm font-bold text-white md:text-2xl">{daysSinceFebFirst}일</p>
+        <p className="text-center text-sm font-bold text-white md:text-2xl">
+          <span className="font-bold text-red-500">無</span>사고
         </p>{' '}
       </div>
     </div>

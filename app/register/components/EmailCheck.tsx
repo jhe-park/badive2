@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Input, Button } from "@heroui/react";
-import {createClient} from "@/utils/supabase/client";
+import React, { useState } from 'react';
+import { Input, Button } from '@heroui/react';
+import { createClient } from '@/utils/supabase/client';
 
 export default function EmailCheck() {
-
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const supabase = createClient();
 
   const handleDuplicateCheck = async () => {
@@ -19,7 +18,7 @@ export default function EmailCheck() {
   };
 
   return (
-    <div className="flex flex-row items-start justify-start w-full gap-x-4">
+    <div className="flex w-full flex-row items-start justify-start gap-x-4">
       <Input
         isRequired
         name="email"
@@ -27,7 +26,7 @@ export default function EmailCheck() {
         className="w-full"
         placeholder="아이디를 입력해 주세요."
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={e => setEmail(e.target.value)}
       />
       <Button className="w-[10%]" onPress={handleDuplicateCheck}>
         중복확인

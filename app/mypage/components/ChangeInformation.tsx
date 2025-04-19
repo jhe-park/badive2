@@ -108,7 +108,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
   };
 
   return (
-    <div className="flex flex-col gap-4 md:p-5 w-full">
+    <div className="flex w-full flex-col gap-4 md:p-5">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -121,9 +121,9 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
         pauseOnHover
         theme="light"
       />
-      <div className="text-2xl font-bold w-full justify-center items-center text-center">비밀번호 수정</div>
-      <Divider className="w-full bg-black h-0.5"></Divider>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full gap-y-5">
+      <div className="w-full items-center justify-center text-center text-2xl font-bold">비밀번호 수정</div>
+      <Divider className="h-0.5 w-full bg-black"></Divider>
+      <div className="grid w-full grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2">
         <div className="flex flex-col">
           {/* <div>비밀번호</div> */}
           <Input
@@ -132,7 +132,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder="비밀번호"
             variant="bordered"
             type="password"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={password}
             onChange={e => setPassword(e.target.value)}
             isInvalid={password !== passwordCheck}
@@ -146,15 +146,15 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder="비밀번호 확인"
             variant="bordered"
             type="password"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={passwordCheck}
             onChange={e => setPasswordCheck(e.target.value)}
             isInvalid={password !== passwordCheck}
           />
         </div>
       </div>
-      {password !== passwordCheck && <div className="text-red-500 text-sm">비밀번호가 일치하지 않습니다.</div>}
-      <div className="flex gap-2 w-full">
+      {password !== passwordCheck && <div className="text-sm text-red-500">비밀번호가 일치하지 않습니다.</div>}
+      <div className="flex w-full gap-2">
         <Button type="reset" variant="flat" className="w-full">
           취소
         </Button>
@@ -163,9 +163,9 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
         </Button>
       </div>
 
-      <div className="text-2xl font-bold w-full justify-center items-center text-center">내 정보 수정</div>
-      <Divider className="w-full bg-black h-0.5"></Divider>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 w-full gap-y-5">
+      <div className="w-full items-center justify-center text-center text-2xl font-bold">내 정보 수정</div>
+      <Divider className="h-0.5 w-full bg-black"></Divider>
+      <div className="grid w-full grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2">
         <div className="flex flex-col">
           {/* <div>이름</div> */}
 
@@ -175,7 +175,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder="abcd1234@naver.com"
             type="text"
             variant="bordered"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={profile?.data?.email}
             isDisabled={true}
           />
@@ -189,7 +189,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder="홍길동동"
             type="text"
             variant="bordered"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={name}
             onChange={e => setName(e.target.value)}
           />
@@ -202,7 +202,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder="010-1234-5678"
             type="text"
             variant="bordered"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={phone}
             onChange={e => setPhone(e.target.value)}
           />
@@ -215,7 +215,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder="1980-01-01"
             type="text"
             variant="bordered"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={birth}
             onChange={e => setBirth(e.target.value)}
           />
@@ -228,7 +228,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
             placeholder=""
             type="text"
             variant="bordered"
-            className="w-full col-span-1"
+            className="col-span-1 w-full"
             value={license}
             onChange={e => setLicense(e.target.value)}
           />
@@ -236,7 +236,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
 
         <div className="flex flex-col gap-2">
           {/* <div>희망하는 강습</div> */}
-          <div className="flex flex-row gap-2 justify-start items-center w-full">
+          <div className="flex w-full flex-row items-center justify-start gap-2">
             {/* <span>01.</span> */}
             <Select onChange={e => setClassWant1(e.target.value)} label="희망하는 강습1" variant="bordered" selectedKeys={[classWant1]}>
               {programlist.map(program => (
@@ -246,7 +246,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
               ))}
             </Select>
           </div>
-          <div className="flex flex-row gap-2 justify-start items-center w-full">
+          <div className="flex w-full flex-row items-center justify-start gap-2">
             {/* <span>02.</span> */}
             <Select onChange={e => setClassWant2(e.target.value)} label="희망하는 강습2" variant="bordered" selectedKeys={[classWant2]}>
               {programlist.map(program => (
@@ -256,7 +256,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
               ))}
             </Select>
           </div>
-          <div className="flex flex-row gap-2 justify-start items-center w-full">
+          <div className="flex w-full flex-row items-center justify-start gap-2">
             {/* <span>03.</span> */}
             <Select onChange={e => setClassWant3(e.target.value)} label="희망하는 강습3" variant="bordered" selectedKeys={[classWant3]}>
               {programlist.map(program => (
@@ -272,7 +272,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
           <RadioGroup
             label="성별"
             orientation="horizontal"
-            className="w-full border-2 border-gray-200 rounded-xl p-4"
+            className="w-full rounded-xl border-2 border-gray-200 p-4"
             value={gender}
             onChange={e => setGender(e.target.value)}
           >
@@ -287,14 +287,14 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
 
         <div className="flex flex-col gap-y-5">
           {/* <div>주소</div> */}
-          <div className="flex flex-row gap-2 justify-start items-center w-full">
+          <div className="flex w-full flex-row items-center justify-start gap-2">
             <Input
               name="address"
               label="우편번호"
               placeholder="10265"
               type="text"
               variant="bordered"
-              className="w-full col-span-1"
+              className="col-span-1 w-full"
               value={postCode}
               onChange={e => setPostCode(e.target.value)}
             />
@@ -309,7 +309,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
               label="기본주소"
               type="text"
               variant="bordered"
-              className="w-full col-span-1"
+              className="col-span-1 w-full"
               value={firstAddress}
               onChange={e => setFirstAddress(e.target.value)}
             />
@@ -322,14 +322,14 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
               label="개포동동"
               type="text"
               variant="bordered"
-              className="w-full col-span-1"
+              className="col-span-1 w-full"
               value={secondAddress}
               onChange={e => setSecondAddress(e.target.value)}
             />
           </div>
-          <div className="flex flex-col gap-2 justify-start items-start w-full">
+          <div className="flex w-full flex-col items-start justify-start gap-2">
             <div>광고 및 마케팅 수신 동의(선택)</div>
-            <div className="flex flex-row gap-4 justify-start items-start w-full">
+            <div className="flex w-full flex-row items-start justify-start gap-4">
               <Checkbox onChange={e => setMarketingSms(e.target.checked)} isSelected={marketingSms} key="sms">
                 문자 승인
               </Checkbox>
@@ -342,7 +342,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
         </div>
       </div>
 
-      <div className="flex gap-2 w-full">
+      <div className="flex w-full gap-2">
         <Button type="reset" variant="flat" className="w-full">
           취소
         </Button>

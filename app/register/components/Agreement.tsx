@@ -35,8 +35,8 @@ export default function Agreement() {
   };
 
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <div style={{ fontFamily: 'Freesentation-9Black' }} className="text-5xl font-bold text-center">
+    <div className="flex w-full flex-col gap-3">
+      <div style={{ fontFamily: 'Freesentation-9Black' }} className="text-center text-5xl font-bold">
         약관동의
       </div>
       <ToastContainer
@@ -52,9 +52,9 @@ export default function Agreement() {
         theme="light"
       />
       <Checkbox isSelected={termsChecked} onChange={e => setTermsChecked(e.target.checked)} style={{ fontFamily: 'Freesentation-9Black' }}>
-        이용약관 동의<span className="text-red-500 font-bold">(필수)</span>
+        이용약관 동의<span className="font-bold text-red-500">(필수)</span>
       </Checkbox>
-      <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-full h-[30vh] border-2 border-gray-300 rounded-lg p-6 overflow-y-auto scrollbar-hide">
+      <div style={{ fontFamily: 'Freesentation-9Black' }} className="h-[30vh] w-full overflow-y-auto rounded-lg border-2 border-gray-300 p-6 scrollbar-hide">
         <p>
           <strong>이용약관</strong>
         </p>
@@ -170,9 +170,9 @@ export default function Agreement() {
 
       <Checkbox isSelected={privacyChecked} onChange={e => setPrivacyChecked(e.target.checked)} style={{ fontFamily: 'Freesentation-9Black' }}>
         개인정보 수집 및 이용 동의
-        <span className="text-red-500 font-bold">(필수)</span>
+        <span className="font-bold text-red-500">(필수)</span>
       </Checkbox>
-      <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-full h-[20vh] border-2 border-gray-300 rounded-lg p-6 overflow-y-auto scrollbar-hide">
+      <div style={{ fontFamily: 'Freesentation-9Black' }} className="h-[20vh] w-full overflow-y-auto rounded-lg border-2 border-gray-300 p-6 scrollbar-hide">
         <p>
           <strong>개인정보 이용 동의</strong>
         </p>
@@ -223,9 +223,9 @@ export default function Agreement() {
         style={{ fontFamily: 'Freesentation-9Black' }}
       >
         마케팅 목적의 개인정보 수집 및 이용 동의
-        <span className=" font-bold">(선택)</span>
+        <span className="font-bold">(선택)</span>
       </Checkbox>
-      <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-full h-[20vh] border-2 border-gray-300 rounded-lg p-6 overflow-y-auto scrollbar-hide">
+      <div style={{ fontFamily: 'Freesentation-9Black' }} className="h-[20vh] w-full overflow-y-auto rounded-lg border-2 border-gray-300 p-6 scrollbar-hide">
         <p>
           <strong>마케팅 목적의 개인정보 수집 및 이용 동의 (선택)</strong>
         </p>
@@ -268,7 +268,7 @@ export default function Agreement() {
       </div>
       <Checkbox isSelected={ageChecked} onChange={e => setAgeChecked(e.target.checked)} style={{ fontFamily: 'Freesentation-9Black' }}>
         만 14세 이상입니다.
-        <span className="text-red-500 font-bold">(필수)</span>
+        <span className="font-bold text-red-500">(필수)</span>
       </Checkbox>
       <Checkbox
         checked={termsChecked && privacyChecked && ageChecked}
@@ -284,7 +284,7 @@ export default function Agreement() {
         이용약관, 개인정보 수집 및 이용, 마케팅 목적의 개인정보 수집 및 이용에 모두 동의합니다.
       </Checkbox>
 
-      <div className="flex justify-center items-center gap-5 w-full">
+      <div className="flex w-full items-center justify-center gap-5">
         <Button onPress={handleCancel} className="w-1/4" color={'' as any} variant="bordered" type="button">
           취소
         </Button>

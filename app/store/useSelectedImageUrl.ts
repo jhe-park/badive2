@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from 'zustand';
 
 // 선택된 이미지 URL 상태를 위한 인터페이스 정의
 interface SelectedImageUrlState {
@@ -6,17 +6,17 @@ interface SelectedImageUrlState {
   setSelectedImageUrl: (selectedImageUrl: string) => void;
 }
 
-const useSelectedImageUrl = create<SelectedImageUrlState>((set) => ({
-  selectedImageUrl: "", 
+const useSelectedImageUrl = create<SelectedImageUrlState>(set => ({
+  selectedImageUrl: '',
   setSelectedImageUrl: (selectedImageUrl: string) => set({ selectedImageUrl }),
-}))
+}));
 
-export default useSelectedImageUrl
+export default useSelectedImageUrl;
 
 // import { create } from "zustand"
 
 // const useSelectedImageUrl = create((set) => ({
-//   selectedImageUrl: "", 
+//   selectedImageUrl: "",
 //   setSelectedImageUrl: (selectedImageUrl) => set({ selectedImageUrl }),
 // }))
 

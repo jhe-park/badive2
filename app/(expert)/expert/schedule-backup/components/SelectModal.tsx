@@ -476,20 +476,20 @@ export default function SelectModal({
             return (
               <>
                 <ModalHeader className="">
-                  <div className="flex md:flex-row flex-col justify-between w-full gap-y-2">
-                    <div className="text-lg md:text-2xl font-bold">{selectedResult.instructor}</div>
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                  <div className="flex w-full flex-col justify-between gap-y-2 md:flex-row">
+                    <div className="text-lg font-bold md:text-2xl">{selectedResult.instructor}</div>
+                    <div className="flex flex-col items-start gap-2 md:flex-row md:items-center">
                       <div className="flex items-center gap-2 pr-6">
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-[#A9D6E5]"></div>
+                          <div className="h-4 w-4 bg-[#A9D6E5]"></div>
                           <div className="text-sm md:text-lg">예약완료</div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-[#F4F4F4]"></div>
+                          <div className="h-4 w-4 bg-[#F4F4F4]"></div>
                           <div className="text-sm md:text-lg">예약가능</div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-[#FD0000]"></div>
+                          <div className="h-4 w-4 bg-[#FD0000]"></div>
                           <div className="text-sm md:text-lg">예약불가</div>
                         </div>
                       </div>
@@ -510,9 +510,9 @@ export default function SelectModal({
                     <Table aria-label="Schedule table" shadow="none" removeWrapper className="border-collapse border border-gray-300">
                       <TableHeader>
                         <>
-                          <TableColumn className="text-sm md:text-lg text-center w-1/8 border border-gray-300">시간/요일</TableColumn>
+                          <TableColumn className="w-1/8 border border-gray-300 text-center text-sm md:text-lg">시간/요일</TableColumn>
                           {tableData.map((slot, index) => (
-                            <TableColumn key={index} className="text-sm md:text-lg text-center w-1/8 border border-gray-300">
+                            <TableColumn key={index} className="w-1/8 border border-gray-300 text-center text-sm md:text-lg">
                               {`${slot.date.slice(5).replace('-', '/')}(${slot.weekday})`}
                             </TableColumn>
                           ))}
@@ -520,15 +520,13 @@ export default function SelectModal({
                       </TableHeader>
                       <TableBody>
                         {tableData[0]?.schedule.map((schedule, timeIndex) => (
-                          <TableRow key={timeIndex} className="text-center overflow-x-auto">
+                          <TableRow key={timeIndex} className="overflow-x-auto text-center">
                             <>
-                              <TableCell className="text-center text-sm md:text-lg z-50 border border-gray-300">{schedule.time}</TableCell>
+                              <TableCell className="z-50 border border-gray-300 text-center text-sm md:text-lg">{schedule.time}</TableCell>
                               {tableData.map((slot, dateIndex) => (
                                 <TableCell
                                   key={dateIndex}
-                                  className={`text-center select-none
-                                  ${getStatusColor(slot.schedule[timeIndex].status)}
-                                  ${isCellSelected(`${timeIndex}-${dateIndex}`) ? 'border-5 border-primary' : 'border border-gray-300'}`}
+                                  className={`select-none text-center ${getStatusColor(slot.schedule[timeIndex].status)} ${isCellSelected(`${timeIndex}-${dateIndex}`) ? 'border-5 border-primary' : 'border border-gray-300'}`}
                                   onClick={() =>
                                     handleCellClick(
                                       `${timeIndex}-${dateIndex}`,
@@ -547,11 +545,11 @@ export default function SelectModal({
                                     if (reservation.time_slot_id.id === slot.schedule[timeIndex].id && reservation.status !== '예약불가') {
                                       return (
                                         <div
-                                          className="flex flex-col justify-center items-center rounded-lg border-2 border-[#A9D6E5] p-2 my-2"
+                                          className="my-2 flex flex-col items-center justify-center rounded-lg border-2 border-[#A9D6E5] p-2"
                                           key={reservation.id}
                                         >
-                                          <p className="truncate w-full text-center">{reservation?.time_slot_id?.program_id?.title}</p>
-                                          <p className="truncate w-full text-center">{reservation?.user_id?.email}</p>
+                                          <p className="w-full truncate text-center">{reservation?.time_slot_id?.program_id?.title}</p>
+                                          <p className="w-full truncate text-center">{reservation?.user_id?.email}</p>
                                         </div>
                                       );
                                     }
@@ -572,7 +570,7 @@ export default function SelectModal({
                       <Button color="danger" className="w-full text-lg" onPress={handleMultiNotAvailable}>
                         선택한 {selectedCells.length}개 항목 예약불가로 수정
                       </Button>
-                      <Button color="success" className="w-full text-white text-lg" onPress={handleMultiAvailable}>
+                      <Button color="success" className="w-full text-lg text-white" onPress={handleMultiAvailable}>
                         선택한 {selectedCells.length}개 항목 예약가능으로 수정
                       </Button>
                       <Button color="default" className="w-full text-lg" onPress={clearAllSelections}>
@@ -584,7 +582,7 @@ export default function SelectModal({
                       <Button color="danger" className="w-full text-lg" onPress={handleNotAvailable}>
                         예약불가로 수정
                       </Button>
-                      <Button color="success" className="w-full text-white text-lg" onPress={handleAvailable}>
+                      <Button color="success" className="w-full text-lg text-white" onPress={handleAvailable}>
                         예약가능으로 수정
                       </Button>
                     </>

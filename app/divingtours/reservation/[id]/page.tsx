@@ -10,8 +10,8 @@ export default async function page({ params }) {
   const tourData = data;
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] ">
-      <div className="w-[calc(1320/1920*100%)] h-full flex flex-col items-center justify-center gap-y-5 my-24">
+    <div className="mt-[100px] flex h-full w-full flex-col items-center justify-center">
+      <div className="my-24 flex h-full w-[calc(1320/1920*100%)] flex-col items-center justify-center gap-y-5">
         <RequestForm className={''} tourData={tourData} user={user}></RequestForm>
       </div>
     </div>

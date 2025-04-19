@@ -206,24 +206,24 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className={cn('nav w-full fixed z-20 bg-white/80 backdrop-blur-sm h-[100px] shadow-lg text-black', pathname.startsWith('/event/') && 'hidden')}
+      className={cn('nav fixed z-20 h-[100px] w-full bg-white/80 text-black shadow-lg backdrop-blur-sm', pathname.startsWith('/event/') && 'hidden')}
       style={{
         top: pathname === '/' && !isMobileMenuOpen ? (isOpen ? '-100px' : '0') : '0',
       }}
     >
-      <div className="w-full px-4 md:px-8 flex justify-between h-full md:mx-auto">
+      <div className="flex h-full w-full justify-between px-4 md:mx-auto md:px-8">
         {/* 로고 영역 */}
 
-        <div className="flex items-center justify-center flex-col md:pl-4 z-50">
+        <div className="z-50 flex flex-col items-center justify-center md:pl-4">
           <Link href="/">
-            <Image src="/logo/logo.png" alt="Logo" width={80} height={40} className="hover:opacity-80 transition-opacity" />
+            <Image src="/logo/logo.png" alt="Logo" width={80} height={40} className="transition-opacity hover:opacity-80" />
           </Link>
         </div>
 
         {/* 햄버거 메뉴 버튼 (모바일) */}
-        <button className="lg:hidden flex items-center" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button className="flex items-center lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           <svg
-            className="w-6 h-6 text-black"
+            className="h-6 w-6 text-black"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -236,14 +236,14 @@ export default function Navbar() {
         </button>
 
         {/* 데스크톱 메뉴 */}
-        <div className="hidden lg:flex flex-col items-end justify-center relative z-50">
+        <div className="relative z-50 hidden flex-col items-end justify-center lg:flex">
           {/* 상단 행: 로그인/회원가입/마이페이지 */}
-          <div className="flex h-1/3 gap-6 justify-end items-center">
+          <div className="flex h-1/3 items-center justify-end gap-6">
             {user ? (
               <>
                 <Link
                   href="/mypage"
-                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                  className="relative text-[12px] text-black after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 after:content-[''] hover:after:w-full"
                 >
                   마이페이지
                 </Link>
@@ -251,7 +251,7 @@ export default function Navbar() {
                   onClick={() => {
                     handleSignOut();
                   }}
-                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                  className="relative text-[12px] text-black after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 after:content-[''] hover:after:w-full"
                 >
                   로그아웃
                 </button>
@@ -261,7 +261,7 @@ export default function Navbar() {
                 <Link
                   key={index}
                   href={`/${item === '로그인/회원가입' ? 'login' : 'register'}`}
-                  className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                  className="relative text-[12px] text-black after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 after:content-[''] hover:after:w-full"
                 >
                   {item}
                 </Link>
@@ -270,21 +270,21 @@ export default function Navbar() {
           </div>
 
           {/* 하단 행: 메인 메뉴 */}
-          <div className="flex h-2/3 justify-end items-center gap-x-12">
+          <div className="flex h-2/3 items-center justify-end gap-x-12">
             {menuItems.map((item, index) => (
               <div key={index} className="relative" onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}>
                 <Link
                   href={item.href}
-                  className="text-[16px] font-bold text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                  className="relative text-[16px] font-bold text-black after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 after:content-[''] hover:after:w-full"
                 >
                   {item.title}
                 </Link>
 
                 {/* 서브메뉴 */}
                 {item.submenu && openSubmenu === index && (
-                  <div className="absolute bg-white/80 backdrop-blur-sm mt-2 py-4 rounded-md shadow-lg min-w-[200px] pointer-events-auto pl-6">
+                  <div className="pointer-events-auto absolute mt-2 min-w-[200px] rounded-md bg-white/80 py-4 pl-6 shadow-lg backdrop-blur-sm">
                     {item.submenu.map((subitem, subindex) => (
-                      <Link key={`${index}-${subindex}`} href={subitem.href} className="block text-sm text-black py-2 px-4 whitespace-nowrap">
+                      <Link key={`${index}-${subindex}`} href={subitem.href} className="block whitespace-nowrap px-4 py-2 text-sm text-black">
                         {subitem.title}
                       </Link>
                     ))}
@@ -297,9 +297,9 @@ export default function Navbar() {
 
         {/* 모바일 메뉴 */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-[100px] left-0 w-full bg-white/80 backdrop-blur-sm">
+          <div className="absolute left-0 top-[100px] w-full bg-white/80 backdrop-blur-sm lg:hidden">
             {/* 모바일 로그인 메뉴 */}
-            <div className="flex justify-center gap-6 py-4 border-b border-gray-500">
+            <div className="flex justify-center gap-6 border-b border-gray-500 py-4">
               {user ? (
                 <>
                   <Link href="/mypage" className="text-[14px] text-black hover:text-gray-500">
@@ -309,7 +309,7 @@ export default function Navbar() {
                     onClick={() => {
                       handleSignOut();
                     }}
-                    className="text-[12px] text-black relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+                    className="relative text-[12px] text-black after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 after:content-[''] hover:after:w-full"
                   >
                     로그아웃
                   </button>
@@ -329,7 +329,7 @@ export default function Navbar() {
             <div className="py-4 backdrop-blur-lg">
               {menuItems.map((item, index) => (
                 <div key={index} className="relative">
-                  <div className="flex justify-between items-center px-6 py-3 text-black ">
+                  <div className="flex items-center justify-between px-6 py-3 text-black">
                     <Link
                       href={item.href}
                       className="flex-1 text-[16px]"
@@ -352,7 +352,7 @@ export default function Navbar() {
                   {item.submenu && openSubmenu === index && (
                     <div className="bg-white/80 pl-6">
                       {item.submenu.map((subitem, subindex) => (
-                        <Link key={`${index}-${subindex}`} href={subitem.href} className="block px-4 md:px-8 py-2 text-[14px] text-black hover:text-gray-500 ">
+                        <Link key={`${index}-${subindex}`} href={subitem.href} className="block px-4 py-2 text-[14px] text-black hover:text-gray-500 md:px-8">
                           {subitem.title}
                         </Link>
                       ))}

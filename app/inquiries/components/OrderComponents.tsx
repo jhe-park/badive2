@@ -23,7 +23,7 @@ const OrderComponents: React.FC<TProps> = ({ userReservations, userData, profile
   return (
     <>
       {isSelectProgram && selectedImageUrl && (
-        <div className="w-full max-w-[500px] aspect-square flex items-center justify-center relative">
+        <div className="relative flex aspect-square w-full max-w-[500px] items-center justify-center">
           <Image src={selectedImageUrl} alt="Program Image" fill />
         </div>
       )}
@@ -32,12 +32,12 @@ const OrderComponents: React.FC<TProps> = ({ userReservations, userData, profile
           style={{
             aspectRatio: '1/1',
           }}
-          className="w-full md:w-[500px] md:h-[500px] flex items-center justify-center relative"
+          className="relative flex w-full items-center justify-center md:h-[500px] md:w-[500px]"
         >
           <Image src="/inquiries/logo.png" alt="badive logo" width={500} height={500} className="object-contain"></Image>
         </div>
       )}
-      <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 items-start justify-center gap-y-6 gap-x-12 md:flex-col-reverse">
+      <div className="grid h-full w-full grid-cols-1 items-start justify-center gap-x-12 gap-y-6 md:grid-cols-2 md:flex-col-reverse">
         <CalendarComponent
           setSelectedImageUrl={setSelectedImageUrl}
           userReservations={userReservations}

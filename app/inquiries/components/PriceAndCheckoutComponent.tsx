@@ -88,23 +88,23 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
 
   return (
     <div
-      className={cn('w-full mt-6 lg:mt-0', showMode === 'MOBILE' && 'block lg:hidden w-full sm:w-[85%] md:w-full', showMode === 'DESKTOP' && 'hidden lg:block')}
+      className={cn('mt-6 w-full lg:mt-0', showMode === 'MOBILE' && 'block w-full sm:w-[85%] md:w-full lg:hidden', showMode === 'DESKTOP' && 'hidden lg:block')}
     >
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
-      <div className="w-full text-lg md:text-2xl font-bold py-4">결제</div>
+      <div className="w-full py-4 text-lg font-bold md:text-2xl">결제</div>
       <Divider className="w-full bg-[#A6A6A6]"></Divider>
-      <div className="flex justify-between items-center w-full">
-        <div className="text-lg md:text-2xl py-4">최종 결제 금액</div>
-        <div className="flex flex-col justify-center items-center w-1/3 md:w-1/5 text-center">
+      <div className="flex w-full items-center justify-between">
+        <div className="py-4 text-lg md:text-2xl">최종 결제 금액</div>
+        <div className="flex w-1/3 flex-col items-center justify-center text-center md:w-1/5">
           {selectedResult?.totalPrice ? <div className="text-lg md:text-2xl">{selectedResult?.totalPrice.toLocaleString()}원</div> : <div className=""></div>}
         </div>
       </div>
 
-      <div className="w-full flex justify-center pt-4">
+      <div className="flex w-full justify-center pt-4">
         <Button
           isDisabled={paymentStatus === 'PAYMENT_WORK_IN_PROGRESS' || paymentStatus === 'PAYMENT_COMPLETED'}
           onClick={handlePaymentClick}
-          className={cn('bg-[#0077B6] text-white w-full text-lg md:text-2xl h-12 md:h-16', isReadyForCheckout === false && 'bg-gray-400 cursor-not-allowed')}
+          className={cn('h-12 w-full bg-[#0077B6] text-lg text-white md:h-16 md:text-2xl', isReadyForCheckout === false && 'cursor-not-allowed bg-gray-400')}
         >
           {paymentStatus === 'PAYMENT_READY' && <p>결제하기</p>}
           {(paymentStatus === 'PAYMENT_WORK_IN_PROGRESS' || paymentStatus === 'PAYMENT_COMPLETED') && <LoaderCircle size={20} />}

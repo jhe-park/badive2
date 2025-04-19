@@ -11,7 +11,7 @@ export default function SubmitListButton() {
         router.push('/admin/instructor/submitlist');
       }}
       color="primary"
-      className="w-1/4 h-full text-lg text-white"
+      className="h-full w-1/4 text-lg text-white"
     >
       강사 신청서 확인
     </Button>

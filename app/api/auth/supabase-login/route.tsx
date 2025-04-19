@@ -8,7 +8,7 @@ export async function POST(request) {
   const password = `defaultPassword`; // 강제 비밀번호 설정
 
   console.log('🚫 in /supabase-login');
-  
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,

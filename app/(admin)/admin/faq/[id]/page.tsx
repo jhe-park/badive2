@@ -81,21 +81,21 @@ export default function FaqEditPage({ params }) {
   console.log('answer:', answer);
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col gap-y-6 w-full justify-center items-center">
-        <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
+    <div className="flex h-full w-full flex-col">
+      <div className="flex w-full flex-col items-center justify-center gap-y-6">
+        <div className="flex w-full flex-col items-start justify-evenly gap-y-6">
           <div className="w-full">
             <Input label="질문" labelPlacement="inside" placeholder="질문을 입력해주세요" value={question} onChange={e => setQuestion(e.target.value)}></Input>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center mt-6">
-        <div className="w-full flex flex-col gap-y-2 mb-6">
+      <div className="mt-6 flex flex-col items-center justify-center">
+        <div className="mb-6 flex w-full flex-col gap-y-2">
           {/* <Tiptap description={description} setDescription={setDescription}></Tiptap> */}
           <Froala value={content} onChange={handleEditorChange}></Froala>
         </div>
-        <div className="flex flex-row gap-x-2 justify-end w-full">
+        <div className="flex w-full flex-row justify-end gap-x-2">
           <Button isLoading={isSave} color="success" onPress={handleSaveFaq}>
             수정
           </Button>

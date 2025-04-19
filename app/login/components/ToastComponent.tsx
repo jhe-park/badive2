@@ -1,14 +1,14 @@
-"use client";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+'use client';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function ToastComponent() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    console.log("에러에러")
-    const error = searchParams.get("error");
+    console.log('에러에러');
+    const error = searchParams.get('error');
     if (error) {
       toast.error(decodeURIComponent(error));
     }

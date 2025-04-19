@@ -131,7 +131,7 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
   };
 
   return (
-    <div className="w-full h-full gap-y-6 flex flex-col">
+    <div className="flex h-full w-full flex-col gap-y-6">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -144,23 +144,23 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
         pauseOnHover
         theme="light"
       />
-      <div className="text-2xl font-bold w-full text-center">강습신청내역</div>
+      <div className="w-full text-center text-2xl font-bold">강습신청내역</div>
       <Table classNames={{ wrapper: 'p-0' }} aria-label="Example static collection table whitespace-nowrap overflow-x-auto" shadow="none">
         <TableHeader>
-          <TableColumn className="text-center w-1/4">프로그램명</TableColumn>
-          <TableColumn className="text-center w-1/4">강사</TableColumn>
-          <TableColumn className="text-center w-1/4">날짜</TableColumn>
-          <TableColumn className="text-center w-1/4">상태태</TableColumn>
-          <TableColumn className="text-center w-1/4">환불</TableColumn>
+          <TableColumn className="w-1/4 text-center">프로그램명</TableColumn>
+          <TableColumn className="w-1/4 text-center">강사</TableColumn>
+          <TableColumn className="w-1/4 text-center">날짜</TableColumn>
+          <TableColumn className="w-1/4 text-center">상태태</TableColumn>
+          <TableColumn className="w-1/4 text-center">환불</TableColumn>
         </TableHeader>
         <TableBody className="">
           {programs.map(program => (
             <TableRow key={program.id}>
-              <TableCell className="text-center whitespace-nowrap">{program.time_slot_id.program_id.title}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{program.time_slot_id.instructor_id.name}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{program.time_slot_id.date}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{program.status}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">
+              <TableCell className="whitespace-nowrap text-center">{program.time_slot_id.program_id.title}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{program.time_slot_id.instructor_id.name}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{program.time_slot_id.date}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{program.status}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">
                 {program.status === '예약확정' && (
                   <Button
                     color={isRefundable(program.time_slot_id.date) ? 'success' : 'danger'}

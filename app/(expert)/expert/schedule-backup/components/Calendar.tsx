@@ -9,7 +9,6 @@ import { createClient } from '@/utils/supabase/client';
 import { useDisclosure } from '@nextui-org/react';
 
 export default function Calendar() {
-
   // 현재 선택된 월 상태
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { selectedResult, setSelectedResult } = useSelectedResult();
@@ -166,9 +165,9 @@ export default function Calendar() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 items-center justify-start">
+    <div className="flex h-full w-full flex-col items-center justify-start gap-4">
       {/* 월 선택 Select */}
-      <div className="flex flex-col md:flex-row w-full justify-start gap-x-4 gap-y-2">
+      <div className="flex w-full flex-col justify-start gap-x-4 gap-y-2 md:flex-row">
         <Select
           selectedKeys={[selectedMonth]}
           onChange={e => setSelectedMonth(e.target.value)}
@@ -203,12 +202,12 @@ export default function Calendar() {
       </div>
 
       {/* 달력 그리드 */}
-      <div className="grid grid-cols-7 gap-0 w-full my-6">
+      <div className="my-6 grid w-full grid-cols-7 gap-0">
         {/* 요일 헤더 */}
         {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
-            className={`font-bold text-sm md:text-3xl text-center h-16 flex items-center justify-center w-full ${index === 0 ? 'text-red-500' : ''}`}
+            className={`flex h-16 w-full items-center justify-center text-center text-sm font-bold md:text-3xl ${index === 0 ? 'text-red-500' : ''}`}
           >
             {day}
           </div>
@@ -244,20 +243,19 @@ export default function Calendar() {
           return (
             <div
               key={day}
-              className={`relative text-center text-sm md:text-3xl w-full h-8 md:h-16 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition
-                ${
-                  isSelected
-                    ? isStart
-                      ? 'bg-primary-500 text-white rounded-l-full'
-                      : isEnd
-                        ? 'bg-primary-500 text-white rounded-r-full'
-                        : 'bg-primary-500 text-white'
-                    : ''
-                }`}
+              className={`relative flex h-8 w-full cursor-pointer items-center justify-center text-center text-sm transition hover:bg-gray-200 md:h-16 md:text-3xl ${
+                isSelected
+                  ? isStart
+                    ? 'rounded-l-full bg-primary-500 text-white'
+                    : isEnd
+                      ? 'rounded-r-full bg-primary-500 text-white'
+                      : 'bg-primary-500 text-white'
+                  : ''
+              }`}
               onClick={() => handleDateSelect(day)}
             >
-              {hasUnavailableReservation && <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full ml-3"></div>}
-              {hasCompletedReservation && <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>}
+              {hasUnavailableReservation && <div className="absolute left-1/2 top-0 ml-3 h-2 w-2 -translate-x-1/2 transform rounded-full bg-red-500"></div>}
+              {hasCompletedReservation && <div className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 transform rounded-full bg-blue-500"></div>}
               {day}
             </div>
           );

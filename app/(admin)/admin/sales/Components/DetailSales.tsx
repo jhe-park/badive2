@@ -1,46 +1,34 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  getKeyValue,
-} from "@heroui/react";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, getKeyValue } from '@heroui/react';
 
 const columns = [
   {
-    key: "name",
-    label: "프로그램명",
+    key: 'name',
+    label: '프로그램명',
   },
   {
-    key: "sales",
-    label: "매출현황",
+    key: 'sales',
+    label: '매출현황',
   },
 ];
 
-const formatCurrency = (number) => {
+const formatCurrency = number => {
   return number.toLocaleString('ko-KR') + '원';
 };
 
-export default function DetailSales({ detailSales}) {
+export default function DetailSales({ detailSales }) {
   return (
-    <Table
-      shadow="none"
-      className="w-full mb-4"
-      aria-label="Example table with dynamic content"
-    >
+    <Table shadow="none" className="mb-4 w-full" aria-label="Example table with dynamic content">
       <TableHeader columns={columns}>
-        {(column) => (
+        {column => (
           <TableColumn key={column.key} className="text-center">
             {column.label}
           </TableColumn>
         )}
       </TableHeader>
       <TableBody items={detailSales}>
-        {(item) => (
+        {item => (
           <TableRow key={(item as any).key}>
-            {(columnKey) => (
+            {columnKey => (
               <TableCell className="text-center">
                 {columnKey === 'sales' && item[columnKey]
                   ? formatCurrency(Number(item[columnKey].toString().replace(/[^0-9]/g, '')))

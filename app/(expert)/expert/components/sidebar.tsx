@@ -212,7 +212,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
             endContent={isCompact || hideEndContent ? null : (item.endContent ?? null)}
             startContent={
               isCompact ? null : item.icon ? (
-                <Icon className={cn('text-default-500 group-data-[selected=true]:text-foreground ', iconClassName)} icon={item.icon} width={24} />
+                <Icon className={cn('text-default-500 group-data-[selected=true]:text-foreground', iconClassName)} icon={item.icon} width={24} />
               ) : (
                 (item.startContent ?? null)
               )
@@ -234,7 +234,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           </ListboxItem>
         );
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line
       [isCompact, hideEndContent, iconClassName, itemClasses?.base],
     );
 

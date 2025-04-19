@@ -140,13 +140,13 @@ export default function TableData() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col gap-4">
-      <div className="flex flex-row justify-start w-full md:w-1/5">
+    <div className="flex h-full w-full flex-col gap-4">
+      <div className="flex w-full flex-row justify-start md:w-1/5">
         <Button className="w-full" color="primary" endContent={<MdDownload className="text-lg" />} onClick={downloadExcel}>
           엑셀로 다운로드 받기
         </Button>
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col gap-4 md:flex-row">
         <Select selectedKeys={[selectedMonth]} onChange={e => setSelectedMonth(e.target.value)} className="w-full md:w-1/3" label="년월">
           {monthList.map(month => (
             <SelectItem key={month} value={month}>

@@ -176,7 +176,7 @@ export default function Information() {
   };
 
   return (
-    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex flex-col gap-4 justify-center items-center w-full">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full flex-col items-center justify-center gap-4">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -190,14 +190,14 @@ export default function Information() {
         theme="light"
       />
       <div className="flex flex-col gap-2">
-        <p className="text-black text-5xl font-bold">필수입력 정보</p>
-        <p className="text-black text-md">필수 항목이므로 반드시 입력해 주시기 바랍니다.</p>
+        <p className="text-5xl font-bold text-black">필수입력 정보</p>
+        <p className="text-md text-black">필수 항목이므로 반드시 입력해 주시기 바랍니다.</p>
       </div>
-      <Divider className="w-full h-0.5 bg-black" />
-      <div className="flex flex-col gap-2 w-[90%] md:w-[50vw] gap-y-4 ">
-        <div className="flex flex-col items-start justify-start w-full">
+      <Divider className="h-0.5 w-full bg-black" />
+      <div className="flex w-[90%] flex-col gap-2 gap-y-4 md:w-[50vw]">
+        <div className="flex w-full flex-col items-start justify-start">
           <div>이메일</div>
-          <div className="flex flex-row items-start justify-start w-full gap-x-4">
+          <div className="flex w-full flex-row items-start justify-start gap-x-4">
             <Input
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -214,7 +214,7 @@ export default function Information() {
         </div>
         <div className="flex flex-col gap-2">
           <div>패스워드</div>
-          <div className="flex flex-col items-start justify-start w-full">
+          <div className="flex w-full flex-col items-start justify-start">
             <Input
               type="password"
               variant="bordered"
@@ -237,7 +237,7 @@ export default function Information() {
               type="password"
               variant="bordered"
               isInvalid={!isPasswordMatch}
-              className={`w-full `}
+              className={`w-full`}
               placeholder="패스워드를 입력해 주세요."
               value={passwordCheck}
               labelPlacement="outside"
@@ -252,20 +252,20 @@ export default function Information() {
             <Input variant="bordered" placeholder="이름을 입력해 주세요." labelPlacement="outside" value={name} onChange={e => setName(e.target.value)} />
           </div>
         </div>
-        <div className="flex flex-col gap-2 justify-start items-start w-full">
+        <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>휴대폰번호</div>
-          <div className="flex flex-row gap-2 justify-start items-end w-full">
+          <div className="flex w-full flex-row items-end justify-start gap-2">
             <Input variant="bordered" placeholder="01012345678" value={phone} onChange={e => setPhone(e.target.value)} />
           </div>
         </div>
-        <div className="flex flex-col gap-2 justify-start items-start w-full">
+        <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>생년월일</div>
-          <div className="flex flex-row gap-2 justify-start items-end w-full">
+          <div className="flex w-full flex-row items-end justify-start gap-2">
             <Input variant="bordered" placeholder="19800101" value={birth} onChange={e => setBirth(e.target.value)} />
           </div>
           <div></div>
         </div>
-        <div className="flex flex-col gap-2 justify-start items-start w-full">
+        <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>성별</div>
           <div>
             <RadioGroup
@@ -283,9 +283,9 @@ export default function Information() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 justify-start items-start w-full">
+        <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>보유한 라이센스</div>
-          <div className="flex flex-row gap-2 justify-start items-end w-full">
+          <div className="flex w-full flex-row items-end justify-start gap-2">
             <Input
               variant="bordered"
               placeholder="보유한 라이센스 입력력"
@@ -298,15 +298,15 @@ export default function Information() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-black text-5xl font-bold mt-12">선택정보 입력</p>
+        <p className="mt-12 text-5xl font-bold text-black">선택정보 입력</p>
       </div>
-      <Divider className="w-full h-1 bg-black" />
+      <Divider className="h-1 w-full bg-black" />
 
-      <div className="flex flex-col gap-2 w-[90%] md:w-[50vw] gap-y-4">
+      <div className="flex w-[90%] flex-col gap-2 gap-y-4 md:w-[50vw]">
         <div>
           <div>희망하는 강습</div>
-          <div className="flex flex-col gap-2 justify-start items-end w-full">
-            <div className="flex flex-row gap-2 justify-start items-center w-full">
+          <div className="flex w-full flex-col items-end justify-start gap-2">
+            <div className="flex w-full flex-row items-center justify-start gap-2">
               <span>01.</span>
               <Select variant="bordered" selectedKeys={[classWant1]} onChange={e => setClassWant1(e.target.value)}>
                 {programlist.map((item, index) => (
@@ -316,7 +316,7 @@ export default function Information() {
                 ))}
               </Select>
             </div>
-            <div className="flex flex-row gap-2 justify-start items-center w-full">
+            <div className="flex w-full flex-row items-center justify-start gap-2">
               <span>02.</span>
               <Select variant="bordered" selectedKeys={[classWant2]} onChange={e => setClassWant2(e.target.value)}>
                 {programlist.map((item, index) => (
@@ -326,7 +326,7 @@ export default function Information() {
                 ))}
               </Select>
             </div>
-            <div className="flex flex-row gap-2 justify-start items-center w-full">
+            <div className="flex w-full flex-row items-center justify-start gap-2">
               <span>03.</span>
               <Select variant="bordered" selectedKeys={[classWant3]} onChange={e => setClassWant3(e.target.value)}>
                 {programlist.map((item, index) => (
@@ -339,9 +339,9 @@ export default function Information() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 justify-start items-start w-full">
+        <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>광고 및 마케팅 수신 동의(선택)</div>
-          <div className="flex flex-row gap-4 justify-start items-start w-full">
+          <div className="flex w-full flex-row items-start justify-start gap-4">
             <Checkbox onChange={e => setMarketingSms(e.target.checked)} isSelected={marketingSms} key="sms">
               문자 승인
             </Checkbox>
@@ -351,10 +351,10 @@ export default function Information() {
           </div>
           <div className="flex w-full justify-start text-xs">*수신 동의 시 BDN 소식을 빠르게 받아보실 수 있습니다.</div>
         </div>
-        <div className="flex flex-col items-start justify-start w-full">
+        <div className="flex w-full flex-col items-start justify-start">
           <div>주소</div>
-          <div className="flex flex-col items-center justify-start w-full gap-x-4 gap-y-2">
-            <div className="flex flex-row items-center justify-start w-full gap-x-4">
+          <div className="flex w-full flex-col items-center justify-start gap-x-4 gap-y-2">
+            <div className="flex w-full flex-row items-center justify-start gap-x-4">
               <Input variant="bordered" className="w-full" placeholder="우편번호" value={postcode} readOnly onChange={e => setPostcode(e.target.value)} />
               <Button onPress={onOpen}>주소 검색</Button>
             </div>
@@ -373,7 +373,7 @@ export default function Information() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-5 w-full">
+      <div className="flex w-full items-center justify-center gap-5">
         <Button className="w-1/4" color={'' as any} variant="bordered" type="button" onPress={() => setStep(step - 1)}>
           뒤로
         </Button>

@@ -19,20 +19,21 @@ export default async function Login(props) {
 
   const origin = '/login';
 
-  const {domainWithProtocol} = await getDomain()
+  const { domainWithProtocol } = await getDomain();
 
   return (
-    <div className="flex h-full  w-full flex-col items-center justify-center gap-y-10 my-32">
+    <div className="my-32 flex h-full w-full flex-col items-center justify-center gap-y-10">
       <Toast searchParams={searchParams} />
       <div className="flex flex-col items-center gap-y-5">
         <div>
-          <p className="font-bold text-5xl">BADIVE</p>
+          <p className="text-5xl font-bold">BADIVE</p>
         </div>
         <div>
-          <p className="text-small text-default-500 text-[24px]">로그인</p>
+          {/* text-small */}
+          <p className="text-[24px] text-default-500">로그인</p>
         </div>
       </div>
-      <div className="mt-2 flex w-[90%] md:w-1/3 flex-col gap-4 rounded-large bg-content1 px-8 py-6 border-2 border-gray-300">
+      <div className="mt-2 flex w-[90%] flex-col gap-4 rounded-large border-2 border-gray-300 bg-content1 px-8 py-6 md:w-1/3">
         <form
           className="flex flex-col gap-3"
           action={async formData => {
@@ -68,10 +69,10 @@ export default async function Login(props) {
           <p className="shrink-0 text-tiny text-default-500">OR</p>
           <Divider className="flex-1" />
         </div>
-        <div className="flex justify-center items-center gap-5">
-          <GoogleLoginComponent returnUrl={returnUrl} domainWithProtocol={domainWithProtocol}/>
-          <KakaoLoginComponent  returnUrl={returnUrl} domainWithProtocol={domainWithProtocol}/>
-          <NaverLoginComponent  returnUrl={returnUrl}  />
+        <div className="flex items-center justify-center gap-5">
+          <GoogleLoginComponent returnUrl={returnUrl} domainWithProtocol={domainWithProtocol} />
+          <KakaoLoginComponent returnUrl={returnUrl} domainWithProtocol={domainWithProtocol} />
+          <NaverLoginComponent returnUrl={returnUrl} />
         </div>
       </div>
     </div>

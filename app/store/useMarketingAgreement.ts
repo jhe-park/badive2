@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from 'zustand';
 
 // 마케팅 동의 상태를 위한 인터페이스 정의
 interface MarketingAgreementState {
@@ -6,12 +6,12 @@ interface MarketingAgreementState {
   setMarketingAgreement: (marketingAgreement: boolean) => void;
 }
 
-const useMarketingAgreement = create<MarketingAgreementState>((set) => ({
+const useMarketingAgreement = create<MarketingAgreementState>(set => ({
   marketingAgreement: false,
   setMarketingAgreement: (marketingAgreement: boolean) => set({ marketingAgreement }),
-}))
+}));
 
-export default useMarketingAgreement
+export default useMarketingAgreement;
 
 // import { create } from "zustand"
 

@@ -115,7 +115,7 @@ export default function SearchTable() {
   console.log('member:', member);
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 w-full px-4 ">
+      <div className="flex w-full flex-col gap-4 px-4 md:flex-row">
         <Input isDisabled label="총회원수" value={noMember as any}></Input>
         <Input placeholder="검색어를 입력해주세요" label="검색" value={search} onChange={e => setSearch(e.target.value)} endContent={<FaSearch />}></Input>
         <Select label="검색기준" selectedKeys={[selectedSort]} onChange={e => setSelectedSort(e.target.value)}>
@@ -142,46 +142,46 @@ export default function SearchTable() {
           </SelectItem>
         </Select>
       </div>
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex w-full flex-col gap-4">
         <Table aria-label="Example table with dynamic content" shadow="none">
           <TableHeader>
-            <TableColumn key="no" className="text-center w-1/10">
+            <TableColumn key="no" className="w-1/10 text-center">
               NO.
             </TableColumn>
-            <TableColumn key="name" className="text-center w-1/10">
+            <TableColumn key="name" className="w-1/10 text-center">
               이름
             </TableColumn>
-            <TableColumn key="lesson" className="text-center w-1/10">
+            <TableColumn key="lesson" className="w-1/10 text-center">
               희망강습
             </TableColumn>
-            <TableColumn key="email" className="text-center w-1/10">
+            <TableColumn key="email" className="w-1/10 text-center">
               아이디
             </TableColumn>
-            <TableColumn key="birth" className="text-center w-1/10">
+            <TableColumn key="birth" className="w-1/10 text-center">
               생년월일
             </TableColumn>
-            <TableColumn key="gender" className="text-center w-1/10">
+            <TableColumn key="gender" className="w-1/10 text-center">
               성별
             </TableColumn>
-            <TableColumn key="region" className="text-center w-1/10">
+            <TableColumn key="region" className="w-1/10 text-center">
               지역
             </TableColumn>
-            <TableColumn key="phone" className="text-center w-1/10">
+            <TableColumn key="phone" className="w-1/10 text-center">
               연락처
             </TableColumn>
-            <TableColumn key="payment" className="text-center w-1/10">
+            <TableColumn key="payment" className="w-1/10 text-center">
               결제금액
             </TableColumn>
-            <TableColumn key="note" className="text-center w-1/10">
+            <TableColumn key="note" className="w-1/10 text-center">
               비고
             </TableColumn>
           </TableHeader>
           <TableBody items={member} isLoading={isLoading} loadingContent={<Spinner label="로딩중" className="text-xl" />}>
             {item => (
               <TableRow className="" key={item?.no}>
-                <TableCell className="text-center whitespace-nowrap">{item.no}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.name}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">
+                <TableCell className="whitespace-nowrap text-center">{item.no}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.name}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">
                   <div className="select-wrapper" onClick={e => e.stopPropagation()}>
                     <Popover placement="bottom" showArrow={true}>
                       <PopoverTrigger>
@@ -192,7 +192,7 @@ export default function SearchTable() {
                       <PopoverContent>
                         <div className="px-1 py-2">
                           <div className="text-small font-bold">희망 강습 목록</div>
-                          <div className="text-tiny flex flex-col gap-1">
+                          <div className="flex flex-col gap-1 text-tiny">
                             <div>1순위: {item.classWant1 || '-'}</div>
                             <div>2순위: {item.classWant2 || '-'}</div>
                             <div>3순위: {item.classWant3 || '-'}</div>
@@ -202,15 +202,15 @@ export default function SearchTable() {
                     </Popover>
                   </div>
                 </TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.email}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.birth}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">
+                <TableCell className="whitespace-nowrap text-center">{item.email}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.birth}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">
                   {item.gender === 'female' ? '여자' : item.gender === 'male' ? '남자' : item.gender}
                 </TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.phone}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.payment}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">
+                <TableCell className="whitespace-nowrap text-center">{item.region}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.phone}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.payment}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">
                   <Button
                     onPress={() => {
                       router.push(`/admin/member/${item.id}`);
@@ -225,7 +225,7 @@ export default function SearchTable() {
             )}
           </TableBody>
         </Table>
-        <div className="flex justify-center items-center ">
+        <div className="flex items-center justify-center">
           <Pagination initialPage={1} page={page} total={total} />
         </div>
       </div>

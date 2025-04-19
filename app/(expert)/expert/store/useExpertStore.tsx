@@ -16,7 +16,7 @@ interface ExpertStoreState {
   setExpertInformation: (info: ExpertInfo | null) => void;
 }
 
-const useExpertStore = create<ExpertStoreState>((set) => ({
+const useExpertStore = create<ExpertStoreState>(set => ({
   expertInformation: null,
   setExpertInformation: (info: ExpertInfo | null) => set({ expertInformation: info }),
 }));

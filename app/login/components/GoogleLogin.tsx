@@ -38,7 +38,7 @@ const GoogleLoginComponent = ({ returnUrl, domainWithProtocol }: { domainWithPro
   };
 
   return (
-    <button onClick={handleGoogleLogin} className="w-15 h-15 bg-white hover:scale-110 transition-all duration-300">
+    <button onClick={handleGoogleLogin} className="w-15 h-15 bg-white transition-all duration-300 hover:scale-110">
       <Image src="/logo/google.png" alt="google" width={60} height={60} />
     </button>
   );

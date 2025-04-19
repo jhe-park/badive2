@@ -1,69 +1,53 @@
-"use client";
-import { createClient } from "@/utils/supabase/client";
-import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Textarea,
-  useDisclosure
-} from "@heroui/react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { LuCirclePlus } from "react-icons/lu";
-import { v4 as uuidv4 } from "uuid";
+'use client';
+import { createClient } from '@/utils/supabase/client';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Textarea, useDisclosure } from '@heroui/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { LuCirclePlus } from 'react-icons/lu';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function InstructorNewPage() {
-  const {
-    isOpen: isOpenAddInstructor,
-    onOpen: onOpenAddInstructor,
-    onOpenChange: onOpenChangeAddInstructor,
-  } = useDisclosure();
+  const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState("bdn");
-  const [selectedProgram, setSelectedProgram] = useState(["scuba"]);
-  const [imageUrl, setImageUrl] = useState("");
+  const [selectedRole, setSelectedRole] = useState('bdn');
+  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
+  const [imageUrl, setImageUrl] = useState('');
   const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState("");
-  const [title, setTitle] = useState("");
-  const [region, setRegion] = useState("");
-  const [ceo, setCeo] = useState("");
-  const [date, setDate] = useState("");
-  const [url, setUrl] = useState("");
-  const [etc, setEtc] = useState("");
-  const [image, setImage] = useState("");
+  const [certification, setCertification] = useState('');
+  const [title, setTitle] = useState('');
+  const [region, setRegion] = useState('');
+  const [ceo, setCeo] = useState('');
+  const [date, setDate] = useState('');
+  const [url, setUrl] = useState('');
+  const [etc, setEtc] = useState('');
+  const [image, setImage] = useState('');
   const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
-  const handleUploadImage = async (event) => {
+  const handleUploadImage = async event => {
     const file = event.target.files[0];
     if (!file) return;
 
     // Supabase 스토리지에 이미지 업로드
     const { data, error } = await supabase.storage
-      .from("resort") // 'resort'는 스토리지 버킷 이름입니다.
+      .from('resort') // 'resort'는 스토리지 버킷 이름입니다.
       .upload(`${uuidv4()}`, file);
 
     if (error) {
-      console.error("Error uploading image:", error);
+      console.error('Error uploading image:', error);
       return;
     }
-    console.log("data:", data);
+    console.log('data:', data);
 
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
       // error: urlError,
-    } = supabase.storage.from("resort").getPublicUrl(data.path);
-    console.log("publicURL:", publicUrl);
+    } = supabase.storage.from('resort').getPublicUrl(data.path);
+    console.log('publicURL:', publicUrl);
 
     // if (urlError) {
     //   console.error("Error getting public URL:", urlError);
@@ -74,7 +58,7 @@ export default function InstructorNewPage() {
     setImageUrl(publicUrl);
   };
   const handleSave = async () => {
-    const {data, error} = await supabase.from("resort").insert({
+    const { data, error } = await supabase.from('resort').insert({
       title: title,
       region: region,
       ceo: ceo,
@@ -84,43 +68,33 @@ export default function InstructorNewPage() {
       image: imageUrl,
     });
     if (error) {
-      console.error("Error saving data:", error);
+      console.error('Error saving data:', error);
       return;
     }
-    console.log("data:", data);
-    router.push("/admin/resort");
+    console.log('data:', data);
+    router.push('/admin/resort');
   };
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col md:flex-row gap-x-6 h-full gap-y-6 w-full justify-center items-center">
-        <div className="flex relative aspect-square h-[50vh]">
-          <Image
-            src={imageUrl || "/noimage/noimage.jpg"}
-            alt="program-image"
-            fill
-            className="rounded-2xl"
-          ></Image>
+    <div className="flex h-full w-full flex-col">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-x-6 gap-y-6 md:flex-row">
+        <div className="relative flex aspect-square h-[50vh]">
+          <Image src={imageUrl || '/noimage/noimage.jpg'} alt="program-image" fill className="rounded-2xl"></Image>
 
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={handleUploadImage}
-          />
+          <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
           <LuCirclePlus
-            onClick={() => document.getElementById("fileInput").click()}
-            className="text-white text-5xl absolute inset-0 m-auto hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
+            onClick={() => document.getElementById('fileInput').click()}
+            className="hover:text-bg-gray-500 absolute inset-0 m-auto text-5xl text-white transition-transform hover:scale-110 hover:cursor-pointer"
           />
         </div>
-        <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
+        <div className="flex w-full flex-col items-start justify-evenly gap-y-6">
           <div className="w-full">
             <Input
               label="이름"
               labelPlacement="inside"
               placeholder="리조트 이름을 입력해주세요요"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -129,17 +103,11 @@ export default function InstructorNewPage() {
               labelPlacement="inside"
               placeholder="국가/지역을 입력해주세요"
               value={region}
-              onChange={(e) => setRegion(e.target.value)}
+              onChange={e => setRegion(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
-            <Input
-              label="대표자"
-              labelPlacement="inside"
-              placeholder="대표자를 입력해주세요"
-              value={ceo}
-              onChange={(e) => setCeo(e.target.value)}
-            ></Input>
+            <Input label="대표자" labelPlacement="inside" placeholder="대표자를 입력해주세요" value={ceo} onChange={e => setCeo(e.target.value)}></Input>
           </div>
           <div className="w-full">
             <Input
@@ -147,7 +115,7 @@ export default function InstructorNewPage() {
               labelPlacement="inside"
               placeholder="협력날짜를 입력해주세요(ex.20240511)"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={e => setDate(e.target.value)}
             ></Input>
           </div>
           <div className="w-full">
@@ -156,58 +124,35 @@ export default function InstructorNewPage() {
               labelPlacement="inside"
               placeholder="URL을 입력해주세요(ex.https://www.google.com)"
               value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              onChange={e => setUrl(e.target.value)}
             ></Input>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center  mt-6">
-        <div className="w-full flex flex-col gap-y-2 mb-6">
-          <Textarea
-            label="비고"
-            labelPlacement="inside"
-            placeholder="비고를 입력해주세요"
-            value={etc}
-            onChange={(e) => setEtc(e.target.value)}
-          ></Textarea>
+      <div className="mt-6 flex flex-col items-center justify-center">
+        <div className="mb-6 flex w-full flex-col gap-y-2">
+          <Textarea label="비고" labelPlacement="inside" placeholder="비고를 입력해주세요" value={etc} onChange={e => setEtc(e.target.value)}></Textarea>
         </div>
-        <div className="w-full flex justify-end">
+        <div className="flex w-full justify-end">
           <Button isLoading={isSave} color="primary" onPress={handleSave}>
             저장
           </Button>
         </div>
       </div>
-      <Modal
-        isOpen={isOpenAddInstructor}
-        onOpenChange={onOpenChangeAddInstructor}
-      >
+      <Modal isOpen={isOpenAddInstructor} onOpenChange={onOpenChangeAddInstructor}>
         <ModalContent>
-          {(onClose) => (
+          {onClose => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Modal Title
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
               <ModalBody>
                 <Select>
                   <SelectItem>정은지강사</SelectItem>
                   <SelectItem>이세원강사</SelectItem>
                 </Select>
-                <Input
-                  label="금액"
-                  labelPlacement="inside"
-                  placeholder="금액을 입력해주세요"
-                />
-                <Input
-                  label="지역"
-                  labelPlacement="inside"
-                  placeholder="지역을 입력해주세요"
-                />
-                <Input
-                  label="인원"
-                  labelPlacement="inside"
-                  placeholder="인원을 입력해주세요"
-                />
+                <Input label="금액" labelPlacement="inside" placeholder="금액을 입력해주세요" />
+                <Input label="지역" labelPlacement="inside" placeholder="지역을 입력해주세요" />
+                <Input label="인원" labelPlacement="inside" placeholder="인원을 입력해주세요" />
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onPress={onClose}>

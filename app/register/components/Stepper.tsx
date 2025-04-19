@@ -17,17 +17,17 @@ export default function Component() {
         {
           title: 'STEP01',
           description: '약관동의',
-          icon: <FaRegCalendarCheck className="text-2xl " />,
+          icon: <FaRegCalendarCheck className="text-2xl" />,
         },
         {
           title: 'STEP02',
           description: '정보입력',
-          icon: <PiNotePencil className="text-2xl " />,
+          icon: <PiNotePencil className="text-2xl" />,
         },
         {
           title: 'STEP03',
           description: '가입완료',
-          icon: <FaRegCircleCheck className="text-2xl " />,
+          icon: <FaRegCircleCheck className="text-2xl" />,
         },
       ]}
     />

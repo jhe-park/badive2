@@ -31,7 +31,7 @@ const KakaoLoginComponent = ({ domainWithProtocol, returnUrl }: { domainWithProt
   };
 
   return (
-    <button onClick={handleKakaoLogin} className="w-15 h-15 bg-white hover:scale-110 transition-all duration-300">
+    <button onClick={handleKakaoLogin} className="w-15 h-15 bg-white transition-all duration-300 hover:scale-110">
       <Image src="/logo/kakao.png" alt="kakao" width={60} height={60} />
     </button>
   );

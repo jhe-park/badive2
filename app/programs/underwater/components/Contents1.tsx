@@ -81,7 +81,7 @@ export default function () {
   };
 
   return (
-    <div style={{ fontFamily: 'Hakgyoansim' }} className="w-full lg:max-w-[1280px] h-full flex flex-col items-center justify-center mt-7">
+    <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">
       <TopHeader></TopHeader>
       <MainTitle data={data}></MainTitle>
       <MainDetail data={data}></MainDetail>

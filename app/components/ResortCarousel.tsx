@@ -173,17 +173,17 @@ const MultiImageCarousel = () => {
 
   return (
     <div className="relative w-full" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-      <div className="hidden md:flex absolute right-3 md:right-0 -top-0 md:-top-16 gap-2">
-        <button onClick={handlePrev} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10" aria-label="Previous slides">
-          <ChevronLeft className="w-5 h-5 z-10" />
+      <div className="absolute -top-0 right-3 hidden gap-2 md:-top-16 md:right-0 md:flex">
+        <button onClick={handlePrev} className="z-10 rounded-full bg-gray-100 p-2 transition-colors hover:bg-gray-200" aria-label="Previous slides">
+          <ChevronLeft className="z-10 h-5 w-5" />
         </button>
-        <button onClick={handleNext} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10" aria-label="Next slides">
-          <ChevronRight className="w-5 h-5 z-10" />
+        <button onClick={handleNext} className="z-10 rounded-full bg-gray-100 p-2 transition-colors hover:bg-gray-200" aria-label="Next slides">
+          <ChevronRight className="z-10 h-5 w-5" />
         </button>
       </div>
 
       <SlideUp>
-        <div className="relative overflow-hidden ">
+        <div className="relative overflow-hidden">
           <div
             className="flex transition-transform duration-300 ease-out"
             style={{
@@ -191,19 +191,19 @@ const MultiImageCarousel = () => {
             }}
           >
             {resortData.map((image, index) => (
-              <div key={image.id} className="flex-none w-1/2 md:w-1/3 relative" style={{ padding: index !== resortData.length - 1 ? '0 10px' : '0' }}>
-                <div className="bg-gray-100 rounded-lg overflow-hidden relative w-full group aspect-[4/3] h-auto xl:max-h-[250px] md:max-h-[180px] max-h-[120px]">
+              <div key={image.id} className="relative w-1/2 flex-none md:w-1/3" style={{ padding: index !== resortData.length - 1 ? '0 10px' : '0' }}>
+                <div className="group relative aspect-[4/3] h-auto max-h-[120px] w-full overflow-hidden rounded-lg bg-gray-100 md:max-h-[180px] xl:max-h-[250px]">
                   <Image
                     src={image.image}
                     alt={image.title}
                     fill
                     sizes="(max-width: 768px) 50vw, 33vw"
-                    className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover hover:cursor-pointer"
+                    className="object-cover transition-transform duration-300 ease-out hover:cursor-pointer group-hover:scale-105"
                     onClick={() => handleImageClick(image)}
                   />
                 </div>
                 <div className="mt-4 text-center">
-                  <span className="text-sm md:text-lg font-medium">{image.title}</span>
+                  <span className="text-sm font-medium md:text-lg">{image.title}</span>
                 </div>
               </div>
             ))}

@@ -136,52 +136,36 @@ const MainBanner: React.FC<{ isSafari: boolean }> = ({ isSafari }) => {
 
   return (
     <>
-      <section className="relative md:h-screen w-full bg-black">
-        <div
-          className="z-10 absolute top-0 left-0 w-full h-full inline-flex items-end
-          px-3 pb-[11px]
-          sm:px-[26px] sm:pb-[22px]
-          md:px-[30px] md:pb-[38px]
-          lg:pb-[53px]
-        "
-        >
-          <div className="flex justify-between items-center w-full">
+      <section className="relative w-full bg-black md:h-screen">
+        <div className="absolute left-0 top-0 z-10 inline-flex h-full w-full items-end px-3 pb-[11px] sm:px-[26px] sm:pb-[22px] md:px-[30px] md:pb-[38px] lg:pb-[53px]">
+          <div className="flex w-full items-center justify-between">
             <div className="inline-flex gap-[6px] sm:gap-5">
               {buttons.map(btn => (
                 <a
                   href={typeof btn.link === 'string' ? btn.link : btn.link[page]}
                   key={btn.label}
-                  className="text-white bg-[#FFFFFF26] font-bold rounded-[10px] text-nowrap
-                  text-[13px] py-[6px] px-3
-                  sm:text-xl sm:py-[13px] sm:px-8
-                  md:text-2xl md:py-[11px] md:px-11
-                "
+                  className="text-nowrap rounded-[10px] bg-[#FFFFFF26] px-3 py-[6px] text-[13px] font-bold text-white sm:px-8 sm:py-[13px] sm:text-xl md:px-11 md:py-[11px] md:text-2xl"
                 >
                   {btn.label}
                 </a>
               ))}
             </div>
-            <div
-              className="inline-flex items-start justify-center gap-1 sm:gap-2 absolute z-10 
-            right-4 sm:right-[26px] md:right-[30px] lg:right-11
-            bottom-[34px] sm:bottom-2 md:bottom-5
-            "
-            >
-              <button className={[iconClass, '!bg-[#FFFFFF30] !border-0 p-1 sm:p-[6px]'].join(' ')} onClick={togglePlayPause}>
-                <SlControlPause className="w-full h-full" />
+            <div className="absolute bottom-[34px] right-4 z-10 inline-flex items-start justify-center gap-1 sm:bottom-2 sm:right-[26px] sm:gap-2 md:bottom-5 md:right-[30px] lg:right-11">
+              <button className={[iconClass, '!border-0 !bg-[#FFFFFF30] p-1 sm:p-[6px]'].join(' ')} onClick={togglePlayPause}>
+                <SlControlPause className="h-full w-full" />
               </button>
               <button className={[iconClass].join(' ')} onClick={() => handlePage('prev')}>
-                <RiArrowLeftWideLine className="w-full h-full" />
+                <RiArrowLeftWideLine className="h-full w-full" />
               </button>
               <button className={[iconClass].join(' ')} onClick={() => handlePage('next')}>
-                <RiArrowRightWideLine className="w-full h-full" />
+                <RiArrowRightWideLine className="h-full w-full" />
               </button>
             </div>
           </div>
         </div>
         <video
           ref={videoRef}
-          className="w-full h-full object-fill"
+          className="h-full w-full object-fill"
           autoPlay
           muted
           loop
@@ -203,32 +187,24 @@ const MainBanner: React.FC<{ isSafari: boolean }> = ({ isSafari }) => {
           Your browser does not support the video tag.
         </video>
       </section>
-      <section className="h-[550px] sm:h-[813px] md:h-[1001px] w-full flex flex-col justify-between bg-black relative ">
+      <section className="relative flex h-[550px] w-full flex-col justify-between bg-black sm:h-[813px] md:h-[1001px]">
         <img
           ref={imageRef}
           alt="open_the_gate"
           loading="lazy"
           src="/banner/open_the_gate1.avif"
-          className="w-full h-full object-cover transform transition-transform duration-300 ease-out"
+          className="h-full w-full transform object-cover transition-transform duration-300 ease-out"
         />
-        <div className="absolute left-0 top-0 w-full h-full flex flex-col items-center justify-center">
+        <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
           <h1
             ref={mainTextRef}
-            className="transform transition-transform duration-300 ease-out font-freesentationVF italic text-center text-white font-bold text-nowrap
-          text-[35px] leading-[40px]
-          sm:text-[70px] sm:leading-[45px]
-          md:text-[90px] md:leading-[80px]
-        "
+            className="transform text-nowrap text-center font-freesentationVF text-[35px] font-bold italic leading-[40px] text-white transition-transform duration-300 ease-out sm:text-[70px] sm:leading-[45px] md:text-[90px] md:leading-[80px]"
           >
             Open The Sea Gate
           </h1>
           <h6
             ref={subTextRef}
-            className="transform transition-transform duration-300 ease-out font-freesentationVF font-light italic text-center text-white
-          text-[25px] leading-[40px]
-          sm:text-[45px] sm:leading-[60px]
-          md:text-[50px]
-        "
+            className="transform text-center font-freesentationVF text-[25px] font-light italic leading-[40px] text-white transition-transform duration-300 ease-out sm:text-[45px] sm:leading-[60px] md:text-[50px]"
           >
             the soul of diving
           </h6>

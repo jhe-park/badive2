@@ -50,19 +50,17 @@ export default function SearchTable() {
       fetchInstructor.cancel();
     };
   }, [page, pageSize, search, selectedSort]);
-  console.log('total:', total);
-  console.log('instructor:', instructor);
-  console.log('selectedSort:', selectedSort);
+
   const handlePageChange = page => {
     setPage(page);
   };
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 w-full px-4 mt-6 justify-between items-center">
+      <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 px-4 md:flex-row">
         <Button
-          className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
-          startContent={<LuCirclePlus className="text-white text-xl" />}
+          className="h-full w-full bg-primary text-lg text-white md:w-1/4"
+          startContent={<LuCirclePlus className="text-xl text-white" />}
           onPress={() => router.push('/admin/instructor/new')}
         >
           강사 등록
@@ -90,7 +88,7 @@ export default function SearchTable() {
           </SelectItem>
         </Select>
       </div>
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex w-full flex-col gap-4">
         <Table aria-label="Example table with dynamic content" shadow="none">
           <TableHeader>
             <TableColumn key="name" className="text-center">
@@ -118,13 +116,13 @@ export default function SearchTable() {
           <TableBody isLoading={isLoading} loadingContent={<Spinner label="로딩중" className="text-xl" />}>
             {instructor.map(item => (
               <TableRow key={item.id}>
-                <TableCell className="text-center whitespace-nowrap">{item.name}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.birth}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.gender}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.phone}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">{item.role}</TableCell>
-                <TableCell className="text-center whitespace-nowrap">
+                <TableCell className="whitespace-nowrap text-center">{item.name}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.birth}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.region}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.gender}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.phone}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">{item.role}</TableCell>
+                <TableCell className="whitespace-nowrap text-center">
                   <Button color="primary" onPress={() => router.push(`/admin/instructor/${item.id}`)}>
                     자세히 보기
                   </Button>
@@ -134,7 +132,7 @@ export default function SearchTable() {
           </TableBody>
         </Table>
 
-        <div className="flex justify-center items-center ">
+        <div className="flex items-center justify-center">
           <Pagination initialPage={1} page={page} total={total} onChange={handlePageChange} />
         </div>
       </div>

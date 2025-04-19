@@ -19,12 +19,12 @@ export default async function RSCForInquiries() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">
+    <div className="mt-[100px] flex h-full w-full flex-col items-center justify-center gap-y-6">
       <HeroImageForInquiries />
-      <div className="w-[90%] md:max-w-[1280px] h-full flex flex-col items-center justify-center gap-y-6 md:gap-y-12 py-12">
-        <h1 className="text-2xl md:text-5xl font-bold text-start w-full">예약</h1>
+      <div className="flex h-full w-[90%] flex-col items-center justify-center gap-y-6 py-12 md:max-w-[1280px] md:gap-y-12">
+        <h1 className="w-full text-start text-2xl font-bold md:text-5xl">예약</h1>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>
-        <div className="w-full h-full flex flex-col items-center justify-center gap-x-5">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-x-5">
           <OrderComponents userReservations={userReservations} userData={loginUserData} profile={loginUserProfile} />
         </div>
         <Divider className="w-full bg-[#A6A6A6]"></Divider>

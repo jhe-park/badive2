@@ -45,8 +45,8 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
   }, [session]);
 
   return (
-    <div className="flex justify-center items-center ">
-      <button className="w-15 h-15 bg-white hover:scale-110 transition-all duration-300" onClick={() => signIn('naver')}>
+    <div className="flex items-center justify-center">
+      <button className="w-15 h-15 bg-white transition-all duration-300 hover:scale-110" onClick={() => signIn('naver')}>
         <Image src="/logo/naver.png" alt="naver" width={60} height={60} />
       </button>
     </div>

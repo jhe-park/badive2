@@ -1,6 +1,6 @@
 export const contents = {
   rule: {
-    title: "이용약관",
+    title: '이용약관',
     content: `
     <p><strong>이용약관</strong></p>
 
@@ -66,7 +66,7 @@ export const contents = {
     `,
   },
   privacy: {
-    title: "개인정보 수집 및 이용동의",
+    title: '개인정보 수집 및 이용동의',
     content: `
     <p><strong>개인정보 이용 동의</strong></p><br />
 
@@ -89,7 +89,7 @@ export const contents = {
     `,
   },
   marketing: {
-    title: "마케팅 목적의 개인정보 수집 및 이용동의",
+    title: '마케팅 목적의 개인정보 수집 및 이용동의',
     content: `
 <p><strong>마케팅 목적의 개인정보 수집 및 이용 동의 (선택)</strong></p><br />
 
@@ -110,4 +110,3 @@ export const contents = {
     `,
   },
 };
-

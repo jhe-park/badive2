@@ -89,10 +89,10 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
 
   console.log('selectedMonth', selectedMonth);
   return (
-    <div className="container mx-auto whitespace-nowrap overflow-x-auto">
-      <table className="w-full border border-gray-300 text-left rounded-2xl ">
+    <div className="container mx-auto overflow-x-auto whitespace-nowrap">
+      <table className="w-full rounded-2xl border border-gray-300 text-left">
         <thead>
-          <tr className="bg-gray-200 rounded-t-2xl">
+          <tr className="rounded-t-2xl bg-gray-200">
             <th className="border px-4 py-2 text-center">날짜</th>
             <th className="border px-4 py-2 text-center">프로그램</th>
             <th className="border px-4 py-2 text-center">강사</th>
@@ -106,7 +106,7 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
               {(entry.items as any).map((item, itemIndex) => (
                 <tr key={`${entryIndex}-${itemIndex}`}>
                   {itemIndex === 0 ? (
-                    <td rowSpan={(entry.items as any).length} className="border px-4 py-2 text-center font-bold bg-gray-100">
+                    <td rowSpan={(entry.items as any).length} className="border bg-gray-100 px-4 py-2 text-center font-bold">
                       {entry.date}
                     </td>
                   ) : null}
@@ -119,8 +119,8 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
             </React.Fragment>
           ))}
           <tr className="">
-            <td className="border px-4 py-2 text-center font-bold bg-gray-100 font-bold">{selectedMonth}(전체)</td>
-            <td className="border px-4 py-2 text-center ">다이빙투어</td>
+            <td className="border bg-gray-100 px-4 py-2 text-center font-bold">{selectedMonth}(전체)</td>
+            <td className="border px-4 py-2 text-center">다이빙투어</td>
             <td className="border px-4 py-2 text-center">-</td>
             <td className="border px-4 py-2 text-center font-bold">수동입력</td>
             <td className="border px-4 py-2 text-center font-bold">
@@ -129,7 +129,8 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
                 onChange={handleInputChange}
                 classNames={
                   // @ts-ignore
-                  { wrapper: 'text-center', input: 'text-center' }}
+                  { wrapper: 'text-center', input: 'text-center' }
+                }
                 variant={'solid' as any}
                 placeholder="금액 입력"
               />

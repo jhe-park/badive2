@@ -50,9 +50,9 @@ export default function InstructorNewPage() {
   console.log('content:', content);
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col gap-y-6 w-full justify-center items-center">
-        <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
+    <div className="flex h-full w-full flex-col">
+      <div className="flex w-full flex-col items-center justify-center gap-y-6">
+        <div className="flex w-full flex-col items-start justify-evenly gap-y-6">
           <div className="w-full">
             <Input label="제목" labelPlacement="inside" placeholder="제목을 입력해주세요" value={title} onChange={e => setTitle(e.target.value)}></Input>
           </div>
@@ -75,12 +75,12 @@ export default function InstructorNewPage() {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center mt-6">
-        <div className="w-full flex flex-col gap-y-2 mb-6">
+      <div className="mt-6 flex flex-col items-center justify-center">
+        <div className="mb-6 flex w-full flex-col gap-y-2">
           {/* <Tiptap description={description} setDescription={setDescription}></Tiptap> */}
           <Froala value={content} onChange={handleEditorChange}></Froala>
         </div>
-        <div className="w-full flex flex-row gap-x-2 justify-end mb-12">
+        <div className="mb-12 flex w-full flex-row justify-end gap-x-2">
           <Button isLoading={isSave} color="primary" onPress={handleSaveFaq}>
             저장
           </Button>

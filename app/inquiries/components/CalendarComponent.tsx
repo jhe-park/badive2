@@ -180,33 +180,33 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   });
 
   if (!isSelectProgram || !isSelectInstructor) {
-    return <div className={`order-2 md:order-1 col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}></div>;
+    return <div className={`order-2 col-span-1 flex h-full flex-col items-center justify-center gap-y-2 md:order-1 md:gap-y-12`}></div>;
   }
 
   return (
-    <div className={`order-2 md:order-1 col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-12 h-full`}>
-      <div className="flex justify-between items-center md:mb-4 w-full lg:pt-[0px]">
-        <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
-          <ChevronLeft className="text-4xl md:text-9xl font-bold" />
-          <span className="text-[20px] lg:text-[32px] md:text-2xl">이전달</span>
+    <div className={`order-2 col-span-1 flex h-full flex-col items-center justify-center gap-y-2 md:order-1 md:gap-y-12`}>
+      <div className="flex w-full items-center justify-between md:mb-4 lg:pt-[0px]">
+        <button onClick={handlePrevMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
+          <ChevronLeft className="text-4xl font-bold md:text-9xl" />
+          <span className="text-[20px] md:text-2xl lg:text-[32px]">이전달</span>
         </button>
         <div
           //
-          className="flex flex-col justify-center border-b-1.5 border-solid border-black items-center my-6"
+          className="my-6 flex flex-col items-center justify-center border-b-1.5 border-solid border-black"
         >
-          <div className="font-[700] text-[20px] lg:text-[32px] md:text-3xl  ">{dayjs(currentDate).format('YYYY.MM')}</div>
+          <div className="text-[20px] font-[700] md:text-3xl lg:text-[32px]">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
-        <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
-          <span className="text-[20px] lg:text-[32px] md:text-2xl">다음달</span>
-          <ChevronRight className="text-4xl md:text-9xl font-bold" />
+        <button onClick={handleNextMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
+          <span className="text-[20px] md:text-2xl lg:text-[32px]">다음달</span>
+          <ChevronRight className="text-4xl font-bold md:text-9xl" />
         </button>
       </div>
-      <div className="mb-6 md:mb-0 lg:mb-0 grid grid-cols-7 gap-0 gap-y-2 lg:gap-y-0 w-full border-1 px-0 pt-0 pb-6 md:p-6 border-gray-300 rounded-lg h-[306px] lg:h-[498px]">
+      <div className="mb-6 grid h-[306px] w-full grid-cols-7 gap-0 gap-y-2 rounded-lg border-1 border-gray-300 px-0 pb-6 pt-0 md:mb-0 md:p-6 lg:mb-0 lg:h-[498px] lg:gap-y-0">
         {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
-            className={`font-[700] text-[25px]  lg:text-[32px] md:text-3xl text-center h-16 flex items-center justify-center w-full ${index === 0 ? 'text-red-500' : ''}`}
+            className={`flex h-16 w-full items-center justify-center text-center text-[25px] font-[700] md:text-3xl lg:text-[32px] ${index === 0 ? 'text-red-500' : ''}`}
           >
             {day}
           </div>
@@ -226,9 +226,9 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
             <div
               key={day}
               className={cn(
-                `text-center text-[25px] lg:text-[32px] md:text-3xl w-full h-8 md:h-16 flex items-center justify-center transition`,
-                isPastDate || !isValidDate ? 'text-gray-300 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-200',
-                isSelected && 'bg-blue-500 text-white rounded-l-lg rounded-r-lg px-2',
+                `flex h-8 w-full items-center justify-center text-center text-[25px] transition md:h-16 md:text-3xl lg:text-[32px]`,
+                isPastDate || !isValidDate ? 'cursor-not-allowed text-gray-300' : 'cursor-pointer hover:bg-gray-200',
+                isSelected && 'rounded-l-lg rounded-r-lg bg-blue-500 px-2 text-white',
               )}
               onClick={() => {
                 if (!isPastDate) {
@@ -242,9 +242,9 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
         })}
       </div>
       {selectedDate?.start && selectedDateTimeSlotsAM.length > 0 && (
-        <div className="flex flex-col gap-4 flex-wrap w-full px-0">
+        <div className="flex w-full flex-col flex-wrap gap-4 px-0">
           <div className="py-1 text-[20px]">오전</div>
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex flex-wrap gap-4">
             {selectedDateTimeSlotsAM.map(slot => {
               slot.current_participants;
               return (
@@ -252,9 +252,9 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                   <Badge
                     variant={'outline'}
                     className={cn(
-                      'text-[18px] md:text-[20px] border-[#7A7A7A] font-normal py-2 px-7 cursor-pointer',
+                      'cursor-pointer border-[#7A7A7A] px-7 py-2 text-[18px] font-normal md:text-[20px]',
                       selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white',
-                      slot.max_participants === slot.current_participants && 'bg-[#7A7A7A] cursor-not-allowed',
+                      slot.max_participants === slot.current_participants && 'cursor-not-allowed bg-[#7A7A7A]',
                     )}
                     onClick={() => {
                       if (slot.max_participants === slot.current_participants) {
@@ -270,7 +270,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                   >
                     {slot.start_time}
                   </Badge>
-                  <div className="border-solid border-1 border-gray text-btnActive w-fit px-2">
+                  <div className="border-gray w-fit border-1 border-solid px-2 text-btnActive">
                     {slot.current_participants}/{slot.max_participants}
                   </div>
                 </div>
@@ -280,9 +280,9 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
         </div>
       )}
       {selectedDate?.start && selectedDateTimeSlotsPM.length > 0 && (
-        <div className="flex flex-col gap-4 flex-wrap w-full px-0">
+        <div className="flex w-full flex-col flex-wrap gap-4 px-0">
           <div className="py-0 text-[20px]">오후</div>
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex flex-wrap gap-4">
             {selectedDateTimeSlotsPM.map(slot => {
               const formattedHour = parseInt(slot.start_time.split(':').at(0)) - 12;
 
@@ -291,9 +291,9 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                   <Badge
                     variant={'outline'}
                     className={cn(
-                      'text-[18px] md:text-[20px] border-[#7A7A7A] font-normal py-2 px-7 cursor-pointer',
+                      'cursor-pointer border-[#7A7A7A] px-7 py-2 text-[18px] font-normal md:text-[20px]',
                       selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white',
-                      slot.max_participants === slot.current_participants && 'bg-[#7A7A7A] cursor-not-allowed',
+                      slot.max_participants === slot.current_participants && 'cursor-not-allowed bg-[#7A7A7A]',
                     )}
                     // className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
                     onClick={() => {
@@ -309,7 +309,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                   >
                     {`${formattedHour}:00`}
                   </Badge>
-                  <div className="border-solid border-1 border-gray text-btnActive w-fit px-2">
+                  <div className="border-gray w-fit border-1 border-solid px-2 text-btnActive">
                     {slot.current_participants}/{slot.max_participants}
                   </div>
                 </div>
@@ -319,9 +319,9 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
         </div>
       )}
       {selectedResult?.slot_date && (
-        <div className="pt-6 lg:pt-0 w-full lg:w-full h-full items-center justify-start gap-y-6 flex flex-col">
+        <div className="flex h-full w-full flex-col items-center justify-start gap-y-6 pt-6 lg:w-full lg:pt-0">
           {/* h-16 */}
-          <div className="w-full flex flex-col items-center justify-center border-2 border-[#0077B6] rounded-lg px-2 py-2">
+          <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-[#0077B6] px-2 py-2">
             <div className="text-sm md:text-3xl">{selectedResult.program}</div>
             <div className="pt-1 text-[16px] sm:text-[16px] md:text-[18px]">
               {selectedResult?.slot_date} {selectedResult?.slot_start_time} · {selectedResult?.instructor}
@@ -331,9 +331,10 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
             onClick={() => {
               refForCheckbox.current?.click();
             }}
-            className=" cursor-pointer flex flex-col  items-center justify-center gap-y-2 text-sm md:text-xl text-[12px] lg:text-[18px]"
+            // text-sm
+            className="flex cursor-pointer flex-col items-center justify-center gap-y-2 text-[12px] md:text-xl lg:text-[18px]"
           >
-            <div className="text-center flex items-center gap-2">
+            <div className="flex items-center gap-2 text-center">
               <div className="">※위 내용 일정으로 예약을 신청하시겠습니까?</div>
               <div className="relative lg:top-[2px]">
                 <Checkbox

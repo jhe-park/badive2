@@ -205,20 +205,20 @@ const MultiImageCarousel = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="hidden md:flex absolute right-3 md:right-0 -top-0 md:-top-12 gap-2">
+      <div className="absolute -top-0 right-3 hidden gap-2 md:-top-12 md:right-0 md:flex">
         <button
           onClick={handlePrev}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
+          className="z-10 rounded-full bg-gray-100 p-2 transition-colors hover:cursor-pointer hover:bg-gray-200"
           aria-label="Previous slides"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           onClick={handleNext}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors hover:cursor-pointer z-10"
+          className="z-10 rounded-full bg-gray-100 p-2 transition-colors hover:cursor-pointer hover:bg-gray-200"
           aria-label="Next slides"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="h-5 w-5" />
         </button>
       </div>
 
@@ -233,24 +233,24 @@ const MultiImageCarousel = () => {
             {images.map((image, index) => (
               <div
                 key={image.id}
-                className="flex-none w-1/2 md:w-1/4 relative flex flex-col items-center justify-center px-2"
+                className="relative flex w-1/2 flex-none flex-col items-center justify-center px-2 md:w-1/4"
                 onClick={() => handleImageClick(image)}
               >
-                <div className="relative bg-gray-100 rounded-lg overflow-hidden group mt-2 md:mt-0 mx-auto aspect-[16/9] w-full ">
+                <div className="group relative mx-auto mt-2 aspect-[16/9] w-full overflow-hidden rounded-lg bg-gray-100 md:mt-0">
                   {image.url ? (
-                    <Image src={image.url} alt={image.title} fill className="transition-transform duration-300 ease-out group-hover:scale-105 object-cover" />
+                    <Image src={image.url} alt={image.title} fill className="object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
                   ) : (
-                    <div className="w-full h-full bg-black"></div>
+                    <div className="h-full w-full bg-black"></div>
                   )}
                   <button
-                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity group-hover:opacity-100"
                     aria-label={`Play ${image.title}`}
                     onClick={() => handleVideoClick(image.link)}
                   >
-                    <IoIosPlayCircle className="w-10 h-10 md:w-20 md:h-20" />
+                    <IoIosPlayCircle className="h-10 w-10 md:h-20 md:w-20" />
                   </button>
                 </div>
-                <div className="text-center mt-2">
+                <div className="mt-2 text-center">
                   <span className="text-sm md:text-[18px]">{image.title}</span>
                 </div>
               </div>
@@ -260,14 +260,14 @@ const MultiImageCarousel = () => {
       </SlideUp>
       {/* Modal for Image and Video */}
       {isModalOpen && selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[1000]">
-          <div ref={modalRef} className="relative w-full h-full flex items-center justify-center" style={{ isolation: 'isolate' }}>
-            <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-80">
+          <div ref={modalRef} className="relative flex h-full w-full items-center justify-center" style={{ isolation: 'isolate' }}>
+            <div className="absolute right-0 top-0 z-50 m-4 flex gap-x-5">
               <button className="" onClick={toggleFullScreen}>
-                {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}
+                {isFullScreen ? <BiExitFullscreen className="h-8 w-8 text-white" /> : <BiFullscreen className="h-8 w-8 text-white" />}
               </button>
               <button className="" onClick={closeModal}>
-                <IoMdClose className="w-10 h-10 text-white" />
+                <IoMdClose className="h-10 w-10 text-white" />
               </button>
             </div>
 

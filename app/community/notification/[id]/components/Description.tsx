@@ -3,7 +3,7 @@
 export default function Description({ noticeData }) {
   return (
     <div className="p-6">
-      <div className="w-full h-full rounded-lg overflow-hidden mb-6 flex items-center justify-start flex-col gap-y-2">
+      <div className="mb-6 flex h-full w-full flex-col items-center justify-start gap-y-2 overflow-hidden rounded-lg">
         <style jsx>{`
           .content img {
             display: flex;
@@ -11,7 +11,7 @@ export default function Description({ noticeData }) {
             border-radius: 10px;
           }
         `}</style>
-        <div className="w-full flex flex-col justify-start gap-y-2 content" dangerouslySetInnerHTML={{ __html: noticeData.description }} />
+        <div className="content flex w-full flex-col justify-start gap-y-2" dangerouslySetInnerHTML={{ __html: noticeData.description }} />
       </div>
     </div>
   );

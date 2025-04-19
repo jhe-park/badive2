@@ -1,8 +1,8 @@
 export const items = [
   {
     left: {
-      title: "노정훈 촬영감독",
-      subtitle: "수중 촬영 전문 감독",
+      title: '노정훈 촬영감독',
+      subtitle: '수중 촬영 전문 감독',
       description1: `
 <p>-드라마, 다큐멘터리 다수 촬영</p>
 <p>-전 SBS 정글의 법칙 촬영감독</p>
@@ -32,8 +32,8 @@ export const items = [
     `,
     },
 
-    right: { image: "/instructors/director1right.png" },
-    small: "/instructors/expert1small.png",
-    smallTitle: "정은지 강사(서울,경기)",
+    right: { image: '/instructors/director1right.png' },
+    small: '/instructors/expert1small.png',
+    smallTitle: '정은지 강사(서울,경기)',
   },
 ];

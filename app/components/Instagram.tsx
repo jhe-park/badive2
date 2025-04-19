@@ -2,10 +2,10 @@ import React from 'react';
 import InstagramCarousel from './InstagramCarousel';
 export default function Instagram() {
   return (
-    <div className=" w-full h-full md:h-auto max-w-[1280px] xl:aspect-[1280/610] md:aspect-[768/451] aspect-[375/253] flex flex-col justify-evenly items-start">
-      <div className="flex  gap-x-5 justify-center xl:justify-start items-center md:mt-0 w-full">
-        <img loading="lazy" src="/logo/insta.png" alt="" className="h-8 md:h-12 w-auto" />
-        <p className="text-[20px] md:text-[30px] xl:text-[36px] font-bold">BADIVE Instagram</p>
+    <div className="flex aspect-[375/253] h-full w-full max-w-[1280px] flex-col items-start justify-evenly md:aspect-[768/451] md:h-auto xl:aspect-[1280/610]">
+      <div className="flex w-full items-center justify-center gap-x-5 md:mt-0 xl:justify-start">
+        <img loading="lazy" src="/logo/insta.png" alt="" className="h-8 w-auto md:h-12" />
+        <p className="text-[20px] font-bold md:text-[30px] xl:text-[36px]">BADIVE Instagram</p>
       </div>
       <InstagramCarousel></InstagramCarousel>
     </div>

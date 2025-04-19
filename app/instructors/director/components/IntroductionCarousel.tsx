@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
-import { Divider } from "@heroui/react";
-import Image from "next/image";
-import { items } from "./items";
-import useInstructor from '@/app/store/useInstructor'
+import { useState, useEffect } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
+import { Divider } from '@heroui/react';
+import Image from 'next/image';
+import { items } from './items';
+import useInstructor from '@/app/store/useInstructor';
 
 function IntroductionCarousel() {
   const { instructor, setInstructor } = useInstructor();
@@ -18,7 +18,7 @@ function IntroductionCarousel() {
 
   useEffect(() => {
     setIsMobile(!window.matchMedia('(min-width: 768px)').matches);
-    
+
     const handleResize = () => {
       setIsMobile(!window.matchMedia('(min-width: 768px)').matches);
     };
@@ -40,17 +40,17 @@ function IntroductionCarousel() {
   };
 
   // 페이지 직접 이동 함수 추가
-  const goToSlide = (index) => {
+  const goToSlide = index => {
     setCurrentIndex(index);
     setInstructor(items[index].left.title);
   };
 
-  const handleTouchStart = (e) => {
+  const handleTouchStart = e => {
     startX = e.touches[0].clientX;
     isDragging = true;
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = e => {
     if (!isDragging) return;
     currentX = e.touches[0].clientX;
   };
@@ -69,7 +69,7 @@ function IntroductionCarousel() {
   return (
     <>
       <div
-        className="relative w-[90vw] md:max-w-[1280px] overflow-hidden h-full md:h-full"
+        className="relative h-full w-[90vw] overflow-hidden md:h-full md:max-w-[1280px]"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -78,55 +78,45 @@ function IntroductionCarousel() {
           className="flex"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
-            transition: "transform 0.5s ease-in-out",
+            transition: 'transform 0.5s ease-in-out',
           }}
         >
           {items.map((item, index) => (
-            <div key={index} className="flex min-w-full flex-col lg:flex-row gap-y-2 md:gap-y-12 md:gap-x-4">
+            <div key={index} className="flex min-w-full flex-col gap-y-2 md:gap-x-4 md:gap-y-12 lg:flex-row">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
-              <div className="w-full lg:w-1/3 md:py-12 relative md:pl-0 flex justify-center items-center order-1 md:order-2">
-                <div className="relative w-[80%] md:w-full max-w-[300px] aspect-[3/5]">
-                  <Image
-                    src={item.right.image}
-                    alt={`${item.left.title} 이미지`}
-                    fill
-                    priority
-                    className="object-cover rounded-2xl"
-                  />
+              <div className="relative order-1 flex w-full items-center justify-center md:order-2 md:py-12 md:pl-0 lg:w-1/3">
+                <div className="relative aspect-[3/5] w-[80%] max-w-[300px] md:w-full">
+                  <Image src={item.right.image} alt={`${item.left.title} 이미지`} fill priority className="rounded-2xl object-cover" />
                 </div>
               </div>
 
               {/* 왼쪽 섹션 - 모바일에서는 아래로 */}
-              <div className="w-full lg:w-[60%] md:py-12 relative lg:pl-24 lg:pr-0 flex flex-col justify-start items-center gap-y-2 md:gap-y-6 order-2 lg:order-1">
-                <div className="text-2xl md:text-[45px] font-bold text-center md:text-left">{item.left.title}</div>
-                <div className="text-lg md:mt-6 md:text-[25px] text-center md:text-left" style={{ color: "#902020" }}>
+              <div className="relative order-2 flex w-full flex-col items-center justify-start gap-y-2 md:gap-y-6 md:py-12 lg:order-1 lg:w-[60%] lg:pl-24 lg:pr-0">
+                <div className="text-center text-2xl font-bold md:text-left md:text-[45px]">{item.left.title}</div>
+                <div className="text-center text-lg md:mt-6 md:text-left md:text-[25px]" style={{ color: '#902020' }}>
                   {item.left.subtitle}
                 </div>
                 <Divider className="w-[250px] bg-[#B27400]" orientation="horizontal" />
                 <div
-                  className={`text-sm md:text-[20px] text-center ${
-                    expandedIndex !== index && isMobile ? 'line-clamp-6' : ''
-                  }`}
+                  className={`text-center text-sm md:text-[20px] ${expandedIndex !== index && isMobile ? 'line-clamp-6' : ''}`}
                   dangerouslySetInnerHTML={{ __html: item.left.description1 }}
-                  style={{lineHeight: "1.5"}}
+                  style={{ lineHeight: '1.5' }}
                 ></div>
-                <div className={`flex justify-between items-center gap-x-4 ${
-                  expandedIndex !== index && isMobile ? 'hidden' : ''
-                }`}>
+                <div className={`flex items-center justify-between gap-x-4 ${expandedIndex !== index && isMobile ? 'hidden' : ''}`}>
                   <div
-                    className="text-sm md:text-[20px] text-center"
+                    className="text-center text-sm md:text-[20px]"
                     dangerouslySetInnerHTML={{ __html: item.left.description2 }}
-                    style={{lineHeight: "1.5"}}
+                    style={{ lineHeight: '1.5' }}
                   ></div>
                   <div
-                    className="text-sm md:text-[20px] text-center"
+                    className="text-center text-sm md:text-[20px]"
                     dangerouslySetInnerHTML={{ __html: item.left.description3 }}
-                    style={{lineHeight: "1.5"}}
+                    style={{ lineHeight: '1.5' }}
                   ></div>
                 </div>
                 <button
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                  className="text-[#902020] text-sm hover:underline mt-2 md:hidden"
+                  className="mt-2 text-sm text-[#902020] hover:underline md:hidden"
                 >
                   {expandedIndex === index ? '접기' : '더보기'}
                 </button>
@@ -138,21 +128,21 @@ function IntroductionCarousel() {
         {/* 화살표 버튼 */}
         <button
           onClick={prevSlide}
-          className="hidden md:block absolute left-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
+          className="absolute left-[1vw] top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-white/50 p-2 transition-colors hover:bg-white/80 md:block"
           aria-label="Previous slide"
         >
-          <FaCircleChevronLeft className="text-gray-500 text-2xl md:text-7xl" />
+          <FaCircleChevronLeft className="text-2xl text-gray-500 md:text-7xl" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="hidden md:block absolute right-[1vw] top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-2 rounded-full transition-colors z-10"
+          className="absolute right-[1vw] top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-white/50 p-2 transition-colors hover:bg-white/80 md:block"
           aria-label="Next slide"
         >
-          <FaCircleChevronRight className="text-gray-500 text-2xl md:text-7xl" />
+          <FaCircleChevronRight className="text-2xl text-gray-500 md:text-7xl" />
         </button>
       </div>
-      
+
       {/* 페이지네이션 인디케이터 */}
       {/* <div className="flex z-5 my-12 w-[90%] md:max-w-[1280px] justify-between items-center">
         {items.map((item, index) => (

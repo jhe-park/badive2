@@ -56,13 +56,13 @@ export default function Actionbar() {
     },
   ];
   return isVisible || isMobile ? (
-    <div className="fixed right-4 bottom-4 flex gap-3 rounded-[999px] py-2 px-4 fade-in z-50 bg-[#F2F2F2] border border-black">
+    <div className="fade-in fixed bottom-4 right-4 z-50 flex gap-3 rounded-[999px] border border-black bg-[#F2F2F2] px-4 py-2">
       {CONTENTS.map(({ label, url, icon }, index) => (
-        <a href={url} key={index} className={`text-white md:p-2 py-1 flex flex-col items-center justify-center`}>
+        <a href={url} key={index} className={`flex flex-col items-center justify-center py-1 text-white md:p-2`}>
           <div>
             <img loading="lazy" src={icon} className="text-sm text-black md:text-2xl" />
           </div>
-          <div className="text-black text-[9px] md:text-sm">{label}</div>
+          <div className="text-[9px] text-black md:text-sm">{label}</div>
         </a>
       ))}
     </div>

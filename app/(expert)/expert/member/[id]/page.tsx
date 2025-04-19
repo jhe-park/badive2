@@ -100,16 +100,16 @@ export default function MemberNewPage({ params }) {
   console.log('region:', region);
 
   return (
-    <div className="flex flex-col w-full min-h-screen gap-y-6 p-4">
+    <div className="flex min-h-screen w-full flex-col gap-y-6 p-4">
       {isLoading ? (
         <Spinner label="로딩중" />
       ) : (
         <>
-          <div className="flex flex-col md:flex-row gap-y-6 w-full justify-center items-center">
-            <div className="flex flex-col w-28 h-28 md:h-full gap-y-6 md:w-1/3 relative md:m-12 ">
+          <div className="flex w-full flex-col items-center justify-center gap-y-6 md:flex-row">
+            <div className="relative flex h-28 w-28 flex-col gap-y-6 md:m-12 md:h-full md:w-1/3">
               <Image src={imageUrl || '/noimage/noimage.jpg'} alt="instructor-profile" fill className="rounded-2xl" priority></Image>
             </div>
-            <div className="flex flex-col  h-full gap-y-6 w-full md:w-2/3 justify-evenly items-start">
+            <div className="flex h-full w-full flex-col items-start justify-evenly gap-y-6 md:w-2/3">
               <div className="w-full">
                 <Input label="아이디" labelPlacement="inside" placeholder="이메일 형태로 입력해주세요" value={email} isDisabled={true}></Input>
               </div>
@@ -139,7 +139,7 @@ export default function MemberNewPage({ params }) {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center items-center gap-y-6 w-full">
+          <div className="flex w-full flex-col items-center justify-center gap-y-6">
             <ProgramTable member={member} totalAmount={totalAmount} setTotalAmount={setTotalAmount}></ProgramTable>
             <TourTable member={member}></TourTable>
           </div>

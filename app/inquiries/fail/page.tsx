@@ -12,12 +12,12 @@ const page: NextPage<NextPageProps> = async ({ searchParams }) => {
   console.log(message);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-6">
-      <div className="text-4xl font-bold w-full h-[calc(100vh-100px)] flex flex-col justify-center items-center gap-y-12">
-        <FaCheckCircle className="text-[100px] text-[#0077B6] animate-scale-fade-in"></FaCheckCircle>
+    <div className="mt-[100px] flex h-full w-full flex-col items-center justify-center gap-y-6">
+      <div className="flex h-[calc(100vh-100px)] w-full flex-col items-center justify-center gap-y-12 text-4xl font-bold">
+        <FaCheckCircle className="animate-scale-fade-in text-[100px] text-[#0077B6]"></FaCheckCircle>
 
         <div className="text-2xl font-bold">결제에 실패하였습니다.</div>
-        <div className="text-lg text-center">
+        <div className="text-center text-lg">
           <p>결제 재요청 후 결제 진행 부탁드립니다.</p>
           <p>궁금하신 점은 언제든지 전화, 카카오톡으로 문의 부탁드립니다.</p>
         </div>

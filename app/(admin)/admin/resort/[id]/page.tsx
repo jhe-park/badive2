@@ -114,24 +114,24 @@ export default function ResortNewPage({ params }) {
   };
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex h-full w-full flex-col">
       {isLoading ? (
-        <div className="flex justify-center items-center h-36 w-full ">
+        <div className="flex h-36 w-full items-center justify-center">
           <Spinner label="로딩중" />
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row gap-x-6 h-full gap-y-6 w-full justify-center items-center">
-            <div className="flex relative aspect-square h-[50vh]">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-x-6 gap-y-6 md:flex-row">
+            <div className="relative flex aspect-square h-[50vh]">
               <Image src={imageUrl || '/noimage/noimage.jpg'} alt="program-image" fill className="rounded-2xl"></Image>
 
               <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
               <LuCirclePlus
                 onClick={() => document.getElementById('fileInput').click()}
-                className="text-white text-5xl absolute inset-0 m-auto hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
+                className="hover:text-bg-gray-500 absolute inset-0 m-auto text-5xl text-white transition-transform hover:scale-110 hover:cursor-pointer"
               />
             </div>
-            <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
+            <div className="flex w-full flex-col items-start justify-evenly gap-y-6">
               <div className="w-full">
                 <Input
                   label="이름"
@@ -174,11 +174,11 @@ export default function ResortNewPage({ params }) {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center items-center  mt-6">
-            <div className="w-full flex flex-col gap-y-2 mb-6">
+          <div className="mt-6 flex flex-col items-center justify-center">
+            <div className="mb-6 flex w-full flex-col gap-y-2">
               <Textarea label="비고" labelPlacement="inside" placeholder="비고를 입력해주세요" value={etc} onChange={e => setEtc(e.target.value)}></Textarea>
             </div>
-            <div className="w-full flex justify-end gap-x-2">
+            <div className="flex w-full justify-end gap-x-2">
               <Button isLoading={isSave} color="success" onPress={handleSave}>
                 수정
               </Button>

@@ -70,22 +70,22 @@ export default function TourTable({ member }) {
   console.log('tours:', tours);
 
   return (
-    <div className="w-full h-full flex flex-col gap-y-6">
-      <div className="text-2xl font-bold w-full text-center">다이빙투어내역</div>
+    <div className="flex h-full w-full flex-col gap-y-6">
+      <div className="w-full text-center text-2xl font-bold">다이빙투어내역</div>
       <Table classNames={{ wrapper: 'p-0' }} aria-label="Example static collection table" shadow="none">
         <TableHeader>
-          <TableColumn className="text-center w-1/4">투어명</TableColumn>
-          <TableColumn className="text-center w-1/4">신청일</TableColumn>
-          <TableColumn className="text-center w-1/4">투어일</TableColumn>
-          <TableColumn className="text-center w-1/4">상태</TableColumn>
+          <TableColumn className="w-1/4 text-center">투어명</TableColumn>
+          <TableColumn className="w-1/4 text-center">신청일</TableColumn>
+          <TableColumn className="w-1/4 text-center">투어일</TableColumn>
+          <TableColumn className="w-1/4 text-center">상태</TableColumn>
         </TableHeader>
         <TableBody>
           {tours.map(tour => (
             <TableRow key={tour.id}>
-              <TableCell className="text-center whitespace-nowrap">{tour.tour_id.title}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{new Date(tour.created_at).toISOString().split('T')[0].replace(/-/g, '')}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">{tour.tour_id.date}</TableCell>
-              <TableCell className="text-center whitespace-nowrap">
+              <TableCell className="whitespace-nowrap text-center">{tour.tour_id.title}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{new Date(tour.created_at).toISOString().split('T')[0].replace(/-/g, '')}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">{tour.tour_id.date}</TableCell>
+              <TableCell className="whitespace-nowrap text-center">
                 <Select
                   color={tour.is_end === '투어종료' ? 'danger' : tour.is_end === '투어중' ? 'success' : tour.is_end === '투어예정' ? 'primary' : 'default'}
                   selectedKeys={[tour.is_end]}

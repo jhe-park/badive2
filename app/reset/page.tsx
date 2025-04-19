@@ -35,7 +35,8 @@ export default function Reset(searchParams) {
           <p className="text-5xl font-bold">BADIVE</p>
         </div>
         <div>
-          <p className="text-[24px] text-small text-default-500">로그인</p>
+          {/* text-small */}
+          <p className="text-[24px] text-default-500">로그인</p>
         </div>
       </div>
       <div className="mt-2 flex w-[90%] flex-col gap-4 rounded-large border-2 border-gray-300 bg-content1 px-8 py-6 md:w-1/3">

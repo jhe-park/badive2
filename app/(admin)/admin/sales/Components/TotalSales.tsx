@@ -45,8 +45,8 @@ export default function TotalSales() {
   const router = useRouter();
 
   return (
-    <div className="flex justify-end items-center">
-      <div className="flex flex-row justify-between items-center gap-x-6"></div>
+    <div className="flex items-center justify-end">
+      <div className="flex flex-row items-center justify-between gap-x-6"></div>
     </div>
   );
 }

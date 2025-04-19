@@ -152,18 +152,18 @@ export default function InstructorNewPage() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col h-full gap-y-6 w-full justify-center items-center">
-        <div className="flex relative aspect-square h-[50vh]">
+    <div className="flex h-full w-full flex-col">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-y-6">
+        <div className="relative flex aspect-square h-[50vh]">
           <Image src={imageUrl || '/noimage/noimage.jpg'} alt="program-image" fill className="rounded-2xl"></Image>
 
           <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
           <LuCirclePlus
             onClick={() => document.getElementById('fileInput').click()}
-            className="text-white text-5xl absolute inset-0 m-auto hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
+            className="hover:text-bg-gray-500 absolute inset-0 m-auto text-5xl text-white transition-transform hover:scale-110 hover:cursor-pointer"
           />
         </div>
-        <div className="flex flex-col  gap-y-6 w-full justify-evenly items-start ">
+        <div className="flex w-full flex-col items-start justify-evenly gap-y-6">
           <div className="w-full">
             <Input label="제목" labelPlacement="inside" placeholder="제목을 입력해주세요" value={title} onChange={e => setTitle(e.target.value)}></Input>
           </div>
@@ -185,13 +185,13 @@ export default function InstructorNewPage() {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-y-6 mt-6">
-        <div className="w-full flex justify-end text-lg text-white">
-          <Button startContent={<LuCirclePlus className="text-white text-lg" />} color="primary" onPress={onOpenAddInstructor}>
+      <div className="mt-6 flex flex-col items-center justify-center gap-y-6">
+        <div className="flex w-full justify-end text-lg text-white">
+          <Button startContent={<LuCirclePlus className="text-lg text-white" />} color="primary" onPress={onOpenAddInstructor}>
             강사등록
           </Button>
         </div>
-        <div className="w-full flex flex-col gap-y-2">
+        <div className="flex w-full flex-col gap-y-2">
           <Table classNames={{ wrapper: 'p-0 mb-12' }} aria-label="Example static collection table" shadow="none" fullWidth>
             <TableHeader>
               <TableColumn className="text-center">이름</TableColumn>
@@ -212,7 +212,7 @@ export default function InstructorNewPage() {
           </Table>
         </div>
 
-        <div className="flex gap-y-2 mb-12 justify-end w-full">
+        <div className="mb-12 flex w-full justify-end gap-y-2">
           <Button isLoading={isSave} color="primary" onPress={handleSaveProgram}>
             저장
           </Button>

@@ -22,7 +22,7 @@ const Home: NextPage<NextPageProps> = async ({ params, searchParams }) => {
   checkIsSafariBrowser();
 
   return (
-    <div className="flex w-full h-full flex-col items-center justify-start">
+    <div className="flex h-full w-full flex-col items-center justify-start">
       <WelcomePopup />
       <MainBanner isSafari={await checkIsSafariBrowser()} />
       <MainStory />

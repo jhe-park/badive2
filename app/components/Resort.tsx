@@ -3,9 +3,9 @@ import ResortCarousel from './ResortCarousel';
 
 export default function Resort() {
   return (
-    <div className=" w-full h-full md:h-auto md:max-w-[1280px] xl:aspect-[1280/522] md:aspect-[768/422] aspect-[375/275] flex flex-col justify-evenly items-start">
-      <div className="flex  gap-x-5 justify-center xl:justify-start items-center w-full">
-        <p className="xl:text-[36px] md:text-[30px] text-[20px] font-bold">BADIVE 협력 리조트</p>
+    <div className="flex aspect-[375/275] h-full w-full flex-col items-start justify-evenly md:aspect-[768/422] md:h-auto md:max-w-[1280px] xl:aspect-[1280/522]">
+      <div className="flex w-full items-center justify-center gap-x-5 xl:justify-start">
+        <p className="text-[20px] font-bold md:text-[30px] xl:text-[36px]">BADIVE 협력 리조트</p>
       </div>
       <ResortCarousel></ResortCarousel>
     </div>

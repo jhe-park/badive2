@@ -8,15 +8,9 @@ const MainSectionHeader = ({ title }) => {
   return (
     <h1
       ref={containerRef}
-      className="font-freesentationVF text-nowrap text-black font-bold section-title flex items-center justify-center
-      gap-[7px] text-[25px] py-[50px]
-      sm:gap-[14px] sm:text-[40px] sm:py-24
-      md:gap-[27px] md:text-[50px] md:py-[115px]
-      lg:gap-[27px] lg:py-[100px]
-      w-full h-auto transform transition-transform duration-300 ease-out
-    "
+      className="section-title flex h-auto w-full transform items-center justify-center gap-[7px] text-nowrap py-[50px] font-freesentationVF text-[25px] font-bold text-black transition-transform duration-300 ease-out sm:gap-[14px] sm:py-24 sm:text-[40px] md:gap-[27px] md:py-[115px] md:text-[50px] lg:gap-[27px] lg:py-[100px]"
     >
-      <img loading="lazy" src="/story/title.png" className="w-[50px] h-[50px]" />
+      <img loading="lazy" src="/story/title.png" className="h-[50px] w-[50px]" />
       {title}
     </h1>
   );

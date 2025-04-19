@@ -149,18 +149,18 @@ export default function InstructorNewPage({ params }) {
   };
 
   return (
-    <div className="flex flex-col w-full h-full gap-y-6 overflow-y-auto scrollbar-hide">
-      <div className="flex flex-row h-full gap-y-6 w-full">
-        <div className="flex flex-col h-full gap-y-6 w-1/3 relative m-6">
+    <div className="flex h-full w-full flex-col gap-y-6 overflow-y-auto scrollbar-hide">
+      <div className="flex h-full w-full flex-row gap-y-6">
+        <div className="relative m-6 flex h-full w-1/3 flex-col gap-y-6">
           <Image src={imageUrl || '/noimage/noimage.jpg'} alt="instructor-profile" fill className="rounded-2xl"></Image>
 
           <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
           <LuCirclePlus
             onClick={() => document.getElementById('fileInput').click()}
-            className="text-white text-5xl absolute inset-0 m-auto hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
+            className="hover:text-bg-gray-500 absolute inset-0 m-auto text-5xl text-white transition-transform hover:scale-110 hover:cursor-pointer"
           />
         </div>
-        <div className="flex flex-col  h-full gap-y-6 w-2/3 justify-evenly items-start">
+        <div className="flex h-full w-2/3 flex-col items-start justify-evenly gap-y-6">
           <div className="w-full">
             <Input
               isDisabled={true}
@@ -242,13 +242,13 @@ export default function InstructorNewPage({ params }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col h-full gap-y-6 w-full justify-center items-center mt-12">
+      <div className="mt-12 flex h-full w-full flex-col items-center justify-center gap-y-6">
         <Table classNames={{ wrapper: 'p-0 border-gray-200 border-1 rounded-lg' }} aria-label="Example static collection table" shadow="none">
           <TableHeader>
-            <TableColumn className="text-center w-1/4">예약</TableColumn>
-            <TableColumn className="text-center w-1/4">총 교육한 회원수</TableColumn>
-            <TableColumn className="text-center w-1/4 ">라이센스 발급 회원수</TableColumn>
-            <TableColumn className="text-center w-1/4">다이빙투어</TableColumn>
+            <TableColumn className="w-1/4 text-center">예약</TableColumn>
+            <TableColumn className="w-1/4 text-center">총 교육한 회원수</TableColumn>
+            <TableColumn className="w-1/4 text-center">라이센스 발급 회원수</TableColumn>
+            <TableColumn className="w-1/4 text-center">다이빙투어</TableColumn>
           </TableHeader>
           <TableBody>
             <TableRow key="1">
@@ -269,8 +269,8 @@ export default function InstructorNewPage({ params }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col justify-center items-center gap-y-6 mt-6">
-        <div className="w-full flex flex-col gap-y-2">
+      <div className="mt-6 flex flex-col items-center justify-center gap-y-6">
+        <div className="flex w-full flex-col gap-y-2">
           <Input
             label="보유자격증"
             placeholder="자격증을 입력 후 엔터를 입력하세요"
@@ -291,10 +291,10 @@ export default function InstructorNewPage({ params }) {
             ))}
           </div>
         </div>
-        <div className="w-full flex flex-col gap-y-2">
+        <div className="flex w-full flex-col gap-y-2">
           <Textarea label="비고" placeholder="비고를 입력해주세요" value={etc} onChange={e => setEtc(e.target.value)}></Textarea>
         </div>
-        <div className="w-full flex justify-end gap-x-2">
+        <div className="flex w-full justify-end gap-x-2">
           <Button isLoading={isSave} color="success" onPress={handleSave}>
             수정
           </Button>

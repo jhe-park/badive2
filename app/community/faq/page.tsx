@@ -1,24 +1,20 @@
-import Image from "next/image";
-import FAQTable from "./components/FAQTable";
+import Image from 'next/image';
+import FAQTable from './components/FAQTable';
 export default function page() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center mt-[100px] gap-y-10">
-      <div className="w-full h-[30vh] md:h-[600px] flex items-center justify-center relative">
-        <Image
-          src={"/faq/faq.png"}
-          alt="scuberdiving"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-y-2 flex flex-col items-center w-full gap-y-4">
-          <div className="text-sm md:text-[24px] font-medium text-white">자주묻는질문</div>
-          <div className="text-2xl md:text-[50px] text-white font-bold text-center w-full" style={{lineHeight: "1.5"}}>
+    <div className="mt-[100px] flex h-full w-full flex-col items-center justify-center gap-y-10">
+      <div className="relative flex h-[30vh] w-full items-center justify-center md:h-[600px]">
+        <Image src={'/faq/faq.png'} alt="scuberdiving" fill className="object-cover" />
+        {/* gap-y-2 */}
+        <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-y-4">
+          <div className="text-sm font-medium text-white md:text-[24px]">자주묻는질문</div>
+          <div className="w-full text-center text-2xl font-bold text-white md:text-[50px]" style={{ lineHeight: '1.5' }}>
             <p>궁금하신 내용들에 대해서</p>
             <p>빠르고 간편하게 답을 찾아보세요.</p>
           </div>
         </div>
       </div>
-      <div className="w-[90%] md:max-w-[1280px] flex flex-col items-center justify-center gap-y-5 pb-10">
+      <div className="flex w-[90%] flex-col items-center justify-center gap-y-5 pb-10 md:max-w-[1280px]">
         <FAQTable></FAQTable>
       </div>
     </div>

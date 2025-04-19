@@ -1,27 +1,27 @@
 const companyTypes = [
   {
-    title: "Sole Proprietor",
-    value: "sole-proprietor",
+    title: 'Sole Proprietor',
+    value: 'sole-proprietor',
   },
   {
-    title: "Partnership",
-    value: "partnership",
+    title: 'Partnership',
+    value: 'partnership',
   },
   {
-    title: "C Corporation",
-    value: "c-corporation",
+    title: 'C Corporation',
+    value: 'c-corporation',
   },
   {
-    title: "S Comporation",
-    value: "s-comporation",
+    title: 'S Comporation',
+    value: 's-comporation',
   },
   {
-    title: "Partnership",
-    value: "partnership",
+    title: 'Partnership',
+    value: 'partnership',
   },
   {
-    title: "LLC (Limited Liability Company)",
-    value: "llc",
+    title: 'LLC (Limited Liability Company)',
+    value: 'llc',
   },
 ];
 

@@ -56,16 +56,16 @@ const MainStory = () => {
     <>
       <section className="bg-white" ref={containerRef}>
         <MainSectionHeader title="BADIVE DIVING STORY" />
-        <div className="grid grid-cols-2 sm:grid-cols-4 w-full">
+        <div className="grid w-full grid-cols-2 sm:grid-cols-4">
           {THUMBNAILS.map(item => (
-            <div key={item.img} className="group thumbnail block overflow-hidden cursor-pointer relative">
-              <img loading="lazy" alt={item.img} src={item.img} className="w-full h-auto transform transition-transform duration-300 ease-out" />
+            <div key={item.img} className="thumbnail group relative block cursor-pointer overflow-hidden">
+              <img loading="lazy" alt={item.img} src={item.img} className="h-auto w-full transform transition-transform duration-300 ease-out" />
               <button
                 onClick={() => setSelected(item.link)}
-                className="absolute Z-10 top-0 left-0 w-full h-full inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                className="Z-10 absolute inset-0 left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity group-hover:opacity-100"
                 aria-label={`Play ${item.link}`}
               >
-                <IoIosPlayCircle className="w-10 h-10 md:w-20 md:h-20" />
+                <IoIosPlayCircle className="h-10 w-10 md:h-20 md:w-20" />
               </button>
             </div>
           ))}

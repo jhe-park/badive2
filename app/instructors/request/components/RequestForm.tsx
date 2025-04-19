@@ -142,7 +142,7 @@ export default function RequestForm({ className, ...props }) {
   };
 
   return (
-    <div style={{ fontFamily: 'Freesentation-9Black' }} className="w-[90vw] md:w-[60vw] flex flex-col items-center justify-center gap-y-12">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-[90vw] flex-col items-center justify-center gap-y-12 md:w-[60vw]">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -157,7 +157,7 @@ export default function RequestForm({ className, ...props }) {
       />
       <div className="text-4xl font-bold leading-9 text-default-foreground">BADIVE 강사모집 신청서</div>
 
-      <div className="py-4 text-default-500 bg-gray-100 rounded-lg p-6 w-full">
+      <div className="w-full rounded-lg bg-gray-100 p-6 py-4 text-default-500">
         <p>※ BADIVE 강사모집 신청서 작성 안내</p>
         <br />
         <p>BADIVE 강사모집에 신청해주셔서 감사드립니다.</p>
@@ -169,7 +169,7 @@ export default function RequestForm({ className, ...props }) {
         </p>
       </div>
 
-      <div className={cn('flex grid grid-cols-12 flex-col gap-4 py-8 w-full', className)} {...props}>
+      <div className={cn('flex grid w-full grid-cols-12 flex-col gap-4 py-8', className)} {...props}>
         <Input
           variant="bordered"
           className="col-span-12 md:col-span-6"
@@ -278,11 +278,11 @@ export default function RequestForm({ className, ...props }) {
         />
       </div>
 
-      <div className="w-full flex flex-col items-center justify-center gap-y-4">
+      <div className="flex w-full flex-col items-center justify-center gap-y-4">
         <div className="text-3xl font-bold">개인정보 수집 · 이용 동의서</div>
 
         <Divider className="w-full" />
-        <ScrollShadow hideScrollBar className="w-full max-h-[50vh]">
+        <ScrollShadow hideScrollBar className="max-h-[50vh] w-full">
           <PrivacyContent />
         </ScrollShadow>
         <RadioGroup orientation="horizontal" onChange={e => setAgree(e.target.value as any)}>
@@ -291,7 +291,7 @@ export default function RequestForm({ className, ...props }) {
         </RadioGroup>
       </div>
 
-      <div className="w-full flex flex-col items-center justify-end gap-y-4 my-4">
+      <div className="my-4 flex w-full flex-col items-center justify-end gap-y-4">
         <Button color="primary" className="w-full" onPress={handleSubmit}>
           신청하기
         </Button>

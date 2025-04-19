@@ -48,17 +48,17 @@ export default function SearchTable() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 w-full px-4 mt-6 justify-between items-center">
+      <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 px-4 md:flex-row">
         <Button
-          className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
-          startContent={<LuCirclePlus className="text-white text-xl" />}
+          className="h-full w-full bg-primary text-lg text-white md:w-1/4"
+          startContent={<LuCirclePlus className="text-xl text-white" />}
           onPress={() => router.push('/admin/tour/new')}
         >
           투어 등록
         </Button>
         <Button
-          className="bg-primary w-full md:w-1/4 text-white text-lg h-full"
-          startContent={<LuCirclePlus className="text-white text-xl" />}
+          className="h-full w-full bg-primary text-lg text-white md:w-1/4"
+          startContent={<LuCirclePlus className="text-xl text-white" />}
           onPress={() => router.push('/admin/tour/submitlist')}
         >
           투어 신청 내역
@@ -79,45 +79,45 @@ export default function SearchTable() {
           </SelectItem>
         </Select>
       </div>
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex w-full flex-col gap-4">
         {isLoading ? (
-          <div className="flex justify-center items-center h-full my-12">
+          <div className="my-12 flex h-full items-center justify-center">
             <Spinner label="로딩중" className="text-xl" />
           </div>
         ) : (
           <>
             <Table aria-label="Example table with dynamic content" shadow="none">
               <TableHeader>
-                <TableColumn key="no" className="text-center w-1/6">
+                <TableColumn key="no" className="w-1/6 text-center">
                   No.
                 </TableColumn>
-                <TableColumn key="image" className="text-center w-1/6">
+                <TableColumn key="image" className="w-1/6 text-center">
                   제목
                 </TableColumn>
-                <TableColumn key="region" className="text-center w-1/6">
+                <TableColumn key="region" className="w-1/6 text-center">
                   지역
                 </TableColumn>
 
-                <TableColumn key="date" className="text-center w-1/6">
+                <TableColumn key="date" className="w-1/6 text-center">
                   날짜
                 </TableColumn>
-                <TableColumn key="status" className="text-center w-1/6">
+                <TableColumn key="status" className="w-1/6 text-center">
                   상태
                 </TableColumn>
-                <TableColumn key="manage" className="text-center w-1/6">
+                <TableColumn key="manage" className="w-1/6 text-center">
                   관리
                 </TableColumn>
               </TableHeader>
               <TableBody loadingContent={<Spinner label="로딩중" className="text-xl" />}>
                 {faq.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-center whitespace-nowrap">{index + 1}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{item.title}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{item.region}</TableCell>
+                    <TableCell className="whitespace-nowrap text-center">{index + 1}</TableCell>
+                    <TableCell className="whitespace-nowrap text-center">{item.title}</TableCell>
+                    <TableCell className="whitespace-nowrap text-center">{item.region}</TableCell>
 
-                    <TableCell className="text-center whitespace-nowrap">{item.date}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{item.status}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">
+                    <TableCell className="whitespace-nowrap text-center">{item.date}</TableCell>
+                    <TableCell className="whitespace-nowrap text-center">{item.status}</TableCell>
+                    <TableCell className="whitespace-nowrap text-center">
                       <Button color="primary" onPress={() => router.push(`/admin/tour/${item.id}`)}>
                         수정
                       </Button>
@@ -127,7 +127,7 @@ export default function SearchTable() {
               </TableBody>
             </Table>
 
-            <div className="flex justify-center items-center ">
+            <div className="flex items-center justify-center">
               <Pagination initialPage={1} page={page} total={total} onChange={e => setPage(e)} />
             </div>
           </>

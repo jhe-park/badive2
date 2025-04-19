@@ -54,10 +54,10 @@ export default function RootLayout({ children }) {
           {/* <AuthSession> */}
           <HeroUIProvider>
             <AuthSession>
-              <main className="flex flex-col items-center min-h-screen">
-                <div className="flex flex-col items-center w-full">
+              <main className="flex min-h-screen flex-col items-center">
+                <div className="flex w-full flex-col items-center">
                   <NavbarComponent />
-                  <div className="flex flex-col w-full h-full gap-20 ">{children}</div>
+                  <div className="flex h-full w-full flex-col gap-20">{children}</div>
                   <FooterComponent></FooterComponent>
                 </div>
               </main>

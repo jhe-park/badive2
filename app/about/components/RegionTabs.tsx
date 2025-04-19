@@ -1,13 +1,13 @@
-'use client'
+'use client';
 import { useState } from 'react';
 import React from 'react';
 import Image from 'next/image';
 
 function RegionTabs() {
   const [selectedTab, setSelectedTab] = useState('전체');
-  
+
   const regions = ['전체', '서울', '경기', '인천', '대전', '대구', '부산', '경남'];
-  
+
   // 위치 데이터 구조화
   const locations = [
     { id: 1, name: '잠실스킨스쿠버다이빙', image: '/about/location1.png', region: '서울' },
@@ -23,41 +23,32 @@ function RegionTabs() {
   ];
 
   // 선택된 지역에 따라 위치 필터링
-  const filteredLocations = selectedTab === '전체' 
-    ? locations 
-    : locations.filter(location => location.region === selectedTab);
+  const filteredLocations = selectedTab === '전체' ? locations : locations.filter(location => location.region === selectedTab);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
-      <div className="w-full md:w-full flex flex-wrap md:flex-nowrap my-4 text-sm md:text-xl bg-gray-300">
+    <div className="flex w-full flex-col items-center justify-center">
+      <div className="my-4 flex w-full flex-wrap bg-gray-300 text-sm md:w-full md:flex-nowrap md:text-xl">
         {regions.map((region, index) => (
           <React.Fragment key={index}>
             <div
-              className={`w-1/4 md:flex-1 h-6 md:h-12 justify-center items-center flex cursor-pointer hover:bg-gray-200 transition-colors ${
-                selectedTab === region ? 'text-blue-500 font-bold' : ''
+              className={`flex h-6 w-1/4 cursor-pointer items-center justify-center transition-colors hover:bg-gray-200 md:h-12 md:flex-1 ${
+                selectedTab === region ? 'font-bold text-blue-500' : ''
               }`}
               onClick={() => setSelectedTab(region)}
             >
               {region}
             </div>
-            {index < regions.length - 1 && (
-              <div className="hidden md:block h-8 my-auto w-[1px] bg-gray-400" />
-            )}
+            {index < regions.length - 1 && <div className="my-auto hidden h-8 w-[1px] bg-gray-400 md:block" />}
           </React.Fragment>
         ))}
       </div>
-      <div className="w-full md:w-full h-full grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-4 md:mt-6">
-        {filteredLocations.map((location,index) => (
+      <div className="grid h-full w-full grid-cols-2 gap-x-2 md:mt-6 md:w-full md:grid-cols-4 md:gap-4">
+        {filteredLocations.map((location, index) => (
           <div key={index} className="flex flex-col items-center rounded-lg">
-            <div className="w-full aspect-square relative">
-              <Image
-                src={location.image} 
-                alt={location.name} 
-                fill
-                className="object-cover rounded-lg" 
-              />
+            <div className="relative aspect-square w-full">
+              <Image src={location.image} alt={location.name} fill className="rounded-lg object-cover" />
             </div>
-            <p className="mt-2 xl:text-[26px] md:text-[20px] text-[16px] font-medium">{location.name}</p>
+            <p className="mt-2 text-[16px] font-medium md:text-[20px] xl:text-[26px]">{location.name}</p>
           </div>
         ))}
       </div>

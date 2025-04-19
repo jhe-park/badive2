@@ -19,21 +19,21 @@ export default function TabContentsForRegisteredPrograms({
   totalCountOfRegisteredPrograms: number;
 }) {
   return (
-    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full h-full flex-col">
+    <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex h-full w-full flex-col">
       <div className="w-full bg-black"></div>
-      <div className="flex justify-between items-center mt-24">
-        <div className="w-full font-bold text-2xl ">MY PAGE</div>
-        <div className="flex w-full md:w-1/5 h-auto bg-gray-200 rounded-lg px-2 md:px-5 md:py-2 justify-center items-center">
-          <div className="hidden md:block w-12 h-12 md:w-24 md:h-24 relative">
+      <div className="mt-24 flex items-center justify-between">
+        <div className="w-full text-2xl font-bold">MY PAGE</div>
+        <div className="flex h-auto w-full items-center justify-center rounded-lg bg-gray-200 px-2 md:w-1/5 md:px-5 md:py-2">
+          <div className="relative hidden h-12 w-12 md:block md:h-24 md:w-24">
             <Image src="/profile/profile.png" alt="profile" fill />
           </div>
-          <div className="w-full md:w-48 flex flex-col p-2 justify-center items-center">
+          <div className="flex w-full flex-col items-center justify-center p-2 md:w-48">
             <p className="text-sm">{profile?.data?.name}님 안녕하세요</p>
             <p className="text-xs">누적 포인트 : {profile?.data?.point}P</p>
           </div>
         </div>
       </div>
-      <Tabs aria-label="Options" className="w-full h-12 mt-6 md:my-6" variant="underlined" defaultSelectedKey={'purchase'}>
+      <Tabs aria-label="Options" className="mt-6 h-12 w-full md:my-6" variant="underlined" defaultSelectedKey={'purchase'}>
         <Tab key="purchase" title="프로그램 예약 조회">
           <ProgramTable profile={profile} registeredProgramsInDB={registeredPrograms} totalCountOfRegisteredPrograms={totalCountOfRegisteredPrograms} />
         </Tab>

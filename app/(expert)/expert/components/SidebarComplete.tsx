@@ -55,7 +55,7 @@ export default function Component({ children, user }) {
   }, []);
 
   return (
-    <div className="flex h-screen w-full ">
+    <div className="flex h-screen w-full">
       <div
         className={cn(
           'relative flex h-screen w-72 max-w-[288px] flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out',
@@ -72,12 +72,12 @@ export default function Component({ children, user }) {
         <Spacer y={8} />
         <div className="flex items-center gap-3 px-3">
           <div className="flex flex-row items-center gap-2">
-            <div className="w-10 h-10 rounded-full overflow-hidden relative">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full">
               {expertInformation?.profile_image && <Image src={expertInformation.profile_image} alt="profile" fill className="object-cover" />}
             </div>
             <div>
-              <p className="text-lg text-default-600 font-bold text-center">{expertInformation?.name}강강강강강</p>
-              <p className="text-sm text-default-600 text-center">{user?.email}</p>
+              <p className="text-center text-lg font-bold text-default-600">{expertInformation?.name}강강강강강</p>
+              <p className="text-center text-sm text-default-600">{user?.email}</p>
             </div>
           </div>
         </div>
@@ -108,17 +108,17 @@ export default function Component({ children, user }) {
           </Button>
         </div>
       </div>
-      <div className="w-[95%] md:w-full h-[100vh] flex flex-col gap-y-4 md:mx-4 mx-auto">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4 h-[10vh] w-full mt-4">
+      <div className="mx-auto flex h-[100vh] w-[95%] flex-col gap-y-4 md:mx-4 md:w-full">
+        <header className="mt-4 flex h-[10vh] w-full items-center gap-3 rounded-medium border-small border-divider p-4">
           <Button isIconOnly size="sm" variant="light" onPress={() => setIsHidden(!isHidden)}>
-            <RxHamburgerMenu className="text-black text-xl" />
+            <RxHamburgerMenu className="text-xl text-black" />
           </Button>
           <h2 className="text-2xl font-bold text-default-700">{pageTitle}</h2>
         </header>
-        <main className="w-full h-full mb-4 overflow-y-auto">
+        <main className="mb-4 h-full w-full overflow-y-auto">
           <div
             style={{ fontFamily: 'Freesentation-9Black' }}
-            className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-auto scrollbar-hide p-6"
+            className="flex h-full w-full flex-col gap-4 overflow-auto rounded-medium border-small border-divider p-6 scrollbar-hide"
           >
             {children}
           </div>

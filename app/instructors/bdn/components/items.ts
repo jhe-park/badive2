@@ -1,8 +1,8 @@
 export const items = [
   {
     left: {
-      title: "정은지 강사",
-      subtitle: "서울 잠실, 경기 용인 | 스쿠버다이빙, 프리다이빙 강습 가능",
+      title: '정은지 강사',
+      subtitle: '서울 잠실, 경기 용인 | 스쿠버다이빙, 프리다이빙 강습 가능',
       description: `
       <p>
                   - 한국 최초 여자 프리다이빙 강사 / 강사훈련관
@@ -43,15 +43,14 @@ export const items = [
       
       `,
     },
-    right: { image: "/instructors/expert1.png" },
-    small: "/instructors/expert1small.png",
-    smallTitle: "정은지 강사(서울,경기)",
-
-  },  
+    right: { image: '/instructors/expert1.png' },
+    small: '/instructors/expert1small.png',
+    smallTitle: '정은지 강사(서울,경기)',
+  },
   {
     left: {
-      title: "이지연(제니) 강사",
-      subtitle: "서울, 경기 | 스쿠버다이빙 강습 가능  ",
+      title: '이지연(제니) 강사',
+      subtitle: '서울, 경기 | 스쿠버다이빙 강습 가능  ',
       description: `
 <p>-2023년 스쿠버다이빙 강사 자격 취득</p>
 <p>-2023 ~스쿠버다이빙 강사(로그수 300 이상)</p>
@@ -59,15 +58,14 @@ export const items = [
 <p>-2023 ~ 모델, 인플루언서 활동중 </p>      
       `,
     },
-    right: { image: "/instructors/expert5right.png" },
-    small: "/instructors/expert5small.png",
-    smallTitle: "이지연강사(서울,경기)",
-
-  },  
+    right: { image: '/instructors/expert5right.png' },
+    small: '/instructors/expert5small.png',
+    smallTitle: '이지연강사(서울,경기)',
+  },
   {
     left: {
-      title: "고송미 강사",
-      subtitle: "대구, 대전, 부산 | 스쿠버다이빙, 프리다이빙, 머메이드 강습 가능",
+      title: '고송미 강사',
+      subtitle: '대구, 대전, 부산 | 스쿠버다이빙, 프리다이빙, 머메이드 강습 가능',
       description: `
 <p>-2016 수작코리아 수중모델</p>
 <p>-2016 스쿠버다이빙 강사</p>
@@ -81,15 +79,14 @@ export const items = [
       
       `,
     },
-    right: { image: "/instructors/expert2right.png" },
-    small: "/instructors/expert2small.png",
-    smallTitle: "고송미강사(대구,대전,부산)",
-
+    right: { image: '/instructors/expert2right.png' },
+    small: '/instructors/expert2small.png',
+    smallTitle: '고송미강사(대구,대전,부산)',
   },
   {
     left: {
-      title: "이세원 강사",
-      subtitle: "인천 | 스쿠버다이빙 강습 가능",
+      title: '이세원 강사',
+      subtitle: '인천 | 스쿠버다이빙 강습 가능',
       description: `
       <p>-2013년 CMAS 강사 등록</p>
 <p>-2014년 ~ 2015년 알스타즈 스쿠버클럽 운영자 활동</p>
@@ -100,15 +97,14 @@ export const items = [
       
       `,
     },
-    right: { image: "/instructors/expert3right.png" },
-    small: "/instructors/expert3small.png",
-    smallTitle: "이세원강사(인천)",
-
+    right: { image: '/instructors/expert3right.png' },
+    small: '/instructors/expert3small.png',
+    smallTitle: '이세원강사(인천)',
   },
   {
     left: {
-      title: "김일남 트레이너",
-      subtitle: "인천 | 스쿠버다이빙(일반,강사) 강습 가능",
+      title: '김일남 트레이너',
+      subtitle: '인천 | 스쿠버다이빙(일반,강사) 강습 가능',
       description: `
       <p>-2008년 IDIC 강사등록</p>
 <p>-2016년 NASE KOREA 강사 등록</p>
@@ -123,9 +119,8 @@ export const items = [
       
       `,
     },
-    right: { image: "/instructors/expert4right.png" },
-    small: "/instructors/expert4small.png",
-    smallTitle: "김일남 트레이너(인천)",
+    right: { image: '/instructors/expert4right.png' },
+    small: '/instructors/expert4small.png',
+    smallTitle: '김일남 트레이너(인천)',
   },
-  
 ];

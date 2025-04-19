@@ -115,7 +115,7 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
   };
 
   return (
-    <div className="w-full flex-col justify-center items-center space-y-5 h-full">
+    <div className="h-full w-full flex-col items-center justify-center space-y-5">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -129,11 +129,11 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
         theme="light"
       />
 
-      <div className="text-2xl font-bold w-full justify-center items-center text-center">투어 예약 조회</div>
-      <Divider className="w-full bg-black h-0.5 my-5"></Divider>
+      <div className="w-full items-center justify-center text-center text-2xl font-bold">투어 예약 조회</div>
+      <Divider className="my-5 h-0.5 w-full bg-black"></Divider>
       {!isDetailOpen && (
-        <div className="w-full flex flex-col justify-center items-center space-y-5">
-          <div className="w-full flex justify-end items-center gap-2">
+        <div className="flex w-full flex-col items-center justify-center space-y-5">
+          <div className="flex w-full items-center justify-end gap-2">
             <Select variant="bordered" className="w-1/2 md:w-[10%]" selectedKeys={[searchFilter]} onChange={e => setSearchFilter(e.target.value)}>
               <SelectItem key="제목" value="제목">
                 제목
@@ -148,13 +148,13 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
             <Input
               variant="bordered"
               placeholder="검색"
-              className="w-1/2 md:w-1/4 text-gray-500"
+              className="w-1/2 text-gray-500 md:w-1/4"
               startContent={<FaSearch></FaSearch>}
               value={searchValue}
               onChange={e => setSearchValue(e.target.value)}
             ></Input>
           </div>
-          <Card className="w-full " shadow="none">
+          <Card className="w-full" shadow="none">
             <CardBody className="space-y-2">
               <Table removeWrapper aria-label="Example static collection table">
                 <TableHeader>
@@ -169,15 +169,15 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
                   {tourData.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell className="text-center">{item.id}</TableCell>
-                      <TableCell className="text-center flex justify-center items-center">
-                        <div className="w-12 h-12 md:w-24 md:h-24 relative">
+                      <TableCell className="flex items-center justify-center text-center">
+                        <div className="relative h-12 w-12 md:h-24 md:w-24">
                           <Image alt="program" src={item?.tour_id?.image || '/noimage/noimage.jpg'} fill></Image>
                         </div>
                       </TableCell>
-                      <TableCell className="text-center whitespace-nowrap">{item?.tour_id?.title}</TableCell>
-                      <TableCell className="text-center whitespace-nowrap">{item?.tour_id?.region}</TableCell>
-                      <TableCell className="text-center whitespace-nowrap">{item?.status}</TableCell>
-                      <TableCell className="text-center whitespace-nowrap">
+                      <TableCell className="whitespace-nowrap text-center">{item?.tour_id?.title}</TableCell>
+                      <TableCell className="whitespace-nowrap text-center">{item?.tour_id?.region}</TableCell>
+                      <TableCell className="whitespace-nowrap text-center">{item?.status}</TableCell>
+                      <TableCell className="whitespace-nowrap text-center">
                         <Button
                           color="primary"
                           onPress={() => {
@@ -194,7 +194,7 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
               </Table>
             </CardBody>
           </Card>
-          <div className="w-full flex justify-center items-center">
+          <div className="flex w-full items-center justify-center">
             <Pagination initialPage={1} onChange={page => setPage(page)} page={page} total={totalPage} />
           </div>
         </div>
@@ -203,24 +203,24 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
         <ModalContent>
           {onClose => (
             <>
-              <ModalHeader className="text-2xl font-bold flex justify-center">투어 예약 조회</ModalHeader>
+              <ModalHeader className="flex justify-center text-2xl font-bold">투어 예약 조회</ModalHeader>
               <ModalBody>
                 <div className="flex flex-col items-center gap-y-4">
-                  <div className="w-96 h-96 relative">
+                  <div className="relative h-96 w-96">
                     <Image src={selectedTour?.tour_id?.image || '/noimage/noimage.jpg'} alt="program" fill />
                   </div>
                   <div className="w-full space-y-2">
-                    <div className="flex justify-start items-center gap-x-2 w-full">
-                      <span className="font-bold w-24 text-end">프로그램명 |</span>
+                    <div className="flex w-full items-center justify-start gap-x-2">
+                      <span className="w-24 text-end font-bold">프로그램명 |</span>
                       <span>{selectedTour?.tour_id?.title}</span>
                     </div>
 
-                    <div className="flex justify-start items-center gap-x-2 w-full">
-                      <span className="font-bold w-24 text-end">장소 |</span>
+                    <div className="flex w-full items-center justify-start gap-x-2">
+                      <span className="w-24 text-end font-bold">장소 |</span>
                       <span>{selectedTour?.tour_id?.region}</span>
                     </div>
-                    <div className="flex justify-start items-center gap-x-2 w-full">
-                      <span className="font-bold w-24 text-end">인원 |</span>
+                    <div className="flex w-full items-center justify-start gap-x-2">
+                      <span className="w-24 text-end font-bold">인원 |</span>
 
                       <span>최대 {selectedTour?.tour_id?.max_participants}명</span>
                     </div>
@@ -228,8 +228,8 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
                 </div>
               </ModalBody>
               <ModalFooter>
-                <div className="w-full flex justify-between items-center">
-                  <div className="text-gray-500 text-sm">＊ 수영장은 강사님과 별도로 협의 후 확정됩니다.</div>
+                <div className="flex w-full items-center justify-between">
+                  <div className="text-sm text-gray-500">＊ 수영장은 강사님과 별도로 협의 후 확정됩니다.</div>
                   <div className="flex gap-x-2">
                     <Button
                       variant="flat"
@@ -254,14 +254,14 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
         <ModalContent>
           {onClose => (
             <>
-              <ModalBody className="flex flex-col justify-center items-center gap-y-4 py-6">
+              <ModalBody className="flex flex-col items-center justify-center gap-y-4 py-6">
                 <p>예약을 취소하시겠습니까?</p>
                 <p>(환불금액은 환불규정에 따라 환불이 진행됩니다. 환불 시 2-3일 이내에 환불이 완료됩니다.</p>
                 <p>카드 ·현금 결제에 따라 환불 일시가 변경될 수 있습니다.)</p>
                 <p>예약취소 시 철회는 불가하며, 해당 프로그램을 재 예약하셔야 합니다.</p>
               </ModalBody>
               <ModalFooter>
-                <div className="w-full flex flex-row justify-center items-center gap-x-4">
+                <div className="flex w-full flex-row items-center justify-center gap-x-4">
                   <Button
                     variant="flat"
                     onPress={() => {

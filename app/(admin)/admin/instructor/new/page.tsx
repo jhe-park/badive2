@@ -134,7 +134,7 @@ export default function InstructorNewPage() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full gap-y-6">
+    <div className="flex h-full w-full flex-col gap-y-6">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -147,13 +147,13 @@ export default function InstructorNewPage() {
         pauseOnHover
         theme="light"
       />
-      <div className="flex flex-col w-full h-full gap-y-6 items-center">
-        <div className="flex flex-col items-center relative">
-          <Image src={imageUrl || '/noimage/noimage.jpg'} alt="instructor-profile" width={150} height={150} className="rounded-2xl md:w-[300px] md:h-[300px]" />
+      <div className="flex h-full w-full flex-col items-center gap-y-6">
+        <div className="relative flex flex-col items-center">
+          <Image src={imageUrl || '/noimage/noimage.jpg'} alt="instructor-profile" width={150} height={150} className="rounded-2xl md:h-[300px] md:w-[300px]" />
           <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
           <LuCirclePlus
             onClick={() => document.getElementById('fileInput').click()}
-            className="text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hover:cursor-pointer hover:text-bg-gray-500 hover:scale-110 transition-transform"
+            className="hover:text-bg-gray-500 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-5xl text-white transition-transform hover:scale-110 hover:cursor-pointer"
           />
         </div>
         <Input label="아이디" labelPlacement="inside" placeholder="이메일 형태로 입력해주세요" value={email} onChange={e => setEmail(e.target.value)} />
@@ -233,8 +233,8 @@ export default function InstructorNewPage() {
         </div>
 
         <Textarea className="" label="비고" placeholder="비고를 입력해주세요" value={etc} onChange={e => setEtc(e.target.value)} />
-        <div className="w-full h-12 mb-20">
-          <Button className="w-full h-full mb-20" isLoading={isSave} color="primary" onPress={handleSave}>
+        <div className="mb-20 h-12 w-full">
+          <Button className="mb-20 h-full w-full" isLoading={isSave} color="primary" onPress={handleSave}>
             저장
           </Button>
         </div>

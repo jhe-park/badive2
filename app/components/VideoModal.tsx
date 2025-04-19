@@ -31,15 +31,15 @@ const VideoModal = ({ selected, onClose }) => {
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-      <div ref={modalRef} className="relative w-full h-full flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+      <div ref={modalRef} className="relative flex h-full w-full items-center justify-center">
         <div className="text-red-500"></div>
-        <div className="absolute top-0 right-0 m-4 flex gap-x-5 z-50">
+        <div className="absolute right-0 top-0 z-50 m-4 flex gap-x-5">
           <button className="cursor-pointer" onClick={toggleFullScreen}>
-            {isFullScreen ? <BiExitFullscreen className="w-8 h-8 text-white" /> : <BiFullscreen className="w-8 h-8 text-white" />}
+            {isFullScreen ? <BiExitFullscreen className="h-8 w-8 text-white" /> : <BiFullscreen className="h-8 w-8 text-white" />}
           </button>
           <button className="cursor-pointer" onClick={onClose}>
-            <IoMdClose className="w-10 h-10 text-white" />
+            <IoMdClose className="h-10 w-10 text-white" />
           </button>
         </div>
         <ReactPlayer className="react-player" url={selected} playing controls width="80%" height="80%" />
