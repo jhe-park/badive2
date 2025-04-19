@@ -12,7 +12,7 @@
 	"extends": [],
 	"rules": {
 	  "no-unused-vars": [
-		"allow",
+		"off",
 		{
 		  "vars": "local",
 		  "args": "none",

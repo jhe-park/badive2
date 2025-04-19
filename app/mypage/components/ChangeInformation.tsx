@@ -1,13 +1,15 @@
 import { programlist } from '@/app/register/components/programlist';
 import { createClient } from '@/utils/supabase/client';
+import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/react';
 import { Button, Checkbox, Divider, Input, Radio, RadioGroup, Select, SelectItem } from '@nextui-org/react';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function App({ profile }) {
+export default function App({ profile }: { profile: PostgrestSingleResponse<TypeDBprofile> }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [action, setAction] = React.useState('');
   const [password, setPassword] = React.useState('');

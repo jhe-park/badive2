@@ -9,6 +9,10 @@ export async function GET(request: Request) {
   console.log('✅in  app\auth\callback\route.ts');
 
   const requestUrl = new URL(request.url);
+
+  console.log('requestUrl.searchParams');
+  console.log(requestUrl.searchParams);
+
   const code = requestUrl.searchParams.get('code');
   const origin = requestUrl.origin;
 
@@ -28,6 +32,12 @@ export async function GET(request: Request) {
     const {
       data: { session },
     } = await supabase.auth.getSession();
+
+    // console.log('session');
+    // console.log(session);
+
+    console.log('session.user');
+    console.log(session.user);
 
     if (session) {
       const userId = session.user.id;

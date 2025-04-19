@@ -2,14 +2,33 @@
 
 import useModalOpen from '@/app/store/useModalOpen';
 import { createClient } from '@/utils/supabase/client';
-import { Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
+import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
+import {
+  Divider,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  useDisclosure,
+} from '@heroui/react';
 import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function TourTable({ profile }) {
+export default function TourTable({ profile }: { profile: PostgrestSingleResponse<TypeDBprofile> }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isOpen: isDetailOpen, onOpen: onDetailOpen, onOpenChange: onDetailOpenChange } = useDisclosure();
   const [selectedTour, setSelectedTour] = useState(null);
@@ -49,7 +68,7 @@ export default function TourTable({ profile }) {
       }
     };
     fetchTourData();
-  }, [profile?.id, searchFilter, searchValue, page, pageSize, cancelTry]);
+  }, [profile?.data.id, searchFilter, searchValue, page, pageSize, cancelTry]);
 
   const handleDetailOpen = tour => {
     setSelectedTour(tour);
