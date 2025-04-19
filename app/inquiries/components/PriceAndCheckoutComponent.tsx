@@ -2,18 +2,21 @@
 
 import { usePendingSession } from '@/app/store/usePendingSession';
 import { TSelectedResult, useSelectedResult } from '@/app/store/useSelectedResult';
+import { usePaymentStatus } from '@/hooks/usePaymentStatus';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { generateRandomString } from '@/utils/supabase/generateRandomString';
 import { Button, Divider, useDisclosure } from '@heroui/react';
 import { User } from '@supabase/supabase-js';
+import { LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 type TProps = { userData: User; profile: TypeDBprofile; showMode: 'MOBILE' | 'DESKTOP' };
 
 export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData, showMode }) => {
+  const { changePaymentStatus, paymentStatus } = usePaymentStatus();
   const { pendingSession, setGlobalPendingSession } = usePendingSession();
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -37,6 +40,8 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
       router.push('/login?returnUrl=/inquiries');
       return;
     }
+
+    changePaymentStatus({ status: 'PAYMENT_WORK_IN_PROGRESS' });
 
     try {
       const uuid = generateRandomString();
@@ -66,10 +71,17 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
       // if (error) throw error;
 
       router.push(`/inquiries/checkout?session=${uuid}`);
+      changePaymentStatus({ status: 'PAYMENT_COMPLETED' });
+      return;
     } catch (error) {
       console.log('Error creating pending session:', error);
       toast.error('결제 진행 중 오류가 발생했습니다.');
     }
+
+    setTimeout(() => {
+      changePaymentStatus({ status: 'PAYMENT_READY' });
+    }, 500);
+    return;
   };
 
   const isReadyForCheckout = checkIsSelectedResultFullyReadyForCheckout(selectedResult);
@@ -90,10 +102,12 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
 
       <div className="w-full flex justify-center pt-4">
         <Button
+          isDisabled={paymentStatus === 'PAYMENT_WORK_IN_PROGRESS' || paymentStatus === 'PAYMENT_COMPLETED'}
           onClick={handlePaymentClick}
           className={cn('bg-[#0077B6] text-white w-full text-lg md:text-2xl h-12 md:h-16', isReadyForCheckout === false && 'bg-gray-400 cursor-not-allowed')}
         >
-          결제하기
+          {paymentStatus === 'PAYMENT_READY' && <p>결제하기</p>}
+          {(paymentStatus === 'PAYMENT_WORK_IN_PROGRESS' || paymentStatus === 'PAYMENT_COMPLETED') && <LoaderCircle size={20} />}
         </Button>
       </div>
     </div>
