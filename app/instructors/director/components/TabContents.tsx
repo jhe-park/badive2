@@ -10,9 +10,9 @@ export default function TabContents() {
   const router = useRouter();
   const pathname = usePathname();
   const tabs = [
-    { id: 0, label: 'BDN 강사', path: '/instructors/bdn' },
-    { id: 1, label: 'BDN 수중촬영감독', path: '/instructors/director' },
-    { id: 2, label: 'BDN 협력강사', path: '/instructors/partner' },
+    { id: 0, label: 'BADIVE 강사', path: '/instructors/bdn' },
+    { id: 1, label: 'BADIVE 수중촬영감독', path: '/instructors/director' },
+    { id: 2, label: 'BADIVE 협력강사', path: '/instructors/partner' },
   ];
 
   useEffect(() => {

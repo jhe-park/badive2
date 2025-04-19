@@ -78,7 +78,7 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
       </div>
       <Divider className="h-0.5 w-full bg-black"></Divider>
       <div className="flex flex-col gap-y-2 rounded-xl bg-gray-100 p-6">
-        <p>같은 SNS 계정으로 재가입 시 한달 후에 가능하며, BDN 회원가입으로 재가입시에는 동일 아이디는 사용하실 수 없습니다.</p>
+        <p>같은 SNS 계정으로 재가입 시 한달 후에 가능하며, BADIVE 회원가입으로 재가입시에는 동일 아이디는 사용하실 수 없습니다.</p>
         <p>예약하신 모든 프로그램들은 삭제되며 동일 계정으로 재가입을 해도 정보는 복구되지 않습니다.</p>
         <p>회원탈퇴를 진행하시겠습니까?</p>
       </div>

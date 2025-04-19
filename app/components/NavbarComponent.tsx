@@ -18,9 +18,9 @@ const menuItems = [
     title: '소속강사',
     href: '/instructors/bdn',
     submenu: [
-      { title: 'BDN 소속강사', href: '/instructors/bdn' },
-      { title: 'BDN 메인촬영감독', href: '/instructors/director' },
-      { title: 'BDN 협력강사', href: '/instructors/partner' },
+      { title: 'BADIVE 소속강사', href: '/instructors/bdn' },
+      { title: 'BADIVE 메인촬영감독', href: '/instructors/director' },
+      { title: 'BADIVE 협력강사', href: '/instructors/partner' },
     ],
   },
   {

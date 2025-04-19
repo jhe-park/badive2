@@ -44,7 +44,7 @@ export default function page() {
       <div className="mt-6 flex aspect-[375/250] w-full flex-col items-center justify-evenly md:mt-12 md:aspect-[768/234] md:max-w-[1280px] xl:mt-16 xl:aspect-[1280/220]">
         <h1 className="text-center text-2xl font-bold md:px-10 md:text-[40px]">전국 지역 다이빙 강습 가능</h1>
         <div className="mt-5 text-center md:px-10">
-          <p className="text-medium md:text-[18px]">“BDN은 대한민국 어디서든 다이빙을 배울 수 있는 기회를 제공합니다.</p>
+          <p className="text-medium md:text-[18px]">“BADIVE는 대한민국 어디서든 다이빙을 배울 수 있는 기회를 제공합니다.</p>
           <p className="text-medium md:text-[18px]">각 지역 원하는 장소에서 강사진들을 통해 체계적이고</p>
           <p className="text-medium md:text-[18px]">안전한 다이빙 강습을 운영하고 있으며, 초보자에게는 기초부터 탄탄하게,</p>
           <p className="text-medium md:text-[18px]">경험자에게는 심화 과정을 통해 수준을 높힐 수 있는 맞춤형 강습을 제공합니다.“</p>
@@ -73,8 +73,8 @@ export default function page() {
             </div>
             {/* text-medium */}
             <div className="text-center text-[14px] md:text-[18px] xl:text-[20px]" style={{ lineHeight: '1.5' }}>
-              “BDN은 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브 리조트들과의 MOU를 체결하여 많은 다이버 회원분들에게 특별한 경험을 제공하고자 노력하고
-              있습니다. “
+              “BADIVE는 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브 리조트들과의 MOU를 체결하여 많은 다이버 회원분들에게 특별한 경험을 제공하고자
+              노력하고 있습니다. “
             </div>
           </div>
         </div>

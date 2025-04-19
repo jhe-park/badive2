@@ -349,7 +349,7 @@ export default function Information() {
               이메일 승인
             </Checkbox>
           </div>
-          <div className="flex w-full justify-start text-xs">*수신 동의 시 BDN 소식을 빠르게 받아보실 수 있습니다.</div>
+          <div className="flex w-full justify-start text-xs">*수신 동의 시 BADIVE 소식을 빠르게 받아보실 수 있습니다.</div>
         </div>
         <div className="flex w-full flex-col items-start justify-start">
           <div>주소</div>

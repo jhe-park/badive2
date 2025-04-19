@@ -206,10 +206,10 @@ export default function InstructorNewPage() {
         </Select>
         <Select label="소속" labelPlacement="inside" selectedKeys={[selectedRole]} onChange={e => setSelectedRole(e.target.value)}>
           <SelectItem value="bdn" key="bdn">
-            BDN소속강사
+            BADIVE소속강사
           </SelectItem>
           <SelectItem value="partner" key="partner">
-            BDN협력강사
+            BADIVE협력강사
           </SelectItem>
         </Select>
         <Input

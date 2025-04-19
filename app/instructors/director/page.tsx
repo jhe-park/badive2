@@ -11,7 +11,7 @@ export default function page() {
           <div className="relative z-10">
             <h1 className="text-medium font-bold text-black md:text-5xl">Premium Instructor</h1>
             <p className="text-sm text-black md:text-3xl">다양한 경험과 노하우를 갖춘</p>
-            <p className="text-sm text-black md:text-3xl">BDN의 전문 다이빙 강사들을 소개합니다.</p>
+            <p className="text-sm text-black md:text-3xl">BADIVE의 전문 다이빙 강사들을 소개합니다.</p>
           </div>
         </div>
       </div>
