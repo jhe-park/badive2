@@ -112,6 +112,8 @@ const handler = NextAuth({
         }
       }
 
+      return true;
+
       // }
       // else {
       //   userId = data.id;
