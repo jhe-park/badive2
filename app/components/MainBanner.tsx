@@ -8,60 +8,60 @@ import { SlControlPause } from 'react-icons/sl';
 const VIDEO_SOURCE_MOBILE_SAFARI = [
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
-    poster: '/banner/poster1.avif',
+    poster: '/banner/poster1.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
-    poster: '/banner/poster2.avif',
+    poster: '/banner/poster2.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
-    poster: '/banner/poster3.avif',
+    poster: '/banner/poster3.webp',
   },
 ];
 
 const VIDEO_SOURCE_MOBILE = [
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1_1320.mp4',
-    poster: '/banner/poster1.avif',
+    poster: '/banner/poster1.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1_1320.mp4',
-    poster: '/banner/poster2.avif',
+    poster: '/banner/poster2.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1_1320.mp4',
-    poster: '/banner/poster3.avif',
+    poster: '/banner/poster3.webp',
   },
 ];
 
 const VIDEO_SOURCE_SAFARI = [
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4',
-    poster: '/banner/poster1.avif',
+    poster: '/banner/poster1.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4',
-    poster: '/banner/poster2.avif',
+    poster: '/banner/poster2.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4',
-    poster: '/banner/poster3.avif',
+    poster: '/banner/poster3.webp',
   },
 ];
 
 const VIDEO_SOURCE = [
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4',
-    poster: '/banner/poster1.avif',
+    poster: '/banner/poster1.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2_av1.mp4',
-    poster: '/banner/poster2.avif',
+    poster: '/banner/poster2.webp',
   },
   {
     link: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3_av1.mp4',
-    poster: '/banner/poster3.avif',
+    poster: '/banner/poster3.webp',
   },
 ];
 
@@ -192,7 +192,7 @@ const MainBanner: React.FC<{ isSafari: boolean }> = ({ isSafari }) => {
           ref={imageRef}
           alt="open_the_gate"
           loading="lazy"
-          src="/banner/open_the_gate1.avif"
+          src="/banner/open_the_gate1.webp"
           className="h-full w-full transform object-cover transition-transform duration-300 ease-out"
         />
         <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">

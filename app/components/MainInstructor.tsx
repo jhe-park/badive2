@@ -20,7 +20,7 @@ const MainInstructor = () => {
         <br /> 전문가들이 <span className={textClass}>당신의 첫걸음을 함께</span>합니다
       </div>
       <a className="relative mx-auto mt-[47px] block max-w-[1720px]" href="/instructors/bdn" ref={imageRef}>
-        <img loading="lazy" src="/instructor/main_instructor.avif" alt="main_instructor" className="transform transition-transform duration-300 ease-out" />
+        <img loading="lazy" src="/instructor/main_instructor.webp" alt="main_instructor" className="transform transition-transform duration-300 ease-out" />
         <ViewMoreButton
           onClick={() => {}}
           className={

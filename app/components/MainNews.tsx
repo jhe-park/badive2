@@ -87,7 +87,7 @@ const MainNews = () => {
         ref={titleRef}
         className="flex h-auto w-full transform items-center justify-center gap-[10px] py-[50px] text-3xl font-bold text-white transition-transform duration-300 ease-out sm:gap-[14px] sm:py-24 sm:text-[40px] md:gap-[27px] md:py-[115px] md:text-[50px] lg:gap-[27px] lg:py-[100px]"
       >
-        <img loading="lazy" src="/news/title.avif" className="h-[50px] w-[50px]" />
+        <img loading="lazy" src="/news/title.webp" className="h-[50px] w-[50px]" />
         BADIVE 소식
       </h1>
       <p

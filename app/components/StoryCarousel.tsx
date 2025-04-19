@@ -32,8 +32,7 @@ const MultiImageCarousel = () => {
     },
     {
       id: 2,
-      // url: "https://jhedata.s3.ap-southeast-2.amazonaws.com/2.png",
-      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/2.avif',
+      url: 'https://jhedata.s3.ap-southeast-2.amazonaws.com/2.png',
       title: '',
       link: 'https://www.youtube.com/@badive_official',
     },

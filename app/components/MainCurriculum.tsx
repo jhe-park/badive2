@@ -7,19 +7,19 @@ import ViewMoreButton from './ViewMoreButton';
 const MainCurriculum = () => {
   const CURRICULUMS = [
     {
-      img: '/curriculum/program1.avif',
+      img: '/curriculum/program1.webp',
       link: '/programs/scuberdiving',
     },
     {
-      img: '/curriculum/program2.avif',
+      img: '/curriculum/program2.webp',
       link: '/programs/freediving',
     },
     {
-      img: '/curriculum/program3.avif',
+      img: '/curriculum/program3.webp',
       link: '/programs/mermaid',
     },
     {
-      img: '/curriculum/program4.avif',
+      img: '/curriculum/program4.webp',
       link: '/programs/underwater',
     },
   ];

@@ -9,19 +9,19 @@ import VideoModal from './VideoModal';
 const MainStory = () => {
   const THUMBNAILS = [
     {
-      img: '/story/thumbnail1.avif',
+      img: '/story/thumbnail1.webp',
       link: 'https://youtu.be/q5rGiEZLdA8?si=Rm8x6v2SnY1pg_F-',
     },
     {
-      img: '/story/thumbnail2.avif',
+      img: '/story/thumbnail2.webp',
       link: 'https://youtu.be/zzZoKMPZeqY?si=qIWaqK7hjF1xOd8r',
     },
     {
-      img: '/story/thumbnail3.avif',
+      img: '/story/thumbnail3.webp',
       link: 'https://youtu.be/ykAKEEVVRoc?si=I5v7EAiYxqAu3mEO',
     },
     {
-      img: '/story/thumbnail4.avif',
+      img: '/story/thumbnail4.webp',
       link: 'https://www.youtube.com/@badive_official',
     },
   ];
