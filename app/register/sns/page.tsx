@@ -26,11 +26,11 @@ export default function Login() {
   const supabase = createClient();
 
   // 입력 필드 상태 관리
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [birth, setBirth] = useState('');
-  const [gender, setGender] = useState('');
-  const [submitLoading, setSubmitLoading] = useState(false);
+  const [formName, setFormName] = useState('');
+  const [formPhone, setFormPhone] = useState('');
+  const [formBirth, setFormBirth] = useState('');
+  const [formGender, setFormGender] = useState('');
+  const [formSubmitLoading, setFormSubmitLoading] = useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -45,13 +45,22 @@ export default function Login() {
   const [selectedContents, setSelectedContents] = useState(null);
 
   // 전체동의 체크박스 핸들러
-  const handleAllConsent = isSelected => {
-    setAllConsent(isSelected);
-    setTermsConsent(isSelected);
-    setPrivacyConsent(isSelected);
-    setMarketingConsent(isSelected);
-    setEmailConsent(isSelected);
-    setSmsConsent(isSelected);
+  const handleAllConsent = ({ isSelected, isSwitch }: { isSelected?: boolean; isSwitch?: boolean }) => {
+    if (isSwitch) {
+      setAllConsent(!allConsent);
+      setTermsConsent(!allConsent);
+      setPrivacyConsent(!allConsent);
+      setMarketingConsent(!allConsent);
+      setEmailConsent(!allConsent);
+      setSmsConsent(!allConsent);
+    } else if (typeof isSelected === 'boolean') {
+      setAllConsent(isSelected);
+      setTermsConsent(isSelected);
+      setPrivacyConsent(isSelected);
+      setMarketingConsent(isSelected);
+      setEmailConsent(isSelected);
+      setSmsConsent(isSelected);
+    }
   };
 
   // 개별 체크박스 상태 변경 시 전체동의 체크박스 상태 업데이트
@@ -75,49 +84,68 @@ export default function Login() {
   // 폼 제출 핸들러
   const handleSubmit = async () => {
     try {
-      setSubmitLoading(true);
+      setFormSubmitLoading(true);
+
+      let isInvalidForm = false;
 
       // 필수 입력 필드 검증
-      if (!name.trim()) {
+
+      const formNameTrimmed = formName.trim();
+      if (formNameTrimmed == null || formNameTrimmed.length === 0) {
         toast.error('이름을 입력해주세요.');
-        setSubmitLoading(false);
-        return;
+        isInvalidForm = true;
       }
 
-      if (!phone.trim()) {
+      if (formNameTrimmed.length > 10) {
+        toast.error('이름은 10자 이내로 입력해주세요.');
+        isInvalidForm = true;
+      }
+
+      const formPhoneRefined = formPhone.replace(/[^0-9]/g, '');
+      if (!formPhoneRefined || formPhoneRefined.length === 0) {
         toast.error('휴대폰번호를 입력해주세요.');
-        setSubmitLoading(false);
-        return;
+        isInvalidForm = true;
+      } else if (formPhoneRefined.length !== 11) {
+        toast.error('휴대폰번호는 11자리 숫자여야 합니다.');
+        isInvalidForm = true;
       }
 
-      if (!birth.trim()) {
+      const formBirthRefined = formBirth.replace(/[^0-9]/g, '');
+
+      if (formBirthRefined == null || formBirthRefined.length === 0) {
         toast.error('생년월일을 입력해주세요.');
-        setSubmitLoading(false);
-        return;
+        isInvalidForm = true;
+      } else if (formBirthRefined.length !== 8) {
+        toast.error('생년월일은 8자리 숫자여야 합니다.');
+        isInvalidForm = true;
       }
 
-      if (!gender) {
+      if (!formGender) {
         toast.error('성별을 선택해주세요.');
-        setSubmitLoading(false);
-        return;
+        isInvalidForm = true;
+      } else if (formGender !== 'male' && formGender !== 'female') {
+        toast.error('성별 입력값이 올바르지 않습니다.');
+        isInvalidForm = true;
       }
 
       // 필수 체크박스 검증
       if (!isOver14) {
         toast.error('14세 이상 동의가 필요합니다.');
-        setSubmitLoading(false);
-        return;
+        isInvalidForm = true;
       }
 
       if (!termsConsent) {
         toast.error('이용약관 동의가 필요합니다.');
-        setSubmitLoading(false);
-        return;
+        isInvalidForm = true;
       }
 
       if (!privacyConsent) {
         toast.error('개인정보 수집 및 이용동의가 필요합니다.');
-        setSubmitLoading(false);
+        isInvalidForm = true;
+      }
+
+      if (isInvalidForm) {
+        setFormSubmitLoading(false);
         return;
       }
 
@@ -127,24 +155,37 @@ export default function Login() {
       if (userError) {
         toast.error('로그인 정보를 가져오는데 실패했습니다.');
         console.error(userError);
-        setSubmitLoading(false);
+        setFormSubmitLoading(false);
         return;
       }
 
       if (!userData.user) {
         toast.error('로그인이 필요합니다.');
-        setSubmitLoading(false);
+        setFormSubmitLoading(false);
         return;
       }
+
+      console.log('✅ 최종 form value');
+      console.log({
+        name: formNameTrimmed,
+        phone: formPhoneRefined,
+        birth: formBirthRefined,
+        gender: formGender,
+        marketingSms: smsConsent,
+        marketingEmail: emailConsent,
+        marketingAgreement: marketingConsent,
+        updated_at: new Date().toISOString(),
+        snsRegister: true,
+      });
 
       // Supabase profiles 테이블 업데이트
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
-          name,
-          phone,
-          birth,
-          gender,
+          name: formNameTrimmed,
+          phone: formPhoneRefined,
+          birth: formBirthRefined,
+          gender: formGender,
           marketingSms: smsConsent,
           marketingEmail: emailConsent,
           marketingAgreement: marketingConsent,
@@ -156,7 +197,7 @@ export default function Login() {
       if (updateError) {
         toast.error('프로필 업데이트에 실패했습니다.');
         console.error(updateError);
-        setSubmitLoading(false);
+        setFormSubmitLoading(false);
         return;
       }
 
@@ -165,11 +206,11 @@ export default function Login() {
       // 잠시 후 메인 페이지로 리다이렉트
       setTimeout(() => {
         router.push('/');
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('가입 중 오류 발생:', error);
       toast.error('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
-      setSubmitLoading(false);
+      setFormSubmitLoading(false);
     }
   };
 
@@ -199,13 +240,13 @@ export default function Login() {
             <div>이름</div>
             <div className="flex w-full flex-row items-start justify-start gap-x-4">
               <Input
-                value={name}
-                onChange={e => setName(e.target.value)}
+                value={formName}
+                onChange={e => setFormName(e.target.value)}
                 type="text"
                 isRequired
                 variant="bordered"
                 className="w-full"
-                placeholder="이름 입력해 주세요."
+                placeholder="이름을 입력해 주세요."
               />
             </div>
           </div>
@@ -213,13 +254,13 @@ export default function Login() {
             <div>휴대폰번호</div>
             <div className="flex w-full flex-row items-start justify-start gap-x-4">
               <Input
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
+                value={formPhone}
+                onChange={e => setFormPhone(e.target.value)}
                 type="tel"
                 isRequired
                 variant="bordered"
                 className="w-full"
-                placeholder="01000000000"
+                placeholder="예) 01000000000"
               />
             </div>
           </div>
@@ -227,20 +268,20 @@ export default function Login() {
             <div>생년월일</div>
             <div className="flex w-full flex-row items-start justify-start gap-x-4">
               <Input
-                value={birth}
-                onChange={e => setBirth(e.target.value)}
+                value={formBirth}
+                onChange={e => setFormBirth(e.target.value)}
                 type="tel"
                 isRequired
                 variant="bordered"
                 className="w-full"
-                placeholder="19880101"
+                placeholder="예) 19880101"
               />
             </div>
           </div>
           <div className="flex w-full flex-col items-start justify-start">
             <div>성별</div>
             <div className="flex w-full flex-row items-start justify-start gap-x-4">
-              <RadioGroup orientation="horizontal" isRequired value={gender} onChange={e => setGender(e.target.value)}>
+              <RadioGroup orientation="horizontal" isRequired value={formGender} onChange={e => setFormGender(e.target.value)}>
                 <Radio value="male">남자</Radio>
                 <Radio value="female">여자</Radio>
               </RadioGroup>
@@ -262,15 +303,17 @@ export default function Login() {
             <div className="space-y-4 rounded-lg border-2 border-gray-200 p-6 shadow-sm">
               {/* Main consent checkbox */}
               <div className="flex items-center">
-                <Checkbox isSelected={allConsent} onValueChange={handleAllConsent} />
-                <span className="ml-2">전체동의</span>
+                <Checkbox isSelected={allConsent} onValueChange={e => handleAllConsent({ isSelected: e })} />
+                <span onClick={() => handleAllConsent({ isSwitch: true })} className="ml-2 cursor-pointer">
+                  전체동의
+                </span>
               </div>
 
               {/* First consent group */}
               <div className="flex items-center justify-between border-t pt-4">
                 <div className="flex items-center">
                   <Checkbox isSelected={termsConsent} onValueChange={setTermsConsent} />
-                  <span className="ml-2">
+                  <span className="ml-2 cursor-pointer" onClick={() => setTermsConsent(!termsConsent)}>
                     이용약관 동의<span className="text-danger-500">(필수)</span>
                   </span>
                 </div>
@@ -289,7 +332,7 @@ export default function Login() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Checkbox isSelected={privacyConsent} onValueChange={setPrivacyConsent} />
-                  <span className="ml-2">
+                  <span className="ml-2 cursor-pointer" onClick={() => setPrivacyConsent(!privacyConsent)}>
                     개인정보 수집 및 이용동의
                     <span className="text-danger-500">(필수)</span>
                   </span>
@@ -310,7 +353,7 @@ export default function Login() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <Checkbox isSelected={marketingConsent} onValueChange={handleMarketingConsent} />
-                    <span className="ml-2">
+                    <span className="ml-2 cursor-pointer" onClick={() => handleMarketingConsent(!marketingConsent)}>
                       마케팅 목적의 개인정보 수집 및 이용 동의
                       <span className="text-sm">(선택)</span>
                     </span>
@@ -330,11 +373,28 @@ export default function Login() {
                 <div className="ml-8 flex items-center space-x-4">
                   <div className="flex items-center">
                     <Checkbox isSelected={emailConsent} onValueChange={setEmailConsent} isDisabled={!marketingConsent} />
-                    <span className="ml-2 text-medium">이메일</span>
+
+                    <span
+                      className="ml-2 cursor-pointer text-medium"
+                      onClick={() => {
+                        if (!marketingConsent) return;
+                        setEmailConsent(!emailConsent);
+                      }}
+                    >
+                      이메일
+                    </span>
                   </div>
                   <div className="flex items-center">
                     <Checkbox isSelected={smsConsent} onValueChange={setSmsConsent} isDisabled={!marketingConsent} />
-                    <span className="ml-2 text-medium">SMS</span>
+                    <span
+                      className="ml-2 cursor-pointer text-medium"
+                      onClick={() => {
+                        if (!marketingConsent) return;
+                        setSmsConsent(!smsConsent);
+                      }}
+                    >
+                      SMS
+                    </span>
                   </div>
                 </div>
               </div>
@@ -351,7 +411,7 @@ export default function Login() {
             color="primary"
             type="button"
             onPress={handleSubmit}
-            isLoading={submitLoading}
+            isLoading={formSubmitLoading}
           >
             동의하고 가입완료
           </Button>
