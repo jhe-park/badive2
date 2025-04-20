@@ -1,14 +1,22 @@
 'use client';
+
+import { Loading } from '@/app/components/Loading';
+import useLoginStatusStore from '@/app/store/useLoginStatusStore';
 import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function LoginPage({ returnUrl }: { returnUrl: string }) {
   console.log('in NaverLogin component');
 
+  const [isOAuthWorkInProgress, setIsOAuthWorkInProgress] = useState<boolean>(false);
+  const { loginStatus, setLoginStatus } = useLoginStatusStore();
   const { data: session } = useSession();
   const router = useRouter();
+
+  console.log('loginStatus');
+  console.log(loginStatus);
 
   useEffect(() => {
     console.log('in NaverLogin useEffect');
@@ -17,6 +25,7 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
         return;
       }
 
+      setIsOAuthWorkInProgress(true);
       // if (session?.user?.email) {
       try {
         console.log('before fetch');
@@ -30,6 +39,7 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
         console.log('after fetch');
 
         if (!res.ok) {
+          setIsOAuthWorkInProgress(false);
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 
@@ -46,6 +56,7 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
         router.push(data.redirect);
       } catch (error) {
         console.error('로그인 처리 중 오류 발생:', error);
+        setIsOAuthWorkInProgress(false);
       }
       // }
     };
@@ -53,22 +64,29 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
     fetchData();
   }, [session]);
 
-  return (
-    <div className="flex items-center justify-center">
-      <button
-        className="w-15 h-15 bg-white transition-all duration-300 hover:scale-110"
-        onClick={async () => {
-          const { error, ok, status, url } = await signIn('naver');
-          debugger;
-          console.log('res');
-          console.log({ error, ok, status, url });
+  console.log('session');
+  console.log(session);
 
-          console.log('url');
-          console.log(url);
-        }}
-      >
-        <Image src="/logo/naver.png" alt="naver" width={60} height={60} />
-      </button>
-    </div>
+  console.log('✅isOAuthWorkInProgress');
+  console.log(isOAuthWorkInProgress);
+
+  return (
+    <>
+      <div className="flex items-center justify-center">
+        {isOAuthWorkInProgress && <Loading unconditionalLoading={true} />}
+        <button
+          className="w-15 h-15 bg-white transition-all duration-300 hover:scale-110"
+          onClick={async () => {
+            setLoginStatus('LOGIN_WORK_IN_PROGRESS');
+            const { error, ok, status, url } = await signIn('naver', { redirect: false });
+
+            // 아래 코드로 진입하지 않음
+            setLoginStatus('LOGIN_ERROR');
+          }}
+        >
+          <Image src="/logo/naver.png" alt="naver" width={60} height={60} />
+        </button>
+      </div>
+    </>
   );
 }

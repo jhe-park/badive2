@@ -3,13 +3,16 @@ import Image from 'next/image';
 
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { usePathname, useRouter } from 'next/navigation';
+import useLoginStatusStore from '@/app/store/useLoginStatusStore';
 
 const GoogleLoginComponent = ({ returnUrl, domainWithProtocol }: { domainWithProtocol: string; returnUrl: string }) => {
-  const router = useRouter();
+  // const router = useRouter();
+  const { loginStatus, setLoginStatus } = useLoginStatusStore();
   const supabase = createTypedSupabaseClient();
-  const pathName = usePathname();
+  // const pathName = usePathname();
 
   const handleGoogleLogin = async () => {
+    setLoginStatus('LOGIN_WORK_IN_PROGRESS');
     try {
       // const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
 
@@ -27,12 +30,15 @@ const GoogleLoginComponent = ({ returnUrl, domainWithProtocol }: { domainWithPro
       });
 
       // 🚫 주의 : 성공적으로 로그인되면 아래 코드로 진입하지 않고 리다이렉트 된다
+      setLoginStatus('LOGIN_COMPLETED');
 
       if (error) {
         console.error('Google 로그인 에러:', error.message);
+        setLoginStatus('LOGIN_ERROR');
         return;
       }
     } catch (error) {
+      setLoginStatus('LOGIN_ERROR');
       console.error('로그인 처리 중 에러 발생:', error.message);
     }
   };
