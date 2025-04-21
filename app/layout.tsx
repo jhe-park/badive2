@@ -4,22 +4,22 @@ import NavbarComponent from '@/app/components/NavbarComponent';
 import AuthSession from '@/app/components/session-provider';
 import '@/app/globals.css';
 import { HeroUIProvider } from '@heroui/react';
-import type { Viewport } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { Geist } from 'next/font/google';
 
-// const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
-
-export const metadata = {
-  // metadataBase: new URL(defaultUrl),
-  title: 'BADIVE',
-  description: 'BADIVE',
+export const metadata: Metadata = {
+  title: 'BADIVE (바다이브)',
+  description:
+    '바다이브는 스쿠버다이빙 교육부터 프리다이빙, 머메이드, 언더워터 댄스까지 다양한 과정을 제공합니다. 필리핀, 일본, 제주도 다이빙 투어 및 수중 촬영, 특별 프로그램 운영.',
+  keywords:
+    '바다이브, badive, 스쿠버다이빙, 프리다이빙, 머메이드, 언더워터 댄스, 다이빙 투어, 필리핀 사방비치, 일본 이시가키, 일본 미쿠라지마, 필리핀 세부, 해상 스포츠, 수중 활동, 다이빙 교육, 해양 레저',
   icons: {
     icon: '/favicon/favicon.png',
   },
   verification: {
     naver: 'a80e93584636989db774ce1754a65b6ac69d0421',
-  },
+  } as any,
   other: {
     'naver-site-verification': 'a80e93584636989db774ce1754a65b6ac69d0421',
   },
