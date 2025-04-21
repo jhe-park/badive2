@@ -101,7 +101,12 @@ const handler = NextAuth({
         console.log('새로운 사용자 생성:', userId);
         // profiles 테이블 업데이트
         const { error: profileError } = await supabaseAdmin.from('profiles').upsert(
-          { id: userId, email: email, snsRegister: true },
+          {
+            id: userId,
+            email: email,
+            snsRegister: true,
+            // role: 'client'
+          },
           {
             onConflict: 'id',
           },
