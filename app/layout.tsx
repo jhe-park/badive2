@@ -9,7 +9,7 @@ import { ThemeProvider } from 'next-themes';
 import { Geist } from 'next/font/google';
 
 export const metadata: Metadata = {
-  title: 'BADIVE (바다이브)',
+  title: 'BADIVE (바다이브) - 스쿠버다이빙·프리다이빙·다이빙 투어 전문',
   description:
     '바다이브는 스쿠버다이빙 교육부터 프리다이빙, 머메이드, 언더워터 댄스까지 다양한 과정을 제공합니다. 필리핀, 일본, 제주도 다이빙 투어 및 수중 촬영, 특별 프로그램 운영.',
   keywords:
