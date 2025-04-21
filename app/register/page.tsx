@@ -16,7 +16,6 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
         <p className="text-center text-5xl font-bold">회원가입</p>
       </div>
       <Stepper></Stepper>
-
       <StepContents></StepContents>
     </div>
   );

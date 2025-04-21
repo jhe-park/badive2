@@ -40,6 +40,10 @@ export default function Information() {
   const supabase = createClient();
   const router = useRouter();
   const { step, setStep } = useStep();
+
+  console.log('email');
+  console.log(email);
+
   const handleNext = async () => {
     if (!isEmailChecked) {
       toast.error('이메일 중복확인을 해주세요.');
@@ -111,6 +115,7 @@ export default function Information() {
       setIsPasswordMatch(password === passwordCheck);
     }
   }, [password, passwordCheck]);
+
   console.log('isPasswordMatch', isPasswordMatch);
 
   const handleCheckEmail = async () => {
@@ -205,7 +210,7 @@ export default function Information() {
               isRequired
               variant="bordered"
               className="w-full"
-              placeholder="이메일 입력해 주세요."
+              placeholder="이메일을 입력해 주세요."
             />
             <Button onPress={handleCheckEmail} className="w-[10%]">
               중복확인
@@ -217,6 +222,7 @@ export default function Information() {
           <div className="flex w-full flex-col items-start justify-start">
             <Input
               type="password"
+              autoComplete="new-password"
               variant="bordered"
               className={`w-full ${isPasswordMatch ? 'border-red-500' : ''}`}
               placeholder="패스워드를 입력해 주세요."
