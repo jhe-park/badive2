@@ -19,6 +19,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './CalendarComponentForAdminAndExpert';
 import ModalForDetailInformation from './ModalForDetailInformation';
 import useCalenderFetchStatusStore from '@/app/store/useCalenderFetchStatusStore';
+import { getAllDatesInMonth } from '@/utils/getAllDatesInMonth';
+import { useCurrentMonthStore } from '@/app/store/useCurrentMonthStore';
+import { useSelectedDateStore } from '@/app/store/useSelectedDateStore';
 
 const DATE_FOR_AVAILABLE_FALSE = [];
 
@@ -70,15 +73,12 @@ type TProps = {
 
 export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
   const { calendarFetchStatus, setCalendarFetch } = useCalenderFetchStatusStore();
+  const { currentMonth, setCurrentMonth } = useCurrentMonthStore();
 
   const pathname = usePathname();
   const router = useRouter();
-  console.log('pathname');
-  console.log(pathname);
 
-  // if (pathname.endsWith('schedule')) {
-  //   console.log('ㅁㅁㅁㅁ');
-  // }
+  const [timeSlotUpdateStatus, setTimeSlotUpdateStatus] = useState<'UPDATE_READY' | 'UPDATE_WORK_IN_PROGRESS'>('UPDATE_READY');
 
   const { expertInformation, setExpertInformation } = useExpertStore();
 
@@ -86,7 +86,9 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   const [selectedInstructor, setSelectedInstructor] = useState<TypeDBinstructor | undefined>(instructorMyself ?? undefined);
   const [selectedInstructorProfile, setSelectedInstructorProfile] = useState<TypeDBprofile | undefined>(profilesForLoginUser ?? undefined);
   const [selectedHHMM, setSelectedHHMM] = useState<string | undefined>();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+
+  // const [globalSelectedDate, setGlobalSelectedDate] = useState<Date | undefined>();
+  const { globalSelectedDate, setGlobalSelectedDate } = useSelectedDateStore();
 
   const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
   const [everyTimeSlotsForDelete, setEveryTimeSlotsForDelete] = useState<TFetchedTimeSlot[]>([]);
@@ -103,7 +105,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   const supabase = createTypedSupabaseClient();
 
   const changeSelectedDate = ({ newDate }: { newDate: Date }) => {
-    setSelectedDate(newDate);
+    setGlobalSelectedDate(newDate);
   };
 
   const changeTimeSlots = ({ newTimeSlots }: { newTimeSlots: TFetchedTimeSlot[] }) => {
@@ -119,7 +121,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   };
 
   const resetCalendarDate = () => {
-    setSelectedDate(undefined);
+    setGlobalSelectedDate(undefined);
     setTimeSlots([]);
   };
 
@@ -171,8 +173,30 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     }
   };
 
-  const addScheduleToDB = async () => {
+  const addScheduleToDB = async ({ isEveryMonth }: { isEveryMonth?: boolean }) => {
     let filteredPrograms: TypeDBprogram[] | undefined = undefined;
+
+    let isInvalid = false;
+    if (selectedInstructor == null) {
+      toast.error('강사를 선택해 주세요');
+      isInvalid = true;
+    }
+
+    if (isEveryMonth === false && globalSelectedDate == null) {
+      toast.error('날짜를 선택해 주세요');
+      isInvalid = true;
+    }
+
+    if (selectedHHMM == null) {
+      toast.error('등록할 시간을 선택해 주세요');
+      isInvalid = true;
+    }
+
+    if (isInvalid) {
+      return;
+    }
+
+    setTimeSlotUpdateStatus('UPDATE_WORK_IN_PROGRESS');
 
     switch (selectedLectureCategory) {
       case '스쿠버다이빙':
@@ -213,54 +237,66 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         console.log('index');
         console.log(index);
 
-        const date = dayjs(selectedDate).format('YYYY-MM-DD');
         const start_time = selectedHHMM;
+        const targetDate = dayjs(globalSelectedDate).format('YYYY-MM-DD');
 
         if (selectedHHMM == null) {
           return;
         }
 
-        const uniqueId = `${program.instructor_id}_${program.id}_${date}_${start_time}`;
+        const targetDateArr = isEveryMonth ? getAllDatesInMonth(currentMonth) : [targetDate];
 
-        try {
-          const { data, error, status, statusText } = await supabase
-            .from('timeslot')
-            .update({
-              available: true,
-            })
-            .eq('unique_id', uniqueId);
+        console.log('targetDateArr');
+        console.log(targetDateArr);
 
-          console.log('data');
-          console.log(data);
+        // debugger;
+        // return;
 
-          console.log('error');
-          console.log(error);
+        await Promise.all(
+          targetDateArr.map(async targetDate => {
+            const uniqueId = `${program.instructor_id}_${program.id}_${targetDate}_${start_time}`;
 
-          console.log('status');
-          console.log(status);
+            try {
+              const { data, error, status, statusText } = await supabase
+                .from('timeslot')
+                .update({
+                  available: true,
+                })
+                .eq('unique_id', uniqueId);
 
-          console.log('statusText');
-          console.log(statusText);
+              // console.log('data');
+              // console.log(data);
 
-          await supabase.from('timeslot').insert({
-            date,
-            start_time,
-            end_time: start_time,
-            unique_id: uniqueId,
-            program_id: program.id,
-            instructor_id: program.instructor_id,
-            available: true,
-            current_participants: 0,
-            max_participants: program.participants,
-          });
-        } catch (error) {
-          toast.error(error);
-          console.error(error);
-        }
+              // console.log('error');
+              // console.log(error);
+
+              // console.log('status');
+              // console.log(status);
+
+              // console.log('statusText');
+              // console.log(statusText);
+
+              await supabase.from('timeslot').insert({
+                date: targetDate,
+                start_time,
+                end_time: start_time,
+                unique_id: uniqueId,
+                program_id: program.id,
+                instructor_id: program.instructor_id,
+                available: true,
+                current_participants: 0,
+                max_participants: program.participants,
+              });
+            } catch (error) {
+              toast.error(error);
+              console.error(error);
+            }
+          }),
+        );
       }),
     );
 
-    const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date: selectedDate, instructor: selectedInstructor });
+    const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date: globalSelectedDate, instructor: selectedInstructor });
 
     console.log('timeSlotsNew');
     console.log(timeSlotsNew);
@@ -275,6 +311,17 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     });
 
     changeTimeSlots({ newTimeSlots: filteredTimeSlots });
+
+    setTimeSlotUpdateStatus('UPDATE_READY');
+
+    if (isEveryMonth) {
+      toast.success(`${selectedHHMM}시가 ${currentMonth.getMonth() + 1}월달의 모든 날짜에 등록되었습니다.`, {
+        autoClose: 6500,
+        style: {
+          width: '300px',
+        },
+      });
+    }
   };
 
   const EVERY_TIME_SLOTS_OBJ = {
@@ -390,7 +437,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                     deleteTimeSlots({
                       timeSlotIds: [...time_slot_ids],
                       time,
-                      date: selectedDate,
+                      date: globalSelectedDate,
                       timeSlots,
                     });
                   }}
@@ -576,7 +623,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                       toast.error('강사를 선택해 주세요');
                       isForbidden = true;
                     }
-                    if (selectedDate == null) {
+                    if (globalSelectedDate == null) {
                       toast.error('달력에서 날짜를 선택해 주세요');
                       isForbidden = true;
                     }
@@ -590,7 +637,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                       return;
                     }
 
-                    addScheduleToDB();
+                    addScheduleToDB({ isEveryMonth: false });
                   }}
                   className="justify-center bg-btnActive text-white hover:text-white data-[hover=true]:text-foreground"
                 >
@@ -598,7 +645,17 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                 </Button>
               </div>
             </div>
-            <div className="">
+            <div className="pt-4">
+              <Button
+                onPress={() => {
+                  addScheduleToDB({ isEveryMonth: true });
+                }}
+                className="justify-center bg-[#004469] text-white hover:text-white data-[hover=true]:text-foreground"
+              >
+                일괄 등록하기
+              </Button>
+            </div>
+            {/* <div className="">
               <Button
                 onPress={() => {
                   deleteEveryTimeslot();
@@ -607,13 +664,13 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
               >
                 일괄 삭제하기
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="flex-1">
           <div className="">
             <CalendarComponentForAdminAndExpert
-              selectedDate={selectedDate}
+              selectedDate={globalSelectedDate}
               changeSelectedDate={changeSelectedDate}
               selectedInstructor={selectedInstructor}
               selectedLectureCategory={selectedLectureCategory}
@@ -624,7 +681,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
           </div>
         </div>
       </div>
-      {timeSlots.length > 0 && (
+      {calendarFetchStatus !== 'CALENDAR_FETCH_WORK_IN_PROGRESS' && timeSlotUpdateStatus !== 'UPDATE_WORK_IN_PROGRESS' && timeSlots.length > 0 && (
         <div className="">
           {TimeSlotAMComponents.length > 0 && (
             <>
@@ -641,7 +698,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
           <div className="pt-20"></div>
         </div>
       )}
-      {calendarFetchStatus === 'CALENDAR_FETCH_WORK_IN_PROGRESS' && (
+      {(calendarFetchStatus === 'CALENDAR_FETCH_WORK_IN_PROGRESS' || timeSlotUpdateStatus === 'UPDATE_WORK_IN_PROGRESS') && (
         <div className="">
           <ClipLoader
             // color={color}
@@ -654,9 +711,10 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         </div>
       )}
       {calendarFetchStatus !== 'CALENDAR_FETCH_WORK_IN_PROGRESS' &&
+        timeSlotUpdateStatus !== 'UPDATE_WORK_IN_PROGRESS' &&
         selectedLectureCategory &&
         selectedInstructor &&
-        selectedDate &&
+        globalSelectedDate &&
         TimeSlotAMComponents.length === 0 &&
         TimeSlotPMComponents.length === 0 && <div className="">현재 등록된 시간대가 없습니다</div>}
     </>

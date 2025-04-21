@@ -1,6 +1,8 @@
 'use client';
 
 import useCalenderFetchStatusStore from '@/app/store/useCalenderFetchStatusStore';
+import { useCurrentMonthStore } from '@/app/store/useCurrentMonthStore';
+import { useSelectedDateStore } from '@/app/store/useSelectedDateStore';
 import { LECTURE_CATEGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
@@ -42,21 +44,25 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
 
   const supabase = createTypedSupabaseClient();
 
-  const [currentDate, setCurrentDate] = useState(new Date());
+  // const [currentMonth, setCurrentMonth] = useState(new Date());
+  const { currentMonth, setCurrentMonth } = useCurrentMonthStore();
+  const { globalSelectedDate, setGlobalSelectedDate } = useSelectedDateStore();
 
   const handleNextMonth = () => {
-    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    setCurrentDate(newDate);
+    const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+    setCurrentMonth(newDate);
+    setGlobalSelectedDate(null);
   };
 
   const handlePrevMonth = async () => {
-    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    setCurrentDate(newDate);
+    const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+    setCurrentMonth(newDate);
+    setGlobalSelectedDate(null);
   };
 
-  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+  const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
 
-  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+  const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
 
   return (
     <div className={`order-2 col-span-1 flex h-full flex-col items-center justify-center gap-y-2 md:order-1 md:gap-y-0`}>
@@ -66,7 +72,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
           <span className="text-[20px] sm:text-[32px]">이전달</span>
         </button>
         <div className="my-6 flex flex-col items-center justify-center border-b-1.5 border-solid border-black">
-          <div className="text-[25px] font-bold sm:text-[32px]">{dayjs(currentDate).format('YYYY.MM')}</div>
+          <div className="text-[25px] font-bold sm:text-[32px]">{dayjs(currentMonth).format('YYYY.MM')}</div>
         </div>
 
         <button onClick={handleNextMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
@@ -87,7 +93,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
           <div key={`empty-${i}`} className="text-center text-gray-400"></div>
         ))}
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
-          const currentDateObj = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+          const currentDateObj = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           const isPastDateOrToday = currentDateObj <= today;
