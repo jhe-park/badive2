@@ -11,55 +11,55 @@ export default function WelcomePopup() {
   // 탭 데이터
   const tabs = {
     tab1: {
-      name: '바다이브 OPEN 이벤트',
+      name: 'OPEN 이벤트',
       banners: [
         {
           id: 1,
-          title: '바다이브 OPEN 이벤트',
+          title: 'OPEN 이벤트',
           link: 'http://event.badive.co.kr/event',
           image: '/popup/new/popup1.webp',
         },
       ],
     },
     tab2: {
-      name: '바다이브 전국 강습 가능',
+      name: '전국 강습 가능',
       banners: [
         {
           id: 2,
-          title: '바다이브 전국 강습 가능',
+          title: '전국 강습 가능',
           link: '/community/notification/58',
           image: '/popup/new/popup2.webp',
         },
       ],
     },
     tab3: {
-      name: '바다이브 무료클래스',
+      name: '무료클래스',
       banners: [
         {
           id: 3,
-          title: '바다이브 무료클래스',
+          title: '무료클래스',
           link: '/community/notification/52',
           image: '/popup/new/popup3.webp',
         },
       ],
     },
     tab4: {
-      name: '바다이브 다이빙 투어',
+      name: '다이빙 투어',
       banners: [
         {
           id: 4,
-          title: '바다이브 다이빙 투어',
+          title: '다이빙 투어',
           link: '/divingtours/18',
           image: '/popup/new/popup4.webp',
         },
       ],
     },
     tab5: {
-      name: '바다이브 네이버카페 오픈',
+      name: '네이버카페 오픈',
       banners: [
         {
           id: 5,
-          title: '바다이브 네이버카페 오픈',
+          title: '네이버카페 오픈',
           link: 'https://cafe.naver.com/babive?iframe_url=/ArticleList.nhn%3Fsearch.clubid=31436952%26search.boardtype=L',
           // image: "/popup/new/popup5.png",
           image: '/popup/new/popup5.webp',
@@ -68,11 +68,11 @@ export default function WelcomePopup() {
     },
     // https://cafe.naver.com/babive?iframe_url=/ArticleList.nhn%3Fsearch.clubid=31436952%26search.boardtype=L
     tab6: {
-      name: '바다이브 강사모집',
+      name: '강사모집',
       banners: [
         {
           id: 6,
-          title: '바다이브 강사모집',
+          title: '강사모집',
           link: '/instructors/request',
           image: '/popup/new/popup6.webp',
           // image: "/popup/new/popup6.png",
