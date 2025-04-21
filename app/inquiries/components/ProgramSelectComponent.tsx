@@ -36,7 +36,9 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
   const programFiltered = everyProgramObjs.filter(programObj => {
     return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
-  });
+  }).toSorted((a, b) => {  return a.created_at < b.created_at ? 1 : -1;})
+  
+  ;
 
   const [selectedProgramTitle, setSelectedProgramTitle] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
