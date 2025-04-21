@@ -320,13 +320,13 @@ export default function Information() {
         <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>휴대폰번호</div>
           <div className="flex w-full flex-row items-end justify-start gap-2">
-            <Input variant="bordered" placeholder="01012345678" value={phone} onChange={e => setPhone(e.target.value)} />
+            <Input variant="bordered" placeholder="예) 01012345678" value={phone} onChange={e => setPhone(e.target.value)} />
           </div>
         </div>
         <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>생년월일</div>
           <div className="flex w-full flex-row items-end justify-start gap-2">
-            <Input variant="bordered" placeholder="19800101" value={birth} onChange={e => setBirth(e.target.value)} />
+            <Input variant="bordered" placeholder="예) 19800101" value={birth} onChange={e => setBirth(e.target.value)} />
           </div>
           <div></div>
         </div>
