@@ -1,31 +1,71 @@
 'use client';
+
 import Link from 'next/link';
 
-import { createClient } from '@/utils/supabase/client';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
+import { Button, Input } from '@heroui/react';
 import { redirect } from 'next/navigation';
-import { Input, Button } from '@heroui/react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { usePasswordChangeStatus } from '@/hooks/usePasswordChangeStatus';
 
 export default function Reset(searchParams) {
+  const { changePasswordChangeStatus, passwordChangeStatus } = usePasswordChangeStatus();
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const supabase = createClient();
+
+  const supabase = createTypedSupabaseClient();
+
   console.log('password:', password);
 
   const resetPassword = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    console.log('session:', data);
-    const { data: userData, error: userError } = await supabase.auth.updateUser({
-      password: password,
-    });
-    console.log('userError:', userError);
-    if (error) {
-      console.log('error:', error);
+    if (password.length < 8 || password.length > 16) {
+      toast.error('비밀번호는 8자 이상 16자 이하로 설정해주세요.');
+      return;
     }
 
-    if (!error && !userError) {
-      return redirect('/?message=success to change password');
+    if (password !== passwordCheck) {
+      toast.error('비밀번호가 일치하지 않습니다.');
+      return;
     }
+
+    changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_WORK_IN_PROGRESS' });
+
+    const { data: dataForSession, error: errorForSession } = await supabase.auth.getSession();
+    console.log('session:', dataForSession);
+
+    console.log('dataForSession');
+    console.log(dataForSession);
+
+    if (errorForSession) {
+      console.error('error:', errorForSession);
+      toast.error('세션을 가져오는 중 오류가 발생했습니다.', { autoClose: false });
+      toast.error(JSON.stringify(errorForSession), { autoClose: false });
+      changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_ERROR' });
+      return;
+    }
+
+    const { data: updatedUser, error: userUpdateError } = await supabase.auth.updateUser({
+      password: password,
+    });
+
+    console.log('updatedUser');
+    console.log(updatedUser);
+
+    if (userUpdateError) {
+      console.error('userError:', userUpdateError);
+      toast.error('유저 데이터를 업데이트 하는 중 오류가 발생했습니다.', { autoClose: false });
+      toast.error(JSON.stringify(userUpdateError), { autoClose: false });
+      changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_ERROR' });
+      return;
+    }
+
+    console.log('userError:', userUpdateError);
+    changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_COMPLETED' });
+
+    redirect('/?message=success to change password');
+    // return redirect('/?message=success to change password');
+    // if (!errorForSession && !userError) {}
   };
 
   return (
@@ -63,7 +103,13 @@ export default function Reset(searchParams) {
             onChange={e => setPasswordCheck(e.target.value)}
           />
 
-          <Button className="w-full" color="primary" type="button" onPress={resetPassword}>
+          <Button
+            isDisabled={passwordChangeStatus === 'PASSWORD_CHANGE_WORK_IN_PROGRESS' || passwordChangeStatus === 'PASSWORD_CHANGE_COMPLETED'}
+            className="w-full"
+            color="primary"
+            type="button"
+            onPress={resetPassword}
+          >
             비밀번호 변경
           </Button>
           <Link href="/login" className="w-full">
