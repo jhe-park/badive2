@@ -19,7 +19,8 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'efehwvtyjlpxkpgswrfw.supabase.co',
+        // hostname: 'efehwvtyjlpxkpgswrfw.supabase.co',
+        hostname: 'api.badive.co.kr',
         port: '',
         search: '',
       },
@@ -30,7 +31,12 @@ const nextConfig: NextConfig = {
         search: '',
       },
     ],
-    domains: ['jhedata.s3.ap-southeast-2.amazonaws.com', 'efehwvtyjlpxkpgswrfw.supabase.co', 'www.instagram.com'],
+    domains: [
+      'jhedata.s3.ap-southeast-2.amazonaws.com',
+      // 'efehwvtyjlpxkpgswrfw.supabase.co',
+      'api.badive.co.kr',
+      'www.instagram.com',
+    ],
   },
   // i18n: {
   //   // locales: ['en', 'fr', 'es'],

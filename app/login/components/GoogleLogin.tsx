@@ -1,9 +1,8 @@
 'use client';
 import Image from 'next/image';
 
-import { createTypedSupabaseClient } from '@/utils/supabase/client';
-import { usePathname, useRouter } from 'next/navigation';
 import useLoginStatusStore from '@/app/store/useLoginStatusStore';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
 
 const GoogleLoginComponent = ({ returnUrl, domainWithProtocol }: { domainWithProtocol: string; returnUrl: string }) => {
   // const router = useRouter();
@@ -18,6 +17,9 @@ const GoogleLoginComponent = ({ returnUrl, domainWithProtocol }: { domainWithPro
 
       // console.log('✅ baseUrl');
       // console.log(baseUrl);
+
+      console.log('domainWithProtocol');
+      console.log(domainWithProtocol);
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',

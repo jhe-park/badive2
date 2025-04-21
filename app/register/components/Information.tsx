@@ -288,7 +288,7 @@ export default function Information() {
           <div className="flex w-full flex-row items-end justify-start gap-2">
             <Input
               variant="bordered"
-              placeholder="보유한 라이센스 입력력"
+              placeholder="보유한 라이센스 입력"
               labelPlacement="outside"
               className="w-full"
               value={license}

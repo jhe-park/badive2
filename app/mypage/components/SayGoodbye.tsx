@@ -4,6 +4,7 @@ import { Button, Divider } from '@nextui-org/react';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function SayGoodbye({ profile }: { profile: PostgrestSingleResponse<TypeDBprofile> }) {
   const router = useRouter();
@@ -22,6 +23,9 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
+    console.log('profile.data');
+    console.log(profile.data);
 
     try {
       const res = await fetch('/api/membership-withdrawal', {
@@ -57,9 +61,17 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
       // if (byeError) throw byeError;
 
       setIsLoading(false);
-      router.push('/');
+
+      toast.success('회원탈퇴가 완료되었습니다.');
+
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
+
       return;
     } catch (error) {
+      toast.success('회원탈퇴 도중 오류가 발생하였습니다.');
+      console.error(error);
       setError(error.message);
       setIsLoading(false);
       return;

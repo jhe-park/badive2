@@ -21,6 +21,7 @@ import 'froala-editor/js/plugins/table.min.js';
 import 'froala-editor/js/plugins/video.min.js';
 import React, { useEffect, useRef, useState } from 'react';
 import FroalaEditor from 'react-froala-wysiwyg';
+import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
 const supabase = createClient();
@@ -96,7 +97,15 @@ const FroalaEditorComponent: React.FC<FroalaEditorComponentProps> = ({
         return null;
       }
 
-      const publicURL = 'https://efehwvtyjlpxkpgswrfw.supabase.co/storage/v1/object/public/' + data.fullPath;
+      // const publicURL = 'https://efehwvtyjlpxkpgswrfw.supabase.co/storage/v1/object/public/' + data.fullPath;
+      const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+      if (supabaseURL == null) {
+        toast.error('SUPABASE_URL이 설정되지 않았습니다.');
+        return;
+      }
+
+      const publicURL = `${supabaseURL}/storage/v1/object/public/` + data.fullPath;
       console.log('Image uploaded successfully. URL:', publicURL);
 
       return publicURL;
