@@ -196,12 +196,12 @@ const MainBanner: React.FC<{ isSafari: boolean }> = ({ isSafari }) => {
           className="h-full w-full transform object-cover transition-transform duration-300 ease-out"
         />
         <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
-          <h1
+          <h2
             ref={mainTextRef}
             className="transform text-nowrap text-center font-freesentationVF text-[35px] font-bold italic leading-[40px] text-white transition-transform duration-300 ease-out sm:text-[70px] sm:leading-[45px] md:text-[90px] md:leading-[80px]"
           >
             Open The Sea Gate
-          </h1>
+          </h2>
           <h6
             ref={subTextRef}
             className="transform text-center font-freesentationVF text-[25px] font-light italic leading-[40px] text-white transition-transform duration-300 ease-out sm:text-[45px] sm:leading-[60px] md:text-[50px]"

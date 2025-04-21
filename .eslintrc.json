@@ -9,7 +9,7 @@
     }
   },
   "plugins": ["@typescript-eslint"],
-  "extends": ["plugin:@next/next/recommended", "plugin:tailwindcss/recommended"],
+  "extends": ["plugin:@next/next/recommended", "plugin:tailwindcss/recommended", "next/core-web-vitals"],
   "rules": {
     "@next/next/no-img-element": ["off"],
     "tailwindcss/enforces-shorthand": ["off"],

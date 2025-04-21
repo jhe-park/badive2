@@ -54,6 +54,7 @@ export default function RootLayout({ children }) {
           {/* <AuthSession> */}
           <HeroUIProvider>
             <AuthSession>
+              <h1 className="seo-heading fixed h-[0px] w-[0px]">바다이브(BADIVE) - 스쿠버다이빙·프리다이빙·다이빙 투어 전문 센터</h1>
               <main className="flex min-h-screen flex-col items-center">
                 <div className="flex w-full flex-col items-center">
                   <NavbarComponent />
