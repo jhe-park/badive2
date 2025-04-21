@@ -11,6 +11,7 @@ import { programlist } from './programlist';
 import DaumPostcode from 'react-daum-postcode';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react';
 import useMarketingAgreement from '@/app/store/useMarketingAgreement';
+import { checkIsValidEmail } from '@/utils/checkIsValidEmail';
 
 export default function Information() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,86 +28,134 @@ export default function Information() {
   const [gender, setGender] = useState('');
   const [marketingSms, setMarketingSms] = useState(false);
   const [marketingEmail, setMarketingEmail] = useState(false);
-  const [address, setAddress] = useState('');
-  const [detailAddress, setDetailAddress] = useState('');
   const [postcode, setPostcode] = useState('');
   const [firstAddress, setFirstAddress] = useState('');
   const [secondAddress, setSecondAddress] = useState('');
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const { marketingAgreement, setMarketingAgreement } = useMarketingAgreement();
   const [isEmailChecked, setIsEmailChecked] = useState(false);
-  const [isPasswordChecked, setIsPasswordChecked] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const supabase = createClient();
   const router = useRouter();
   const { step, setStep } = useStep();
 
-  console.log('email');
-  console.log(email);
+  // const [address, setAddress] = useState('');
+  // const [detailAddress, setDetailAddress] = useState('');
+  // const [isPasswordChecked, setIsPasswordChecked] = useState(false);
+
+  // console.log('email');
+  // console.log(email);
 
   const handleNext = async () => {
+    let isInvalidForm = false;
+
+    if (!checkIsValidEmail(email)) {
+      toast.error('이메일 형식이 올바르지 않습니다.');
+      isInvalidForm = true;
+    }
+
     if (!isEmailChecked) {
       toast.error('이메일 중복확인을 해주세요.');
-    } else if (!isPasswordMatch) {
+      isInvalidForm = true;
+    }
+
+    if (!isPasswordMatch) {
       toast.error('패스워드가 일치하지 않습니다.');
-    } else if (!name) {
+      isInvalidForm = true;
+    } else if (password.length < 8 || password.length > 16) {
+      toast.error('패스워드는 8~16자 사이로 입력해주세요.');
+      isInvalidForm = true;
+    }
+
+    const nameTrimmed = name.trim();
+    if (!nameTrimmed || nameTrimmed.length < 1) {
       toast.error('이름을 입력해주세요.');
-    } else if (!phone) {
+      isInvalidForm = true;
+    }
+
+    const formPhoneRefined = phone.replace(/[^0-9]/g, '');
+
+    if (!formPhoneRefined) {
       toast.error('휴대폰번호를 입력해주세요.');
-    } else if (!birth) {
+      isInvalidForm = true;
+    } else if (formPhoneRefined.length !== 11) {
+      toast.error('휴대폰번호는 11자리 숫자여야 합니다.');
+      isInvalidForm = true;
+    }
+
+    const formBirthRefined = birth.replace(/[^0-9]/g, '');
+
+    if (!formBirthRefined) {
       toast.error('생년월일을 입력해주세요.');
-    } else if (!license) {
-      toast.error('보유한 라이센스를 입력해주세요.');
-    } else if (!gender) {
+      isInvalidForm = true;
+    } else if (formBirthRefined.length !== 8) {
+      toast.error('생년월일은 8자리 숫자여야 합니다.');
+      isInvalidForm = true;
+    }
+
+    if (!gender) {
       toast.error('성별을 선택해주세요.');
-    } else {
-      try {
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-          email: email,
-          password: password,
-        });
+      isInvalidForm = true;
+    } else if (gender !== 'male' && gender !== 'female') {
+      toast.error('성별 입력값이 올바르지 않습니다.');
+      isInvalidForm = true;
+    }
 
-        if (signUpError) {
-          toast.error('회원가입 중 오류가 발생했습니다.');
-          console.error(signUpError);
-          return;
-        }
+    if (isInvalidForm) {
+      return;
+    }
 
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({
-            email: email,
-            name: name,
-            phone: phone,
-            birth: birth,
-            license: license,
-            classWant1: classWant1,
-            classWant2: classWant2,
-            classWant3: classWant3,
-            gender: gender,
-            marketingSms: marketingSms,
-            marketingEmail: marketingEmail,
-            postCode: postcode,
-            firstAddress: firstAddress,
-            secondAddress: secondAddress,
-            marketingAgreement: marketingAgreement,
-            role: 'client',
-          })
-          .eq('id', signUpData.user.id);
+    // else if (!license) {
+    //   toast.error('보유한 라이센스를 입력해주세요.');
+    //   isFailed = true;
+    // }
 
-        if (profileError) {
-          toast.error('프로필 생성 중 오류가 발생했습니다.');
-          console.error(profileError);
-          return;
-        }
+    try {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
 
-        toast.success('회원가입이 완료되었습니다!');
-        window.scrollTo(0, 0);
-        setStep(step + 1);
-      } catch (error) {
+      if (signUpError) {
         toast.error('회원가입 중 오류가 발생했습니다.');
-        console.error(error);
+        console.error(signUpError);
+        return;
       }
+
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          email: email,
+          name: nameTrimmed,
+          phone: formPhoneRefined,
+          birth: formBirthRefined,
+          license: license,
+          classWant1: classWant1,
+          classWant2: classWant2,
+          classWant3: classWant3,
+          gender: gender,
+          marketingSms: marketingSms,
+          marketingEmail: marketingEmail,
+          postCode: postcode,
+          firstAddress: firstAddress,
+          secondAddress: secondAddress,
+          marketingAgreement: marketingAgreement,
+          role: 'client',
+        })
+        .eq('id', signUpData.user.id);
+
+      if (profileError) {
+        toast.error('프로필 생성 중 오류가 발생했습니다.');
+        console.error(profileError);
+        return;
+      }
+
+      toast.success('회원가입이 완료되었습니다!');
+      window.scrollTo(0, 0);
+      setStep(step + 1);
+    } catch (error) {
+      toast.error('회원가입 중 오류가 발생했습니다.');
+      console.error(error);
     }
   };
 
@@ -119,6 +168,11 @@ export default function Information() {
   console.log('isPasswordMatch', isPasswordMatch);
 
   const handleCheckEmail = async () => {
+    if (!checkIsValidEmail(email)) {
+      toast.error('이메일 형식이 올바르지 않습니다.');
+      return;
+    }
+
     // 현재 사용자 테이블 체크
     const { data: profileData, error: profileError } = await supabase.from('profiles').select('email').eq('email', email);
 
@@ -205,8 +259,12 @@ export default function Information() {
           <div className="flex w-full flex-row items-start justify-start gap-x-4">
             <Input
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={e => {
+                setEmail(e.target.value);
+                setIsEmailChecked(false);
+              }}
               type="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               isRequired
               variant="bordered"
               className="w-full"
@@ -231,9 +289,10 @@ export default function Information() {
               onChange={handlePasswordChange}
             />
             <p className={`text-[#F31260] ${isPasswordMatch ? 'hidden' : ''}`}>패스워드가 일치하지 않습니다.</p>
-            <p>※ 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합하여 설정해주세요 (8~16자)</p>
-            <p>※ 아이디와 4자리 이상 동일하거나, 4자리 이상 반복되는 문자와 숫자는 사용이 불가합니다.</p>
-            <p>※ 사용 가능 특수 문자: !, ", #, $, %, (), *, +, ,, -, ., /, :, &apos;, &lt;, =, &gt;, ?, @, ^, `, {}, [], ~</p>
+            <p className="pt-2">※ 8~16자 사이의 비밀번호를 입력해주세요</p>
+            {/* <p>※ 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합하여 설정해주세요 (8~16자)</p> */}
+            {/* <p>※ 아이디와 4자리 이상 동일하거나, 4자리 이상 반복되는 문자와 숫자는 사용이 불가합니다.</p> */}
+            {/* <p>※ 사용 가능 특수 문자: !, ", #, $, %, (), *, +, ,, -, ., /, :, &apos;, &lt;, =, &gt;, ?, @, ^, `, {}, [], ~</p> */}
           </div>
         </div>
         <div>
@@ -288,7 +347,13 @@ export default function Information() {
             </RadioGroup>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="mt-12 text-5xl font-bold text-black">선택정보 입력</p>
+      </div>
+      <Divider className="h-1 w-full bg-black" />
 
+      <div className="flex w-[90%] flex-col gap-2 gap-y-4 md:w-[50vw]">
         <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>보유한 라이센스</div>
           <div className="flex w-full flex-row items-end justify-start gap-2">
@@ -302,13 +367,6 @@ export default function Information() {
             />
           </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="mt-12 text-5xl font-bold text-black">선택정보 입력</p>
-      </div>
-      <Divider className="h-1 w-full bg-black" />
-
-      <div className="flex w-[90%] flex-col gap-2 gap-y-4 md:w-[50vw]">
         <div>
           <div>희망하는 강습</div>
           <div className="flex w-full flex-col items-end justify-start gap-2">
