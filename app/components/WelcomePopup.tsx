@@ -11,61 +11,62 @@ export default function WelcomePopup() {
   // 탭 데이터
   const tabs = {
     tab1: {
-      name: '인천수영장오픈안내',
+      name: '바다이브 OPEN 이벤트',
       banners: [
         {
           id: 1,
-          title: '인천수영장오픈안내',
-          link: '/community/notification/49',
-          image: '/popup/popup1.webp',
+          title: '바다이브 OPEN 이벤트',
+          link: 'http://event.badive.co.kr/event',
+          image: '/popup/new/popup1.webp',
         },
       ],
     },
     tab2: {
-      name: '인천수영장 개인연습',
+      name: '바다이브 전국 강습 가능',
       banners: [
         {
           id: 2,
-          title: '인천수영장 개인연습',
-          link: '/community/notification/50',
-          image: '/popup/popup2.webp',
+          title: '바다이브 전국 강습 가능',
+          link: '/community/notification/58',
+          image: '/popup/new/popup2.webp',
         },
       ],
     },
     tab3: {
-      name: '바다이브 OPEN 이벤트',
+      name: '바다이브 무료클래스',
       banners: [
         {
           id: 3,
-          title: '바다이브 OPEN 이벤트',
-          link: '/community/notification/51',
-          image: '/popup/popup3.webp',
+          title: '바다이브 무료클래스',
+          link: '/community/notification/52',
+          image: '/popup/new/popup3.webp',
         },
       ],
     },
     tab4: {
-      name: '바다이브 무료클래스',
+      name: '바다이브 다이빙 투어',
       banners: [
         {
           id: 4,
-          title: '바다이브 무료클래스',
-          link: '/community/notification/52',
-          image: '/popup/popup4.webp',
+          title: '바다이브 다이빙 투어',
+          link: '/divingtours/18',
+          image: '/popup/new/popup4.webp',
         },
       ],
     },
     tab5: {
-      name: '바다이브 다이빙투어',
+      name: '바다이브 네이버카페 오픈',
       banners: [
         {
           id: 5,
-          title: '바다이브 다이빙투어',
-          link: '/divingtours',
-          // image: "/popup/popup5.png",
-          image: '/popup/popup5.webp',
+          title: '바다이브 네이버카페 오픈',
+          link: 'https://cafe.naver.com/babive?iframe_url=/ArticleList.nhn%3Fsearch.clubid=31436952%26search.boardtype=L',
+          // image: "/popup/new/popup5.png",
+          image: '/popup/new/popup5.webp',
         },
       ],
     },
+    // https://cafe.naver.com/babive?iframe_url=/ArticleList.nhn%3Fsearch.clubid=31436952%26search.boardtype=L
     tab6: {
       name: '바다이브 강사모집',
       banners: [
@@ -73,8 +74,8 @@ export default function WelcomePopup() {
           id: 6,
           title: '바다이브 강사모집',
           link: '/instructors/request',
-          image: '/popup/popup6.webp',
-          // image: "/popup/popup6.png",
+          image: '/popup/new/popup6.webp',
+          // image: "/popup/new/popup6.png",
         },
       ],
     },
