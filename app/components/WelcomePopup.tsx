@@ -144,7 +144,7 @@ export default function WelcomePopup() {
           {Object.entries(tabs).map(([tabId, tabData]) => (
             <Button
               key={tabId}
-              className={`cursor-pointer rounded-none px-2 py-1.5 text-center text-[12px] transition-all duration-300 sm:text-sm ${activeTab === tabId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-50'}`}
+              className={`font-freesentation cursor-pointer rounded-none px-2 py-1.5 text-center text-[12px] transition-all duration-300 sm:text-sm ${activeTab === tabId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-50'}`}
               onPress={() => setActiveTab(tabId)}
               style={{ wordWrap: 'break-word', whiteSpace: 'normal', minHeight: '40px' }}
             >
