@@ -41,17 +41,33 @@ export default function SearchTable() {
   const supabase = createTypedSupabaseClient();
 
   const fetchMember = async searchTerm => {
+    // { count: 'exact' }
+
     let query = supabase
       .from('profiles')
       .select('*', { count: 'exact' })
       .range((page - 1) * pageSize, page * pageSize - 1)
-      .eq('role', 'client');
+      // .in('role', [ 'client', null])
+      .or('role.eq.client,role.is.null') // OR 조건으로 role='client' 또는 role IS NULL
+      .eq('bye', false);
+    // .not('role', 'eq', 'master')
+    // .not('role', 'eq', 'expert')
+    // .neq('role', 'master')
+    // .neq('role', 'expert')
 
-    if (searchTerm) {
-      query = query.ilike(selectedSort, `%${searchTerm}%`);
-    }
+    // .eq('role', 'client')
+
+    // if (typeof searchTerm === 'string' && searchTerm.trim().length > 0) {
+    //   query = query.ilike(selectedSort, `%${searchTerm.trim()}%`);
+    // }
 
     const { data, error, count } = await query;
+
+    console.log('data');
+    console.log(data);
+
+    console.log('count');
+    console.log(count);
 
     if (error) {
       console.log('Error fetching instructor:', error);
@@ -96,18 +112,21 @@ export default function SearchTable() {
     }
   };
 
-  // 디바운스된 검색 함수 생성
-  const debouncedFetch = debounce(searchTerm => {
-    fetchMember(searchTerm);
-  }, 500);
-
   useEffect(() => {
+    const debouncedFetch = debounce(searchTerm => {
+      fetchMember(searchTerm);
+    }, 500);
+
     debouncedFetch(search);
-    // 컴포넌트 언마운트 시 디바운스 취소
+
     return () => {
       debouncedFetch.cancel();
     };
-  }, [page, pageSize, search, selectedSort]);
+  }, [search]);
+
+  useEffect(() => {
+    fetchMember(search);
+  }, [page, pageSize, selectedSort]);
 
   console.log('total:', total);
   console.log('member:', member);
@@ -226,7 +245,16 @@ export default function SearchTable() {
           </TableBody>
         </Table>
         <div className="flex items-center justify-center">
-          <Pagination initialPage={1} page={page} total={total} />
+          <Pagination
+            onChange={newPage => {
+              // console.log('e');
+              // console.log(newPage);
+              setPage(newPage);
+            }}
+            initialPage={1}
+            page={page}
+            total={total}
+          />
         </div>
       </div>
     </>

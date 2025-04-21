@@ -76,49 +76,54 @@ export default function TourCards() {
                 </div>
               </Card>
             ))
-          : tours.map(tour => (
-              <div key={tour.id} className="relative transform overflow-hidden rounded-lg bg-white transition-transform duration-300 hover:scale-105">
-                {tour?.status === '마감임박' && (
-                  <Chip color="danger" startContent={<IoMdAlarm className="text-xl" />} className="absolute left-[5%] top-[5%] z-20 px-3 py-2 font-bold">
-                    {tour.status}
-                  </Chip>
-                )}
-                {tour.isClosed || tour.current_participants === tour.max_participants ? (
-                  <div onClick={onOpen} className="cursor-pointer">
-                    <div className="relative">
-                      <img src={tour.image} alt={tour.title} className={`aspect-[4/3] w-full object-cover grayscale`} />
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-y-2 p-4">
-                      <div className="overflow-hidden text-ellipsis text-center text-xl font-bold">{tour.title}</div>
-                      <div className="overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm text-gray-600">{tour.description}</div>
-                      <div className="overflow-hidden text-ellipsis whitespace-nowrap text-right text-sm text-gray-500">투어일자:{tour.date}</div>
+          : tours.map(tour => {
+              console.log('tour.date');
+              console.log(tour.date);
 
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-gray-500">모집종료</span>
+              return (
+                <div key={tour.id} className="relative transform overflow-hidden rounded-lg bg-white transition-transform duration-300 hover:scale-105">
+                  {tour?.status === '마감임박' && (
+                    <Chip color="danger" startContent={<IoMdAlarm className="text-xl" />} className="absolute left-[5%] top-[5%] z-20 px-3 py-2 font-bold">
+                      {tour.status}
+                    </Chip>
+                  )}
+                  {tour.isClosed || tour.current_participants === tour.max_participants ? (
+                    <div onClick={onOpen} className="cursor-pointer">
+                      <div className="relative">
+                        <img src={tour.image} alt={tour.title} className={`aspect-[4/3] w-full object-cover grayscale`} />
+                      </div>
+                      <div className="flex flex-col items-center justify-center gap-y-2 p-4">
+                        <div className="overflow-hidden text-ellipsis text-center text-xl font-bold">{tour.title}</div>
+                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm text-gray-600">{tour.description}</div>
+                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-right text-sm text-gray-500">투어일자:{tour.date}</div>
+
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-gray-500">모집종료</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div onClick={() => handleClick(tour)} className="cursor-pointer">
-                    <div className="relative flex h-full w-full items-center justify-center">
-                      <img src={tour.image} alt={tour.title} className={`aspect-[4/3] w-[80%] rounded-lg object-cover md:w-[80%]`} />
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-y-2 p-4">
-                      <div className="overflow-hidden text-ellipsis text-center text-xl font-bold">{tour.title}</div>
-                      <div className="overflow-hidden text-ellipsis text-center text-sm text-black">{tour.subtitle}</div>
-                      <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">투어일자:{tour.date}</div>
-                      <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">{tour.status}</div>
+                  ) : (
+                    <div onClick={() => handleClick(tour)} className="cursor-pointer">
+                      <div className="relative flex h-full w-full items-center justify-center">
+                        <img src={tour.image} alt={tour.title} className={`aspect-[4/3] w-[80%] rounded-lg object-cover md:w-[80%]`} />
+                      </div>
+                      <div className="flex flex-col items-center justify-center gap-y-2 p-4">
+                        <div className="overflow-hidden text-ellipsis text-center text-xl font-bold">{tour.title}</div>
+                        <div className="overflow-hidden text-ellipsis text-center text-sm text-black">{tour.subtitle}</div>
+                        <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">투어일자 : {tour.date}</div>
+                        <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">{tour.status}</div>
 
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-blue-500">
-                          {tour.current_participants}/{tour.max_participants}명
-                        </span>
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-blue-500">
+                            {tour.current_participants}/{tour.max_participants}명
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              );
+            })}
       </div>
 
       {/* 페이지네이션 */}

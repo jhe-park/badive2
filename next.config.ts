@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'efehwvtyjlpxkpgswrfw.supabase.co',
+        port: '',
+        search: '',
+      },
+      {
+        protocol: 'https',
         // hostname: 'efehwvtyjlpxkpgswrfw.supabase.co',
         hostname: 'api.badive.co.kr',
         port: '',

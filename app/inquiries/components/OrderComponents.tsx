@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import CalendarComponent from './CalendarComponent';
 import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
 import ProgramSelectComponent from './ProgramSelectComponent';
+import { IMG_DOMAIN } from '@/constants/constants';
 
 type TProps = {
   userReservations: TypeDBreservation[];
@@ -20,11 +21,13 @@ const OrderComponents: React.FC<TProps> = ({ userReservations, userData, profile
   const [isSelectInstructor, setIsSelectInstructor] = useState(false);
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
 
+  const selectedImageUrlRefined = selectedImageUrl.replace(IMG_DOMAIN.legacy, IMG_DOMAIN.current);
+
   return (
     <>
       {isSelectProgram && selectedImageUrl && (
         <div className="relative flex aspect-square w-full max-w-[500px] items-center justify-center">
-          <Image src={selectedImageUrl} alt="Program Image" fill />
+          <Image src={selectedImageUrlRefined} alt="Program Image" fill />
         </div>
       )}
       {!isSelectProgram && (

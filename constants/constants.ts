@@ -1,6 +1,11 @@
 export const LECTURE_CATEGORY = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터 댄스'] as const;
 export type LECTURE_CATEGORY_TYPE = (typeof LECTURE_CATEGORY)[number];
 
+export const IMG_DOMAIN = {
+  legacy: 'efehwvtyjlpxkpgswrfw.supabase.co',
+  current: 'api.badive.co.kr',
+};
+
 export const LECTURE_CATEGORY_TO_DB_CATRGORY = {
   스쿠버다이빙: ['스쿠버다이빙', '체험다이빙'],
   프리다이빙: ['프리다이빙'],
