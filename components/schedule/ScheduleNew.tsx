@@ -1,5 +1,6 @@
 'use client';
 
+import ClipLoader from 'react-spinners/ClipLoader';
 import useExpertStore from '@/app/(expert)/expert/store/useExpertStore';
 import { Badge } from '@/components/ui/badge';
 import { LECTURE_CATEGORY } from '@/constants/constants';
@@ -17,6 +18,9 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { CalendarComponentForAdminAndExpert, TFetchedTimeSlot } from './CalendarComponentForAdminAndExpert';
 import ModalForDetailInformation from './ModalForDetailInformation';
+import useCalenderFetchStatusStore from '@/app/store/useCalenderFetchStatusStore';
+
+const DATE_FOR_AVAILABLE_FALSE = [];
 
 const TIME_MAPPING = {
   '오전 05시': '05:00',
@@ -62,7 +66,11 @@ type TProps = {
   user: User;
 };
 
+// type LECTURE_CATEGORY_TYPE_REFINED = (typeof LECTURE_CATEGORY)[number] | '언더워터';
+
 export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
+  const { calendarFetchStatus, setCalendarFetch } = useCalenderFetchStatusStore();
+
   const pathname = usePathname();
   const router = useRouter();
   console.log('pathname');
@@ -81,6 +89,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
+  const [everyTimeSlotsForDelete, setEveryTimeSlotsForDelete] = useState<TFetchedTimeSlot[]>([]);
 
   console.log('timeSlots');
   console.log(timeSlots);
@@ -174,8 +183,18 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
           return isValidInstructor && isValidCategory;
         });
         break;
-      case '머메이드':
+
       case '언더워터 댄스':
+        // case '언더워터':
+        filteredPrograms = everyPrograms.filter(program => {
+          const isValidCategory = program?.category === selectedLectureCategory || program?.category === '언더워터';
+          const isValidInstructor = program?.instructor_id === selectedInstructor.id;
+
+          return isValidInstructor && isValidCategory;
+        });
+        break;
+
+      case '머메이드':
       case '프리다이빙':
         filteredPrograms = everyPrograms.filter(program => {
           const isValidCategory = program?.category === selectedLectureCategory;
@@ -184,6 +203,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
           return isValidInstructor && isValidCategory;
         });
         break;
+
       default:
         break;
     }
@@ -242,6 +262,11 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
     const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date: selectedDate, instructor: selectedInstructor });
 
+    console.log('timeSlotsNew');
+    console.log(timeSlotsNew);
+
+    // setEveryTimeSlotsForDelete(timeSlotsNew);
+
     const filteredTimeSlots = getFilteredTimeSlots({
       programs: everyPrograms,
       selectedLectureCategory,
@@ -274,6 +299,9 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     '23:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
     '00:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
   };
+
+  console.log('✅✅✅ timeSlots');
+  console.log(timeSlots);
 
   const everyTimeSlotCalculated = timeSlots.reduce((acc, curr) => {
     const { current_participants, max_participants, start_time } = curr;
@@ -356,7 +384,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         return (
           <div className="relative" key={time}>
             {current_participants === 0 && (
-              <div className="absolute top-[-10px] right-0">
+              <div className="absolute right-0 top-[-10px]">
                 <X
                   onClick={() => {
                     deleteTimeSlots({
@@ -366,7 +394,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                       timeSlots,
                     });
                   }}
-                  className={cn('font-normal py-1 px-1 cursor-pointer bg-btnActive rounded-full text-white')}
+                  className={cn('cursor-pointer rounded-full bg-btnActive px-1 py-1 font-normal text-white')}
                 >
                   X
                 </X>
@@ -374,7 +402,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
             )}
             <Badge
               variant={'outline'}
-              className={cn('cursor-pointer font-normal py-2 px-7', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
+              className={cn('cursor-pointer px-7 py-2 font-normal', selectedTimeSlot?.start_time == time && 'bg-btnActive text-white')}
               key={time}
               onClick={() => {
                 getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
@@ -386,7 +414,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
               onClick={() => {
                 getEveryStudentsFromPrograms({ programIds: program_ids, timeSlotIds: time_slot_ids });
               }}
-              className="text-center border-solid border-1 border-black cursor-pointer hover:bg-gray-100"
+              className="cursor-pointer border-1 border-solid border-black text-center hover:bg-gray-100"
             >
               {current_participants}/{max_participants}
             </div>
@@ -396,14 +424,51 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       .filter(item => item != null);
   }
 
+  console.log('✅✅✅ everyTimeSlotCalculated');
+
+  console.log(everyTimeSlotCalculated);
+
   console.log('✅✅✅ before am');
-  console.log();
+
   const TimeSlotAMComponents = TimeSlotComponent({ times: TIME_AM });
+
   console.log('✅✅✅ after am');
 
   const TimeSlotPMComponents = TimeSlotComponent({ times: TIME_PM });
 
   const logOut = () => {};
+
+  console.log('TimeSlotAMComponents.length');
+  console.log(TimeSlotAMComponents.length);
+
+  console.log('TimeSlotPMComponents.length');
+  console.log(TimeSlotPMComponents.length);
+
+  const deleteEveryTimeslot = async () => {
+    console.log('everyTimeSlotsForDelete.length');
+    console.log(everyTimeSlotsForDelete.length);
+
+    try {
+      for await (const date of DATE_FOR_AVAILABLE_FALSE) {
+        await supabase
+          .from('timeslot')
+          // .delete()
+          .update({
+            available: false,
+          })
+          .eq('date', date)
+          .eq('available', true)
+          .eq('current_participants', 0);
+      }
+
+      // await DATE_FOR_AVAILABLE_FALSE.map(async date => {});
+
+      // console.log('allRequestCompleted');
+      // console.log(allRequestCompleted);
+    } catch (error) {
+      console.error('Error deleting time slots:', error);
+    }
+  };
 
   return (
     <>
@@ -427,10 +492,10 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         pauseOnHover
         theme="light"
       />
-      <div className="flex flex-col md:flex-row w-full">
+      <div className="flex w-full flex-col md:flex-row">
         <div className="flex-1">
           <div className="flex flex-col items-center justify-center gap-6 pt-[10%]">
-            <div className="text-large sm:text-[40px] md:text-2xl sm:py-4 md:py-0">스케줄</div>
+            <div className="text-large sm:py-4 sm:text-[40px] md:py-0 md:text-2xl">스케줄</div>
             {!instructorMyself && (
               <div className="flex justify-center">
                 <Select
@@ -456,18 +521,22 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                 </Select>
               </div>
             )}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {LECTURE_CATEGORY.map(category => {
                 return (
                   <Badge
                     key={category}
                     variant={'outline'}
                     className={cn(
-                      'font-bold text-[12px] sm:text-[14px] py-2 px-6 sm:px-4 md:px-7 cursor-pointer flex justify-center',
+                      'flex cursor-pointer justify-center px-6 py-2 text-[12px] font-bold sm:px-4 sm:text-[14px] md:px-7',
                       category === selectedLectureCategory && 'bg-btnActive text-white',
                     )}
                     onClick={() => {
                       setSelectedLectureCategory(category);
+                      // if ('언더워터 댄스' === category) {
+                      //   setSelectedLectureCategory('언더워터');
+                      // } else {
+                      // }
                       resetCalendarDate();
                     }}
                   >
@@ -476,10 +545,10 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                 );
               })}
             </div>
-            <div className="flex gap-4 sm:pt-8 sm:pb-8 md:pt-0 md:pb-0">
+            <div className="flex gap-4 sm:pb-8 sm:pt-8 md:pb-0 md:pt-0">
               <div className="">
                 <Select
-                  className="w-[200px] lg:w-[200px] text-center"
+                  className="w-[200px] text-center lg:w-[200px]"
                   onChange={async e => {
                     setSelectedHHMM(e.target.value);
                   }}
@@ -523,11 +592,21 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
                     addScheduleToDB();
                   }}
-                  className="justify-center data-[hover=true]:text-foreground bg-btnActive text-white hover:text-white"
+                  className="justify-center bg-btnActive text-white hover:text-white data-[hover=true]:text-foreground"
                 >
                   등록하기
                 </Button>
               </div>
+            </div>
+            <div className="">
+              <Button
+                onPress={() => {
+                  deleteEveryTimeslot();
+                }}
+                className="justify-center bg-purple-500 text-white hover:text-white data-[hover=true]:text-foreground"
+              >
+                일괄 삭제하기
+              </Button>
             </div>
           </div>
         </div>
@@ -550,21 +629,36 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
           {TimeSlotAMComponents.length > 0 && (
             <>
               <div className="">오전</div>
-              <div className="flex gap-4 flex-wrap">{TimeSlotAMComponents}</div>
+              <div className="flex flex-wrap gap-4">{TimeSlotAMComponents}</div>
             </>
           )}
           {TimeSlotPMComponents.length > 0 && (
             <>
               <div className="pt-12">오후</div>
-              <div className="flex gap-4 flex-wrap">{TimeSlotPMComponents}</div>
+              <div className="flex flex-wrap gap-4">{TimeSlotPMComponents}</div>
             </>
           )}
           <div className="pt-20"></div>
         </div>
       )}
-      {selectedLectureCategory && selectedInstructor && selectedDate && TimeSlotAMComponents.length === 0 && TimeSlotPMComponents.length === 0 && (
-        <div className="">현재 등록된 시간대가 없습니다</div>
+      {calendarFetchStatus === 'CALENDAR_FETCH_WORK_IN_PROGRESS' && (
+        <div className="">
+          <ClipLoader
+            // color={color}
+            // loading={loading}
+            // cssOverride={override}
+            size={90}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
       )}
+      {calendarFetchStatus !== 'CALENDAR_FETCH_WORK_IN_PROGRESS' &&
+        selectedLectureCategory &&
+        selectedInstructor &&
+        selectedDate &&
+        TimeSlotAMComponents.length === 0 &&
+        TimeSlotPMComponents.length === 0 && <div className="">현재 등록된 시간대가 없습니다</div>}
     </>
   );
 };

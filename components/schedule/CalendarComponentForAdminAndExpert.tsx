@@ -1,5 +1,6 @@
 'use client';
 
+import useCalenderFetchStatusStore from '@/app/store/useCalenderFetchStatusStore';
 import { LECTURE_CATEGORY } from '@/constants/constants';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
@@ -37,6 +38,8 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
   changeSelectedDate,
   selectedDate,
 }) => {
+  const { calendarFetchStatus, setCalendarFetch } = useCalenderFetchStatusStore();
+
   const supabase = createTypedSupabaseClient();
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -56,26 +59,26 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
 
   return (
-    <div className={`order-2 md:order-1 col-span-1 flex flex-col items-center justify-center gap-y-2 md:gap-y-0 h-full`}>
-      <div className="flex justify-between items-center md:mb-4 w-full lg:pt-[0px]">
-        <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
-          <ChevronLeft className="text-[20px] md:text-9xl font-bold" />
+    <div className={`order-2 col-span-1 flex h-full flex-col items-center justify-center gap-y-2 md:order-1 md:gap-y-0`}>
+      <div className="flex w-full items-center justify-between md:mb-4 lg:pt-[0px]">
+        <button onClick={handlePrevMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
+          <ChevronLeft className="text-[20px] font-bold md:text-9xl" />
           <span className="text-[20px] sm:text-[32px]">이전달</span>
         </button>
-        <div className="flex flex-col justify-center border-b-1.5 border-solid border-black items-center my-6">
-          <div className="text-[25px] sm:text-[32px] font-bold">{dayjs(currentDate).format('YYYY.MM')}</div>
+        <div className="my-6 flex flex-col items-center justify-center border-b-1.5 border-solid border-black">
+          <div className="text-[25px] font-bold sm:text-[32px]">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
-        <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-x-2">
+        <button onClick={handleNextMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
           <span className="text-[20px] sm:text-[32px]">다음달</span>
-          <ChevronRight className="text-4xl md:text-9xl font-bold" />
+          <ChevronRight className="text-4xl font-bold md:text-9xl" />
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-0 gap-y-2 sm:gap-y-6 md:gap-y-0 w-full border-1 pt-0 pb-6 md:p-6  border-gray-300 rounded-lg">
+      <div className="grid w-full grid-cols-7 gap-0 gap-y-2 rounded-lg border-1 border-gray-300 pb-6 pt-0 sm:gap-y-6 md:gap-y-0 md:p-6">
         {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             key={day}
-            className={`font-bold text-[25px] sm:text-[32px] text-center h-16 flex items-center justify-center w-full ${index === 0 ? 'text-red-500' : ''}`}
+            className={`flex h-16 w-full items-center justify-center text-center text-[25px] font-bold sm:text-[32px] ${index === 0 ? 'text-red-500' : ''}`}
           >
             {day}
           </div>
@@ -95,11 +98,11 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
               key={day}
               className={cn(
                 // h-8
-                `font-freesentationVF text-center text-[25px] sm:text-[32px] w-full md:h-16 sm:py-0 md:py-0 flex items-center justify-center transition font-[400]`,
+                `flex w-full items-center justify-center text-center font-freesentationVF text-[25px] font-[400] transition sm:py-0 sm:text-[32px] md:h-16 md:py-0`,
                 isPastDateOrToday || selectedInstructorProfile == null || selectedLectureCategory == null
-                  ? 'text-gray-300 cursor-not-allowed'
+                  ? 'cursor-not-allowed text-gray-300'
                   : 'cursor-pointer hover:bg-gray-200',
-                isSelected && 'bg-blue-500 text-white rounded-l-lg rounded-r-lg px-2',
+                isSelected && 'rounded-l-lg rounded-r-lg bg-blue-500 px-2 text-white',
               )}
               onClick={async e => {
                 if (isPastDateOrToday || selectedInstructorProfile == null || selectedLectureCategory == null) {
@@ -107,11 +110,14 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                   return;
                 }
 
+                setCalendarFetch('CALENDAR_FETCH_WORK_IN_PROGRESS');
+
                 changeSelectedDate({ newDate: currentDateObj });
 
                 const { count, error, timeSlots } = await getTimeSlots({ supabase, date: currentDateObj, instructor: selectedInstructor });
 
                 console.log('timeSlots.length');
+
                 console.log(timeSlots.length);
 
                 // console.log();
@@ -133,6 +139,7 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
                 console.log(filteredTimeSlots.length);
 
                 changeTimeSlots({ newTimeSlots: filteredTimeSlots });
+                setCalendarFetch('CALENDAR_FETCH_COMPLETED');
               }}
             >
               {day}

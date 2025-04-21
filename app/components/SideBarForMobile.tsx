@@ -20,25 +20,16 @@ interface SidebarProps {
 }
 
 export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems }) => {
-  console.log('✅SideBarForMobile');
-  console.log();
   const supabase = createTypedSupabaseClient();
 
   const { expertInformation, setExpertInformation } = useExpertStore();
 
   const [isOpen, setIsOpen] = useState(false);
-  console.log('isOpen');
-  console.log(isOpen);
+
   const [sidebarWidth, setSidebarWidth] = useState('200px');
   const router = useRouter();
 
   const toggleSidebar: React.MouseEventHandler<HTMLButtonElement> = e => {
-    console.log('e.target');
-    console.log(e.target);
-    console.log('e.currentTarget');
-    console.log(e.currentTarget);
-
-    console.log('⭕toggleSidebar');
     setIsOpen(!isOpen);
   };
 
