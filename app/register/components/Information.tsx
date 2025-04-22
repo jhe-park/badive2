@@ -322,6 +322,7 @@ export default function Information() {
           <div className="flex w-full flex-row items-end justify-start gap-2">
             <Input variant="bordered" placeholder="예) 01012345678" value={phone} onChange={e => setPhone(e.target.value)} />
           </div>
+          <div className="pt-0 text-[14px] text-red-600">강습 일정을 위해 강사님이 직접 연락드립니다. 꼭 본인과 연락 가능한 전화번호를 입력해주세요.</div>
         </div>
         <div className="flex w-full flex-col items-start justify-start gap-2">
           <div>생년월일</div>

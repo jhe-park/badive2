@@ -250,6 +250,7 @@ export default function Login() {
                 placeholder="예) 01000000000"
               />
             </div>
+            <div className="pt-2 text-red-600 text-[14px]">강습 일정을 위해 강사님이 직접 연락드립니다. 꼭 본인과 연락 가능한 전화번호를 입력해주세요.</div>
           </div>
           <div className="flex w-full flex-col items-start justify-start">
             <div>생년월일</div>
