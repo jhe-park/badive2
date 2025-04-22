@@ -4,7 +4,7 @@ import Froala from '@/components/Froala/Froala';
 import { createClient } from '@/utils/supabase/client';
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure } from '@heroui/react';
 import { useRouter } from 'next/navigation';
-import React, { use, useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 export default function FaqEditPage({ params }) {
   const { isOpen: isOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
@@ -29,10 +29,8 @@ export default function FaqEditPage({ params }) {
     setContent(model);
   };
 
-  const handleSave = () => {
-    alert('저장된 내용:\n' + content);
-    console.log('저장된 내용:', content);
-  };
+  // const handleSave = () => {
+  // };
 
   useEffect(() => {
     if (unwrappedParams == null) {
@@ -78,7 +76,6 @@ export default function FaqEditPage({ params }) {
       router.push('/admin/faq?result=success');
     }
   };
-  console.log('answer:', answer);
 
   return (
     <div className="flex h-full w-full flex-col">

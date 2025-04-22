@@ -40,7 +40,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     return diffDays > 1;
   };
 
-  console.log('programs:', programs);
   const handleConfirmRequest = async program => {
     //날짜 계산하기
     // 프로그램 실행 날짜와 현재 날짜 가져오기

@@ -63,12 +63,6 @@ export default function SearchTable() {
 
     const { data, error, count } = await query;
 
-    console.log('data');
-    console.log(data);
-
-    console.log('count');
-    console.log(count);
-
     if (error) {
       console.log('Error fetching instructor:', error);
     } else {
@@ -128,10 +122,6 @@ export default function SearchTable() {
     fetchMember(search);
   }, [page, pageSize, selectedSort]);
 
-  console.log('total:', total);
-  console.log('member:', member);
-  console.log('selectedSort:', selectedSort);
-  console.log('member:', member);
   return (
     <>
       <div className="flex w-full flex-col gap-4 px-4 md:flex-row">

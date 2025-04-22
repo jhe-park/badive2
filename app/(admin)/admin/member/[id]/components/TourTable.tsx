@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react';
 export default function TourTable({ member }) {
   const supabase = createTypedSupabaseClient();
   const [tours, setTours] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  console.log('member:', member);
+  // const [selectedStatus, setSelectedStatus] = useState(null);
+
   const getRequest = async () => {
     const { data, error } = await supabase.from('request').select('*,tour_id(*)').eq('email', member?.email);
 
@@ -19,7 +19,6 @@ export default function TourTable({ member }) {
       setTours(data);
     }
   };
-  console.log('tours:', tours);
 
   const handleStatusChange = async (tour, newStatus) => {
     try {
@@ -67,7 +66,6 @@ export default function TourTable({ member }) {
       updateTourStatus(tour);
     });
   }, [tours]);
-  console.log('tours:', tours);
 
   return (
     <div className="flex h-full w-full flex-col gap-y-6">

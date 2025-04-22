@@ -46,9 +46,7 @@ export default function SearchTable() {
 
     fetchFaq();
   }, [page, pageSize, search, selectedFilter]);
-  console.log('page', page);
-  console.log('pageSize', pageSize);
-  console.log('selectedFilter', selectedFilter);
+
   return (
     <>
       <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 px-4 md:flex-row">

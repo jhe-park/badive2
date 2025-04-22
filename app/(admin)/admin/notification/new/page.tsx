@@ -8,15 +8,8 @@ import React, { useState } from 'react';
 
 export default function InstructorNewPage() {
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('bdn');
-  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  const [imageUrl, setImageUrl] = useState('');
-  const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState('');
+
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [pinned, setPinned] = useState('unpinned');
   const [isSave, setIsSave] = useState(false);
   const [content, setContent] = useState('');
@@ -25,10 +18,6 @@ export default function InstructorNewPage() {
     setContent(model);
   };
 
-  const handleSave = () => {
-    alert('저장된 내용:\n' + content);
-    console.log('저장된 내용:', content);
-  };
   const writer = '관리자';
   const router = useRouter();
   const supabase = createClient();
@@ -46,8 +35,6 @@ export default function InstructorNewPage() {
       router.push('/admin/notification?result=success');
     }
   };
-  console.log('description:', description);
-  console.log('content:', content);
 
   return (
     <div className="flex h-full w-full flex-col">

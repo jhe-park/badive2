@@ -25,12 +25,10 @@ export default function ModalForDetailInformation({
   return (
     <>
       {reservationsDetail.length >= 1 && (
-        <div className="z-[99999] block fixed top-0 left-0 md:hidden w-screen h-[100dvh] bg-white">
-          <div className="absolute top-6 left-6">
+        <div className="fixed left-0 top-0 z-[99999] block h-[100dvh] w-screen bg-white md:hidden">
+          <div className="absolute left-6 top-6">
             <X
               onClick={e => {
-                console.log('onclick on reservation detail');
-                console.log();
                 e.stopPropagation();
                 e.preventDefault();
                 closeModal();
@@ -38,11 +36,11 @@ export default function ModalForDetailInformation({
               size={20}
             ></X>
           </div>
-          <div className="flex flex-col gap-4 pt-16 px-4">
+          <div className="flex flex-col gap-4 px-4 pt-16">
             {reservationsDetail.map((reservation, index) => {
               return (
                 <React.Fragment key={index}>
-                  <div className="relative flex flex-col border-block border-solid border-1 gap-4 px-4 py-4">
+                  <div className="border-block relative flex flex-col gap-4 border-1 border-solid px-4 py-4">
                     <div className="flex">
                       <div className="w-[30%]">상품명</div>
                       <div className="text-center">{reservation.productName}</div>
@@ -89,7 +87,7 @@ export default function ModalForDetailInformation({
         onClose={onClose}
         onOpenChange={onOpenChangeAddInstructor}
       >
-        <ModalContent className="max-h-[80vh] ">
+        <ModalContent className="max-h-[80vh]">
           {onClose => (
             <>
               <ModalHeader className=""></ModalHeader>
@@ -103,7 +101,7 @@ export default function ModalForDetailInformation({
                           // border
                           <TableColumn
                             key={index}
-                            className="text-sm md:text-lg text-center w-1/8 border-b-1 border-solid border-[#dcdcdc]  text-black bg-white"
+                            className="w-1/8 border-b-1 border-solid border-[#dcdcdc] bg-white text-center text-sm text-black md:text-lg"
                           >
                             {slot}
                           </TableColumn>
@@ -113,7 +111,7 @@ export default function ModalForDetailInformation({
                     <TableBody>
                       {reservationsDetail.map(reservation => {
                         return (
-                          <TableRow className="text-center overflow-x-auto border-b-1 border-solid border-[#dcdcdc]" key={reservation.phone}>
+                          <TableRow className="overflow-x-auto border-b-1 border-solid border-[#dcdcdc] text-center" key={reservation.phone}>
                             <TableCell className="text-center">{reservation.productName}</TableCell>
                             <TableCell className="text-center">{reservation.studentName}</TableCell>
                             <TableCell className="text-center">{reservation.studentLocation}</TableCell>

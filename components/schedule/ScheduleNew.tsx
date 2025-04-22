@@ -93,14 +93,8 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
   const [everyTimeSlotsForDelete, setEveryTimeSlotsForDelete] = useState<TFetchedTimeSlot[]>([]);
 
-  console.log('timeSlots');
-  console.log(timeSlots);
-
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TFetchedTimeSlot | undefined>();
   const [reservationsDetail, setReservationsDetail] = useState<TReservationsDetail[]>([]);
-
-  console.log('selectedHHMM');
-  console.log(selectedHHMM);
 
   const supabase = createTypedSupabaseClient();
 
@@ -234,9 +228,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
     await Promise.all(
       filteredPrograms.map(async (program, index) => {
-        console.log('index');
-        console.log(index);
-
         const start_time = selectedHHMM;
         const targetDate = dayjs(globalSelectedDate).format('YYYY-MM-DD');
 
@@ -245,12 +236,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         }
 
         const targetDateArr = isEveryMonth ? getAllDatesInMonth(currentMonth) : [targetDate];
-
-        console.log('targetDateArr');
-        console.log(targetDateArr);
-
-        // debugger;
-        // return;
 
         await Promise.all(
           targetDateArr.map(async targetDate => {
@@ -263,18 +248,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                   available: true,
                 })
                 .eq('unique_id', uniqueId);
-
-              // console.log('data');
-              // console.log(data);
-
-              // console.log('error');
-              // console.log(error);
-
-              // console.log('status');
-              // console.log(status);
-
-              // console.log('statusText');
-              // console.log(statusText);
 
               await supabase.from('timeslot').insert({
                 date: targetDate,
@@ -297,9 +270,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     );
 
     const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date: globalSelectedDate, instructor: selectedInstructor });
-
-    console.log('timeSlotsNew');
-    console.log(timeSlotsNew);
 
     // setEveryTimeSlotsForDelete(timeSlotsNew);
 
@@ -347,9 +317,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     '00:00': { max_participants: 0, current_participants: 0, program_ids: new Set<number>(), time_slot_ids: new Set<number>() },
   };
 
-  console.log('✅✅✅ timeSlots');
-  console.log(timeSlots);
-
   const everyTimeSlotCalculated = timeSlots.reduce((acc, curr) => {
     const { current_participants, max_participants, start_time } = curr;
     if (acc[curr.start_time]) {
@@ -378,10 +345,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         const foundProgram = everyPrograms.find(program => program.id === foundTimeSlot.program_id);
         const uniqueId = `${foundProgram.instructor_id}_${foundProgram.id}_${dayjs(date).format('YYYY-MM-DD')}_${foundTimeSlot.start_time}`;
 
-        console.log(foundTimeSlot);
-        console.log(foundProgram);
-        console.log(uniqueId);
-
         await supabase
           .from('timeslot')
           .update({
@@ -391,19 +354,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       }),
     );
 
-    console.log('getTimeSlots 전');
-    console.log('dayjs(date)');
-    console.log(dayjs(date).format('YYYY-MM-DD'));
-    console.log('selectedInstructor');
-    console.log(selectedInstructor);
-
     const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date, instructor: selectedInstructor });
-    console.log('getTimeSlots 후');
-    console.log('timeSlotsNew.length');
-    console.log(timeSlotsNew.length);
-
-    console.log('timeSlotsNew');
-    console.log(timeSlotsNew);
 
     const filteredTimeSlots = getFilteredTimeSlots({
       programs: everyPrograms,
@@ -420,13 +371,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       .map(time => {
         const { max_participants, current_participants, program_ids, time_slot_ids } = everyTimeSlotCalculated[time];
 
-        console.log(' everyTimeSlotCalculated[time]');
-        console.log(everyTimeSlotCalculated[time]);
-
         if (max_participants === 0) return;
-
-        // console.log('time');
-        // console.log(time);
 
         return (
           <div className="relative" key={time}>
@@ -471,51 +416,27 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       .filter(item => item != null);
   }
 
-  console.log('✅✅✅ everyTimeSlotCalculated');
-
-  console.log(everyTimeSlotCalculated);
-
-  console.log('✅✅✅ before am');
-
   const TimeSlotAMComponents = TimeSlotComponent({ times: TIME_AM });
-
-  console.log('✅✅✅ after am');
 
   const TimeSlotPMComponents = TimeSlotComponent({ times: TIME_PM });
 
-  const logOut = () => {};
-
-  console.log('TimeSlotAMComponents.length');
-  console.log(TimeSlotAMComponents.length);
-
-  console.log('TimeSlotPMComponents.length');
-  console.log(TimeSlotPMComponents.length);
-
-  const deleteEveryTimeslot = async () => {
-    console.log('everyTimeSlotsForDelete.length');
-    console.log(everyTimeSlotsForDelete.length);
-
-    try {
-      for await (const date of DATE_FOR_AVAILABLE_FALSE) {
-        await supabase
-          .from('timeslot')
-          // .delete()
-          .update({
-            available: false,
-          })
-          .eq('date', date)
-          .eq('available', true)
-          .eq('current_participants', 0);
-      }
-
-      // await DATE_FOR_AVAILABLE_FALSE.map(async date => {});
-
-      // console.log('allRequestCompleted');
-      // console.log(allRequestCompleted);
-    } catch (error) {
-      console.error('Error deleting time slots:', error);
-    }
-  };
+  // const deleteEveryTimeslot = async () => {
+  //   try {
+  //     for await (const date of DATE_FOR_AVAILABLE_FALSE) {
+  //       await supabase
+  //         .from('timeslot')
+  //         // .delete()
+  //         .update({
+  //           available: false,
+  //         })
+  //         .eq('date', date)
+  //         .eq('available', true)
+  //         .eq('current_participants', 0);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting time slots:', error);
+  //   }
+  // };
 
   return (
     <>

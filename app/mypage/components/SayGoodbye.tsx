@@ -11,21 +11,8 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  // const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  // const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || '';
-  // const supabase = createClient();
-  // const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
-  //   auth: {
-  //     autoRefreshToken: false,
-  //     persistSession: false,
-  //   },
-  // });
-
   const handleSubmit = async () => {
     setIsLoading(true);
-
-    console.log('profile.data');
-    console.log(profile.data);
 
     try {
       const res = await fetch('/api/membership-withdrawal', {
@@ -44,22 +31,6 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
         throw new Error(resJson.error);
       }
 
-      // // 사용자 삭제
-      // const { data, error } = await supabaseAdmin.auth.admin.deleteUser(profile.data.id);
-
-      // if (error) throw error;
-
-      // // bye 테이블에 탈퇴 정보 저장
-      // const { error: byeError } = await supabase.from('bye').insert([
-      //   {
-      //     email: profile.data.email,
-      //     uuid: profile.data.id,
-      //     SNS: profile.data.snsRegister,
-      //   },
-      // ]);
-
-      // if (byeError) throw byeError;
-
       setIsLoading(false);
 
       toast.success('회원탈퇴가 완료되었습니다.');
@@ -76,11 +47,6 @@ export default function SayGoodbye({ profile }: { profile: PostgrestSingleRespon
       setIsLoading(false);
       return;
     }
-    // finally {
-    //   setIsLoading(false);
-    //   // supabase.auth.signOut();
-    //   router.push('/');
-    // }
   };
 
   return (

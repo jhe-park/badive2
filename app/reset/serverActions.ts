@@ -5,10 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 export async function handlePasswordChange(code, password) {
   const supabase = createClient();
 
-  console.log('code:', code);
-  console.log('password:', password);
   if (code) {
-    console.log('code22:', code);
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     console.log('error:', error);
 

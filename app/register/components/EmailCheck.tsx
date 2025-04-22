@@ -13,7 +13,6 @@ export default function EmailCheck() {
     if (error) {
       console.error(error);
     } else {
-      console.log(data);
     }
   };
 

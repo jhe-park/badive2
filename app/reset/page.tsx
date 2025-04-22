@@ -32,10 +32,6 @@ export default function Reset(searchParams) {
     changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_WORK_IN_PROGRESS' });
 
     const { data: dataForSession, error: errorForSession } = await supabase.auth.getSession();
-    console.log('session:', dataForSession);
-
-    console.log('dataForSession');
-    console.log(dataForSession);
 
     if (errorForSession) {
       console.error('error:', errorForSession);

@@ -72,11 +72,8 @@ export default function ProgramTable({
   const [pageSize, setPageSize] = useState(5);
   const [totalPage, setTotalPage] = useState(() => Math.ceil(totalCountOfRegisteredPrograms / pageSize));
 
-  console.log('totalCountOfRegisteredPrograms');
-  console.log(totalCountOfRegisteredPrograms);
 
-  console.log('totalPage');
-  console.log(totalPage);
+  
 
   useEffect(() => {
     (async () => {
@@ -119,8 +116,8 @@ export default function ProgramTable({
       return;
     }
 
-    console.log('✅ in handleConfirmRequest');
-    console.log();
+    
+    
 
     let accountNumberRefined: string | null = null;
 
@@ -198,13 +195,8 @@ export default function ProgramTable({
         ? selectedProgram.time_slot_id.program_id.price * selectedProgram.participants
         : selectedProgram.time_slot_id.program_id.price * selectedProgram.participants;
 
-    console.log('refundAmount:', refundAmount);
-
-    // refundInfos.accountOwnerName;
-
-    // const bankName = '';
-    // const accountNumber = '';
-    // const accountOwnerName = '';
+    
+        
 
     const tossPaymentCancelRes = await fetch('/api/cancel-payment', {
       method: 'POST',
@@ -451,8 +443,8 @@ export default function ProgramTable({
                     <div className="flex w-full gap-4">
                       <Input
                         onChange={e => {
-                          console.log('e.target.value');
-                          console.log(e.target.value);
+                          
+                          
                           setRefundInfos(prev => {
                             return {
                               ...prev,
@@ -517,8 +509,6 @@ export default function ProgramTable({
                     isDisabled={cancelStatus === 'CANCEL_WORK_IN_PROGRESS' || cancelStatus === 'CANCEL_COMPLETED'}
                     onPress={e => {
                       handleConfirmRequest(onClose);
-                      // console.log('✅ in onpress');
-                      // throttle(() => , 1000, { leading: true, trailing: false });
                     }}
                     className="w-1/3"
                   >

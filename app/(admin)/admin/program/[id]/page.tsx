@@ -75,9 +75,8 @@ export default function InstructorNewPage({ params }) {
   useEffect(() => {
     getProgram();
   }, []);
-  console.log('program:', program);
-  console.log('tableData:', tableData);
-
+  
+  
   const getInstructor = async () => {
     const { data, error } = await supabase.from('instructor').select('*').eq('available', true);
     if (error) {
@@ -104,14 +103,12 @@ export default function InstructorNewPage({ params }) {
       console.error('Error uploading image:', error);
       return;
     }
-    console.log('data:', data);
 
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
       // error: urlError,
     } = supabase.storage.from('program').getPublicUrl(data.path);
-    console.log('publicURL:', publicUrl);
 
     // if (urlError) {
     //   console.error("Error getting public URL:", urlError);
@@ -136,7 +133,6 @@ export default function InstructorNewPage({ params }) {
     onClose();
   };
 
-  console.log('selectedInstructor:', selectedInstructor);
 
   const handleSaveProgram = async () => {
     setIsSave(true);

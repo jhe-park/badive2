@@ -68,8 +68,7 @@ export default function SearchTable() {
 
     fetchPrograms();
   }, [page, pageSize, search, selectedFilter]);
-  console.log('selectedFilter', selectedFilter);
-  console.log('programs:', programs);
+  
   return (
     <>
       <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 px-4 md:flex-row">

@@ -165,19 +165,6 @@ export default function Login() {
         return;
       }
 
-      console.log('✅ 최종 form value');
-      console.log({
-        name: formNameTrimmed,
-        phone: formPhoneRefined,
-        birth: formBirthRefined,
-        gender: formGender,
-        marketingSms: smsConsent,
-        marketingEmail: emailConsent,
-        marketingAgreement: marketingConsent,
-        updated_at: new Date().toISOString(),
-        snsRegister: true,
-      });
-
       // Supabase profiles 테이블 업데이트
       const { error: updateError } = await supabase
         .from('profiles')

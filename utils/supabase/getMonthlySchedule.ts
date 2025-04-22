@@ -39,7 +39,6 @@ export const getMonthlySchedule = async ({
       console.error('데이터 조회 에러:', error);
       return [];
     }
-    console.log('조회된 데이터:', timeSlots);
     return timeSlots;
   } catch (err) {
     console.error('예외 발생:', err);

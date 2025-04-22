@@ -45,7 +45,6 @@ export default function InstructorNewPage() {
 
     const sanitizedFileName = file.name.replace(/[^\w.-]/g, '');
     const { data, error } = await supabase.storage.from('instructor').upload(`instructor-profile/${uuidv4()}-${sanitizedFileName}`, file);
-    console.log('data:', data);
 
     if (error) {
       console.log('Error uploading file:', error);

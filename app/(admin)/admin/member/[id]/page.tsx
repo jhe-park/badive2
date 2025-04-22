@@ -51,16 +51,8 @@ export default function MemberNewPage({ params }) {
     }
   };
 
-  // const fetchReservation = async () => {
-  //   const { data, error } = await supabase.from('reservation').select('*').eq('user_id', member?.id);
-
-  //   if (error) {
-  //     console.log('Error fetching reservation:', error);
-  //   } else {
-  //     console.log('Reservation fetched successfully:', data);
-  //     setReservation(data);
-  //   }
-  // };
+  
+  
 
   const handleSave = async () => {
     const { data, error } = await supabase.from('profiles').update({ etc }).eq('id', member?.id);
@@ -83,7 +75,6 @@ export default function MemberNewPage({ params }) {
 
     const sanitizedFileName = file.name.replace(/[^\w.-]/g, '');
     const { data, error } = await supabase.storage.from('instructor').upload(`instructor-profile/${uuidv4()}-${sanitizedFileName}`, file);
-    console.log('data:', data);
 
     if (error) {
       console.log('Error uploading file:', error);

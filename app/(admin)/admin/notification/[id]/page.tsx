@@ -7,16 +7,16 @@ import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 
 export default function NotificationEditPage({ params }) {
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [selectedRole, setSelectedRole] = useState('bdn');
+  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
+  // const [imageUrl, setImageUrl] = useState('');
+  // const [certifications, setCertifications] = useState([]);
+  // const [certification, setCertification] = useState('');
+  // const [description, setDescription] = useState('');
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('bdn');
-  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  const [imageUrl, setImageUrl] = useState('');
-  const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState('');
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [pinned, setPinned] = useState('unpinned');
   const [isSave, setIsSave] = useState(false);
   const router = useRouter();
@@ -29,10 +29,10 @@ export default function NotificationEditPage({ params }) {
     setContent(model);
   };
 
-  const handleSave = () => {
-    alert('저장된 내용:\n' + content);
-    console.log('저장된 내용:', content);
-  };
+  // const handleSave = () => {
+  //   alert('저장된 내용:\n' + content);
+  //   console.log('저장된 내용:', content);
+  // };
 
   const handleDeleteNotification = async () => {
     const { data, error } = await supabase.from('notification').delete().eq('id', unwrappedParams.id);

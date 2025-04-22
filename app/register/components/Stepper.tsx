@@ -7,7 +7,6 @@ import HorizontalSteps from './horizontal-steps';
 
 export default function Component() {
   const { step, setStep } = useStep();
-  console.log('step:', step);
   return (
     <HorizontalSteps
       // @ts-ignore

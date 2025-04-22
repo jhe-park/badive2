@@ -122,27 +122,12 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
 
                 const { count, error, timeSlots } = await getTimeSlots({ supabase, date: currentDateObj, instructor: selectedInstructor });
 
-                console.log('timeSlots.length');
-
-                console.log(timeSlots.length);
-
-                // console.log();
-                console.log({
-                  programs,
-                  selectedLectureCategory,
-                  selectedInstructor,
-                  timeSlots,
-                });
-
                 const filteredTimeSlots = getFilteredTimeSlots({
                   programs,
                   selectedLectureCategory,
                   selectedInstructor,
                   timeSlots,
                 });
-
-                console.log('filteredTimeSlots.length');
-                console.log(filteredTimeSlots.length);
 
                 changeTimeSlots({ newTimeSlots: filteredTimeSlots });
                 setCalendarFetch('CALENDAR_FETCH_COMPLETED');

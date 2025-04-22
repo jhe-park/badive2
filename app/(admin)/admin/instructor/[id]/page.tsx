@@ -80,7 +80,6 @@ export default function InstructorNewPage({ params }) {
     fetchInstructor();
     fetchReservation();
   }, [id]);
-  console.log('reservation:', reservation);
 
   const handleUploadImage = async event => {
     const file = event.target.files[0];
@@ -88,7 +87,6 @@ export default function InstructorNewPage({ params }) {
 
     const sanitizedFileName = file.name.replace(/[^\w.-]/g, '');
     const { data, error } = await supabase.storage.from('instructor').upload(`instructor-profile/${uuidv4()}-${sanitizedFileName}`, file);
-    console.log('data:', data);
 
     if (error) {
       console.log('Error uploading file:', error);

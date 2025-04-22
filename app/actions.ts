@@ -36,15 +36,6 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
   const password = formData.get('password') as string;
   const supabase = await createClient();
 
-  console.log('in server action');
-  console.log('returnUrl');
-  console.log(returnUrl);
-  // const { data: profile } = await supabase.from('profiles').select('failCount').eq('email', email).single();
-
-  // if (profile?.failCount >= 6) {
-  //   return encodedRedirect('error', '/login', 'You cannot login more than 6 times');
-  // }
-
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -81,9 +72,8 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
   // 로그인 성공시 FAIL COUNT를 0으로 초기화한다
   // supabase.from('profiles').update({ failCount: 0 }).eq('email', email).select();
 
-  console.log('returnUrl');
-  console.log(returnUrl);
 
+  
   if (returnUrl) {
     return redirect(returnUrl);
   }

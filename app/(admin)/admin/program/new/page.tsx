@@ -74,14 +74,12 @@ export default function InstructorNewPage() {
       console.error('Error uploading image:', error);
       return;
     }
-    console.log('data:', data);
 
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
       // error: urlError,
     } = supabase.storage.from('program').getPublicUrl(data.path);
-    console.log('publicURL:', publicUrl);
 
     // if (urlError) {
     //   console.error("Error getting public URL:", urlError);
@@ -123,23 +121,21 @@ export default function InstructorNewPage() {
 
       const { data, error } = await supabase.from('program').insert(newProgramData).select('id');
 
-      console.log('data:', data);
       if (error) {
         console.error('Error inserting program data:', error);
       } else {
-        const completeData = (data as any).id;
-        console.log('completeData:', completeData);
+        // const completeData = (data as any).id;
 
         // 각 프로그램 데이터에 대해 axios 요청을 보냅니다.
-        newProgramData.forEach((programItem, index) => {
-          axios.get('https://sbnuq3lefmr32no276hqpr2rdm0wcmzf.lambda-url.ap-southeast-2.on.aws/create_timeslots/', {
-            params: {
-              instructor_id: parseInt(programItem.instructor_id),
-              program_id: parseInt(data[index].id),
-              max_participants: parseInt(programItem.participants),
-            },
-          });
-        });
+        // newProgramData.forEach((programItem, index) => {
+        //   axios.get('https://sbnuq3lefmr32no276hqpr2rdm0wcmzf.lambda-url.ap-southeast-2.on.aws/create_timeslots/', {
+        //     params: {
+        //       instructor_id: parseInt(programItem.instructor_id),
+        //       program_id: parseInt(data[index].id),
+        //       max_participants: parseInt(programItem.participants),
+        //     },
+        //   });
+        // });
 
         setIsSave(true);
         router.push('/admin/program');
