@@ -102,29 +102,53 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
         return;
       }
 
-      // 토스페이먼츠 결제 취소 요청
-      const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
-
-      const encryptedSecretKey = 'Basic ' + Buffer.from(secretKey + ':').toString('base64');
-      const url = `https://api.tosspayments.com/v1/payments/${program.payment_key}/cancel`;
-      const paymentResponse = await fetch(url, {
+      const tossPaymentResponse = await fetch(`/api/toss/cancel`, {
         method: 'POST',
         headers: {
-          Authorization: encryptedSecretKey,
           'Content-Type': 'application/json',
         },
-
         body: JSON.stringify({
-          cancelReason: '사용자 예약 취소',
-          cancelAmount: refundAmount,
+          payment_key: program.payment_key,
+          refundAmount,
         }),
       });
 
-      if (!paymentResponse.ok) {
-        console.log('결제 취소 실패:', paymentResponse);
+      if (!tossPaymentResponse.ok) {
+        toast.error(`토스페이먼츠 결제 취소 과정에서 알 수 없는 오류가 발생했습니다.`);
+        return;
       }
 
-      toast.success('프로그램 취소가 신청 완료되었습니다.');
+      const resJson = await tossPaymentResponse.json();
+
+      if (resJson.status === 'FAILED') {
+        toast.error(`결제 취소에 실패했습니다. ${JSON.stringify(resJson.error)}`, { autoClose: false });
+        // return;
+      } else {
+        toast.success('프로그램 취소가 신청 완료되었습니다.');
+      }
+
+      // 토스페이먼츠 결제 취소 요청
+      // const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
+
+      // const encryptedSecretKey = 'Basic ' + Buffer.from(secretKey + ':').toString('base64');
+      // const url = `https://api.tosspayments.com/v1/payments/${program.payment_key}/cancel`;
+      // const paymentResponse = await fetch(url, {
+      //   method: 'POST',
+      //   headers: {
+      //     Authorization: encryptedSecretKey,
+      //     'Content-Type': 'application/json',
+      //   },
+
+      //   body: JSON.stringify({
+      //     cancelReason: '사용자 예약 취소',
+      //     cancelAmount: refundAmount,
+      //   }),
+      // });
+
+      // if (!paymentResponse.ok) {
+      //   console.log('결제 취소 실패:', paymentResponse);
+      // }
+
       getReservation();
     }
   };
