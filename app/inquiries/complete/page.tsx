@@ -1,4 +1,5 @@
 import { getDomain } from '@/utils/getDomain';
+import { sendAlarmTalk } from '@/utils/sendAlarmTalk';
 import { Database } from '@/utils/supabase/database.types';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
@@ -127,27 +128,20 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
 
     const isFullyBooked = updatedCurrentParticipants === timeSlot.max_participants;
 
-    console.log('✅isFullyBooked');
-    console.log(isFullyBooked);
-
-    console.log('✅reservation insert value');
-
-    console.log({
-      updatedCurrentParticipants: updatedCurrentParticipants,
-      isFullyBooked,
-      orderId: orderId as string,
-      participants: numOfParticipantsForCheckout,
-      slotId: parseInt(slotId),
-      user_id: user_id as string,
-      timeSlot,
-      paymentKey: paymentKey as string,
-      instructor_id: parseInt(instructor_id as string),
-      amount: parseInt(amount as string),
-      paymentMethod: tossPaymentsResJson.method,
-      paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
-    });
-
-    console.log('✅ timeslot insert value');
+    // console.log({
+    //   updatedCurrentParticipants: updatedCurrentParticipants,
+    //   isFullyBooked,
+    //   orderId: orderId as string,
+    //   participants: numOfParticipantsForCheckout,
+    //   slotId: parseInt(slotId),
+    //   user_id: user_id as string,
+    //   timeSlot,
+    //   paymentKey: paymentKey as string,
+    //   instructor_id: parseInt(instructor_id as string),
+    //   amount: parseInt(amount as string),
+    //   paymentMethod: tossPaymentsResJson.method,
+    //   paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
+    // });
 
     const transactionResult = await doTransactionForReservation({
       supabase,
@@ -188,24 +182,20 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
         .single(),
     ]);
 
-    console.log('✅userProfile');
-    console.log(userProfile);
-
-    console.log('✅programData');
-    console.log(programData);
-
     if (userProfile.phone == null) {
       console.log('전화번호가 없습니다.');
     } else if (userProfile.phone) {
       console.log('전화번호가 있습니다.');
 
-      await sendAlarmTalk({
-        userProfile,
-        dateStr: timeSlot.date + ' ' + timeSlot.start_time,
-        instructorName: programData.instructor_id.name,
-        programRegion: programData.region,
-        programTitle: programData.title,
-      });
+      if (tossPaymentsResJson.method !== '가상계좌') {
+        await sendAlarmTalk({
+          userProfile,
+          dateStr: timeSlot.date + ' ' + timeSlot.start_time,
+          instructorName: programData.instructor_id.name,
+          programRegion: programData.region,
+          programTitle: programData.title,
+        });
+      }
     }
   } catch (error) {
     redirect(`/inquiries/fail?code=${error.code}&message=${error.message}`);
@@ -276,44 +266,44 @@ const doTransactionForReservation = async ({
   return transactionResult;
 };
 
-async function sendAlarmTalk({
-  userProfile,
-  dateStr,
-  instructorName,
-  programRegion,
-  programTitle,
-}: {
-  dateStr: string;
-  programTitle: string;
-  programRegion: string;
-  instructorName: string;
-  userProfile: TypeDBprofile;
-}) {
-  try {
-    const response = await axios.post(
-      'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
-      {
-        phone: userProfile.phone,
-        name: userProfile.name,
-        program: programTitle,
-        region: programRegion,
-        instructor: instructorName,
-        date: dateStr,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-        },
-      },
-    );
+// async function sendAlarmTalk({
+//   userProfile,
+//   dateStr,
+//   instructorName,
+//   programRegion,
+//   programTitle,
+// }: {
+//   dateStr: string;
+//   programTitle: string;
+//   programRegion: string;
+//   instructorName: string;
+//   userProfile: TypeDBprofile;
+// }) {
+//   try {
+//     const response = await axios.post(
+//       'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
+//       {
+//         phone: userProfile.phone,
+//         name: userProfile.name,
+//         program: programTitle,
+//         region: programRegion,
+//         instructor: instructorName,
+//         date: dateStr,
+//       },
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           accept: 'application/json',
+//         },
+//       },
+//     );
 
-    console.log('✅ 알림톡 전송 성공:', response.data);
-    return response;
-  } catch (error) {
-    console.error('🚫 알림톡 전송 실패:');
-    console.error(error);
-  }
-}
+//     console.log('✅ 알림톡 전송 성공:', response.data);
+//     return response;
+//   } catch (error) {
+//     console.error('🚫 알림톡 전송 실패:');
+//     console.error(error);
+//   }
+// }
 
 export default PageForPaymentComplete;

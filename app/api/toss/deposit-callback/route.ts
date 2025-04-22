@@ -1,4 +1,8 @@
+import { sendAlarmTalk } from '@/utils/sendAlarmTalk';
+import { Database } from '@/utils/supabase/database.types';
+import { TypeDBreservation } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { type NextRequest } from 'next/server';
 import z from 'zod';
 
@@ -71,16 +75,22 @@ export async function POST(request: NextRequest) {
 
   // payment_key
   // const { data, error } = await supabaseClient.from('reservation').select('*').eq('payment_key', transactionKey);
-  const { data, error } = await supabaseClient.from('reservation').update({ status: '예약확정' }).eq('order_id', orderId);
+  const { data: dataForReservation, error } = await supabaseClient.from('reservation').update({ status: '예약확정' }).eq('order_id', orderId).select().single();
 
   console.log('✅ data');
-  console.log(data);
+  console.log(dataForReservation);
 
   console.log('✅ error');
   console.log(error);
 
   if (error == null) {
     console.log('✅ 성공적으로 업데이트 되었습니다');
+
+    await sendAlarmTalkWrapper({
+      supabaseClient,
+      dataForReservation,
+    });
+
     return Response.json({
       status: 200,
     });
@@ -94,22 +104,59 @@ export async function POST(request: NextRequest) {
       status: 400,
     });
   }
-
-  // res.status(200).end() // 성공 응답 보내기
-
-  // const requestBody = {};
-  // try {
-  //   const res = await fetch('', {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     method: 'POST',
-  //     body: JSON.stringify(requestBody),
-  //   });
-
-  //   const objFromAPI = await res.json();
-  //   return Response.json({ status: 'SUCCESS', data: objFromAPI });
-  // } catch (error) {
-  //   return Response.json({ status: 'FAILED', error });
-  // }
 }
+
+async function sendAlarmTalkWrapper({
+  supabaseClient,
+  dataForReservation,
+}: {
+  supabaseClient: SupabaseClient<Database>;
+  dataForReservation: TypeDBreservation;
+}) {
+  const [{ data: dataForProfile, error: errorForProfile }, { data: dataForTimeSlot, error: errorForTimeSlot }] = await Promise.all([
+    supabaseClient.from('profiles').select('*').eq('id', dataForReservation.user_id).single(),
+    supabaseClient.from('timeslot').select('*,instructor_id(*)').eq('id', dataForReservation.time_slot_id).single(),
+  ]);
+
+  const { data: dataForProgram, error: errorForProgram } = await supabaseClient
+    .from('program')
+    .select('*,instructor_id(*)')
+    .eq('id', dataForTimeSlot.program_id)
+    .single();
+
+  // dataForReservation.time_slot_id;
+  // dataForReservation.user_id;
+  // dataForReservation;
+
+  await sendAlarmTalk({
+    userProfile: dataForProfile,
+    dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
+    instructorName: dataForProgram.instructor_id.name,
+    programRegion: dataForProgram.region,
+    programTitle: dataForProgram.title,
+  });
+}
+
+// -- FOR BACKUP --
+// const [{ data: dataForProfile, error: errorForProfile }, { data: dataForTimeSlot, error: errorForTimeSlot }] = await Promise.all([
+//   supabaseClient.from('profiles').select('*').eq('id', dataForReservation.user_id).single(),
+//   supabaseClient.from('timeslot').select('*,instructor_id(*)').eq('id', dataForReservation.time_slot_id).single(),
+// ]);
+
+// const { data: dataForProgram, error: errorForProgram } = await supabaseClient
+//   .from('program')
+//   .select('*,instructor_id(*)')
+//   .eq('id', dataForTimeSlot.program_id)
+//   .single();
+
+// // dataForReservation.time_slot_id;
+// // dataForReservation.user_id;
+// // dataForReservation;
+
+// await sendAlarmTalk({
+//   userProfile: dataForProfile,
+//   dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
+//   instructorName: dataForProgram.instructor_id.name,
+//   programRegion: dataForProgram.region,
+//   programTitle: dataForProgram.title,
+// });
