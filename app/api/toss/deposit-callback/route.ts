@@ -132,18 +132,15 @@ async function sendAlarmTalkWrapper({
     .eq('id', dataForTimeSlot.program_id)
     .single();
 
-    console.log('dataForProgram');
-    console.log(dataForProgram);
+  console.log('dataForProgram');
+  console.log(dataForProgram);
 
-
-    console.log('errorForProgram');
-    console.log(errorForProgram);
+  console.log('errorForProgram');
+  console.log(errorForProgram);
 
   // dataForReservation.time_slot_id;
   // dataForReservation.user_id;
   // dataForReservation;
-
-  
 
   console.log('sendAlarmTalkByAWSLambda arguments');
   console.log({

@@ -282,7 +282,7 @@ export default function ProgramTable({
       {
         phone: profile.data.phone,
         name: profile.data.name,
-        program: dataForProgram.title,
+        program: dataForProgram.title,      
         //region: programRegion,
         //instructor: instructorName,
         //date: dateStr,
@@ -291,8 +291,9 @@ export default function ProgramTable({
         headers: {
           'Content-Type': 'application/json',
           accept: 'application/json',
-        },
+        },        
       },
+      
     );
 
     console.log('response.statusText');

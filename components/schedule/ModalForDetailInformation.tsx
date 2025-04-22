@@ -59,7 +59,9 @@ export default function ModalForDetailInformation({
                     </div>
                     <div className="flex">
                       <div className="w-[30%]">연락처</div>
-                      <div className="text-center">{typeof reservation.phone === 'string' ? formatPhoneNumber(reservation.phone) : '-'}</div>
+                      <div className="text-center">
+                        <a href={`tel:+${reservation.phone}`}>{typeof reservation.phone === 'string' ? formatPhoneNumber(reservation.phone) : '-'}</a>
+                      </div>
                     </div>
                     <div className="flex font-[700]">
                       <div className="w-[30%]">예약</div>
@@ -116,7 +118,9 @@ export default function ModalForDetailInformation({
                             <TableCell className="text-center">{reservation.studentName}</TableCell>
                             <TableCell className="text-center">{reservation.studentLocation}</TableCell>
                             <TableCell className="text-center">{reservation.birthday}</TableCell>
-                            <TableCell className="text-center">{reservation.phone}</TableCell>
+                            <TableCell className="text-center underline font-bold">
+                              <a href={`tel:+${reservation.phone}`}>{formatPhoneNumber(reservation.phone)}</a>
+                            </TableCell>
                             <TableCell className="text-center font-[700]">{reservation.status}</TableCell>
                             <TableCell className="text-center">{reservation.participants}</TableCell>
                           </TableRow>
