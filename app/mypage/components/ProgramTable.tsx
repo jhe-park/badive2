@@ -3,6 +3,8 @@
 import useModalOpen from '@/app/store/useModalOpen';
 import { AWS_LAMBDA_URL, BANK_LIST } from '@/constants/constants';
 import { useCancelStatus } from '@/hooks/useCancelStatus';
+import { checkIsSameDay } from '@/utils/checkIfSameDay';
+import { checkIsDDayMinus1 } from '@/utils/checkIsDDayMinus1';
 import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { sendCancellationAlimtalk } from '@/utils/sendCancellationAlimtalk';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
@@ -173,6 +175,14 @@ export default function ProgramTable({
     const diffTime = programDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+    console.log('diffDays');
+    console.log(diffDays);
+
+    const isSameDay = checkIsSameDay(programDate, new Date());
+
+    console.log('isSameDay');
+    console.log(isSameDay);
+
     // 지난 프로그램인 경우
     if (diffDays < 0) {
       toast.error('지난 프로그램은 환불이 불가능합니다.');
@@ -182,19 +192,32 @@ export default function ProgramTable({
       return;
     }
 
-    // 1일 이내 취소
-    if (diffDays <= 1) {
-      toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
+    // if (diffDays < 0) {
+    //   toast.error('지난 프로그램은 환불이 불가능합니다.');
+    //   changeCancelStatus({ status: 'CANCEL_READY' });
+    //   return;
+    // }
 
+    // 당일 취소
+    if (isSameDay) {
+      toast.error('당일 프로그램은 환불이 불가능합니다.');
       changeCancelStatus({ status: 'CANCEL_READY' });
-
       return;
     }
 
-    const refundAmount =
-      diffDays <= 7
-        ? selectedReservation.time_slot_id.program_id.price * selectedReservation.participants
-        : selectedReservation.time_slot_id.program_id.price * selectedReservation.participants;
+    const isDDayMinus1 = checkIsDDayMinus1(programDate, today);
+    console.log('isDDayMinus1');
+    console.log(isDDayMinus1);
+
+    // -환불규정
+    // 당일 : 전액 환불 불가
+    // 교육 시작 하루 전 : 50% 환불
+    // 교육 시작 이틀 전 :  100% 환불
+    const refundAmount = isDDayMinus1
+      ? (selectedReservation.time_slot_id.program_id.price * selectedReservation.participants) / 2
+      : selectedReservation.time_slot_id.program_id.price * selectedReservation.participants;
+
+    debugger;
 
     const tossPaymentCancelRes = await fetch('/api/cancel-payment', {
       method: 'POST',
@@ -277,30 +300,29 @@ export default function ProgramTable({
       date: dataForTimeSlot.date,
     });
 
-    const response = await axios.post(
-      `${AWS_LAMBDA_URL}/cancel-alimtalk`,
-      {
-        phone: profile.data.phone,
-        name: profile.data.name,
-        program: dataForProgram.title,      
-        //region: programRegion,
-        //instructor: instructorName,
-        //date: dateStr,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-        },        
-      },
-      
-    );
+    // const response = await axios.post(
+    //   `${AWS_LAMBDA_URL}/cancel-alimtalk`,
+    //   {
+    //     phone: profile.data.phone,
+    //     name: profile.data.name,
+    //     program: dataForProgram.title,
+    //     //region: programRegion,
+    //     //instructor: instructorName,
+    //     //date: dateStr,
+    //   },
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       accept: 'application/json',
+    //     },
+    //   },
+    // );
 
-    console.log('response.statusText');
-    console.log(response.statusText);
+    // console.log('response.statusText');
+    // console.log(response.statusText);
 
-    console.log('response.data');
-    console.log(response.data);
+    // console.log('response.data');
+    // console.log(response.data);
 
     // await sendCancellationAlimtalk({
     //   phone: profile.data.phone,
