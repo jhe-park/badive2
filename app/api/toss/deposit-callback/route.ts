@@ -120,15 +120,39 @@ async function sendAlarmTalkWrapper({
     supabaseClient.from('timeslot').select('*,instructor_id(*)').eq('id', dataForReservation.time_slot_id).single(),
   ]);
 
+  console.log('dataForProfile');
+  console.log(dataForProfile);
+
+  console.log('errorForProfile');
+  console.log(errorForProfile);
+
   const { data: dataForProgram, error: errorForProgram } = await supabaseClient
     .from('program')
     .select('*,instructor_id(*)')
     .eq('id', dataForTimeSlot.program_id)
     .single();
 
+    console.log('dataForProgram');
+    console.log(dataForProgram);
+
+
+    console.log('errorForProgram');
+    console.log(errorForProgram);
+
   // dataForReservation.time_slot_id;
   // dataForReservation.user_id;
   // dataForReservation;
+
+  
+
+  console.log('sendAlarmTalkByAWSLambda arguments');
+  console.log({
+    userProfile: dataForProfile,
+    dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
+    instructorName: dataForProgram.instructor_id.name,
+    programRegion: dataForProgram.region,
+    programTitle: dataForProgram.title,
+  });
 
   await sendAlarmTalkByAWSLambda({
     userProfile: dataForProfile,

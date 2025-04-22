@@ -1,7 +1,7 @@
 'use client';
 
 import useModalOpen from '@/app/store/useModalOpen';
-import { BANK_LIST } from '@/constants/constants';
+import { AWS_LAMBDA_URL, BANK_LIST } from '@/constants/constants';
 import { useCancelStatus } from '@/hooks/useCancelStatus';
 import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { sendCancellationAlimtalk } from '@/utils/sendCancellationAlimtalk';
@@ -28,6 +28,7 @@ import {
 } from '@heroui/react';
 import { Button, Card, CardBody, Pagination } from '@nextui-org/react';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import axios from 'axios';
 import { throttle } from 'lodash';
 import { LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -276,14 +277,38 @@ export default function ProgramTable({
       date: dataForTimeSlot.date,
     });
 
-    await sendCancellationAlimtalk({
-      phone: profile.data.phone,
-      name: profile.data.name,
-      program: dataForProgram.title,
-      region: dataForProgram.region,
-      instructor: dataForProgram.instructor_id.name,
-      date: dataForTimeSlot.date,
-    });
+    const response = await axios.post(
+      `${AWS_LAMBDA_URL}/cancel-alimtalk`,
+      {
+        phone: profile.data.phone,
+        name: profile.data.name,
+        program: dataForProgram.title,
+        //region: programRegion,
+        //instructor: instructorName,
+        //date: dateStr,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      },
+    );
+
+    console.log('response.statusText');
+    console.log(response.statusText);
+
+    console.log('response.data');
+    console.log(response.data);
+
+    // await sendCancellationAlimtalk({
+    //   phone: profile.data.phone,
+    //   name: profile.data.name,
+    //   program: dataForProgram.title,
+    //   region: dataForProgram.region,
+    //   instructor: dataForProgram.instructor_id.name,
+    //   date: dataForTimeSlot.date,
+    // });
 
     // const { data: dataForProgram, error: errorForProgram } = await supabase
     //   .from('program')
