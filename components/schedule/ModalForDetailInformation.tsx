@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import React from 'react';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 import { formatDateString } from '@/utils/formatDateString';
+import { checkIsMobileDevice } from '@/utils/checkIsMobileDevice';
 
 export default function ModalForDetailInformation({
   reservationsDetail,
@@ -19,6 +20,7 @@ export default function ModalForDetailInformation({
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
 
   const closeModal = () => {
+    console.log('closeModal');
     onClose();
   };
 
@@ -59,7 +61,7 @@ export default function ModalForDetailInformation({
                     </div>
                     <div className="flex">
                       <div className="w-[30%]">연락처</div>
-                      <div className="text-center">
+                      <div className="text-center underline">
                         <a href={`tel:+${reservation.phone}`}>{typeof reservation.phone === 'string' ? formatPhoneNumber(reservation.phone) : '-'}</a>
                       </div>
                     </div>
@@ -86,7 +88,13 @@ export default function ModalForDetailInformation({
         classNames={{ base: 'hidden md:block z-9999 max-h-[10vh] bg-white py-8' }}
         size="4xl"
         isOpen={isOpenProps}
-        onClose={onClose}
+        onClose={() => {
+          if (checkIsMobileDevice()) {
+            return;
+          }
+          console.log('Modal : onClose');
+          onClose();
+        }}
         onOpenChange={onOpenChangeAddInstructor}
       >
         <ModalContent className="max-h-[80vh]">
@@ -118,7 +126,7 @@ export default function ModalForDetailInformation({
                             <TableCell className="text-center">{reservation.studentName}</TableCell>
                             <TableCell className="text-center">{reservation.studentLocation}</TableCell>
                             <TableCell className="text-center">{reservation.birthday}</TableCell>
-                            <TableCell className="text-center underline font-bold">
+                            <TableCell className="text-center font-bold underline">
                               <a href={`tel:+${reservation.phone}`}>{formatPhoneNumber(reservation.phone)}</a>
                             </TableCell>
                             <TableCell className="text-center font-[700]">{reservation.status}</TableCell>
