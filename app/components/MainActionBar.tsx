@@ -1,7 +1,15 @@
 'use client';
+
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Actionbar() {
+  const pathname = usePathname();
+
+  if (pathname.startsWith('/admin') || pathname.startsWith('/expert')) {
+    return null;
+  }
+
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
