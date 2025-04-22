@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { TypeDBprofile } from './supabase/dbTableTypes';
+import { AWS_LAMBDA_URL } from '@/constants/constants';
 
 export async function sendAlarmTalk({
   userProfile,
@@ -14,14 +15,14 @@ export async function sendAlarmTalk({
   instructorName: string;
   userProfile: TypeDBprofile;
 }) {
-  const lambdaURL = process.env.AWS_LAMBDA_URL;
+  //   const lambdaURL = process.env.AWS_LAMBDA_URL;
 
-  console.log('lambdaURL');
-  console.log(lambdaURL);
+  //   console.log('lambdaURL');
+  //   console.log(lambdaURL);
 
   try {
     const response = await axios.post(
-      `${lambdaURL}/send-alimtalk`,
+      `${AWS_LAMBDA_URL}/send-alimtalk`,
       {
         phone: userProfile.phone,
         name: userProfile.name,
