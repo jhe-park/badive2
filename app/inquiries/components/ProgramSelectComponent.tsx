@@ -34,11 +34,14 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
   const targetLectureCategories = selectedLectureCategory ? LECTURE_CATEGORY_TO_DB_CATRGORY[selectedLectureCategory] : [];
 
-  const programFiltered = everyProgramObjs.filter(programObj => {
-    return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
-  }).toSorted((a, b) => {  return a.created_at < b.created_at ? 1 : -1;})
-  
-  ;
+  const programFiltered = everyProgramObjs
+    .filter(programObj => {
+      return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
+    })
+    .filter(programObj => (typeof window !== 'undefined' && window.location.hostname.includes(`localhost`) ? !programObj.title.includes('200원') : true))
+    .toSorted((a, b) => {
+      return a.created_at < b.created_at ? 1 : -1;
+    });
 
   const [selectedProgramTitle, setSelectedProgramTitle] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');

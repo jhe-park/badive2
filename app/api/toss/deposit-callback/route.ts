@@ -6,8 +6,6 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { type NextRequest } from 'next/server';
 import z from 'zod';
 
-const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
-
 const zodSchema = z.object({
   createdAt: z.string(),
   secret: z.string(),
@@ -52,12 +50,16 @@ export async function POST(request: NextRequest) {
 
   console.log('✅createdAt');
   console.log(createdAt);
+
   console.log('✅ orderId');
   console.log(orderId);
+
   console.log('✅ secret');
   console.log(secret);
+
   console.log('✅ status');
   console.log(status);
+
   console.log('✅ transactionKey');
   console.log(transactionKey);
 
