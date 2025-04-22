@@ -1,5 +1,5 @@
 import { getDomain } from '@/utils/getDomain';
-import { sendAlarmTalk } from '@/utils/sendAlarmTalk';
+import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { Database } from '@/utils/supabase/database.types';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
@@ -188,7 +188,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       console.log('전화번호가 있습니다.');
 
       if (tossPaymentsResJson.method !== '가상계좌') {
-        await sendAlarmTalk({
+        await sendAlarmTalkByAWSLambda({
           userProfile,
           dateStr: timeSlot.date + ' ' + timeSlot.start_time,
           instructorName: programData.instructor_id.name,

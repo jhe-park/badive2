@@ -1,4 +1,4 @@
-import { sendAlarmTalk } from '@/utils/sendAlarmTalk';
+import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { Database } from '@/utils/supabase/database.types';
 import { TypeDBreservation } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
@@ -130,7 +130,7 @@ async function sendAlarmTalkWrapper({
   // dataForReservation.user_id;
   // dataForReservation;
 
-  await sendAlarmTalk({
+  await sendAlarmTalkByAWSLambda({
     userProfile: dataForProfile,
     dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
     instructorName: dataForProgram.instructor_id.name,

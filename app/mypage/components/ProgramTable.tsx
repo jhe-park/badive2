@@ -3,6 +3,8 @@
 import useModalOpen from '@/app/store/useModalOpen';
 import { BANK_LIST } from '@/constants/constants';
 import { useCancelStatus } from '@/hooks/useCancelStatus';
+import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
+import { sendCancellationAlimtalk } from '@/utils/sendCancellationAlimtalk';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
 import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
@@ -62,7 +64,11 @@ export default function ProgramTable({
   const { isOpen: isCancelOpen, setIsOpen: setIsCancelOpen } = useModalOpen();
   const { isOpen: isDetailOpen, onOpen: onDetailOpen, onOpenChange: onDetailOpenChange } = useDisclosure();
 
-  const [selectedProgram, setSelectedProgram] = useState<TypeDBreservationJoinWithTimeslot | null>(null);
+  const [selectedReservation, setSelectedReservation] = useState<TypeDBreservationJoinWithTimeslot | null>(null);
+
+  console.log('selectedReservation');
+  console.log(selectedReservation);
+
   const [searchFilter, setSearchFilter] = useState('제목');
   const [searchValue, setSearchValue] = useState('');
   const supabase = createTypedSupabaseClient();
@@ -71,9 +77,6 @@ export default function ProgramTable({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [totalPage, setTotalPage] = useState(() => Math.ceil(totalCountOfRegisteredPrograms / pageSize));
-
-
-  
 
   useEffect(() => {
     (async () => {
@@ -95,7 +98,7 @@ export default function ProgramTable({
   }, [searchValue, searchFilter, currentPage]);
 
   const handleDetailOpen = (program: TypeDBreservationJoinWithTimeslot) => {
-    setSelectedProgram(program);
+    setSelectedReservation(program);
     onDetailOpen();
   };
 
@@ -105,7 +108,7 @@ export default function ProgramTable({
   };
 
   const handleConfirmClose = onClose => {
-    setSelectedProgram(null);
+    setSelectedReservation(null);
     onClose();
     onDetailOpenChange();
     setIsCancelOpen(false);
@@ -116,15 +119,12 @@ export default function ProgramTable({
       return;
     }
 
-    
-    
-
     let accountNumberRefined: string | null = null;
 
     // setIsCancelWorkInProgress(true);
     changeCancelStatus({ status: 'CANCEL_WORK_IN_PROGRESS' });
 
-    if (selectedProgram.status === '예약확정' && selectedProgram?.pay_type === '가상계좌') {
+    if (selectedReservation.status === '예약확정' && selectedReservation?.pay_type === '가상계좌') {
       refundInfos.accountNumber;
 
       let isInvalid = false;
@@ -165,7 +165,7 @@ export default function ProgramTable({
 
     //날짜 계산하기
     // 프로그램 실행 날짜와 현재 날짜 가져오기
-    const programDate = new Date(selectedProgram.time_slot_id.date);
+    const programDate = new Date(selectedReservation.time_slot_id.date);
     const today = new Date();
 
     // 날짜 차이 계산 (밀리초를 일로 변환)
@@ -192,11 +192,8 @@ export default function ProgramTable({
 
     const refundAmount =
       diffDays <= 7
-        ? selectedProgram.time_slot_id.program_id.price * selectedProgram.participants
-        : selectedProgram.time_slot_id.program_id.price * selectedProgram.participants;
-
-    
-        
+        ? selectedReservation.time_slot_id.program_id.price * selectedReservation.participants
+        : selectedReservation.time_slot_id.program_id.price * selectedReservation.participants;
 
     const tossPaymentCancelRes = await fetch('/api/cancel-payment', {
       method: 'POST',
@@ -204,7 +201,7 @@ export default function ProgramTable({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        payment_key: selectedProgram.payment_key,
+        payment_key: selectedReservation.payment_key,
         refundAmount: refundAmount,
         bankCode: refundInfos.bankCode,
         accountNumber: accountNumberRefined,
@@ -227,9 +224,9 @@ export default function ProgramTable({
 
     // @ts-ignore
     const { data: isTransactionSuccess, error: errorForSupabaseTransaction } = await supabase.rpc('cancel_reservation', {
-      reservation_id: selectedProgram.id,
-      time_slot_id: selectedProgram.time_slot_id.id,
-      participants_count: selectedProgram.participants,
+      reservation_id: selectedReservation.id,
+      time_slot_id: selectedReservation.time_slot_id.id,
+      participants_count: selectedReservation.participants,
     });
 
     if (errorForSupabaseTransaction) {
@@ -244,6 +241,64 @@ export default function ProgramTable({
 
     toast.success('프로그램 취소가 신청 완료되었습니다.');
 
+    console.log('selectedReservation.time_slot_id.program_id');
+    console.log(selectedReservation.time_slot_id.program_id.id);
+
+    debugger;
+
+    // const dataForProgram = selectedReservation.time_slot_id.program_id ;
+
+    const [
+      // { data: dataForProfile, error: errorForProfile },
+      { data: dataForTimeSlot, error: errorForTimeSlot },
+      { data: dataForProgram, error: errorForProgram },
+    ] = await Promise.all([
+      // supabase.from('profiles').select('*').eq('id', selectedReservation.user_id).single(),
+      supabase.from('timeslot').select('*').eq('id', selectedReservation.time_slot_id.id).single(),
+      supabase.from('program').select('*,instructor_id(*)').eq('id', selectedReservation.time_slot_id.program_id.id).single(),
+    ]);
+
+    // profile.data.phone;
+    // profile.data.name;
+    // selectedReservation;
+    // dataForProgram.title;
+    // dataForProgram.region;
+    // dataForProgram.instructor_id.name;
+    // dataForTimeSlot.date;
+    console.log('before sendCancellationAlimtalk');
+
+    console.log({
+      phone: profile.data.phone,
+      name: profile.data.name,
+      program: dataForProgram.title,
+      region: dataForProgram.region,
+      instructor: dataForProgram.instructor_id.name,
+      date: dataForTimeSlot.date,
+    });
+
+    await sendCancellationAlimtalk({
+      phone: profile.data.phone,
+      name: profile.data.name,
+      program: dataForProgram.title,
+      region: dataForProgram.region,
+      instructor: dataForProgram.instructor_id.name,
+      date: dataForTimeSlot.date,
+    });
+
+    // const { data: dataForProgram, error: errorForProgram } = await supabase
+    //   .from('program')
+    //   .select('*,instructor_id(*)')
+    //   .eq('id', selectedReservation.time_slot_id.program_id)
+    //   .single();
+
+    // await sendAlarmTalk({
+    //   userProfile: profile.data,
+    //   dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
+    //   instructorName: dataForProgram.instructor_id.name,
+    //   programRegion: dataForProgram.region,
+    //   programTitle: dataForProgram.title,
+    // });
+
     onClose();
     onDetailOpenChange();
 
@@ -253,7 +308,7 @@ export default function ProgramTable({
       accountNumber: null,
       accountOwnerName: null,
     });
-    setSelectedProgram(null);
+    setSelectedReservation(null);
     setIsCancelOpen(false);
 
     changeCancelStatus({ status: 'CANCEL_COMPLETED' });
@@ -373,24 +428,24 @@ export default function ProgramTable({
               <ModalBody>
                 <div className="flex flex-col items-center gap-y-4">
                   <div className="relative h-96 w-96">
-                    <Image src={selectedProgram?.time_slot_id?.program_id?.images || ''} alt="program" fill />
+                    <Image src={selectedReservation?.time_slot_id?.program_id?.images || ''} alt="program" fill />
                   </div>
                   <div className="w-full space-y-2">
                     <div className="flex w-full items-center justify-start gap-x-2">
                       <span className="w-24 text-end font-bold">프로그램명 |</span>
-                      <span>{selectedProgram?.time_slot_id?.program_id?.title}</span>
+                      <span>{selectedReservation?.time_slot_id?.program_id?.title}</span>
                     </div>
                     <div className="flex w-full items-center justify-start gap-x-2">
                       <span className="w-24 text-end font-bold">장소 |</span>
-                      <span>{selectedProgram?.time_slot_id?.program_id?.region}</span>
+                      <span>{selectedReservation?.time_slot_id?.program_id?.region}</span>
                     </div>
                     <div className="flex w-full items-center justify-start gap-x-2">
                       <span className="w-24 text-end font-bold">강사 |</span>
-                      <span>{selectedProgram?.time_slot_id?.instructor_id?.name}</span>
+                      <span>{selectedReservation?.time_slot_id?.instructor_id?.name}</span>
                     </div>
                     <div className="flex w-full items-center justify-start gap-x-2">
                       <span className="w-24 text-end font-bold">인원 |</span>
-                      <span>{selectedProgram?.participants}명</span>
+                      <span>{selectedReservation?.participants}명</span>
                     </div>
                   </div>
                 </div>
@@ -409,7 +464,7 @@ export default function ProgramTable({
                       닫기
                     </Button>
                     <Button
-                      isDisabled={selectedProgram.status === '취소완료'}
+                      isDisabled={selectedReservation.status === '취소완료'}
                       color="primary"
                       onPress={e => {
                         onOpen();
@@ -437,14 +492,12 @@ export default function ProgramTable({
                   <p>카드 ·현금 결제에 따라 환불 일시가 변경될 수 있습니다.)</p>
                   <p>예약취소 시 철회는 불가하며, 해당 프로그램을 재 예약하셔야 합니다.</p>
                 </div>
-                {selectedProgram.status === '예약확정' && selectedProgram?.pay_type === '가상계좌' && (
+                {selectedReservation.status === '예약확정' && selectedReservation?.pay_type === '가상계좌' && (
                   <>
                     <div className="font-freesentation800 pt-8 text-[18px] font-[800]">※무통장입금 환불 계좌 정보</div>
                     <div className="flex w-full gap-4">
                       <Input
                         onChange={e => {
-                          
-                          
                           setRefundInfos(prev => {
                             return {
                               ...prev,

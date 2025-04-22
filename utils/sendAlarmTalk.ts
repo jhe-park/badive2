@@ -2,7 +2,7 @@ import axios from 'axios';
 import { TypeDBprofile } from './supabase/dbTableTypes';
 import { AWS_LAMBDA_URL } from '@/constants/constants';
 
-export async function sendAlarmTalk({
+export async function sendAlarmTalkByAWSLambda({
   userProfile,
   dateStr,
   instructorName,

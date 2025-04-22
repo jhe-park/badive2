@@ -1,3 +1,4 @@
+import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { type NextRequest } from 'next/server';
 import z from 'zod';
 
