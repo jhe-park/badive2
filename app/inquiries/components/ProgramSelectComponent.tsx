@@ -38,7 +38,9 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     .filter(programObj => {
       return typeof programObj.category === 'string' ? targetLectureCategories?.includes(programObj.category) : false;
     })
-    .filter(programObj => (typeof window !== 'undefined' && window.location.hostname.includes(`localhost`) ? !programObj.title.includes('200원') : true))
+    .filter(programObj => {
+      return typeof window !== 'undefined' && window.location.hostname.includes(`badive`) ? !programObj.title.includes('200원') : true;
+    })
     .toSorted((a, b) => {
       return a.created_at < b.created_at ? 1 : -1;
     });
