@@ -268,8 +268,6 @@ export default function ProgramTable({
     console.log('selectedReservation.time_slot_id.program_id');
     console.log(selectedReservation.time_slot_id.program_id.id);
 
-    debugger;
-
     // const dataForProgram = selectedReservation.time_slot_id.program_id ;
 
     const [
@@ -300,29 +298,29 @@ export default function ProgramTable({
       date: dataForTimeSlot.date,
     });
 
-    // const response = await axios.post(
-    //   `${AWS_LAMBDA_URL}/cancel-alimtalk`,
-    //   {
-    //     phone: profile.data.phone,
-    //     name: profile.data.name,
-    //     program: dataForProgram.title,
-    //     //region: programRegion,
-    //     //instructor: instructorName,
-    //     //date: dateStr,
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       accept: 'application/json',
-    //     },
-    //   },
-    // );
+    const response = await axios.post(
+      `${AWS_LAMBDA_URL}/cancel-alimtalk`,
+      {
+        phone: profile.data.phone,
+        name: profile.data.name,
+        program: dataForProgram.title,
+        region: dataForProgram.region,
+        instructor: dataForProgram.instructor_id.name,
+        date: dataForTimeSlot.date,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      },
+    );
 
-    // console.log('response.statusText');
-    // console.log(response.statusText);
+    console.log('response.statusText');
+    console.log(response.statusText);
 
-    // console.log('response.data');
-    // console.log(response.data);
+    console.log('response.data');
+    console.log(response.data);
 
     // await sendCancellationAlimtalk({
     //   phone: profile.data.phone,

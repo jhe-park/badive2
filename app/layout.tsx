@@ -7,6 +7,7 @@ import { HeroUIProvider } from '@heroui/react';
 import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { Geist } from 'next/font/google';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'BADIVE (바다이브) - 스쿠버다이빙·프리다이빙·다이빙 투어 전문',
@@ -38,10 +39,17 @@ const geistSans = Geist({
 });
 
 export default function RootLayout({ children }) {
+  const SmartMediaLogAccountId = 'UHPT-31657';
+  const SmartMediaLogServer = 'a29';
+
   return (
     <html lang="ko" className={geistSans.className} suppressHydrationWarning>
       <head>
         <meta name="naver-site-verification" content="a80e93584636989db774ce1754a65b6ac69d0421" />
+        <Script id="smart-media-log-config" strategy="beforeInteractive">
+          {`var hpt_info={'_account':'UHPT-${SmartMediaLogAccountId}', '_server': '${SmartMediaLogServer}'};`}
+        </Script>
+        <Script id="smart-media-log" src="//cdn.smlog.co.kr/core/smart.js" strategy="afterInteractive" />
       </head>
       <body className="bg-background text-foreground">
         <ThemeProvider
