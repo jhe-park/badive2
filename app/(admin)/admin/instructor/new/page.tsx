@@ -30,14 +30,14 @@ export default function InstructorNewPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || '';
-  const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
+  // const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  // const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || '';
+  // const supabaseAdmin = createSupabaseClient(supabaseURL, supabaseKey, {
+  //   auth: {
+  //     autoRefreshToken: false,
+  //     persistSession: false,
+  //   },
+  // });
 
   const handleUploadImage = async event => {
     const file = event.target.files[0];
@@ -56,10 +56,12 @@ export default function InstructorNewPage() {
 
   const handleSave = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
       toast.error('아이디를 이메일 형태로 입력해주세요');
       return;
     }
+
     if (email !== email.toLowerCase()) {
       toast.error('이메일은 소문자로 입력해주세요');
       return;
@@ -76,16 +78,42 @@ export default function InstructorNewPage() {
       return;
     }
 
-    const { data: userData, error: profileError } = await supabaseAdmin.from('profiles').select('*').eq('email', email).single();
+    const { data: userData, error: profileError } = await supabase.from('profiles').select('*').eq('email', email).single();
 
-    if (profileError) {
-      const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-        email,
-        password: password,
-        email_confirm: true,
+    if (profileError == null) {
+      toast.error('이미 존재하는 아이디입니다. 아이디를 변경해주세요');
+      return;
+    }
+
+    try {
+      const resForCreateUser = await fetch('/api/supabase/create-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
       });
 
-      const { data: newUserProfile, error: createErrorProfile } = await supabaseAdmin
+      const createUserObj = await resForCreateUser.json();
+
+      if (createUserObj.status === 'FAILED') {
+        toast.error(createUserObj.error, { autoClose: false });
+        console.error(createUserObj.error);
+        return;
+      }
+
+      const newUser = createUserObj.data;
+
+      // const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+      //   email,
+      //   password,
+      //   email_confirm: true,
+      // });
+
+      const { data: newUserProfile, error: createErrorProfile } = await supabase
         .from('profiles')
         .update({
           email,
@@ -95,40 +123,47 @@ export default function InstructorNewPage() {
           phone,
         })
         .eq('id', newUser.user.id);
-    } else {
-      toast.error('이미 존재하는 아이디입니다. 아이디를 변경해주세요');
-      return;
-    }
 
-    const programFlags = {
-      freediving: selectedProgram.includes('freediving'),
-      mermaid: selectedProgram.includes('mermaid'),
-      underwater: selectedProgram.includes('underwater'),
-      experience: selectedProgram.includes('experience'),
-      scuba: selectedProgram.includes('scuba'),
-    };
+      if (createErrorProfile) {
+        toast.error(JSON.stringify(createErrorProfile), { autoClose: false });
+        console.error(createErrorProfile);
+        return;
+      }
 
-    const { data, error } = await supabase.from('instructor').insert({
-      email,
-      name,
-      gender,
-      birth,
-      region,
-      phone,
-      etc,
-      profile_image: imageUrl,
-      role: selectedRole,
-      certifications: certifications,
-      ...programFlags,
-    });
+      const programFlags = {
+        freediving: selectedProgram.includes('freediving'),
+        mermaid: selectedProgram.includes('mermaid'),
+        underwater: selectedProgram.includes('underwater'),
+        experience: selectedProgram.includes('experience'),
+        scuba: selectedProgram.includes('scuba'),
+      };
 
-    if (error) {
-      console.log('Error saving data:', error);
-      toast.error(error.message, { autoClose: false, style: { width: 'full' } });
-    } else {
+      const { data: dataForInstructor, error: errorForInstructor } = await supabase.from('instructor').insert({
+        email,
+        name,
+        gender,
+        birth,
+        region,
+        phone,
+        etc,
+        profile_image: imageUrl,
+        role: selectedRole,
+        certifications: certifications,
+        ...programFlags,
+      });
+
+      if (errorForInstructor) {
+        console.log('Error saving data:', errorForInstructor);
+        toast.error(errorForInstructor.message, { autoClose: false, style: { width: 'full' } });
+        return;
+      }
+
       setIsSave(true);
-      console.log('Data saved successfully:', data);
+      console.log('Data saved successfully:', dataForInstructor);
       router.push('/admin/instructor');
+    } catch (error) {
+      console.error(error);
+      toast.error(error, { autoClose: false });
     }
   };
 
