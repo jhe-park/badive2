@@ -7,7 +7,8 @@
 import { type NextRequest } from 'next/server';
 import z from 'zod';
 
-const tossSecretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
+// const tossSecretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
+const tossSecretKey = process.env.TOSSPAYMENTS_SECRET_KEY;
 
 const zodSchema = z.object({});
 
