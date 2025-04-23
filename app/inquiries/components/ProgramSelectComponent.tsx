@@ -42,7 +42,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       return typeof window !== 'undefined' && window.location.hostname.includes(`badive`) ? !programObj.title.includes('200원') : true;
     })
     .toSorted((a, b) => {
-      return a.created_at < b.created_at ? 1 : -1;
+      return a.created_at > b.created_at ? 1 : -1;
     });
 
   const [selectedProgramTitle, setSelectedProgramTitle] = useState('');
