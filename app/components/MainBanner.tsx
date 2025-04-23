@@ -165,7 +165,7 @@ const MainBanner: React.FC<{ isSafari: boolean }> = ({ isSafari }) => {
         </div>
         <video
           ref={videoRef}
-          className="h-full w-full object-fill"
+          className="aspect-video h-full w-full object-cover"
           autoPlay
           muted
           loop
