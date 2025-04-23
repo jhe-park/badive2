@@ -10,10 +10,11 @@ export default function Component() {
   const pathname = usePathname();
   console.log('pathname');
   console.log(pathname);
+
   if (pathname.includes('admin')) {
     return null;
   }
-  
+
   return (
     <footer className={cn('footer w-full bg-black py-12 text-white', pathname.startsWith('/event/') && 'hidden')}>
       {/* Logo Section */}
