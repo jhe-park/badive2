@@ -299,9 +299,7 @@ export default function ProgramTable({
       date: dataForTimeSlot.date,
     });
 
-    await sendCancelTalkByAWSLambda({
-      // userProfile: profile.data,
-
+    const resForAlimTalk = await sendCancellationAlimtalk({
       phone: profile.data.phone,
       name: profile.data.name,
       program: dataForProgram.title,
@@ -309,6 +307,20 @@ export default function ProgramTable({
       instructor: dataForProgram.instructor_id.name,
       date: dataForTimeSlot.date,
     });
+
+    console.log('resForAlimTalk');
+    console.log(resForAlimTalk);
+
+    // await sendCancelTalkByAWSLambda({
+    //   // userProfile: profile.data,
+
+    //   phone: profile.data.phone,
+    //   name: profile.data.name,
+    //   program: dataForProgram.title,
+    //   region: dataForProgram.region,
+    //   instructor: dataForProgram.instructor_id.name,
+    //   date: dataForTimeSlot.date,
+    // });
 
     // const response = await axios.post(
     //   `${AWS_LAMBDA_URL}/cancel-alimtalk`,
