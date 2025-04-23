@@ -7,6 +7,7 @@ import { checkIsSameDay } from '@/utils/checkIfSameDay';
 import { checkIsDDayMinus1 } from '@/utils/checkIsDDayMinus1';
 import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { sendCancellationAlimtalk } from '@/utils/sendCancellationAlimtalk';
+import { sendCancelTalkByAWSLambda } from '@/utils/sendCancelTalk';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
 import { handleGetProgram } from '@/utils/supabase/getRegisteredProgramsFromDB';
@@ -298,29 +299,40 @@ export default function ProgramTable({
       date: dataForTimeSlot.date,
     });
 
-    const response = await axios.post(
-      `${AWS_LAMBDA_URL}/cancel-alimtalk`,
-      {
-        phone: profile.data.phone,
-        name: profile.data.name,
-        program: dataForProgram.title,
-        region: dataForProgram.region,
-        instructor: dataForProgram.instructor_id.name,
-        date: dataForTimeSlot.date,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-        },
-      },
-    );
+    await sendCancelTalkByAWSLambda({
+      // userProfile: profile.data,
 
-    console.log('response.statusText');
-    console.log(response.statusText);
+      phone: profile.data.phone,
+      name: profile.data.name,
+      program: dataForProgram.title,
+      region: dataForProgram.region,
+      instructor: dataForProgram.instructor_id.name,
+      date: dataForTimeSlot.date,
+    });
 
-    console.log('response.data');
-    console.log(response.data);
+    // const response = await axios.post(
+    //   `${AWS_LAMBDA_URL}/cancel-alimtalk`,
+    //   {
+    //     phone: profile.data.phone,
+    //     name: profile.data.name,
+    //     program: dataForProgram.title,
+    //     region: dataForProgram.region,
+    //     instructor: dataForProgram.instructor_id.name,
+    //     date: dataForTimeSlot.date,
+    //   },
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       accept: 'application/json',
+    //     },
+    //   },
+    // );
+
+    // console.log('response.statusText');
+    // console.log(response.statusText);
+
+    // console.log('response.data');
+    // console.log(response.data);
 
     // await sendCancellationAlimtalk({
     //   phone: profile.data.phone,
