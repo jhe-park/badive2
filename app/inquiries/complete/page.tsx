@@ -143,6 +143,16 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     //   paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
     // });
 
+    console.log('program_id');
+    console.log(program_id);
+
+    const { data: dataForProgram, error: errorForProgram } = await supabase
+      .from('program')
+      .select('*')
+      .eq('id', parseInt(program_id as string))
+      .single();
+
+    // dataForProgram
     const transactionResult = await doTransactionForReservation({
       supabase,
       orderId: orderId as string,
@@ -154,6 +164,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       numOfParticipantsForCheckout: numOfParticipantsForCheckout,
       paymentMethod: tossPaymentsResJson.method,
       paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
+      programPrice: dataForProgram.price,
     });
 
     console.log('✅ transactionResult');
@@ -230,7 +241,9 @@ const doTransactionForReservation = async ({
   numOfParticipantsForCheckout,
   paymentMethod,
   paymentStatus,
+  programPrice,
 }: {
+  programPrice: number;
   supabase: SupabaseClient<Database>;
   paymentStatus: string;
   orderId: string;
@@ -255,6 +268,7 @@ const doTransactionForReservation = async ({
     p_pay_type: paymentMethod,
     p_payment_status: paymentStatus,
     p_number_of_participants_for_checkout: numOfParticipantsForCheckout,
+    p_program_price: programPrice,
   });
 
   if (error) {
