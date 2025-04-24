@@ -106,33 +106,6 @@ export default function RequestForm({ className, ...props }) {
           return;
         }
 
-        // try {
-        //   const params = {
-        //     receiver: email,
-        //     name: name,
-        //     title: "BADIVE 강사모집 신청서",
-        //     date: new Date().toISOString().split("T")[0],
-        //   };
-
-        //   const headers = {
-        //     accept: "application/json",
-        //     "content-type": "application/x-www-form-urlencoded",
-        //   };
-
-        //     const emailResponse = await axios.post(
-        //       "https://w3y4gupftygq7uozhabvapcdxm0uixuj.lambda-url.ap-northeast-2.on.aws/send-email",
-        //       null,
-        //       {
-        //         params,
-        //         headers,
-        //       }
-        //     );
-
-        // } catch (error) {
-
-        //   toast.error("이메일 전송 중 오류가 발생했습니다");
-        // }
-
         router.push(`/instructors/request/complete`);
       };
       handleRequest();

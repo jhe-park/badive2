@@ -88,7 +88,9 @@ export default function InstructorNewPage() {
       image: imageUrl,
       description: content,
     });
+
     setIsSave(true);
+
     if (error) {
       console.error('Error saving data:', error);
       return;

@@ -224,8 +224,38 @@ await supabase.rpc('cancel_reservation', {
 - tour 페이지 : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
 - tour_input : 사용하지 않는 테이블로 추정됨
 
-# supabase 타입 생성에 대하여
+## supabase 타입 생성에 대하여
 
 `npm run gen-db-type` 입력시 supabase 테이블에 기록된 각 column의 타입을 typescript 타입으로 치환하여 `utils\supabase\database.types.ts`경로에 typescript 타입을 생성해줍니다. 이 과정은 supabase CLI를 통해 이루어집니다.
 
 DB테이블에 새로운 테이블을 추가하거나, 테이블에 새로운 COLUMN을 추가하거나, COLUMN의 타입을 변경한 경우 `npm run gen-db-type`을 실행하여 타입을 업데이트하여 DB타입과 타입스크립트 타입이 동기화되도록 하는 작업이 필요합니다.
+
+## 비밀번호 변경시 이메일 전송 - Supabase 기반의 이메일 전송
+
+supabase auth는 유저 인증과 관련한 이메일 전송을 제공한다. 
+
+왼쪽 메뉴의 Authentication -> Email를 클릭하면 `Confirm signup`,
+`Invite user`등 이벤트별로 템플릿을 설정할 수 있다.
+
+본 프로젝트에서는 `Reset Password`이벤트를 사용하므로 비밀번호 변경건 관련하여 템플릿을 수정하고 싶으면 해당 항목을 수정할 것.
+
+## AWS Lambda 함수에 대하여
+
+본 프로젝트의 일부 함수는 AWS Lambda기반의 python 함수로 구현되어 있다.
+
+굳이 python함수로 로직을 구현할 필요는 없었으나 이전에 개발해두었던 로직을 재활용하는 차원에서 이전 개발자가 python으로 구현해 두었다고 한다
+
+이 함수들은 [FastAPI](https://fastapi.tiangolo.com/ko/) 기반으로 구현되어 있다.
+
+현재 주요 함수는 아래와 같다
+- smtp
+  - 이 함수는 서울 리전 (ap-northeast-2)에 구현되어 있다
+  - 이 함수는 유저가 다이빙투어 신청서를 작성했을 때 유저에게 이메일을 발송한다.
+  - 이 함수는 smtp 서버인 'smtp.naver.com'를 이용하여 이메일을 발송하므로 별도의 서비스 신청은 필요하지 않다
+  - 다만 네이버 메일 (smtp.naver.com)의 일일 발송량은 최대 20,000통이므로 20,000통을 초과하게 되면 유료 서비스를 알아보는 것이 좋다.
+  - 서울 리전에 `smtp_instructor` 함수가 존재하지만 이 함수는 사용하지 않는 함수이다
+- alimtalk
+  - 이 함수는 시드니 리전 (ap-southeast-2)에 구현되어 있다. 어째서 이 리전에 구현되어 있는지는 불명확하나 이전 개발자가 시드니 리전에 구현해 두었다. 이후 서울 리전으로 이동시켜도 문제없다. 
+  - 이 함수는 유저가 강습을 신청하거나 취소했을 때 유저에게 카카오톡으로 알림을 보낸다
+  - 카카오톡으로 알림을 보내는데는 [알리고](https://smartsms.aligo.in/)라는 서비스를 이용하며 문자 건당 8.4원이 지출된다
+  - alimtalk함수 외에도 `helloworld`, `slotAPI`, `updateSLot` 등의 함수가 구현되어 있지만 이 함수들은 사용되지 않으므로 무시해도 무방하다.

@@ -1,5 +1,6 @@
 'use client';
 import { createClient } from '@/utils/supabase/client';
+import { formatingDateRange } from '@/utils/supabase/formatingDateRange';
 import { Button, Card, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Pagination, Skeleton, useDisclosure } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -55,7 +56,6 @@ export default function TourCards() {
   return (
     <div className="mx-auto my-12 w-full p-4">
       {/* 투어 리스트 */}
-
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {loading
           ? Array.from({ length: 4 }).map((_, index) => (
@@ -77,8 +77,14 @@ export default function TourCards() {
               </Card>
             ))
           : tours.map(tour => {
-              console.log('tour.date');
-              console.log(tour.date);
+              // console.log('tour.date');
+              // console.log(tour.date);
+
+              console.log('tour.title');
+              console.log(tour.title);
+
+              console.log('tour.description');
+              console.log(tour.description);
 
               return (
                 <div key={tour.id} className="relative transform overflow-hidden rounded-lg bg-white transition-transform duration-300 hover:scale-105">
@@ -87,30 +93,45 @@ export default function TourCards() {
                       {tour.status}
                     </Chip>
                   )}
-                  {tour.isClosed || tour.current_participants === tour.max_participants ? (
-                    <div onClick={onOpen} className="cursor-pointer">
+                  {tour.status === '예약마감' || tour.isClosed || tour.current_participants === tour.max_participants ? (
+                    <div
+                      onClick={() => {
+                        debugger;
+                        onOpen();
+                      }}
+                      className="cursor-pointer"
+                    >
                       <div className="relative">
                         <img src={tour.image} alt={tour.title} className={`aspect-[4/3] w-full object-cover grayscale`} />
                       </div>
                       <div className="flex flex-col items-center justify-center gap-y-2 p-4">
                         <div className="overflow-hidden text-ellipsis text-center text-xl font-bold">{tour.title}</div>
-                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm text-gray-600">{tour.description}</div>
-                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-right text-sm text-gray-500">투어일자:{tour.date}</div>
-
+                        <div className="overflow-hidden text-ellipsis text-center text-sm text-gray-600">{tour.subtitle}</div>
+                        {/* <div className="overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm text-gray-600">{tour.subtitle}</div> */}
+                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-right text-sm text-gray-500">
+                          투어일자:{formatingDateRange(tour.date)}
+                        </div>
                         <div className="flex items-center justify-between">
                           <span className="text-2xl font-bold text-gray-500">모집종료</span>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div onClick={() => handleClick(tour)} className="cursor-pointer">
+                    <div
+                      onClick={() => {
+                        debugger;
+
+                        handleClick(tour);
+                      }}
+                      className="cursor-pointer"
+                    >
                       <div className="relative flex h-full w-full items-center justify-center">
                         <img src={tour.image} alt={tour.title} className={`aspect-[4/3] w-[80%] rounded-lg object-cover md:w-[80%]`} />
                       </div>
                       <div className="flex flex-col items-center justify-center gap-y-2 p-4">
                         <div className="overflow-hidden text-ellipsis text-center text-xl font-bold">{tour.title}</div>
                         <div className="overflow-hidden text-ellipsis text-center text-sm text-black">{tour.subtitle}</div>
-                        <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">투어일자 : {tour.date}</div>
+                        <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">투어일자 : {formatingDateRange(tour.date)}</div>
                         <div className="w-full overflow-hidden text-ellipsis text-center text-sm text-gray-500">{tour.status}</div>
 
                         <div className="flex items-center justify-between">
@@ -128,21 +149,6 @@ export default function TourCards() {
 
       {/* 페이지네이션 */}
       <div className="mt-8 flex items-center justify-center space-x-2">
-        {/* <button className="p-2 border rounded hover:bg-gray-100">
-          <ChevronsLeft className="h-4 w-4" />
-        </button>
-        <button className="p-2 border rounded hover:bg-gray-100">
-          <ChevronLeft className="h-4 w-4" />
-        </button>
-        <button className="px-3 py-1 border rounded bg-blue-500 text-white">
-          1
-        </button>
-        <button className="p-2 border rounded hover:bg-gray-100">
-          <ChevronRight className="h-4 w-4" />
-        </button>
-        <button className="p-2 border rounded hover:bg-gray-100">
-          <ChevronsRight className="h-4 w-4" />
-        </button> */}
         <Pagination isCompact showControls page={page} initialPage={1} onChange={setPage} total={total} />
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

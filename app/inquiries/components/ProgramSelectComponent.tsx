@@ -310,7 +310,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
           );
         })}
       </Select>
-
       <div className="w-full text-lg font-bold md:text-2xl">희망하는 지역</div>
       <Select
         label="지역명"

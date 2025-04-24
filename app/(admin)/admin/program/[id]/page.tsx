@@ -75,8 +75,7 @@ export default function InstructorNewPage({ params }) {
   useEffect(() => {
     getProgram();
   }, []);
-  
-  
+
   const getInstructor = async () => {
     const { data, error } = await supabase.from('instructor').select('*').eq('available', true);
     if (error) {
@@ -103,6 +102,12 @@ export default function InstructorNewPage({ params }) {
       console.error('Error uploading image:', error);
       return;
     }
+
+    console.log('data.fullPath');
+    console.log(data.fullPath);
+    console.log('data.path');
+    console.log(data.path);
+    // data.path
 
     // 업로드된 이미지의 URL 가져오기
     const {
@@ -132,7 +137,6 @@ export default function InstructorNewPage({ params }) {
     );
     onClose();
   };
-
 
   const handleSaveProgram = async () => {
     setIsSave(true);
@@ -196,8 +200,8 @@ export default function InstructorNewPage({ params }) {
     <div className="flex h-full w-full flex-col">
       <div className="flex h-full w-full flex-col items-center justify-center gap-y-6">
         <div className="relative flex aspect-square h-[50vh]">
-          <Image src={imageUrl || '/noimage/noimage.jpg'} alt="program-image" fill className="rounded-2xl"></Image>
-
+          {/* fill */}
+          <Image src={imageUrl || '/noimage/noimage.jpg'} alt="program-image" fill className="rounded-2xl object-cover"></Image>
           <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
           <LuCirclePlus
             onClick={() => document.getElementById('fileInput').click()}
