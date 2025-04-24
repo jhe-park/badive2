@@ -44,7 +44,6 @@ export const CalendarComponentForAdminAndExpert: React.FC<TProps> = ({
 
   const supabase = createTypedSupabaseClient();
 
-  // const [currentMonth, setCurrentMonth] = useState(new Date());
   const { currentMonth, setCurrentMonth } = useCurrentMonthStore();
   const { globalSelectedDate, setGlobalSelectedDate } = useSelectedDateStore();
 

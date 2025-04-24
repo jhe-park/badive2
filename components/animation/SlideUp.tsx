@@ -13,8 +13,6 @@ const SlideUp = ({ children, id = 1, className = '' }) => {
       y: 0,
       opacity: 1,
       transition: {
-        // type: "spring",
-        // bounce: 0.4,
         duration: 0.8,
         delay: id === 1 ? 0 : 0.1 * id,
       },

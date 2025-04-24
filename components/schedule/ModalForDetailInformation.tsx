@@ -103,12 +103,10 @@ export default function ModalForDetailInformation({
               <ModalHeader className=""></ModalHeader>
               <ModalBody className="overflow-y-auto">
                 <div className="overflow-x-auto">
-                  {/* border-collapse border border-gray-300 */}
                   <Table aria-label="Schedule table" shadow="none" removeWrapper className="">
                     <TableHeader>
                       <>
                         {['상품명', '이름', '지역', '생년월일', '연락처', '예약', '인원'].map((slot, index) => (
-                          // border
                           <TableColumn
                             key={index}
                             className="w-1/8 border-b-1 border-solid border-[#dcdcdc] bg-white text-center text-sm text-black md:text-lg"
