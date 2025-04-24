@@ -257,7 +257,6 @@ const doTransactionForReservation = async ({
 }): Promise<
   { success: true; message: string; updated_participants: number; is_available: boolean } | { success: false; error: string; error_detail?: string }
 > => {
-  // @ts-ignore
   const { data: transactionResult, error } = await supabase.rpc('create_reservation_transaction', {
     p_order_id: orderId,
     p_time_slot_id: slotId,
@@ -277,7 +276,7 @@ const doTransactionForReservation = async ({
 
     return { success: false, error: JSON.stringify(error) };
   }
-  return transactionResult;
+  return transactionResult as any;
 };
 
 // async function sendAlarmTalk({

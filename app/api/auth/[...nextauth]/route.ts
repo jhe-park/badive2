@@ -72,21 +72,20 @@ const handler = NextAuth({
           console.log('이미 가입된 이메일입니다:', email);
           // 이미 가입된 이메일인데 profile 테이블에 해당 row가 없음
 
-          // 참고 : https://stackoverflow.com/questions/68334303/supabase-how-to-query-users-by-email
-          const { data: userData, error } = await supabaseAdmin.rpc(
-            // @ts-ignore
-            'get_user_id_by_email',
-            {
-              email,
-            },
-          );
+          
 
+          // 참고 : https://stackoverflow.com/questions/68334303/supabase-how-to-query-users-by-email
+          const { data: userDataArr, error } = await supabaseAdmin.rpc('get_user_id_by_email', {
+            email,
+          });
+
+          const userData = userDataArr.at(0);
           if (userData == null) {
             console.error('사용자 정보 조회 실패:', error);
             return false;
           }
 
-          if ((userData as any)?.id == null) {
+          if (userData.id == null) {
             console.error('user 데이터에 id 정보가 없습니다:');
             return false;
           }
@@ -96,7 +95,7 @@ const handler = NextAuth({
 
           const { error: profileError } = await supabaseAdmin.from('profiles').upsert(
             {
-              id: (userData as User).id,
+              id: userData.id,
               email: email,
               snsRegister: true,
               role: 'client',

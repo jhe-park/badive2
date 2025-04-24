@@ -69,13 +69,13 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
 
     const isDDayMinus1 = checkIsDDayMinus1(programDate, today);
 
-    const programPrice = typeof reservation.program_price === 'number' ? reservation.program_price : reservation.time_slot_id.program_id.price;
+    // const programPrice = typeof reservation.program_price === 'number' ? reservation.program_price : reservation.time_slot_id.program_id.price;
 
     // -환불규정
     // 당일 : 전액 환불 불가
     // 교육 시작 하루 전 : 50% 환불
     // 교육 시작 이틀 전 :  100% 환불
-    const refundAmount = isDDayMinus1 ? (programPrice * reservation.participants) / 2 : programPrice * reservation.participants;
+    const refundAmount = isDDayMinus1 ? reservation.amount / 2 : reservation.amount;
 
     const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', reservation.id);
 
