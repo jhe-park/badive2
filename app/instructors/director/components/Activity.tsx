@@ -20,7 +20,7 @@ export default function Activity() {
       <div className="z-1 absolute left-0 top-0 hidden h-full w-[calc(50vw-320px)] bg-black md:block"></div>
       <div className="flex w-full flex-col items-center justify-center md:gap-y-6">
         <div className="text-2xl text-black md:text-[25px]">activity</div>
-        <div className="text-4xl font-bold text-black md:text-[40px]">강사활동</div>
+        <div className="text-4xl font-bold text-black md:text-[40px]">촬영감독활동</div>
       </div>
       {selectedItems.length === 0 ? (
         <div className="z-10 flex h-full w-[50vw] items-center justify-center text-black">

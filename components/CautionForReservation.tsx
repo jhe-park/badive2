@@ -28,7 +28,24 @@ export const CautionForReservation: React.FC = ({}) => {
         <h1 className="text-lg md:text-3xl font-bold text-start w-full">※ 환불 규정사항</h1>
 
         <div className="text-sm md:text-xl w-full h-full flex flex-col items-start justify-center gap-y-2 md:gap-y-5 border-1 border-black p-6">
+        <p>
+            -예약금은 <span className="text-[#BA181B]">교육비 전액</span>입니다. (수영장 이용료, 장비 대여료, 해양실습료 제외)
+          </p>
           <p>
+            -교육 <span className="text-[#BA181B]">당일 환불</span>
+          
+          은 불가합니다.</p>
+          <p>
+            -교육이 시작된 이후 <span className="text-[#BA181B]">잔여 교육 환불</span>은 불가합니다.
+          </p>
+          <p>
+            -교육시작일 이틀전까지는 <span className="text-[#BA181B]">취소시 100%</span> 환불
+          </p>
+          <p>
+            -교육시작일 하루전 <span className="text-[#BA181B]"> 취소시 50%</span>환불
+          </p>
+
+          {/* <p>
             -예약금은 <span className="text-[#BA181B]">교육비 전액</span>입니다. (수영장 이용료, 장비 대여비,라이센스 발급비 제외)
           </p>
           <p>
@@ -38,12 +55,12 @@ export const CautionForReservation: React.FC = ({}) => {
           <p>
             -교육이 시작된 이후 <span className="text-[#BA181B]">잔여 교육 환불</span>은 불가합니다.
           </p>
-          <p>
+          <p>  
             -교육시작일 기준 <span className="text-[#BA181B]">7일 이내 취소시 100%</span> 환불
           </p>
           <p>
             -교육시작일 기준 <span className="text-[#BA181B]">1일 이내 취소시 전액 환불 불가</span>
-          </p>
+          </p> */}
         </div>
       </div>
     </>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 import Image from 'next/image';
-import { items } from './items';
+import { partnerItems } from './items';
 import { Divider } from '@heroui/react';
 
 function IntroductionCarousel() {
@@ -27,12 +27,12 @@ function IntroductionCarousel() {
   }, []);
 
   const nextSlide = () => {
-    const newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+    const newIndex = currentIndex === partnerItems.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
 
   const prevSlide = () => {
-    const newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+    const newIndex = currentIndex === 0 ? partnerItems.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
   };
 
@@ -80,7 +80,7 @@ function IntroductionCarousel() {
             transition: 'transform 0.5s ease-in-out',
           }}
         >
-          {items.map((item, index) => (
+          {partnerItems.map((item, index) => (
             <div key={index} className="flex min-w-full flex-col gap-y-2 md:gap-x-4 md:gap-y-12 lg:flex-row">
               {/* 오른쪽 섹션 - 모바일에서는 위로 */}
               <div className="relative order-1 flex w-full items-center justify-center md:order-2 md:py-12 md:pl-0 lg:w-1/3">
@@ -169,7 +169,7 @@ function IntroductionCarousel() {
       </div>
       {/* 페이지네이션 인디케이터 */}
       <div className="z-5 my-12 flex w-[90%] items-center justify-between md:max-w-[1280px]">
-        {items.map((item, index) => (
+        {partnerItems.map((item, index) => (
           <div key={index} className="flex flex-1 flex-col items-center justify-center gap-y-4">
             <div
               className={`relative flex h-12 w-12 flex-col items-center justify-center rounded-full transition-all duration-300 md:h-24 md:w-24 ${

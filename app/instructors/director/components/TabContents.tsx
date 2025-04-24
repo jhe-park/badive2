@@ -63,8 +63,8 @@ export default function TabContents() {
         ))}
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-y-2 py-6 md:gap-y-6 md:py-12">
-        <div className="text-2xl md:text-[30px]">Instructor</div>
-        <div className="text-4xl font-bold md:text-[50px]">강사소개</div>
+        <div className="text-2xl md:text-[30px]">Director of photography</div>
+        <div className="text-4xl font-bold md:text-[50px]">수중촬영감독</div>
       </div>
       <IntroductionCarousel />
     </div>

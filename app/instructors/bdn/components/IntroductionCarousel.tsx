@@ -113,7 +113,7 @@ function IntroductionCarousel() {
                 <div className="text-center text-2xl font-bold md:text-left md:text-[45px]" style={{ pointerEvents: 'none' }}>
                   {item.left.title}
                 </div>
-                <div className="text-center text-lg md:mt-6 md:text-left md:text-[25px]" style={{ color: '#902020', pointerEvents: 'none' }}>
+                <div className="text-center text-lg md:mt-6 md:text-left md:text-[23px]" style={{ color: '#902020', pointerEvents: 'none' }}>
                   {item.left.subtitle}
                 </div>
                 <Divider className="w-[250px] bg-[#B27400]" orientation="horizontal" />
