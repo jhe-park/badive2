@@ -221,7 +221,6 @@ export type Database = {
           classWant1: string | null
           classWant2: string | null
           classWant3: string | null
-          created_at: string | null
           email: string | null
           etc: string | null
           failCount: number | null
@@ -253,7 +252,6 @@ export type Database = {
           classWant1?: string | null
           classWant2?: string | null
           classWant3?: string | null
-          created_at?: string | null
           email?: string | null
           etc?: string | null
           failCount?: number | null
@@ -285,7 +283,6 @@ export type Database = {
           classWant1?: string | null
           classWant2?: string | null
           classWant3?: string | null
-          created_at?: string | null
           email?: string | null
           etc?: string | null
           failCount?: number | null

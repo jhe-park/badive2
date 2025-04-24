@@ -43,37 +43,34 @@ export default function SearchTable() {
   const fetchMember = async searchTerm => {
     // { count: 'exact' }
 
+    // name, email phone이 필수 항목이다
     let query = supabase
       .from('profiles')
       .select('*', { count: 'exact' })
       .range((page - 1) * pageSize, page * pageSize - 1)
-      // .in('role', [ 'client', null])
       .or('role.eq.client,role.is.null') // OR 조건으로 role='client' 또는 role IS NULL
-      .eq('bye', false);
-    // .not('role', 'eq', 'master')
-    // .not('role', 'eq', 'expert')
-    // .neq('role', 'master')
-    // .neq('role', 'expert')
+      .not('name', 'is', null)
+      .not('name', 'eq', '')
+      .not('phone', 'is', null)
+      .not('phone', 'eq', '')
+      .not('email', 'is', null)
+      .not('email', 'eq', '')
+      .eq('bye', false)
+      .order('created_at', { ascending: true });
 
-    // .eq('role', 'client')
+    const { data: dataForProfile, error: errorForProfile, count: countForProfile } = await query;
 
-    // if (typeof searchTerm === 'string' && searchTerm.trim().length > 0) {
-    //   query = query.ilike(selectedSort, `%${searchTerm.trim()}%`);
-    // }
-
-    const { data, error, count } = await query;
-
-    if (error) {
-      console.log('Error fetching instructor:', error);
+    if (errorForProfile) {
+      console.log('Error fetching instructor:', errorForProfile);
     } else {
-      setNoMember(count);
-      const numberedData = data.map((item, index) => ({
+      setNoMember(countForProfile);
+      const numberedData = dataForProfile.map((item, index) => ({
         ...item,
         no: (page - 1) * pageSize + index + 1,
       }));
 
       // member의 id 리스트 생성
-      const memberIds = data.map(member => member.id);
+      const memberIds = dataForProfile.map(member => member.id);
 
       // reservation 테이블에서 해당 member들의 예약 정보 조회
       const { data: reservationData, error: reservationError } = await supabase.from('reservation').select('*').in('user_id', memberIds);
@@ -96,12 +93,13 @@ export default function SearchTable() {
           ...profile,
           payment: userTotalAmounts[profile.id] || 0,
         }));
+        // .filter(profile => profile.phone.trim() !== '');
 
         setMember(dataWithPayments);
         setReservations(reservationData);
       }
 
-      setTotal(Math.ceil(count / pageSize));
+      setTotal(Math.ceil(countForProfile / pageSize));
       setIsLoading(false);
     }
   };
