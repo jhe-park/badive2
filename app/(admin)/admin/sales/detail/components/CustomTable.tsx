@@ -87,7 +87,6 @@ const CustomTable = ({ tourInput, setTourInput, selectedMonth, reservation }) =>
     fetchTourInput();
   }, [selectedMonth]);
 
-  console.log('selectedMonth', selectedMonth);
   return (
     <div className="container mx-auto overflow-x-auto whitespace-nowrap">
       <table className="w-full rounded-2xl border border-gray-300 text-left">

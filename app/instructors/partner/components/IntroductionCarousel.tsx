@@ -65,11 +65,6 @@ function IntroductionCarousel() {
     isDraggingRef.current = false;
   };
 
-  // const handleButtonClick = (e, callback) => {
-  //   e.stopPropagation();
-  //   callback();
-  // };
-
   return (
     <>
       <div className="relative h-full w-[90vw] overflow-hidden md:h-full md:max-w-[1280px]">

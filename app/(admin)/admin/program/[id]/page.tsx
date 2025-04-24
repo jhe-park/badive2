@@ -103,22 +103,11 @@ export default function InstructorNewPage({ params }) {
       return;
     }
 
-    console.log('data.fullPath');
-    console.log(data.fullPath);
-    console.log('data.path');
-    console.log(data.path);
-    // data.path
-
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
       // error: urlError,
     } = supabase.storage.from('program').getPublicUrl(data.path);
-
-    // if (urlError) {
-    //   console.error("Error getting public URL:", urlError);
-    //   return;
-    // }
 
     // 이미지 URL 설정
     setImageUrl(publicUrl);

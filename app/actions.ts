@@ -41,8 +41,6 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
     password,
   });
 
-  console.log('error', error);
-
   if (error?.code === 'invalid_credentials') {
     const errorMessage = encodeURIComponent('이메일 또는 비밀번호가 일치하지 않습니다.');
     if (origin === '/expert/login') {
@@ -56,10 +54,6 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
 
   // invalid_credentials외에 다른 에러 발생시 FAIL COUNT를 증가시킨다
   if (error) {
-    // const newFailCount = (profile?.failCount || 0) + 1;
-
-    // const response = await supabase.from('profiles').update({ failCount: newFailCount }).eq('email', email).select();
-    // console.log('response', response);
     const params = new URLSearchParams({
       error: error.message,
       email: email,
@@ -67,13 +61,6 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
     return encodedRedirect('error', '/login', params.toString());
   }
 
-  // const response = await supabase.from('profiles').update({ failCount: 0 }).eq('email', email).select();
-
-  // 로그인 성공시 FAIL COUNT를 0으로 초기화한다
-  // supabase.from('profiles').update({ failCount: 0 }).eq('email', email).select();
-
-
-  
   if (returnUrl) {
     return redirect(returnUrl);
   }

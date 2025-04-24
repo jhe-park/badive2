@@ -119,28 +119,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
         toast.success('프로그램 취소가 신청 완료되었습니다.');
       }
 
-      // 토스페이먼츠 결제 취소 요청
-      // const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
-
-      // const encryptedSecretKey = 'Basic ' + Buffer.from(secretKey + ':').toString('base64');
-      // const url = `https://api.tosspayments.com/v1/payments/${program.payment_key}/cancel`;
-      // const paymentResponse = await fetch(url, {
-      //   method: 'POST',
-      //   headers: {
-      //     Authorization: encryptedSecretKey,
-      //     'Content-Type': 'application/json',
-      //   },
-
-      //   body: JSON.stringify({
-      //     cancelReason: '사용자 예약 취소',
-      //     cancelAmount: refundAmount,
-      //   }),
-      // });
-
-      // if (!paymentResponse.ok) {
-      //   console.log('결제 취소 실패:', paymentResponse);
-      // }
-
       getReservation();
     }
   };

@@ -75,11 +75,6 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
     onDetailOpen();
   };
 
-  // const handleDetailClose = () => {
-  //   setSelectedTour(null);
-  //   onDetailOpenChange();
-  // };
-
   const handleConfirmClose = onClose => {
     setSelectedTour(null);
     onClose();

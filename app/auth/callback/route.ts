@@ -6,20 +6,10 @@ export async function GET(request: Request) {
   // by the SSR package. It exchanges an auth code for the user's session.
   // https://supabase.com/docs/guides/auth/server-side/nextjs
 
-  console.log('✅in  app\auth\callback\route.ts');
-
   const requestUrl = new URL(request.url);
-
-  console.log('requestUrl.searchParams');
-  console.log(requestUrl.searchParams);
 
   const code = requestUrl.searchParams.get('code');
   const origin = requestUrl.origin;
-
-  // console.log();
-
-  console.log('origin');
-  console.log(origin);
 
   const redirectTo = requestUrl.searchParams.get('redirect_to')?.toString();
   const returnUrl = requestUrl.searchParams.get('returnUrl')?.toString();
@@ -33,26 +23,14 @@ export async function GET(request: Request) {
       data: { session },
     } = await supabase.auth.getSession();
 
-    // console.log('session');
-    // console.log(session);
-
-    console.log('session.user');
-    console.log(session.user);
-
     if (session) {
       const userId = session.user.id;
       const userEmail = session.user.email;
 
-      console.log('로그인 사용자 정보:', { userId, userEmail });
-
       // profiles 테이블에서 해당 사용자 정보 확인
       const { data: profileData, error: profileError } = await supabase.from('profiles').select('*').eq('id', userId).single();
 
-      console.log('프로필 조회 결과:', { profileData, profileError });
-
       if (profileError && profileError.code === 'PGRST116') {
-        // 사용자 정보가 없는 경우 새로 생성
-        console.log('새 프로필 생성 시도');
         const { data: insertData, error: insertError } = await supabase.from('profiles').insert([
           {
             id: userId,
@@ -61,8 +39,6 @@ export async function GET(request: Request) {
             updated_at: new Date().toISOString(),
           },
         ]);
-
-        console.log('프로필 생성 결과:', { insertData, insertError });
 
         if (insertError) {
           console.error('프로필 생성 에러:', insertError.message);
@@ -81,8 +57,6 @@ export async function GET(request: Request) {
           })
           .eq('id', userId);
 
-        console.log('프로필 업데이트 결과:', { updateData, updateError });
-
         if (updateError) {
           console.error('프로필 업데이트 에러:', updateError.message);
         }
@@ -95,13 +69,6 @@ export async function GET(request: Request) {
       }
     }
   }
-
-  console.log('returnUrl');
-  console.log(returnUrl);
-
-  // if (typeof returnUrl === 'string' && returnUrl.length > 0) {
-  //   return NextResponse.redirect(returnUrl);
-  // }
 
   if (redirectTo) {
     const targetUrl = typeof returnUrl === 'string' ? `${origin}${redirectTo}?returnUrl=${returnUrl}` : `${origin}${redirectTo}`;

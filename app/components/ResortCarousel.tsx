@@ -169,8 +169,6 @@ const MultiImageCarousel = () => {
     touchEndRef.current = null;
   };
 
-  console.log('resortData:', resortData);
-
   return (
     <div className="relative w-full" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
       <div className="absolute -top-0 right-3 hidden gap-2 md:-top-16 md:right-0 md:flex">

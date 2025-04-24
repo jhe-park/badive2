@@ -86,9 +86,6 @@ export default function TableData() {
   useEffect(() => {
     getReservation();
   }, [selectedMonth, selectedProgram, selectedInstructor, expertInformation]);
-  console.log('selectedInstructor:', selectedInstructor);
-  console.log('reservation:', reservation);
-  console.log('selectedProgram:', selectedProgram);
 
   const getInstructors = async () => {
     const { data, error } = await supabase.from('instructor').select('*').eq('available', true);

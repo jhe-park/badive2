@@ -32,7 +32,6 @@ export default function ChartComplete() {
   const { expertInformation } = useExpertStore();
   const programList = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터', '체험다이빙'];
   const supabase = createClient();
-  console.log('expertInformation:', expertInformation);
   const getReservations = async () => {
     const startDate = new Date(parseInt(startYear), parseInt(startMonth) - 1, 1).toISOString();
     const endDate = new Date(parseInt(endYear), parseInt(endMonth), 0, 23, 59, 59, 999).toISOString();
@@ -98,55 +97,7 @@ export default function ChartComplete() {
   useEffect(() => {
     getReservations();
   }, [startYear, startMonth, endYear, endMonth, expertInformation]);
-  console.log('reservations:', reservations);
-  console.log('detailSales:', detailSales);
-  console.log('monthlySales:', monthlySales);
 
-  const getTourInput = async () => {
-    let totalAmount = 0;
-    let currentDate = new Date(parseInt(startYear), parseInt(startMonth) - 1);
-    const endDateObj = new Date(parseInt(endYear), parseInt(endMonth) - 1);
-
-    while (currentDate <= endDateObj) {
-      const yearMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-
-      const { data, error } = await supabase.from('tour_input').select('amount').eq('date', yearMonth).single();
-
-      if (error) {
-        console.log(`Error fetching tour input for ${yearMonth}:`, error);
-      } else if (data) {
-        totalAmount += data.amount || 0;
-
-        // monthlySales의 해당 월의 sales 값에 tour_input의 amount 값을 더하기
-        setMonthlySales(prevMonthlySales =>
-          prevMonthlySales.map(monthlySale =>
-            monthlySale.name === yearMonth ? { ...monthlySale, sales: monthlySale.sales + (data.amount || 0) } : monthlySale,
-          ),
-        );
-      }
-
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    }
-
-    setTourInput(totalAmount);
-    setDetailSales(prevDetailSales => {
-      const existingKeys = new Set(prevDetailSales.map(item => item.key));
-      let uniqueKey = '다이빙투어';
-      let counter = 1;
-
-      // 고유한 키 생성
-      while (existingKeys.has(uniqueKey)) {
-        uniqueKey = `다이빙투어_${counter}`;
-        counter++;
-      }
-
-      return [...prevDetailSales, { key: uniqueKey, name: '다이빙투어', sales: totalAmount }];
-    });
-  };
-  // useEffect(() => {
-  //   getTourInput();
-  // }, [startYear, startMonth, endYear, endMonth]);
-  console.log('tourInput:', tourInput);
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <div className="flex w-full flex-col gap-4 md:flex-row">

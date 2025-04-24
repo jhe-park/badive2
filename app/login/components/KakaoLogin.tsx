@@ -13,8 +13,6 @@ const KakaoLoginComponent = ({ domainWithProtocol, returnUrl }: { domainWithProt
   const handleKakaoLogin = async () => {
     setLoginStatus('LOGIN_WORK_IN_PROGRESS');
     try {
-      // const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
-
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'kakao',
         options: {

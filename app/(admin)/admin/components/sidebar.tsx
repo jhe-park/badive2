@@ -4,12 +4,6 @@ import { Accordion, AccordionItem, cn, Listbox, ListboxItem, ListboxSection, Too
 import { Icon } from '@iconify/react';
 import React from 'react';
 
-// export let SidebarItemType = /*#__PURE__*/ (function (SidebarItemType) {
-//   SidebarItemType['Nest'] = 'nest';
-
-//   return SidebarItemType;
-// })({});
-
 export enum SidebarItemType {
   Nest = 'nest',
 }

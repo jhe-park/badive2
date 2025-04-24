@@ -12,12 +12,3 @@ const useSelectedImageUrl = create<SelectedImageUrlState>(set => ({
 }));
 
 export default useSelectedImageUrl;
-
-// import { create } from "zustand"
-
-// const useSelectedImageUrl = create((set) => ({
-//   selectedImageUrl: "",
-//   setSelectedImageUrl: (selectedImageUrl) => set({ selectedImageUrl }),
-// }))
-
-// export default useSelectedImageUrl

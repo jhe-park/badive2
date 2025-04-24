@@ -9,7 +9,7 @@ export default function TabContents() {
   const { instructor, setInstructor } = useInstructor();
   const router = useRouter();
   const pathname = usePathname();
-  console.log('params:', pathname);
+
   const tabs = [
     { id: 0, label: 'BADIVE 강사', path: '/instructors/bdn' },
     { id: 1, label: 'BADIVE 수중촬영감독', path: '/instructors/director' },

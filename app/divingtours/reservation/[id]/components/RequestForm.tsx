@@ -28,7 +28,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
   const router = useRouter();
   const supabase = createClient();
 
-  const formRef = React.useRef(null);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [gender, setGender] = useState('male');
@@ -38,14 +37,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
   const [callTime, setCallTime] = useState('');
   const [email, setEmail] = useState('');
   const [agree, setAgree] = useState(false);
-
-  const inputProps = {
-    labelPlacement: 'outside',
-    classNames: {
-      label: 'text-small font-medium text-default-700 group-data-[filled-within=true]:text-default-700',
-    },
-  };
-  console.log('user22:', user);
 
   const handleSubmit = () => {
     if (name === '') {
@@ -141,7 +132,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           return;
         }
 
-        console.log('신청완료');
         router.push(`/divingtours/reservation/complete`);
       };
       handleRequest();

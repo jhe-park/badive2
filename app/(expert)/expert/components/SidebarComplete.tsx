@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
+import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { Button, cn, ScrollShadow, Spacer } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { signOut } from 'next-auth/react';
@@ -36,14 +36,12 @@ export default function Component({ children, user }) {
 
   const handleSignOut = async () => {
     supabase.auth.signOut();
-    // 클라이언트 측에서 signOut 호출
     await signOut();
     router.push('/expert/login');
   };
 
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession();
-    console.log('data:', data);
     if (data) {
       const { data: instructorData, error: instructorError } = await supabase.from('instructor').select('*').eq('email', data?.session?.user?.email).single();
       setExpertInformation(instructorData);

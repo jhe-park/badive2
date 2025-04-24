@@ -14,11 +14,7 @@ const zodSchema = z.object({
   transactionKey: z.string(),
 });
 
-export async function GET(request: NextRequest) {
-  console.log('✅in (get)toss/despoit-callback');
-}
 export async function POST(request: NextRequest) {
-  console.log('✅ in (post)toss/despoit-callback');
   // 아래 튜토리얼을 참조할 것
   // @doc https://docs.tosspayments.com/blog/virtual-account-webhook
   //  응답 포멧은 아래와 같다
@@ -48,21 +44,6 @@ export async function POST(request: NextRequest) {
 
   const { createdAt, orderId, secret, status, transactionKey } = parsedResult.data;
 
-  console.log('✅createdAt');
-  console.log(createdAt);
-
-  console.log('✅ orderId');
-  console.log(orderId);
-
-  console.log('✅ secret');
-  console.log(secret);
-
-  console.log('✅ status');
-  console.log(status);
-
-  console.log('✅ transactionKey');
-  console.log(transactionKey);
-
   if (status !== 'DONE') {
     console.error('입금완료 상태가 아닙니다');
     console.error('status', status);
@@ -72,22 +53,13 @@ export async function POST(request: NextRequest) {
   }
 
   // 입금완료 상태가 되었다면 DB의 값을 수정한다
-
   const supabaseClient = await createClient();
 
   // payment_key
   // const { data, error } = await supabaseClient.from('reservation').select('*').eq('payment_key', transactionKey);
   const { data: dataForReservation, error } = await supabaseClient.from('reservation').update({ status: '예약확정' }).eq('order_id', orderId).select().single();
 
-  console.log('✅ data');
-  console.log(dataForReservation);
-
-  console.log('✅ error');
-  console.log(error);
-
   if (error == null) {
-    console.log('✅ 성공적으로 업데이트 되었습니다');
-
     await sendAlarmTalkWrapper({
       supabaseClient,
       dataForReservation,
@@ -120,36 +92,11 @@ async function sendAlarmTalkWrapper({
     supabaseClient.from('timeslot').select('*,instructor_id(*)').eq('id', dataForReservation.time_slot_id).single(),
   ]);
 
-  console.log('dataForProfile');
-  console.log(dataForProfile);
-
-  console.log('errorForProfile');
-  console.log(errorForProfile);
-
   const { data: dataForProgram, error: errorForProgram } = await supabaseClient
     .from('program')
     .select('*,instructor_id(*)')
     .eq('id', dataForTimeSlot.program_id)
     .single();
-
-  console.log('dataForProgram');
-  console.log(dataForProgram);
-
-  console.log('errorForProgram');
-  console.log(errorForProgram);
-
-  // dataForReservation.time_slot_id;
-  // dataForReservation.user_id;
-  // dataForReservation;
-
-  console.log('sendAlarmTalkByAWSLambda arguments');
-  console.log({
-    userProfile: dataForProfile,
-    dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
-    instructorName: dataForProgram.instructor_id.name,
-    programRegion: dataForProgram.region,
-    programTitle: dataForProgram.title,
-  });
 
   await sendAlarmTalkByAWSLambda({
     userProfile: dataForProfile,
@@ -159,27 +106,3 @@ async function sendAlarmTalkWrapper({
     programTitle: dataForProgram.title,
   });
 }
-
-// -- FOR BACKUP --
-// const [{ data: dataForProfile, error: errorForProfile }, { data: dataForTimeSlot, error: errorForTimeSlot }] = await Promise.all([
-//   supabaseClient.from('profiles').select('*').eq('id', dataForReservation.user_id).single(),
-//   supabaseClient.from('timeslot').select('*,instructor_id(*)').eq('id', dataForReservation.time_slot_id).single(),
-// ]);
-
-// const { data: dataForProgram, error: errorForProgram } = await supabaseClient
-//   .from('program')
-//   .select('*,instructor_id(*)')
-//   .eq('id', dataForTimeSlot.program_id)
-//   .single();
-
-// // dataForReservation.time_slot_id;
-// // dataForReservation.user_id;
-// // dataForReservation;
-
-// await sendAlarmTalk({
-//   userProfile: dataForProfile,
-//   dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
-//   instructorName: dataForProgram.instructor_id.name,
-//   programRegion: dataForProgram.region,
-//   programTitle: dataForProgram.title,
-// });

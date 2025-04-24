@@ -7,15 +7,9 @@ import ProgramTable from './components/ProgramTable';
 import TourTable from './components/TourTable';
 
 export default function MemberNewPage({ params }) {
-  // const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  // const [selectedRole, setSelectedRole] = useState('bdn');
-  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
   const [imageUrl, setImageUrl] = useState('');
-  // const [certifications, setCertifications] = useState([]);
-  // const [certification, setCertification] = useState('');
   const [member, setMember] = useState(null);
-  // const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -24,15 +18,12 @@ export default function MemberNewPage({ params }) {
   const [gender, setGender] = useState('');
   const [region, setRegion] = useState('');
   const [phone, setPhone] = useState('');
-  // const [payment, setPayment] = useState(0);
   const [totalAmount, setTotalAmount] = useState('0');
   const [etc, setEtc] = useState('');
-  // const [isSave, setIsSave] = useState(false);
   const { id } = use<RouteParams>(params);
 
   const fetchMember = async () => {
     const { data, error } = await supabase.from('profiles').select('*').eq('id', id).single();
-    console.log('data:', data);
     if (error) {
       console.log('Error fetching member:', error);
     } else {
@@ -52,52 +43,9 @@ export default function MemberNewPage({ params }) {
     }
   };
 
-  // const fetchReservation = async () => {
-  //   const { data, error } = await supabase
-  //     .from("reservation")
-  //     .select("*")
-  //     .eq("user_id", member?.id);
-
-  //   if (error) {
-  //     console.log("Error fetching reservation:", error);
-  //   } else {
-  //     console.log("Reservation fetched successfully:", data);
-  //     setReservation(data);
-  //   }
-  // };
-
-  // const handleSave = async () => {
-  //   const { data, error } = await supabase.from('profiles').update({ etc }).eq('id', member?.id);
-  //   setIsSave(true);
-  //   if (error) {
-  //     console.log('Error saving etc:', error);
-  //   } else {
-  //     console.log('Etc saved successfully:', data);
-  //     router.push('/admin/member');
-  //   }
-  // };
-
   useEffect(() => {
     fetchMember();
   }, []);
-
-  // const handleUploadImage = async event => {
-  //   const file = event.target.files[0];
-  //   if (!file) return;
-
-  //   const sanitizedFileName = file.name.replace(/[^\w.-]/g, '');
-  //   const { data, error } = await supabase.storage.from('instructor').upload(`instructor-profile/${uuidv4()}-${sanitizedFileName}`, file);
-  //   console.log('data:', data);
-
-  //   if (error) {
-  //     console.log('Error uploading file:', error);
-  //   } else {
-  //     console.log('File uploaded successfully:', data);
-  //     setImageUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`);
-  //   }
-  // };
-
-  console.log('region:', region);
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-y-6 p-4">
@@ -143,19 +91,6 @@ export default function MemberNewPage({ params }) {
             <ProgramTable member={member} totalAmount={totalAmount} setTotalAmount={setTotalAmount}></ProgramTable>
             <TourTable member={member}></TourTable>
           </div>
-          {/* <div className="flex flex-col justify-center items-center w-full">
-            <Textarea
-              value={etc || ""}
-              onChange={(e) => setEtc(e.target.value)}
-              label="비고"
-              placeholder="비고를 입력해주세요"
-            />
-            <div className="flex justify-end items-center gap-y-6 mt-6 w-full mb-12">
-              <Button isLoading={isSave} color="primary" onPress={handleSave}>
-                저장
-              </Button>
-            </div>
-          </div> */}
         </>
       )}
     </div>

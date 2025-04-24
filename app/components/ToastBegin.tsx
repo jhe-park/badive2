@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 const ToastBegin = () => {
   useEffect(() => {
     const message = new URLSearchParams(window.location.search).get('message');
-    console.log('message', message);
     if (message?.includes('success')) {
       toast.success('로그인에 성공하였습니다.');
     }

@@ -14,17 +14,6 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
   const { orderId, instructor_id, time_slot_id, user_id, participants, paymentKey, amount, pay_type, program_id } = await searchParams;
   const { domainWithProtocol } = await getDomain();
 
-  console.log('받은 파라미터들:', {
-    orderId,
-    time_slot_id,
-    user_id,
-    participants,
-    paymentKey,
-    amount,
-    instructor_id,
-    program_id,
-  });
-
   const numOfParticipantsForCheckout = parseInt(participants as string);
 
   if (isNaN(numOfParticipantsForCheckout)) {
@@ -32,11 +21,6 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
   }
 
   try {
-    // const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
-
-    // console.log('baseUrl');
-    // console.log(baseUrl);
-
     const tossPaymentResponse = await fetch(`${domainWithProtocol}/api/payment`, {
       method: 'POST',
       headers: {
@@ -49,18 +33,12 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       }),
     });
 
-    console.log('✅ tossPaymentResponse');
-    console.log(tossPaymentResponse);
-
     if (!tossPaymentResponse.ok) {
       const errorData = await tossPaymentResponse.json();
       redirect(`/inquiries/fail?code=${errorData.code}&message=${errorData.message}`);
     }
 
     const tossPaymentsResJson = await tossPaymentResponse.json();
-
-    console.log('✅paymentData');
-    console.log(tossPaymentsResJson);
 
     const supabase = await createClient();
 
@@ -75,17 +53,12 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       .eq('order_id', orderId as string)
       .single();
 
-    console.log('✅ existingReservation');
-    console.log(existingReservation);
-
     if (existingReservation) {
       redirect(`/inquiries/fail?code=${-1}&message=${'이미 예약이 존재합니다. 관리자에게 문의해 주세요'}`);
     }
 
     // time_slot 테이블 업데이트
     const timeSlotIds: string[] = Array.isArray(time_slot_id) ? time_slot_id : time_slot_id.split(',');
-    console.log('✅timeSlotIds');
-    console.log(timeSlotIds);
 
     if (timeSlotIds.length === 0) {
       redirect(`/inquiries/fail?code=${-1}&message=${'예약에 할당된 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
@@ -97,26 +70,13 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
 
     const slotId = timeSlotIds.at(0)!;
 
-    console.log('✅slotId');
-    console.log(slotId);
-
     const { data: timeSlot } = await supabase.from('timeslot').select('*').eq('id', parseInt(slotId)).single();
-
-    console.log('✅timeSlot');
-    console.log(timeSlot);
-
-    // console.log('timeSlot', timeSlot);
 
     if (!timeSlot) {
       redirect(`/inquiries/fail?code=${-1}&message=${'해당 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
     }
 
-    console.log('슬롯잇음');
-
     const updatedCurrentParticipants = timeSlot.current_participants + numOfParticipantsForCheckout;
-
-    console.log('✅newParticipants');
-    console.log(updatedCurrentParticipants);
 
     if (updatedCurrentParticipants > timeSlot.max_participants) {
       const searchParams = new URLSearchParams({
@@ -127,24 +87,6 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     }
 
     const isFullyBooked = updatedCurrentParticipants === timeSlot.max_participants;
-
-    // console.log({
-    //   updatedCurrentParticipants: updatedCurrentParticipants,
-    //   isFullyBooked,
-    //   orderId: orderId as string,
-    //   participants: numOfParticipantsForCheckout,
-    //   slotId: parseInt(slotId),
-    //   user_id: user_id as string,
-    //   timeSlot,
-    //   paymentKey: paymentKey as string,
-    //   instructor_id: parseInt(instructor_id as string),
-    //   amount: parseInt(amount as string),
-    //   paymentMethod: tossPaymentsResJson.method,
-    //   paymentStatus: tossPaymentsResJson.method === '가상계좌' ? '입금대기' : '예약확정',
-    // });
-
-    console.log('program_id');
-    console.log(program_id);
 
     const { data: dataForProgram, error: errorForProgram } = await supabase
       .from('program')
@@ -167,16 +109,11 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       programPrice: dataForProgram.price,
     });
 
-    console.log('✅ transactionResult');
-    console.log(transactionResult);
-
     if (transactionResult.success === false) {
-      console.log('✅ transactionResult 에러발생');
       const searchParams = new URLSearchParams({
         code: '-1',
         message: `${JSON.stringify(transactionResult.error)} / ${JSON.stringify(transactionResult?.error_detail ?? '')}`,
       });
-      console.log(searchParams.toString());
       redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
@@ -278,45 +215,5 @@ const doTransactionForReservation = async ({
   }
   return transactionResult as any;
 };
-
-// async function sendAlarmTalk({
-//   userProfile,
-//   dateStr,
-//   instructorName,
-//   programRegion,
-//   programTitle,
-// }: {
-//   dateStr: string;
-//   programTitle: string;
-//   programRegion: string;
-//   instructorName: string;
-//   userProfile: TypeDBprofile;
-// }) {
-//   try {
-//     const response = await axios.post(
-//       'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws/send-alimtalk',
-//       {
-//         phone: userProfile.phone,
-//         name: userProfile.name,
-//         program: programTitle,
-//         region: programRegion,
-//         instructor: instructorName,
-//         date: dateStr,
-//       },
-//       {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           accept: 'application/json',
-//         },
-//       },
-//     );
-
-//     console.log('✅ 알림톡 전송 성공:', response.data);
-//     return response;
-//   } catch (error) {
-//     console.error('🚫 알림톡 전송 실패:');
-//     console.error(error);
-//   }
-// }
 
 export default PageForPaymentComplete;

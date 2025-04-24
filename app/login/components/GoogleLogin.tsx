@@ -5,22 +5,12 @@ import useLoginStatusStore from '@/app/store/useLoginStatusStore';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 
 const GoogleLoginComponent = ({ returnUrl, domainWithProtocol }: { domainWithProtocol: string; returnUrl: string }) => {
-  // const router = useRouter();
   const { loginStatus, setLoginStatus } = useLoginStatusStore();
   const supabase = createTypedSupabaseClient();
-  // const pathName = usePathname();
 
   const handleGoogleLogin = async () => {
     setLoginStatus('LOGIN_WORK_IN_PROGRESS');
     try {
-      // const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.badive.co.kr';
-
-      // console.log('✅ baseUrl');
-      // console.log(baseUrl);
-
-      console.log('domainWithProtocol');
-      console.log(domainWithProtocol);
-
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {

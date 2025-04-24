@@ -8,35 +8,24 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function LoginPage({ returnUrl }: { returnUrl: string }) {
-  console.log('in NaverLogin component');
-
   const [isOAuthWorkInProgress, setIsOAuthWorkInProgress] = useState<boolean>(false);
   const { loginStatus, setLoginStatus } = useLoginStatusStore();
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log('loginStatus');
-  console.log(loginStatus);
-
   useEffect(() => {
-    console.log('in NaverLogin useEffect');
     const fetchData = async () => {
       if (session?.user?.email == null) {
         return;
       }
 
       setIsOAuthWorkInProgress(true);
-      // if (session?.user?.email) {
       try {
-        console.log('before fetch');
-
         const res = await fetch('/api/auth/supabase-login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: session.user.email }),
         });
-
-        console.log('after fetch');
 
         if (!res.ok) {
           setIsOAuthWorkInProgress(false);
@@ -49,9 +38,6 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
         }
 
         const data = await res.json();
-        console.log('응답 데이터:', data);
-        console.log('data.redirect');
-        console.log(data.redirect);
 
         router.push(data.redirect);
       } catch (error) {
@@ -63,12 +49,6 @@ export default function LoginPage({ returnUrl }: { returnUrl: string }) {
 
     fetchData();
   }, [session]);
-
-  console.log('session');
-  console.log(session);
-
-  console.log('✅isOAuthWorkInProgress');
-  console.log(isOAuthWorkInProgress);
 
   return (
     <>

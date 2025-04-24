@@ -69,8 +69,6 @@ type TProps = {
   user: User;
 };
 
-// type LECTURE_CATEGORY_TYPE_REFINED = (typeof LECTURE_CATEGORY)[number] | '언더워터';
-
 export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, instructorMyself, instructors, profiles, everyPrograms }) => {
   const { calendarFetchStatus, setCalendarFetch } = useCalenderFetchStatusStore();
   const { currentMonth, setCurrentMonth } = useCurrentMonthStore();
@@ -87,7 +85,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
   const [selectedInstructorProfile, setSelectedInstructorProfile] = useState<TypeDBprofile | undefined>(profilesForLoginUser ?? undefined);
   const [selectedHHMM, setSelectedHHMM] = useState<string | undefined>();
 
-  // const [globalSelectedDate, setGlobalSelectedDate] = useState<Date | undefined>();
   const { globalSelectedDate, setGlobalSelectedDate } = useSelectedDateStore();
 
   const [timeSlots, setTimeSlots] = useState<TFetchedTimeSlot[]>([]);
@@ -126,7 +123,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         .select('*')
         .in('time_slot_id', [...timeSlotIds])
         .in('status', ['예약확정', '입금대기']);
-      // .eq('status', '예약확정');
 
       const { data: studentProfiles, error: errorForProfiles } = await supabase
         .from('profiles')
@@ -203,7 +199,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         break;
 
       case '언더워터 댄스':
-        // case '언더워터':
         filteredPrograms = everyPrograms.filter(program => {
           const isValidCategory = program?.category === selectedLectureCategory || program?.category === '언더워터';
           const isValidInstructor = program?.instructor_id === selectedInstructor.id;
@@ -270,8 +265,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
     );
 
     const { count, error, timeSlots: timeSlotsNew } = await getTimeSlots({ supabase, date: globalSelectedDate, instructor: selectedInstructor });
-
-    // setEveryTimeSlotsForDelete(timeSlotsNew);
 
     const filteredTimeSlots = getFilteredTimeSlots({
       programs: everyPrograms,
@@ -420,24 +413,6 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
 
   const TimeSlotPMComponents = TimeSlotComponent({ times: TIME_PM });
 
-  // const deleteEveryTimeslot = async () => {
-  //   try {
-  //     for await (const date of DATE_FOR_AVAILABLE_FALSE) {
-  //       await supabase
-  //         .from('timeslot')
-  //         // .delete()
-  //         .update({
-  //           available: false,
-  //         })
-  //         .eq('date', date)
-  //         .eq('available', true)
-  //         .eq('current_participants', 0);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting time slots:', error);
-  //   }
-  // };
-
   return (
     <>
       <ModalForDetailInformation
@@ -501,10 +476,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
                     )}
                     onClick={() => {
                       setSelectedLectureCategory(category);
-                      // if ('언더워터 댄스' === category) {
-                      //   setSelectedLectureCategory('언더워터');
-                      // } else {
-                      // }
+
                       resetCalendarDate();
                     }}
                   >
@@ -621,14 +593,7 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
       )}
       {(calendarFetchStatus === 'CALENDAR_FETCH_WORK_IN_PROGRESS' || timeSlotUpdateStatus === 'UPDATE_WORK_IN_PROGRESS') && (
         <div className="">
-          <ClipLoader
-            // color={color}
-            // loading={loading}
-            // cssOverride={override}
-            size={90}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+          <ClipLoader size={90} aria-label="Loading Spinner" data-testid="loader" />
         </div>
       )}
       {calendarFetchStatus !== 'CALENDAR_FETCH_WORK_IN_PROGRESS' &&

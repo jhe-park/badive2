@@ -52,9 +52,6 @@ export async function POST(request: NextRequest) {
     // ADMIN 권한으로 프로필 삭제
     const { data, error } = await supabaseAdmin.auth.admin.deleteUser(profile.id);
 
-    console.log('data');
-    console.log(data);
-
     if (error) {
       throw error;
     }
@@ -67,9 +64,6 @@ export async function POST(request: NextRequest) {
         SNS: profile.snsRegister,
       },
     ]);
-
-    console.log('byeError');
-    console.log(byeError);
 
     if (byeError) {
       throw byeError;

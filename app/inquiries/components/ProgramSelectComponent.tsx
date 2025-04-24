@@ -50,16 +50,11 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
   const [selectedInstructor, setSelectedInstructor] = useState('');
   const { selectedResult, setSelectedResult } = useSelectedResult();
 
-  console.log('selectedResult.noParticipants');
-  console.log(selectedResult.noParticipants);
-
   const { selectedImageUrl, setSelectedImageUrl } = useSelectedImageUrl();
   const [region, setRegion] = useState([]);
   const [instructor, setInstructor] = useState([]);
   const { programStore, setProgramStore } = useProgramStore();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  // const [noParticipants, setNoParticipants] = useState(1);
 
   useEffect(() => {
     if (selectedResult?.program_id && programStore?.length > 0) {
@@ -112,7 +107,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
   const increaseNumOfParticipants = () => {
     const newParticipants = selectedResult.noParticipants + 1;
-    // const newParticipants = noParticipants + 1;
 
     if (
       typeof selectedResult.slot_max_participants === 'number' &&
@@ -123,7 +117,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
       return;
     }
 
-    // setNoParticipants(newParticipants);
     setSelectedResult({
       ...selectedResult,
       noParticipants: newParticipants,
@@ -132,8 +125,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 
   const decreaseNumOfParticipants = () => {
     const newValue = Math.max(1, selectedResult.noParticipants - 1);
-    // const newValue = Math.max(1, noParticipants - 1);
-    // setNoParticipants(newValue);
+
     setSelectedResult({
       ...selectedResult,
       noParticipants: newValue,
@@ -296,7 +288,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         aria-label="강습프로그램 선택"
         showScrollIndicators={true}
         selectedKeys={[selectedProgramTitle]}
-        // value={selectedProgram}
         onChange={e => {
           selectProgram({ programTitle: e.target.value });
         }}
@@ -351,11 +342,9 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             type="button"
             id="decrement-button"
             data-input-counter-decrement="quantity-input"
-            // dark:hover:bg-gray-600 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-gray-700
             className="h-11 rounded-s-lg border border-gray-300 bg-white p-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
             onClick={decreaseNumOfParticipants}
           >
-            {/* dark:text-white */}
             <svg className="h-3 w-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
             </svg>
@@ -365,7 +354,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             id="quantity-input"
             data-input-counter
             aria-describedby="helper-text-explanation"
-            // dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
             className="block h-11 w-full border-x-0 border-gray-300 bg-[#CECECE] py-2.5 text-center text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
             placeholder="999"
             required
@@ -376,7 +364,6 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             type="button"
             id="increment-button"
             data-input-counter-increment="quantity-input"
-            // dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 dark:focus:ring-gray-700
             className="h-11 rounded-e-lg border border-gray-300 bg-white p-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
             onClick={increaseNumOfParticipants}
           >
@@ -410,12 +397,3 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
 };
 
 export default ProgramSelectComponent;
-
-// useEffect(() => {
-//   setSelectedResult({
-//     ...selectedResult,
-//     isAgree: false,
-//     date: null,
-//     noParticipants: noParticipants,
-//   });
-// }, [noParticipants]);

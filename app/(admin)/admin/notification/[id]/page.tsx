@@ -7,14 +7,6 @@ import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 
 export default function NotificationEditPage({ params }) {
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [selectedRole, setSelectedRole] = useState('bdn');
-  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  // const [imageUrl, setImageUrl] = useState('');
-  // const [certifications, setCertifications] = useState([]);
-  // const [certification, setCertification] = useState('');
-  // const [description, setDescription] = useState('');
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
   const [title, setTitle] = useState('');
   const [pinned, setPinned] = useState('unpinned');
@@ -28,11 +20,6 @@ export default function NotificationEditPage({ params }) {
   const handleEditorChange = model => {
     setContent(model);
   };
-
-  // const handleSave = () => {
-  //   alert('저장된 내용:\n' + content);
-  //   console.log('저장된 내용:', content);
-  // };
 
   const handleDeleteNotification = async () => {
     const { data, error } = await supabase.from('notification').delete().eq('id', unwrappedParams.id);

@@ -2,7 +2,6 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { Button, Chip, Input, Select, SelectItem, Textarea } from '@heroui/react';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -11,8 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function InstructorNewPage() {
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState('bdn');
   const [selectedProgram, setSelectedProgram] = useState(['scuba']);
   const [imageUrl, setImageUrl] = useState('');
@@ -97,12 +94,6 @@ export default function InstructorNewPage() {
       }
 
       const newUser = createUserObj.data;
-
-      // const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      //   email,
-      //   password,
-      //   email_confirm: true,
-      // });
 
       const { data: newUserProfile, error: createErrorProfile } = await supabase
         .from('profiles')

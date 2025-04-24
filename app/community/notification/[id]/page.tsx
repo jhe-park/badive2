@@ -12,19 +12,6 @@ export default async function NoticeDetailPage({ params }) {
     console.error('Error fetching notice data:', error);
   }
 
-  // const noticeData = {
-  //   title: "2025년 다마뮤 투어 공지합니다",
-  //   writer: "이중재",
-  //   date: "2024-11-15",
-  //   category: "목록",
-  //   content: {
-  //     programName: "필리핀 코론 Coron",
-  //     subTitle: "수중 프로필 다이빙 투어",
-  //     period: "투어 기간: 2025.01.10(금)~01.17(금)",
-  //     description: "전문강사, 전문 수중촬영작가와 함께 떠나는 다이빙 투어!",
-  //     withText: "with 멤버쉽(회), 고릴라(강사), 노블룩 고릭",
-  //   },
-  // };
   const formatDate = date => {
     return format(new Date(date), 'yyyy-MM-dd');
   };

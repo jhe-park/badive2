@@ -9,15 +9,8 @@ import React, { useState } from 'react';
 export default function InstructorNewPage() {
   const supabase = createClient();
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [selectedRole, setSelectedRole] = useState('bdn');
-  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  // const [imageUrl, setImageUrl] = useState('');
-  // const [certifications, setCertifications] = useState([]);
-  // const [certification, setCertification] = useState('');
   const [question, setQuestion] = useState('');
-  // const [answer, setAnswer] = useState('');
+
   const [isSave, setIsSave] = useState(false);
   const router = useRouter();
   const [content, setContent] = useState('');
@@ -26,21 +19,14 @@ export default function InstructorNewPage() {
     setContent(model);
   };
 
-  const handleSave = () => {
-    alert('저장된 내용:\n' + content);
-    console.log('저장된 내용:', content);
-  };
-
   const handleSaveFaq = async () => {
     const cleanedContent = content.replace(/Powered by/g, '').replace(/<a[^>]*froala[^>]*>.*?<\/a>/gi, '');
     const { data, error } = await supabase.from('faq').insert({ question, answer: cleanedContent });
 
     if (error) {
       console.error('Error saving faq:', error);
-      // toast.error("FAQ 저장에 실패했습니다.");
     } else {
       setIsSave(true);
-      // toast.success("FAQ가 성공적으로 저장되었습니다.");
       router.push('/admin/faq?result=success');
     }
   };

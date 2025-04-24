@@ -19,11 +19,7 @@ export default async function page({ params }) {
       <div className="my-12 flex h-full w-[90%] flex-col items-center justify-center gap-y-5 md:my-24 md:w-[66vw]">
         <div className="flex h-full w-full flex-col items-center justify-center gap-y-5">
           <div className="flex flex-col items-center justify-center gap-x-2 gap-y-2 text-2xl font-bold md:flex-row md:gap-x-6 md:text-4xl">
-            <Chip
-              color={data.status === '마감임박' ? 'danger' : 'primary'}
-              // size="large"
-              size="lg"
-            >
+            <Chip color={data.status === '마감임박' ? 'danger' : 'primary'} size="lg">
               {data.status}
             </Chip>
             <div className="text-2xl font-bold md:text-4xl">{data.title}</div>

@@ -6,7 +6,6 @@ import { redirect } from 'next/navigation';
 const CheckoutPage: NextPage<NextPageProps> = async ({ searchParams }) => {
   const session = (await searchParams).session as string;
   const supabase = await createClient();
-  // const { data: sessionData, error } = await supabase.from('pending_sessions').select('*').eq('uuid', session).single();
 
   const { data, error } = await supabase.auth.getUser();
 

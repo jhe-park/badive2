@@ -5,20 +5,16 @@ import { createClient } from '@/utils/supabase/client';
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Textarea, useDisclosure } from '@heroui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LuCirclePlus } from 'react-icons/lu';
 import { v4 as uuidv4 } from 'uuid';
 import DateEdit from './components/DateEdit';
 
 export default function InstructorNewPage() {
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('bdn');
-  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
+
   const [imageUrl, setImageUrl] = useState('');
-  const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState('');
+
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [region, setRegion] = useState('');
@@ -30,14 +26,8 @@ export default function InstructorNewPage() {
   const [max_participants, setMaxParticipants] = useState('10');
   const router = useRouter();
   const supabase = createClient();
-  const [description, setDescription] = useState('');
+  // const [description, setDescription] = useState('');
   const [content, setContent] = useState('');
-
-  console.log('price');
-  console.log(price);
-
-  console.log('max_participants');
-  console.log(max_participants);
 
   const handleEditorChange = model => {
     setContent(model);
@@ -56,19 +46,12 @@ export default function InstructorNewPage() {
       console.error('Error uploading image:', error);
       return;
     }
-    console.log('data:', data);
 
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
       // error: urlError,
     } = supabase.storage.from('resort').getPublicUrl(data.path);
-    console.log('publicURL:', publicUrl);
-
-    // if (urlError) {
-    //   console.error("Error getting public URL:", urlError);
-    //   return;
-    // }
 
     // 이미지 URL 설정
     setImageUrl(publicUrl);
@@ -96,7 +79,6 @@ export default function InstructorNewPage() {
       return;
     }
 
-    console.log('data:', data);
     router.push('/admin/tour');
   };
 

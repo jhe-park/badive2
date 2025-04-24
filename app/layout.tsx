@@ -40,9 +40,6 @@ const geistSans = Geist({
 });
 
 export default function RootLayout({ children }) {
-  // const SmartMediaLogAccountId = 'UHPT-31657';
-  // const SmartMediaLogServer = 'a29';
-
   return (
     <html lang="ko" className={geistSans.className} suppressHydrationWarning>
       <head>

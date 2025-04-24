@@ -6,9 +6,8 @@ import { createPortal } from 'react-dom';
 export default function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tab1');
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
-  // 탭 데이터
   const tabs = {
     tab1: {
       name: 'OPEN 이벤트',
@@ -61,7 +60,6 @@ export default function WelcomePopup() {
           id: 5,
           title: '네이버카페 오픈',
           link: 'https://cafe.naver.com/babive?iframe_url=/ArticleList.nhn%3Fsearch.clubid=31436952%26search.boardtype=L',
-          // image: "/popup/new/popup5.png",
           image: '/popup/new/popup5.webp',
         },
       ],
@@ -75,7 +73,6 @@ export default function WelcomePopup() {
           title: '강사모집',
           link: '/instructors/request',
           image: '/popup/new/popup6.webp',
-          // image: "/popup/new/popup6.png",
         },
       ],
     },
@@ -144,7 +141,7 @@ export default function WelcomePopup() {
           {Object.entries(tabs).map(([tabId, tabData]) => (
             <Button
               key={tabId}
-              className={`font-freesentation cursor-pointer rounded-none px-2 py-1.5 text-center text-[12px] transition-all duration-300 sm:text-sm ${activeTab === tabId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-50'}`}
+              className={`cursor-pointer rounded-none px-2 py-1.5 text-center font-freesentation text-[12px] transition-all duration-300 sm:text-sm ${activeTab === tabId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-50'}`}
               onPress={() => setActiveTab(tabId)}
               style={{ wordWrap: 'break-word', whiteSpace: 'normal', minHeight: '40px' }}
             >

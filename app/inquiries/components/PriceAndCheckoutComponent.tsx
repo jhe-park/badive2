@@ -53,23 +53,6 @@ export const PriceAndCheckOutComponent: React.FC<TProps> = ({ profile, userData,
         profile: profile,
       });
 
-      // FIXME :  해당 코드는 더이상 사용되지 않는 것으로 추정되나 본인이 예상하지 못한 경우에 사용될 수 있으므로 일단 남겨둠
-      supabase.from('pending_sessions').insert({
-        uuid: uuid,
-        selected_data: selectedResult as any,
-        user_data: userData as any,
-        profile: profile,
-      });
-
-      // const { error } = await supabase.from('pending_sessions').insert({
-      //   uuid: uuid,
-      //   selected_data: selectedResult as any,
-      //   user_data: userData as any,
-      //   profile: profile,
-      // });
-
-      // if (error) throw error;
-
       router.push(`/inquiries/checkout?session=${uuid}`);
       changePaymentStatus({ status: 'PAYMENT_COMPLETED' });
       return;

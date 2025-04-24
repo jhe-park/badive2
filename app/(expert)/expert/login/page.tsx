@@ -13,7 +13,6 @@ export default function Component({ searchParams }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [returnUrl, setReturnUrl] = React.useState('/expert/main');
-  // const toggleVisibility = () => setIsVisible(!isVisible);
   const searchParamsData = use<RouteParamsForLogin>(searchParams);
   const origin = '/expert/login';
 
@@ -22,11 +21,6 @@ export default function Component({ searchParams }) {
       toast.error(searchParamsData.error);
     }
   }, [searchParamsData]);
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log('handleSubmit');
-  };
 
   return (
     <div className="flex h-screen w-full items-center justify-center">

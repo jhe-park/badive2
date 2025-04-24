@@ -30,9 +30,6 @@ export async function sendCancellationAlimtalk({ phone, name, program, region, i
   }
 
   try {
-    console.log('before /api/aligo-alarm-talk/cancel');
-    console.log('');
-
     const response = await fetch('/api/aligo-alarm-talk/cancel', {
       method: 'POST',
       headers: {
@@ -47,8 +44,6 @@ export async function sendCancellationAlimtalk({ phone, name, program, region, i
         date,
       }),
     });
-
-    console.log("after '/api/aligo-alarm-talk/cancel");
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));

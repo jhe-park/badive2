@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Divider } from '@heroui/react';
-import { RadioGroup, Radio, Input, Button, Select, SelectItem, Checkbox, CheckboxGroup } from '@heroui/react';
+import useMarketingAgreement from '@/app/store/useMarketingAgreement';
 import useStep from '@/app/store/useStep';
-import { useRouter } from 'next/navigation';
+import { checkIsValidEmail } from '@/utils/checkIsValidEmail';
 import { createClient } from '@/utils/supabase/client';
+import { Button, Checkbox, Divider, Input, Radio, RadioGroup, Select, SelectItem } from '@heroui/react';
+import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import DaumPostcode from 'react-daum-postcode';
 import { toast, ToastContainer } from 'react-toastify';
 import { programlist } from './programlist';
-import DaumPostcode from 'react-daum-postcode';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react';
-import useMarketingAgreement from '@/app/store/useMarketingAgreement';
-import { checkIsValidEmail } from '@/utils/checkIsValidEmail';
 
 export default function Information() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,15 +35,7 @@ export default function Information() {
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const supabase = createClient();
-  const router = useRouter();
   const { step, setStep } = useStep();
-
-  // const [address, setAddress] = useState('');
-  // const [detailAddress, setDetailAddress] = useState('');
-  // const [isPasswordChecked, setIsPasswordChecked] = useState(false);
-
-  // console.log('email');
-  // console.log(email);
 
   const handleNext = async () => {
     let isInvalidForm = false;
@@ -105,11 +96,6 @@ export default function Information() {
       return;
     }
 
-    // else if (!license) {
-    //   toast.error('보유한 라이센스를 입력해주세요.');
-    //   isFailed = true;
-    // }
-
     try {
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email: email,
@@ -164,8 +150,6 @@ export default function Information() {
       setIsPasswordMatch(password === passwordCheck);
     }
   }, [password, passwordCheck]);
-
-  console.log('isPasswordMatch', isPasswordMatch);
 
   const handleCheckEmail = async () => {
     if (!checkIsValidEmail(email)) {

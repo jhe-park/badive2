@@ -27,7 +27,7 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
   const [secondAddress, setSecondAddress] = React.useState('');
   const [marketingSms, setMarketingSms] = React.useState(false);
   const [marketingEmail, setMarketingEmail] = React.useState(false);
-  const [email, setEmail] = React.useState('');
+  // const [email, setEmail] = React.useState('');
   const router = useRouter();
 
   const supabase = createClient();
@@ -35,7 +35,6 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
     const { data, error } = await supabase.auth.updateUser({
       password: password,
     });
-    console.log(data, error);
     if (error) {
       toast.error(error.message);
     } else {
@@ -47,7 +46,6 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
     // 주소 검색 완료 시 처리 로직
     setPostCode(data.zonecode); // 우편번호 설정
     setFirstAddress(data.address); // 기본주소 설정
-    // onOpenChange(false); // 모달 닫기
     onOpenChange(); // 모달 닫기
   };
 

@@ -11,11 +11,6 @@ const ALIGO_API_KEY = process.env.ALIGO_API_KEY;
 const ALIGO_SENDER_KEY = process.env.ALIGO_SENDER_KEY;
 const ALIGO_USER_ID = process.env.ALIGO_USER_ID;
 
-// 상수 정의
-// const ALIGO_API_KEY = "f61azc33a4m4gwt4vccfvpmhe1bxuqxu";
-// const ALIGO_SENDER_KEY = '9aa5bca7d236814660a2cae87dfe5c9d0983894f';
-// const ALIGO_USER_ID = 'chiyang0907';
-
 /**
  * 알림톡 요청을 위한 인터페이스
  * @interface MessageRequest

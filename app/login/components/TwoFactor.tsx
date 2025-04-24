@@ -9,7 +9,6 @@ export default function TwoFactor({ searchParams }) {
   const { securityNumber, setSecurityNumber } = useSecurityNumber();
   const [securityCode, setSecurityCode] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  const router = useRouter();
   const [failCount, setFailCount] = useState(0);
   const supabase = createClient();
   const onChangeSecurityCode = e => {
@@ -17,13 +16,10 @@ export default function TwoFactor({ searchParams }) {
   };
 
   useEffect(() => {
-    console.log('failCount');
     const email = new URLSearchParams(searchParams.error).get('email');
-    console.log('email', email);
     if (email) {
       const fetchFailCount = async () => {
         const { data: profile } = await supabase.from('profiles').select('failCount').eq('email', email).single();
-        console.log('profile', profile);
         if (profile) {
           setFailCount(profile.failCount);
           if (profile.failCount >= 4) {

@@ -9,16 +9,12 @@ import { toast, ToastContainer } from 'react-toastify';
 export default function Login(props) {
   const router = useRouter();
   const supabase = createClient();
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [findEmail, setFindEmail] = useState('');
-  const [findPhone, setFindPhone] = useState('');
-  const [id, setId] = useState('');
 
   const handleFindId = async () => {
     try {
       const { data, error } = await supabase.from('profiles').select('email').eq('phone', phone).single();
-      console.log('data:', data);
       if (error) {
         console.log('에러 발생:', error);
         toast.error('존재하지 않는 이메일 또는 연락처입니다.');
@@ -28,7 +24,6 @@ export default function Login(props) {
 
       if (data) {
         setFindEmail(data.email);
-        // toast.success(data.email);
       } else {
         setFindEmail('');
       }
@@ -56,23 +51,11 @@ export default function Login(props) {
           <p className="text-5xl font-bold">BADIVE</p>
         </div>
         <div>
-          {/* text-small */}
           <p className="text-[24px] text-default-500">로그인</p>
         </div>
       </div>
       <div className="mt-2 flex w-[90%] flex-col gap-4 rounded-large border-2 border-gray-300 bg-content1 px-8 py-6 md:w-1/3">
         <div className="flex flex-col gap-3">
-          {/* <Input
-                        isRequired
-                        label="아이디"
-                        name="email"
-                        placeholder="이메일을 입력해주세요"
-                        type="email"
-                        variant="bordered"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    /> */}
-
           <Input
             type="text"
             isRequired

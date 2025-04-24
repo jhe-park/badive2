@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
  * @returns 해당 월의 모든 날짜를 "YYYY-MM-DD" 형식의 문자열 배열로 반환
  */
 export function getAllDatesInMonth(date: string | Date | dayjs.Dayjs): string[] {
-	
   const targetDate = dayjs(date);
   const daysInMonth = targetDate.daysInMonth();
   const year = targetDate.year();
@@ -22,5 +21,3 @@ export function getAllDatesInMonth(date: string | Date | dayjs.Dayjs): string[] 
 
   return allDates;
 }
-
-// export default getAllDatesInMonth;

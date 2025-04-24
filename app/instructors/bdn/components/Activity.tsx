@@ -11,7 +11,6 @@ export default function Activity() {
 
   useEffect(() => {
     const filtered = activities.filter(item => item.instructor === instructor);
-    console.log('filtered:', filtered);
     setSelectedItems(filtered);
   }, [instructor]);
 

@@ -50,12 +50,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   const { selectedResult, setSelectedResult } = useSelectedResult();
   const { calendarClick, setCalendarClick } = useCalendarClick();
 
-  console.log('selectedResult');
-  console.log(selectedResult);
-
   useEffect(() => {
-    console.log('✅ before setupMonthlyTimeSlots');
-    // console.log();
     setupMonthlyTimeSlots({ newDate: new Date() });
   }, [selectedResult?.instructor?.length > 0 && typeof selectedResult?.instructor_id === 'number']);
 
@@ -98,7 +93,6 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   };
 
   const handleDateSelect = day => {
-    // setCalendarClick(calendarClick + 1);
     setCalendarClick();
     const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
 
@@ -190,10 +184,7 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
           <ChevronLeft className="text-4xl font-bold md:text-9xl" />
           <span className="text-[20px] md:text-2xl lg:text-[32px]">이전달</span>
         </button>
-        <div
-          //
-          className="my-6 flex flex-col items-center justify-center border-b-1.5 border-solid border-black"
-        >
+        <div className="my-6 flex flex-col items-center justify-center border-b-1.5 border-solid border-black">
           <div className="text-[20px] font-[700] md:text-3xl lg:text-[32px]">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
@@ -295,7 +286,6 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
                       selectedResult?.slot_id?.at(0) === slot.id && 'bg-btnActive text-white',
                       slot.max_participants === slot.current_participants && 'cursor-not-allowed bg-[#7A7A7A]',
                     )}
-                    // className={cn('font-normal py-2 px-7 cursor-pointer', selectedResult?.slot_id?.at(0) === slot.id && 'bg-red-500')}
                     onClick={() => {
                       if (slot.max_participants === slot.current_participants) {
                         return;
@@ -331,7 +321,6 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
             onClick={() => {
               refForCheckbox.current?.click();
             }}
-            // text-sm
             className="flex cursor-pointer flex-col items-center justify-center gap-y-2 text-[12px] md:text-xl lg:text-[18px]"
           >
             <div className="flex items-center gap-2 text-center">

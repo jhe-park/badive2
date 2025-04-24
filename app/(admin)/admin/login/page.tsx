@@ -8,11 +8,6 @@ export default function Component() {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [returnUrl, setReturnUrl] = React.useState('/admin/main');
-  // const toggleVisibility = () => setIsVisible(!isVisible);
-
-  // const handleSubmit = event => {
-  //   event.preventDefault();
-  // };
 
   const origin = '/admin/login';
 

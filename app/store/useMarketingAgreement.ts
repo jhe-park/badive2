@@ -12,12 +12,3 @@ const useMarketingAgreement = create<MarketingAgreementState>(set => ({
 }));
 
 export default useMarketingAgreement;
-
-// import { create } from "zustand"
-
-// const useMarketingAgreement = create((set) => ({
-//   marketingAgreement: false,
-//   setMarketingAgreement: (marketingAgreement) => set({ marketingAgreement }),
-// }))
-
-// export default useMarketingAgreement

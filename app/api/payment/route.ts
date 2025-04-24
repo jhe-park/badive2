@@ -31,7 +31,6 @@ export async function POST(request) {
     }
 
     const data = await response.json();
-    console.log('confirm data:', data);
 
     return NextResponse.json(data);
   } catch (error) {

@@ -77,15 +77,6 @@ export default function TourCards() {
               </Card>
             ))
           : tours.map(tour => {
-              // console.log('tour.date');
-              // console.log(tour.date);
-
-              console.log('tour.title');
-              console.log(tour.title);
-
-              console.log('tour.description');
-              console.log(tour.description);
-
               return (
                 <div key={tour.id} className="relative transform overflow-hidden rounded-lg bg-white transition-transform duration-300 hover:scale-105">
                   {tour?.status === '마감임박' && (

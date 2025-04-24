@@ -93,10 +93,6 @@ export default function ChartComplete() {
     getReservations();
   }, [startYear, startMonth, endYear, endMonth]);
 
-  console.log('reservations:', reservations);
-  console.log('detailSales:', detailSales);
-  console.log('monthlySales:', monthlySales);
-
   const getTourInput = async () => {
     let totalAmount = 0;
     let currentDate = new Date(parseInt(startYear), parseInt(startMonth) - 1);
@@ -141,7 +137,7 @@ export default function ChartComplete() {
   useEffect(() => {
     getTourInput();
   }, [startYear, startMonth, endYear, endMonth]);
-  console.log('tourInput:', tourInput);
+
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <div className="flex w-full flex-col gap-4 md:flex-row">

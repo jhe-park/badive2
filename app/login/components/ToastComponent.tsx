@@ -7,7 +7,6 @@ export default function ToastComponent() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    console.log('에러에러');
     const error = searchParams.get('error');
     if (error) {
       toast.error(decodeURIComponent(error));

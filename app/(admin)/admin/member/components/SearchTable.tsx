@@ -235,8 +235,6 @@ export default function SearchTable() {
         <div className="flex items-center justify-center">
           <Pagination
             onChange={newPage => {
-              // console.log('e');
-              // console.log(newPage);
               setPage(newPage);
             }}
             initialPage={1}

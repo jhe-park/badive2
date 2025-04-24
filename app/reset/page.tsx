@@ -60,8 +60,6 @@ export default function Reset(searchParams) {
     changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_COMPLETED' });
 
     redirect('/?message=success to change password');
-    // return redirect('/?message=success to change password');
-    // if (!errorForSession && !userError) {}
   };
 
   return (

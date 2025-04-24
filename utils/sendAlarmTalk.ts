@@ -15,11 +15,6 @@ export async function sendAlarmTalkByAWSLambda({
   instructorName: string;
   userProfile: TypeDBprofile;
 }) {
-  //   const lambdaURL = process.env.AWS_LAMBDA_URL;
-
-  //   console.log('lambdaURL');
-  //   console.log(lambdaURL);
-
   try {
     const response = await axios.post(
       `${AWS_LAMBDA_URL}/send-alimtalk`,

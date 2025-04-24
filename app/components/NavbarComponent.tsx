@@ -85,7 +85,6 @@ export default function Navbar() {
     // window 객체 확인 추가
     const handleScrollPosition = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      console.log('Scroll position:', scrollTop);
     };
 
     window.addEventListener('scroll', handleScrollPosition);
@@ -177,8 +176,6 @@ export default function Navbar() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log('user');
-    console.log(user);
 
     setUser(user);
   };

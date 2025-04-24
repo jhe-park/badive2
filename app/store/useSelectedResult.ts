@@ -21,7 +21,6 @@ export type TSelectedResult = {
 };
 
 export const selectedResultInitializedValueWhenChangeProgram = {
-  // program: '',
   noParticipants: 1,
   date: [],
   instructor_id: null,
@@ -56,8 +55,6 @@ export const selectedResultInitializedValueWhenChangeCategory = {
   price: null,
   totalPrice: 0,
   isAgree: false,
-  // category: null,
-  // noParticipants: 1,
 };
 
 export const selectedResultInitializedValue = {

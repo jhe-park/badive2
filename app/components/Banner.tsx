@@ -10,10 +10,8 @@ export default function Banner() {
   const [selectMode, setSelectMode] = useState('mode1');
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  console.log('selectMode:', selectMode);
-  useEffect(() => {
-    console.log('isPlaying:', isPlaying);
-  }, [isPlaying]);
+
+  useEffect(() => {}, [isPlaying]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -51,16 +49,6 @@ export default function Banner() {
       default:
         return 'https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1_av1.mp4';
     }
-    // switch (selectMode) {
-    //   case "mode1":
-    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4";
-    //   case "mode2":
-    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_2.mp4";
-    //   case "mode3":
-    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_3.mp4";
-    //   default:
-    //     return "https://jhedata.s3.ap-southeast-2.amazonaws.com/banner_1.mp4";
-    // }
   };
 
   const handleCanPlay = () => {

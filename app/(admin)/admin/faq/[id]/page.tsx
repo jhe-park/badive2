@@ -8,13 +8,7 @@ import { use, useEffect, useState } from 'react';
 
 export default function FaqEditPage({ params }) {
   const { isOpen: isOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [selectedRole, setSelectedRole] = useState('bdn');
-  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  // const [imageUrl, setImageUrl] = useState('');
-  // const [certifications, setCertifications] = useState([]);
-  // const [certification, setCertification] = useState('');
+
   const [question, setQuestion] = useState('');
   const [answer] = useState('');
   const [description, setDescription] = useState('');
@@ -28,9 +22,6 @@ export default function FaqEditPage({ params }) {
   const handleEditorChange = model => {
     setContent(model);
   };
-
-  // const handleSave = () => {
-  // };
 
   useEffect(() => {
     if (unwrappedParams == null) {

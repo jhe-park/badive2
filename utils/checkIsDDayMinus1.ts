@@ -15,9 +15,6 @@ export function checkIsDDayMinus1(date1: Date, date2: Date): boolean {
   // 두 날짜의 차이를 일수로 계산
   const diffInDays = d1.diff(d2, 'day');
 
-  console.log('diffInDays');
-  console.log(diffInDays);
-
   // 정확히 1일 차이인지 확인
   return diffInDays === 1;
 }

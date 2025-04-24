@@ -44,8 +44,6 @@ export default function TableData() {
     getTourInput();
   }, [selectedMonth]);
 
-  console.log('tourInput:', tourInput);
-
   const programList = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터', '체험다이빙', '다이빙투어'];
 
   const getPrograms = async () => {
@@ -92,9 +90,6 @@ export default function TableData() {
   useEffect(() => {
     getReservation();
   }, [selectedMonth, selectedProgram, selectedInstructor]);
-  console.log('selectedInstructor:', selectedInstructor);
-  console.log('reservation:', reservation);
-  console.log('selectedProgram:', selectedProgram);
 
   const getInstructors = async () => {
     const { data, error } = await supabase.from('instructor').select('*').eq('available', true);

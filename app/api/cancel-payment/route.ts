@@ -16,11 +16,6 @@ const zodSchema = z.object({
 export async function POST(request: NextRequest) {
   const reqJson = await request.json();
 
-  console.log('✅ in app\api\cancel-payment');
-  console.log();
-  console.log('reqJson');
-  console.log(reqJson);
-
   const data = {};
   const parsedResult = zodSchema.safeParse(reqJson);
   if (parsedResult.error) {
@@ -28,14 +23,7 @@ export async function POST(request: NextRequest) {
   }
   const { payment_key, refundAmount, accountNumber, accountOwnerName, bankCode } = parsedResult.data;
 
-  console.log('{ payment_key, refundAmount, accountNumber, accountOwnerName, bankCode }');
-  console.log({ payment_key, refundAmount, accountNumber, accountOwnerName, bankCode });
-
-  const requestBody = {};
   try {
-    console.log('TOSS_SECRET_KEY');
-    console.log(TOSS_SECRET_KEY);
-
     // 아래 공식문서 참조할 것
     // @doc https://docs.tosspayments.com/guides/v2/cancel-payment
 
@@ -75,18 +63,6 @@ export async function POST(request: NextRequest) {
       console.error('결제 취소 실패:', paymentFailedReason);
       return Response.json({ status: 'FAILED', error: paymentFailedReason });
     }
-    // const res = await fetch('', {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   method: 'POST',
-    //   body: JSON.stringify(requestBody),
-    // });
-
-    // const objFromAPI = await res.json();
-
-    console.log('paymentResponse');
-    console.log(paymentResponse);
 
     return Response.json({ status: 'SUCCESS', data: '성공' });
   } catch (error) {

@@ -54,10 +54,6 @@ export default function InstructorNewPage() {
       setTotalAmount(totalAmount);
     }
   };
-  console.log('instructorId:', instructorId);
-  console.log('totalAmount', totalAmount);
-  console.log('totalStudent', totalStudent);
-  console.log('expertInformation:', expertInformation);
 
   useEffect(() => {
     if (expertInformation) {
@@ -91,7 +87,6 @@ export default function InstructorNewPage() {
 
     const sanitizedFileName = file.name.replace(/[^\w.-]/g, '');
     const { data, error } = await supabase.storage.from('instructor').upload(`instructor-profile/${uuidv4()}-${sanitizedFileName}`, file);
-    console.log('data:', data);
 
     if (error) {
       console.log('Error uploading file:', error);
@@ -131,21 +126,6 @@ export default function InstructorNewPage() {
     }
   };
 
-  // const handleDelete = async () => {
-  //   setIsDelete(true);
-  //   const { data, error } = await supabase
-  //     .from("instructor")
-  //     .update({ available: false })
-  //     .eq("id", id);
-  //   if (error) {
-  //     console.log("Error updating availability:", error);
-  //   } else {
-  //     console.log("Instructor availability updated successfully:", data);
-  //     setIsDelete(true);
-  //     router.push("/admin/instructor");
-  //   }
-  // };
-
   const handleChangePassword = async () => {
     const { data, error } = await supabase.auth.updateUser({
       password: password,
@@ -158,7 +138,6 @@ export default function InstructorNewPage() {
       setPassword('');
     }
   };
-  console.log('certifications:', certifications);
 
   return (
     <div className="flex h-full w-full flex-col gap-y-6 overflow-y-auto scrollbar-hide">

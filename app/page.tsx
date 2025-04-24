@@ -11,10 +11,6 @@ import { redirect } from 'next/navigation';
 const Home: NextPage<NextPageProps> = async ({ params, searchParams }) => {
   const { returnUrl } = await searchParams;
 
-  console.log('in home');
-  console.log('returnUrl');
-  console.log(returnUrl);
-
   if (typeof returnUrl === 'string' && returnUrl.length > 0) {
     redirect(returnUrl);
   }

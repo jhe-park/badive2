@@ -27,16 +27,7 @@ export type TypeDBreservationJoinWithTimeslot = Omit<TypeDBreservation, 'time_sl
     program_id: number & TypeDBprogram;
     instructor_id: number & TypeDBinstructor;
   };
-}
-
-// export type TypeDBreservationJoinWithTimeslot = Array<
-//   Omit<TypeDBreservation, 'time_slot_id'> & {
-//     time_slot_id: Omit<TypeDBtimeslot, 'program_id' | 'instructor_id'> & {
-//       program_id: number & TypeDBprogram;
-//       instructor_id: number & TypeDBinstructor;
-//     };
-//   }
-// >;
+};
 
 export type TypeDBresort = DBTable['resort']['Row'];
 export type TypeDBtimeslot = DBTable['timeslot']['Row'];

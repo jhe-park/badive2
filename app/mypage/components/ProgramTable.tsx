@@ -70,9 +70,6 @@ export default function ProgramTable({
 
   const [selectedReservation, setSelectedReservation] = useState<TypeDBreservationJoinWithTimeslot | null>(null);
 
-  console.log('selectedReservation');
-  console.log(selectedReservation);
-
   const [searchFilter, setSearchFilter] = useState('제목');
   const [searchValue, setSearchValue] = useState('');
   const supabase = createTypedSupabaseClient();
@@ -125,7 +122,6 @@ export default function ProgramTable({
 
     let accountNumberRefined: string | null = null;
 
-    // setIsCancelWorkInProgress(true);
     changeCancelStatus({ status: 'CANCEL_WORK_IN_PROGRESS' });
 
     if (selectedReservation.status === '예약확정' && selectedReservation?.pay_type === '가상계좌') {
@@ -160,7 +156,6 @@ export default function ProgramTable({
       }
 
       if (isInvalid) {
-        // toast.error('환불 정보를 정확히 입력해주세요');
         changeCancelStatus({ status: 'CANCEL_READY' });
         return;
       }
@@ -196,9 +191,6 @@ export default function ProgramTable({
     // 교육 시작 하루 전 : 50% 환불
     // 교육 시작 이틀 전 :  100% 환불
 
-    // const programPrice =
-    // typeof selectedReservation.program_price === 'number' ? selectedReservation.program_price : selectedReservation.time_slot_id.program_id.price;
-
     const refundAmount = isDDayMinus1 ? selectedReservation.amount / 2 : selectedReservation.amount;
 
     const tossPaymentCancelRes = await fetch('/api/cancel-payment', {
@@ -220,8 +212,7 @@ export default function ProgramTable({
     if (tossPaymentCancelResJson.status === 'FAILED') {
       toast.error(`토스페이먼트 취소 요청이 실패 하였습니다 : ${JSON.stringify(tossPaymentCancelResJson)}`);
       console.error('tossPaymentCancelResJson:', tossPaymentCancelResJson);
-      //
-      // changeCancelStatus({ status: 'CANCEL_READY' });
+
       setTimeout(() => {
         changeCancelStatus({ status: 'CANCEL_READY' });
       }, 500);
@@ -246,38 +237,10 @@ export default function ProgramTable({
 
     toast.success('프로그램 취소가 신청 완료되었습니다.');
 
-    console.log('selectedReservation.time_slot_id.program_id');
-    console.log(selectedReservation.time_slot_id.program_id.id);
-
-    // const dataForProgram = selectedReservation.time_slot_id.program_id ;
-
-    const [
-      // { data: dataForProfile, error: errorForProfile },
-      { data: dataForTimeSlot, error: errorForTimeSlot },
-      { data: dataForProgram, error: errorForProgram },
-    ] = await Promise.all([
-      // supabase.from('profiles').select('*').eq('id', selectedReservation.user_id).single(),
+    const [{ data: dataForTimeSlot, error: errorForTimeSlot }, { data: dataForProgram, error: errorForProgram }] = await Promise.all([
       supabase.from('timeslot').select('*').eq('id', selectedReservation.time_slot_id.id).single(),
       supabase.from('program').select('*,instructor_id(*)').eq('id', selectedReservation.time_slot_id.program_id.id).single(),
     ]);
-
-    // profile.data.phone;
-    // profile.data.name;
-    // selectedReservation;
-    // dataForProgram.title;
-    // dataForProgram.region;
-    // dataForProgram.instructor_id.name;
-    // dataForTimeSlot.date;
-    console.log('before sendCancellationAlimtalk');
-
-    console.log({
-      phone: profile.data.phone,
-      name: profile.data.name,
-      program: dataForProgram.title,
-      region: dataForProgram.region,
-      instructor: dataForProgram.instructor_id.name,
-      date: dataForTimeSlot.date,
-    });
 
     const resForAlimTalk = await sendCancellationAlimtalk({
       phone: profile.data.phone,
@@ -287,67 +250,6 @@ export default function ProgramTable({
       instructor: dataForProgram.instructor_id.name,
       date: dataForTimeSlot.date,
     });
-
-    console.log('resForAlimTalk');
-    console.log(resForAlimTalk);
-
-    // await sendCancelTalkByAWSLambda({
-    //   // userProfile: profile.data,
-
-    //   phone: profile.data.phone,
-    //   name: profile.data.name,
-    //   program: dataForProgram.title,
-    //   region: dataForProgram.region,
-    //   instructor: dataForProgram.instructor_id.name,
-    //   date: dataForTimeSlot.date,
-    // });
-
-    // const response = await axios.post(
-    //   `${AWS_LAMBDA_URL}/cancel-alimtalk`,
-    //   {
-    //     phone: profile.data.phone,
-    //     name: profile.data.name,
-    //     program: dataForProgram.title,
-    //     region: dataForProgram.region,
-    //     instructor: dataForProgram.instructor_id.name,
-    //     date: dataForTimeSlot.date,
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       accept: 'application/json',
-    //     },
-    //   },
-    // );
-
-    // console.log('response.statusText');
-    // console.log(response.statusText);
-
-    // console.log('response.data');
-    // console.log(response.data);
-
-    // await sendCancellationAlimtalk({
-    //   phone: profile.data.phone,
-    //   name: profile.data.name,
-    //   program: dataForProgram.title,
-    //   region: dataForProgram.region,
-    //   instructor: dataForProgram.instructor_id.name,
-    //   date: dataForTimeSlot.date,
-    // });
-
-    // const { data: dataForProgram, error: errorForProgram } = await supabase
-    //   .from('program')
-    //   .select('*,instructor_id(*)')
-    //   .eq('id', selectedReservation.time_slot_id.program_id)
-    //   .single();
-
-    // await sendAlarmTalk({
-    //   userProfile: profile.data,
-    //   dateStr: dataForTimeSlot.date + ' ' + dataForTimeSlot.start_time,
-    //   instructorName: dataForProgram.instructor_id.name,
-    //   programRegion: dataForProgram.region,
-    //   programTitle: dataForProgram.title,
-    // });
 
     onClose();
     onDetailOpenChange();
@@ -559,8 +461,6 @@ export default function ProgramTable({
                       />
                       <Select
                         onChange={e => {
-                          console.log('e.target.value');
-                          console.log(e.target.value);
                           setRefundInfos(prev => {
                             return {
                               ...prev,
@@ -580,8 +480,6 @@ export default function ProgramTable({
                       </Select>
                       <Input
                         onChange={e => {
-                          console.log('e.target.value');
-                          console.log(e.target.value);
                           setRefundInfos(prev => {
                             return {
                               ...prev,

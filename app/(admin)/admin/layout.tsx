@@ -20,7 +20,6 @@ export default async function ({ children }) {
     { url: '/admin/resort', name: '리조트' },
     { url: '/admin/faq', name: 'FAQ' },
     { url: '/admin/login', name: '로그인' },
-    // { url: '/admin/main', name: '홈' },
   ];
 
   return (

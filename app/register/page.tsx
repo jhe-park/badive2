@@ -3,13 +3,6 @@ import StepContents from './components/StepContents';
 import Stepper from './components/Stepper';
 
 export default async function Login(props: { searchParams: Promise<Message> }) {
-  // const searchParams = await props.searchParams;
-  // const handleSubmit = () => {
-  //   console.log("submit");
-  // };
-  // const toggleVisibility = () => {
-  //   console.log("toggle");
-  // };
   return (
     <div className="my-32 flex h-full w-full flex-col items-center justify-center gap-y-10">
       <div className="flex w-full justify-center">

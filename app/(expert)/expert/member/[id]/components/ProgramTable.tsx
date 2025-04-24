@@ -46,7 +46,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     return diffDays > 1;
   };
 
-  console.log('programs:', reservations);
   const handleConfirmRequest = async (reservation: TypeDBreservationJoinWithTimeslot) => {
     const programDate = new Date(reservation.time_slot_id.date);
     const today = new Date();
@@ -56,9 +55,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     const isSameDay = checkIsSameDay(programDate, new Date());
-
-    console.log('isSameDay');
-    console.log(isSameDay);
 
     // 지난 프로그램인 경우
     if (diffDays < 0) {
@@ -73,10 +69,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     }
 
     const isDDayMinus1 = checkIsDDayMinus1(programDate, today);
-    console.log('isDDayMinus1');
-    console.log(isDDayMinus1);
-
-    // const programPrice = typeof reservation.program_price === 'number' ? reservation.program_price : reservation.time_slot_id.program_id.price;
 
     // -환불규정
     // 당일 : 전액 환불 불가
@@ -126,29 +118,6 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
         toast.success('프로그램 취소가 신청 완료되었습니다.');
       }
 
-      // // 토스페이먼츠 결제 취소 요청
-      // const secretKey = process.env.NEXT_PUBLIC_TOSSPAYMENTS_SECRET_KEY;
-
-      // const encryptedSecretKey = 'Basic ' + Buffer.from(secretKey + ':').toString('base64');
-      // const url = `https://api.tosspayments.com/v1/payments/${program.payment_key}/cancel`;
-      // const paymentResponse = await fetch(url, {
-      //   method: 'POST',
-      //   headers: {
-      //     Authorization: encryptedSecretKey,
-      //     'Content-Type': 'application/json',
-      //   },
-
-      //   body: JSON.stringify({
-      //     cancelReason: '사용자 예약 취소',
-      //     cancelAmount: refundAmount,
-      //   }),
-      // });
-
-      // if (!paymentResponse.ok) {
-      //   console.log('결제 취소 실패:', paymentResponse);
-      // }
-
-      // toast.success('프로그램 취소가 신청 완료되었습니다.');
       getReservation();
     }
   };

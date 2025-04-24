@@ -40,19 +40,14 @@ export default function InstructorNewPage() {
       console.error('Error uploading image:', error);
       return;
     }
-    console.log('data:', data);
 
     // 업로드된 이미지의 URL 가져오기
     const {
       data: { publicUrl },
       // error: urlError,
     } = supabase.storage.from('resort').getPublicUrl(data.path);
-    console.log('publicURL:', publicUrl);
 
-    // if (urlError) {
-    //   console.error("Error getting public URL:", urlError);
-    //   return;
-    // }
+    
 
     // 이미지 URL 설정
     setImageUrl(publicUrl);
@@ -71,7 +66,6 @@ export default function InstructorNewPage() {
       console.error('Error saving data:', error);
       return;
     }
-    console.log('data:', data);
     router.push('/admin/resort');
   };
 

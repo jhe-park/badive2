@@ -24,50 +24,17 @@ const MainStory = () => {
       img: '/story/thumbnail4_1.webp',
       link: 'https://youtu.be/TGaT8VMUZSU?si=PUviijSWNZkV7Rlm',
     },
-
-    // {
-    //   img: '/story/thumbnail1.webp',
-    //   link: 'https://youtu.be/q5rGiEZLdA8?si=Rm8x6v2SnY1pg_F-',
-    // },
-    // {
-    //   img: '/story/thumbnail2.webp',
-    //   link: 'https://youtu.be/zzZoKMPZeqY?si=qIWaqK7hjF1xOd8r',
-    // },
-    // {
-    //   img: '/story/thumbnail3.webp',
-    //   link: 'https://youtu.be/ykAKEEVVRoc?si=I5v7EAiYxqAu3mEO',
-    // },
-    // {
-    //   img: '/story/thumbnail4.webp',
-    //   link: 'https://www.youtube.com/@badive_official',
-    // },
   ];
 
   const { containerRef } = useImageAnimation('thumbnail');
 
   const [selected, setSelected] = useState('');
-  // const [isFullScreen, setIsFullScreen] = useState('');
+
   const [isClient, setIsClient] = useState(false);
-  // const modalRef = useRef(null);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  // const toggleFullScreen = () => {
-  //   if (!isFullScreen) {
-  //     modalRef.current?.requestFullscreen?.();
-  //     modalRef.current?.webkitRequestFullscreen?.();
-  //     modalRef.current?.msRequestFullscreen?.();
-  //   } else {
-  //     document.exitFullscreen?.();
-  //     document.webkitExitFullscreen?.();
-  //     document.msExitFullscreen?.();
-  //   }
-  //   setIsFullScreen(!isFullScreen);
-  // };
-
-  // const closeModal = () => setSelected('');
 
   return (
     <>

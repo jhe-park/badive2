@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { TypeDBprofile } from './supabase/dbTableTypes';
 import { AWS_LAMBDA_URL } from '@/constants/constants';
+import axios from 'axios';
 
 export async function sendCancelTalkByAWSLambda({
   date,
@@ -9,11 +8,6 @@ export async function sendCancelTalkByAWSLambda({
   phone,
   program,
   region,
-  // userProfile,
-  // dateStr,
-  // instructorName,
-  // programRegion,
-  // programTitle,
 }: {
   phone: string;
   name: string;
@@ -21,17 +15,7 @@ export async function sendCancelTalkByAWSLambda({
   region: string;
   instructor: string;
   date: string;
-  // dateStr: string;
-  // programTitle: string;
-  // programRegion: string;
-  // instructorName: string;
-  // userProfile: TypeDBprofile;
 }) {
-  //   const lambdaURL = process.env.AWS_LAMBDA_URL;
-
-  //   console.log('lambdaURL');
-  //   console.log(lambdaURL);
-
   try {
     const response = await axios.post(
       `${AWS_LAMBDA_URL}/cancel-alimtalk`,
@@ -50,12 +34,6 @@ export async function sendCancelTalkByAWSLambda({
         },
       },
     );
-
-    console.log('response.statusText');
-    console.log(response.statusText);
-
-    console.log('response.data');
-    console.log(response.data);
 
     console.log('✅ 알림톡 전송 성공:', response.data);
     return response;
