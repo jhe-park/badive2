@@ -223,3 +223,9 @@ await supabase.rpc('cancel_reservation', {
   - time_slot_id는 시간에 따라서 리니어하게 설정되어 있다. 예를 들어 특정 날짜의 오전 10시의 time_slot_id가 400000이라면 같은 날짜의 오전 11시 time_slot_id는 400001이다
 - tour 페이지 : 여행 정보를 담고 있다. 어드민 페이지에서 추가 가능
 - tour_input : 사용하지 않는 테이블로 추정됨
+
+# supabase 타입 생성에 대하여
+
+`npm run gen-db-type` 입력시 supabase 테이블에 기록된 각 column의 타입을 typescript 타입으로 치환하여 `utils\supabase\database.types.ts`경로에 typescript 타입을 생성해줍니다. 이 과정은 supabase CLI를 통해 이루어집니다.
+
+DB테이블에 새로운 테이블을 추가하거나, 테이블에 새로운 COLUMN을 추가하거나, COLUMN의 타입을 변경한 경우 `npm run gen-db-type`을 실행하여 타입을 업데이트하여 DB타입과 타입스크립트 타입이 동기화되도록 하는 작업이 필요합니다.

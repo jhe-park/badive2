@@ -161,14 +161,11 @@ export default function ProgramTable({
 
       if (isInvalid) {
         // toast.error('환불 정보를 정확히 입력해주세요');
-
         changeCancelStatus({ status: 'CANCEL_READY' });
         return;
       }
     } // 가상계좌 데이터 검토 끝
 
-    //날짜 계산하기
-    // 프로그램 실행 날짜와 현재 날짜 가져오기
     const programDate = new Date(selectedReservation.time_slot_id.date);
     const today = new Date();
 
@@ -176,13 +173,7 @@ export default function ProgramTable({
     const diffTime = programDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    console.log('diffDays');
-    console.log(diffDays);
-
     const isSameDay = checkIsSameDay(programDate, new Date());
-
-    console.log('isSameDay');
-    console.log(isSameDay);
 
     // 지난 프로그램인 경우
     if (diffDays < 0) {
@@ -193,12 +184,6 @@ export default function ProgramTable({
       return;
     }
 
-    // if (diffDays < 0) {
-    //   toast.error('지난 프로그램은 환불이 불가능합니다.');
-    //   changeCancelStatus({ status: 'CANCEL_READY' });
-    //   return;
-    // }
-
     // 당일 취소
     if (isSameDay) {
       toast.error('당일 프로그램은 환불이 불가능합니다.');
@@ -207,18 +192,16 @@ export default function ProgramTable({
     }
 
     const isDDayMinus1 = checkIsDDayMinus1(programDate, today);
-    console.log('isDDayMinus1');
-    console.log(isDDayMinus1);
 
     // -환불규정
     // 당일 : 전액 환불 불가
     // 교육 시작 하루 전 : 50% 환불
     // 교육 시작 이틀 전 :  100% 환불
-    const refundAmount = isDDayMinus1
-      ? (selectedReservation.time_slot_id.program_id.price * selectedReservation.participants) / 2
-      : selectedReservation.time_slot_id.program_id.price * selectedReservation.participants;
 
-    debugger;
+    const programPrice =
+      typeof selectedReservation.program_price === 'number' ? selectedReservation.program_price : selectedReservation.time_slot_id.program_id.price;
+
+    const refundAmount = isDDayMinus1 ? (programPrice * selectedReservation.participants) / 2 : programPrice * selectedReservation.participants;
 
     const tossPaymentCancelRes = await fetch('/api/cancel-payment', {
       method: 'POST',

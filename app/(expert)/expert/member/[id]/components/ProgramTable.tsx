@@ -7,10 +7,11 @@ import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIsDDayMinus1 } from '@/utils/checkIsDDayMinus1';
 import { checkIsSameDay } from '@/utils/checkIfSameDay';
+import { TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
 
 export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
   const supabase = createTypedSupabaseClient();
-  const [programs, setPrograms] = useState([]);
+  const [reservations, setReservations] = useState<TypeDBreservationJoinWithTimeslot[]>([]);
 
   const getReservation = async () => {
     const { data, error } = await supabase.from('reservation').select('*,time_slot_id(*,instructor_id(*),program_id(*))').eq('user_id', member?.id);
@@ -19,7 +20,7 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
       console.log('Error fetching reservation:', error);
     } else {
       console.log('Reservation fetched successfully:', data);
-      setPrograms(data);
+      setReservations(data);
       setTotalAmount(data.reduce((acc, curr) => (curr.status !== '취소완료' ? acc + curr.time_slot_id.program_id.price * curr.participants : acc), 0));
     }
   };
@@ -45,11 +46,9 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     return diffDays > 1;
   };
 
-  console.log('programs:', programs);
-  const handleConfirmRequest = async program => {
-    //날짜 계산하기
-    // 프로그램 실행 날짜와 현재 날짜 가져오기
-    const programDate = new Date(program.time_slot_id.date);
+  console.log('programs:', reservations);
+  const handleConfirmRequest = async (reservation: TypeDBreservationJoinWithTimeslot) => {
+    const programDate = new Date(reservation.time_slot_id.date);
     const today = new Date();
 
     // 날짜 차이 계산 (밀리초를 일로 변환)
@@ -64,22 +63,12 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     // 지난 프로그램인 경우
     if (diffDays < 0) {
       toast.error('지난 프로그램은 환불이 불가능합니다.');
-
-      // changeCancelStatus({ status: 'CANCEL_READY' });
-
       return;
     }
-
-    // if (diffDays < 0) {
-    //   toast.error('지난 프로그램은 환불이 불가능합니다.');
-    //   changeCancelStatus({ status: 'CANCEL_READY' });
-    //   return;
-    // }
 
     // 당일 취소
     if (isSameDay) {
       toast.error('당일 프로그램은 환불이 불가능합니다.');
-      // changeCancelStatus({ status: 'CANCEL_READY' });
       return;
     }
 
@@ -87,50 +76,15 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
     console.log('isDDayMinus1');
     console.log(isDDayMinus1);
 
+    const programPrice = typeof reservation.program_price === 'number' ? reservation.program_price : reservation.time_slot_id.program_id.price;
+
     // -환불규정
     // 당일 : 전액 환불 불가
     // 교육 시작 하루 전 : 50% 환불
     // 교육 시작 이틀 전 :  100% 환불
-    const refundAmount = isDDayMinus1
-      ? (program.time_slot_id.program_id.price * program.participants) / 2
-      : program.time_slot_id.program_id.price * program.participants;
+    const refundAmount = isDDayMinus1 ? (programPrice * reservation.participants) / 2 : programPrice * reservation.participants;
 
-    // // 지난 프로그램인 경우
-    // if (diffDays < 0) {
-    //   toast.error('지난 프로그램은 환불이 불가능합니다.');
-    //   return;
-    // }
-
-    // if (diffDays === 0) {
-    //   toast.error('당일 프로그램은 환불이 불가능합니다.');
-    //   return;
-    // }
-
-    // // 1일 이내 취소. 50% 환불
-    // // if (diffDays === 1) {
-    // //   toast.error('교육 시작일 기준 1일 이내 취소는 환불이 불가능합니다.');
-    // //   return;
-    // // }
-
-    // // 환불 금액 계산
-    // // ✅ 명세
-    // // 1. 당일 전액 환불 불가
-    // // 2. 교육 시작 하루 전, 50% 환불가능
-    // // 3. 그이전은 그냥 다 100% 환불가능
-    // let refundAmount =
-    //   diffDays === 1 ? program.time_slot_id.program_id.price * program.participants * 0.5 : program.time_slot_id.program_id.price * program.participants;
-
-    // if (diffDays <= 7) {
-    //   // 7일 이내: 100% 환불
-    //   refundAmount = refundAmount;
-    // } else {
-    //   // 7일 초과: 100% 환불
-    //   console.log('100% 환불');
-    // }
-
-    // console.log('refundAmount:', refundAmount);
-
-    const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', program.id);
+    const { data, error } = await supabase.from('reservation').update({ status: '취소완료' }).eq('id', reservation.id);
 
     if (error) {
       toast.error('프로그램 취소에 실패했습니다.');
@@ -138,9 +92,9 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
       const { data: timeSlotData, error: timeSlotError } = await supabase
         .from('timeslot')
         .update({
-          current_participants: program.time_slot_id.current_participants - program.participants,
+          current_participants: reservation.time_slot_id.current_participants - reservation.participants,
         })
-        .eq('id', program.time_slot_id.id);
+        .eq('id', reservation.time_slot_id.id);
 
       if (timeSlotError) {
         toast.error('참가자 수 업데이트에 실패했습니다.');
@@ -153,7 +107,7 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          payment_key: program.payment_key,
+          payment_key: reservation.payment_key,
           refundAmount,
         }),
       });
@@ -223,7 +177,7 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
           <TableColumn className="w-1/4 text-center">환불</TableColumn>
         </TableHeader>
         <TableBody className="">
-          {programs.map(program => (
+          {reservations.map(program => (
             <TableRow key={program.id}>
               <TableCell className="whitespace-nowrap text-center">{program.time_slot_id.program_id.title}</TableCell>
               <TableCell className="whitespace-nowrap text-center">{program.time_slot_id.instructor_id.name}</TableCell>
