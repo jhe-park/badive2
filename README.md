@@ -27,6 +27,8 @@
 - alert 대안 : react-toastify
 - 네이버 OAuth 로그인 : next-auth
   - 구글과 카카오 기반의 OAuth 서비스는 supabase에서 자체 제공하므로 별도의 구현이 필요 없지만 네이버 OAuth 로그인은 supabase에서 지원하지 않으므로 별도의 로직을 필요로 한다. 이 OAuth 로직은 next-auth기반으로 구현하였다. 상세 로직은 `/api/auth/[...nextauth]/route.ts`을 참조할 것
+- OAuth 서비스 : Supabase OAuth
+  - 위에서 언급한 내용대로 구글과 카카오 기반의 OAuth 서비스는 supabase에서 제공하는 서비스를 이용하였다
 - 카카오톡 알림 서비스 : [알리고](https://smartsms.aligo.in/)
   - 이용자가 프로그램을 예약하거나 환불시 해당 알림서비스가 호출된다.
 - DB : Supabase (Postgresql의 wrapper 서비스이다)

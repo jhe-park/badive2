@@ -1,10 +1,8 @@
 import { getDomain } from '@/utils/getDomain';
 import { sendAlarmTalkByAWSLambda } from '@/utils/sendAlarmTalk';
 import { Database } from '@/utils/supabase/database.types';
-import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { createClient } from '@/utils/supabase/server';
 import { SupabaseClient } from '@supabase/supabase-js';
-import axios from 'axios';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -73,6 +71,8 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
     const { data: timeSlot } = await supabase.from('timeslot').select('*').eq('id', parseInt(slotId)).single();
 
     if (!timeSlot) {
+      cancelTossPayment({ payment_key: paymentKey as string, refundAmount: amount as string });
+      // 실패
       redirect(`/inquiries/fail?code=${-1}&message=${'해당 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
     }
 
@@ -83,6 +83,8 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
         code: '-1',
         message: "참여인원이 최대 허용인원을 초과하였습니다. 관리자에게 문의해 주세요'",
       });
+      cancelTossPayment({ payment_key: paymentKey as string, refundAmount: amount as string });
+      // 실패
       redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
@@ -114,6 +116,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
         code: '-1',
         message: `${JSON.stringify(transactionResult.error)} / ${JSON.stringify(transactionResult?.error_detail ?? '')}`,
       });
+      cancelTossPayment({ payment_key: paymentKey as string, refundAmount: amount as string });
       redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
@@ -217,3 +220,32 @@ const doTransactionForReservation = async ({
 };
 
 export default PageForPaymentComplete;
+
+async function cancelTossPayment({ payment_key, refundAmount }: { payment_key: string; refundAmount: string }) {
+  const tossPaymentResponse = await fetch(`/api/toss/cancel`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      payment_key: payment_key,
+      refundAmount,
+    }),
+  });
+
+  if (!tossPaymentResponse.ok) {
+    // toast.error(`토스페이먼츠 결제 취소 과정에서 알 수 없는 오류가 발생했습니다.`);
+    return { status: 'FAILED' };
+  }
+
+  const resJson = await tossPaymentResponse.json();
+
+  if (resJson.status === 'FAILED') {
+    // toast.error(`결제 취소에 실패했습니다. ${JSON.stringify(resJson.error)}`, { autoClose: false });
+    // return;
+    return { status: 'FAILED' };
+  } else {
+    // toast.success('프로그램 취소가 신청 완료되었습니다.');
+    return { status: 'SUCCESS' };
+  }
+}
