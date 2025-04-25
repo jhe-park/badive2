@@ -25,16 +25,21 @@ import { LuCirclePlus } from 'react-icons/lu';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function InstructorNewPage({ params }) {
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [selectedRole, setSelectedRole] = useState('bdn');
+  // const [selectedProgram, setSelectedProgram] = useState(['scuba']);
+  // const [certifications, setCertifications] = useState([]);
+  // const [certification, setCertification] = useState('');
+
+  const { id } = use<RouteParams>(params);
+
+  const router = useRouter();
+  const supabase = createClient();
+
   const { isOpen: isOpenAddInstructor, onOpen: onOpenAddInstructor, onOpenChange: onOpenChangeAddInstructor } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('bdn');
-  const [selectedProgram, setSelectedProgram] = useState(['scuba']);
-  const [imageUrl, setImageUrl] = useState('');
   const [title, setTitle] = useState('');
   const [program, setProgram] = useState(null);
-  const [certifications, setCertifications] = useState([]);
-  const [certification, setCertification] = useState('');
   const [instructor, setInstructor] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('스쿠버다이빙');
   const [selectedRegion, setSelectedRegion] = useState('서울');
@@ -46,10 +51,10 @@ export default function InstructorNewPage({ params }) {
   const categoryList = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터', '체험다이빙'];
   const regionList = ['서울', '경기', '인천', '대전', '대구', '부산', '경남'];
   const [tableData, setTableData] = useState([]);
-  const router = useRouter();
-  const supabase = createClient();
-  const { id } = use<RouteParams>(params);
+  const [imageUrl, setImageUrl] = useState('');
+
   const getProgram = async () => {
+    console.debug('🐞call getProgram');
     const { data, error } = await supabase.from('program').select('*,instructor_id(*)').eq('id', id).single();
     if (error) {
       console.error('Error getting program:', error);
@@ -72,6 +77,7 @@ export default function InstructorNewPage({ params }) {
       ]);
     }
   };
+
   useEffect(() => {
     getProgram();
   }, []);
@@ -109,8 +115,17 @@ export default function InstructorNewPage({ params }) {
       // error: urlError,
     } = supabase.storage.from('program').getPublicUrl(data.path);
 
+    console.debug('🐞publicUrl');
     // 이미지 URL 설정
     setImageUrl(publicUrl);
+    console.debug('🐞setImageUrl 완료');
+    setTimeout(() => {
+      console.debug('after settimeout');
+      console.debug('🐞publicUrl');
+      console.debug(publicUrl);
+      // setImageUrl(publicUrl);
+      setImageUrl(prev => publicUrl);
+    }, 3000);
   };
 
   const handleSaveInstructor = onClose => {
@@ -129,6 +144,10 @@ export default function InstructorNewPage({ params }) {
 
   const handleSaveProgram = async () => {
     setIsSave(true);
+    console.debug('🐞imageUrl');
+    console.debug(imageUrl);
+    debugger;
+
     try {
       const newProgramData = tableData.map(item => {
         const instructorData = instructor.find(inst => inst.name === item.instructor);
@@ -168,6 +187,7 @@ export default function InstructorNewPage({ params }) {
       console.error('Unexpected error:', error);
     }
   };
+
   const handleDeleteProgram = async () => {
     setIsSave(true);
     try {
@@ -185,11 +205,24 @@ export default function InstructorNewPage({ params }) {
     }
   };
 
+  console.debug('🐞imageUrl');
+  console.debug(imageUrl);
+
   return (
     <div className="flex h-full w-full flex-col">
+      {/* <div className="">{imageUrl}</div> */}
+      {/* <div
+        className=""
+        onClick={() => {
+          setImageUrl('https://api.badive.co.kr/storage/v1/object/public/program/44c84322-f4f8-4ec0-91a4-532e35dbceaf');
+        }}
+      >
+        change
+      </div> */}
       <div className="flex h-full w-full flex-col items-center justify-center gap-y-6">
         <div className="relative flex aspect-square h-[50vh]">
           {/* fill */}
+          {/* <img key={imageUrl} src={imageUrl} alt="program-image" className="rounded-2xl object-cover" /> */}
           <Image src={imageUrl || '/noimage/noimage.jpg'} alt="program-image" fill className="rounded-2xl object-cover"></Image>
           <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleUploadImage} />
           <LuCirclePlus

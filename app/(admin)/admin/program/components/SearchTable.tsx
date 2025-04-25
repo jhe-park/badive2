@@ -68,7 +68,7 @@ export default function SearchTable() {
 
     fetchPrograms();
   }, [page, pageSize, search, selectedFilter]);
-  
+
   return (
     <>
       <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 px-4 md:flex-row">
@@ -157,10 +157,10 @@ export default function SearchTable() {
   );
 }
 
-function removeImgTags(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const images = doc.querySelectorAll('img');
-  images.forEach(img => img.remove());
-  return doc.body.innerHTML;
-}
+// function removeImgTags(html) {
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(html, 'text/html');
+//   const images = doc.querySelectorAll('img');
+//   images.forEach(img => img.remove());
+//   return doc.body.innerHTML;
+// }

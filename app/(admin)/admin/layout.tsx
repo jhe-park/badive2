@@ -24,6 +24,18 @@ export default async function ({ children }) {
 
   return (
     <>
+      <div className="">
+        <div className="block md:hidden">
+          <SideBarForMobile type="ADMIN" user={user} menuItems={menuItems} />
+        </div>
+        <SidebarAndMainContents children={children} user={user} />
+      </div>
+    </>
+  );
+}
+
+{
+  /* <>
       <div className="block md:hidden">
         <SideBarForMobile type="ADMIN" user={user} menuItems={menuItems} />
         <div className="px-4 pb-4 pt-8">{children}</div>
@@ -31,6 +43,5 @@ export default async function ({ children }) {
       <div className="hidden md:block">
         <SidebarAndMainContents children={children} user={user} />
       </div>
-    </>
-  );
+    </> */
 }

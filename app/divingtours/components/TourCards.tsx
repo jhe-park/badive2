@@ -87,7 +87,6 @@ export default function TourCards() {
                   {tour.status === '예약마감' || tour.isClosed || tour.current_participants === tour.max_participants ? (
                     <div
                       onClick={() => {
-                        debugger;
                         onOpen();
                       }}
                       className="cursor-pointer"
@@ -110,8 +109,6 @@ export default function TourCards() {
                   ) : (
                     <div
                       onClick={() => {
-                        debugger;
-
                         handleClick(tour);
                       }}
                       className="cursor-pointer"
