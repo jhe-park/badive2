@@ -16,15 +16,19 @@
 - Next.js App Route (v 15.1.4이며 추후 버전업될 수 있음)
 - 상태관리 : Zustand
 - Typescript 5.8
-- 백엔드 FastAPI
-  - DB는 Supabase 구축되었고, 알람톡/예약 기능 일의 경우 fast api + lambda로 api 구축
-  - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡/예약 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
+- 백엔드 
+  - 백엔드는 2가지 파트로 나뉜다
+  - 1) next.js의 Route Handler
+  - 2) AWS Lambda 기반으로 실행되는 FastAPI
+    - 알람톡 및 이메일 전달 기능은 python기반의 fast api로 구축되어 있다. 상세는 하단의 `AWS Lambda 함수에 대하여` 항목 참조할 것
+    - 본 API는 next.js의 Route Handler로 작성하여도 무방하나 이전 작성자가 해당 기능의 구현체를 이미 가지고 있던 상황이라 FastAPI로 작성했다고 함. 본 프로젝트에서 `알람톡 및 이메일 전송 기능`을 관리하고 싶다면 next.js의 Route Handler로 해당 기능을 재작성할 것
 - 결제 모듈 : [토스페이먼트 v2](https://docs.tosspayments.com/guides/v2/payment-widget/integration)
 - 정적파일 버킷 : AWS S3
 - alert 대안 : react-toastify
-- 로그인 : next-auth
+- 네이버 OAuth 로그인 : next-auth
+  - 구글과 카카오 기반의 OAuth 서비스는 supabase에서 자체 제공하므로 별도의 구현이 필요 없지만 네이버 OAuth 로그인은 supabase에서 지원하지 않으므로 별도의 로직을 필요로 한다. 이 OAuth 로직은 next-auth기반으로 구현하였다. 상세 로직은 `/api/auth/[...nextauth]/route.ts`을 참조할 것
 - 카카오톡 알림 서비스 : [알리고](https://smartsms.aligo.in/)
-  - 환불시 해당 알림서비스 호출할 것
+  - 이용자가 프로그램을 예약하거나 환불시 해당 알림서비스가 호출된다.
 - DB : Supabase (Postgresql의 wrapper 서비스이다)
 - 배포 플랫폼 : Vercel (서버리스 플랫폼)
 - 도메인 : 가비야에서 구매하였음
@@ -232,7 +236,7 @@ DB테이블에 새로운 테이블을 추가하거나, 테이블에 새로운 CO
 
 ## 비밀번호 변경시 이메일 전송 - Supabase 기반의 이메일 전송
 
-supabase auth는 유저 인증과 관련한 이메일 전송을 제공한다. 
+supabase auth는 유저 인증과 관련한 이메일 전송 서비스를 제공한다. 
 
 왼쪽 메뉴의 Authentication -> Email를 클릭하면 `Confirm signup`,
 `Invite user`등 이벤트별로 템플릿을 설정할 수 있다.
