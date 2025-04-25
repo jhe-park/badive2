@@ -66,14 +66,15 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
 
     const tossPaymentsResJson = await tossPaymentResponse.json();
 
+    // // for test
+    // if (true) {
+    //   cancelTossPayment({ domainWithProtocol, payment_key: paymentKey as string, refundAmount: amount as string });
+    //   // 실패
+    //   redirect(`/inquiries/fail?code=${-1}&message=${'해당 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
+    // }
+
     const slotId = timeSlotIds.at(0)!;
     const { data: timeSlot } = await supabase.from('timeslot').select('*').eq('id', parseInt(slotId)).single();
-
-    if (!timeSlot) {
-      cancelTossPayment({ payment_key: paymentKey as string, refundAmount: amount as string });
-      // 실패
-      redirect(`/inquiries/fail?code=${-1}&message=${'해당 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
-    }
 
     const updatedCurrentParticipants = timeSlot.current_participants + numOfParticipantsForCheckout;
 
@@ -82,7 +83,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
         code: '-1',
         message: "참여인원이 최대 허용인원을 초과하였습니다. 관리자에게 문의해 주세요'",
       });
-      cancelTossPayment({ payment_key: paymentKey as string, refundAmount: amount as string });
+      cancelTossPayment({ domainWithProtocol, payment_key: paymentKey as string, refundAmount: amount as string });
       // 실패
       redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
@@ -115,7 +116,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
         code: '-1',
         message: `${JSON.stringify(transactionResult.error)} / ${JSON.stringify(transactionResult?.error_detail ?? '')}`,
       });
-      cancelTossPayment({ payment_key: paymentKey as string, refundAmount: amount as string });
+      cancelTossPayment({ domainWithProtocol, payment_key: paymentKey as string, refundAmount: amount as string });
       redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
@@ -220,8 +221,8 @@ const doTransactionForReservation = async ({
 
 export default PageForPaymentComplete;
 
-async function cancelTossPayment({ payment_key, refundAmount }: { payment_key: string; refundAmount: string }) {
-  const tossPaymentResponse = await fetch(`/api/toss/cancel`, {
+async function cancelTossPayment({ payment_key, refundAmount, domainWithProtocol }: { payment_key: string; refundAmount: string; domainWithProtocol: string }) {
+  const tossPaymentResponse = await fetch(`${domainWithProtocol}/api/toss/cancel`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
