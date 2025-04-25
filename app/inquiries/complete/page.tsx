@@ -12,12 +12,40 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
   const { orderId, instructor_id, time_slot_id, user_id, participants, paymentKey, amount, pay_type, program_id } = await searchParams;
   const { domainWithProtocol } = await getDomain();
 
+  if (orderId == null) {
+    redirect(`/inquiries/fail?code=${-1}&message=${'orderId가 없습니다. 관리자에게 문의해 주세요'}`);
+  }
+
+  const supabase = await createClient();
+
+  // 이미 예약이 존재하는지 order_id로 쿼리한다
+  const { data: existingReservation } = await supabase
+    .from('reservation')
+    .select('*')
+    .eq('order_id', orderId as string)
+    .single();
+
+  if (existingReservation) {
+    redirect(`/inquiries/fail?code=${-1}&message=${'이미 예약이 존재합니다. 관리자에게 문의해 주세요'}`);
+  }
+
+  const timeSlotIds: string[] = Array.isArray(time_slot_id) ? time_slot_id : time_slot_id.split(',');
+
+  if (timeSlotIds.length === 0) {
+    redirect(`/inquiries/fail?code=${-1}&message=${'예약에 할당된 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
+  }
+
+  if (timeSlotIds.length >= 2) {
+    redirect(`/inquiries/fail?code=${-1}&message=${'예약에 할당된 timeslot이 2개 이상입니다. 관리자에게 문의해 주세요'}`);
+  }
+
   const numOfParticipantsForCheckout = parseInt(participants as string);
 
   if (isNaN(numOfParticipantsForCheckout)) {
     redirect(`/inquiries/fail?code=${-1}&message=${'participants 데이터가 없습니다. 관리자에게 문의해 주세요'}`);
   }
 
+  // 동일한 예약이 없는 것이 확인되었으므로 토스페이먼츠에 결제를 요청한다
   try {
     const tossPaymentResponse = await fetch(`${domainWithProtocol}/api/payment`, {
       method: 'POST',
@@ -38,36 +66,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
 
     const tossPaymentsResJson = await tossPaymentResponse.json();
 
-    const supabase = await createClient();
-
-    if (orderId == null) {
-      redirect(`/inquiries/fail?code=${-1}&message=${'orderId가 없습니다. 관리자에게 문의해 주세요'}`);
-    }
-
-    // 먼저 예약 존재 여부 확인
-    const { data: existingReservation } = await supabase
-      .from('reservation')
-      .select('*')
-      .eq('order_id', orderId as string)
-      .single();
-
-    if (existingReservation) {
-      redirect(`/inquiries/fail?code=${-1}&message=${'이미 예약이 존재합니다. 관리자에게 문의해 주세요'}`);
-    }
-
-    // time_slot 테이블 업데이트
-    const timeSlotIds: string[] = Array.isArray(time_slot_id) ? time_slot_id : time_slot_id.split(',');
-
-    if (timeSlotIds.length === 0) {
-      redirect(`/inquiries/fail?code=${-1}&message=${'예약에 할당된 timeslot이 없습니다. 관리자에게 문의해 주세요'}`);
-    }
-
-    if (timeSlotIds.length >= 2) {
-      redirect(`/inquiries/fail?code=${-1}&message=${'예약에 할당된 timeslot이 2개 이상입니다. 관리자에게 문의해 주세요'}`);
-    }
-
     const slotId = timeSlotIds.at(0)!;
-
     const { data: timeSlot } = await supabase.from('timeslot').select('*').eq('id', parseInt(slotId)).single();
 
     if (!timeSlot) {
@@ -88,7 +87,7 @@ const PageForPaymentComplete: NextPage<NextPageProps> = async ({ searchParams })
       redirect(`/inquiries/fail?${searchParams.toString()}`);
     }
 
-    const isFullyBooked = updatedCurrentParticipants === timeSlot.max_participants;
+    // const isFullyBooked = updatedCurrentParticipants === timeSlot.max_participants;
 
     const { data: dataForProgram, error: errorForProgram } = await supabase
       .from('program')
@@ -234,6 +233,9 @@ async function cancelTossPayment({ payment_key, refundAmount }: { payment_key: s
   });
 
   if (!tossPaymentResponse.ok) {
+    console.error('토스페이먼츠 결제 취소 실패');
+    console.error('tossPaymentResponse.status');
+    console.error(tossPaymentResponse.status);
     // toast.error(`토스페이먼츠 결제 취소 과정에서 알 수 없는 오류가 발생했습니다.`);
     return { status: 'FAILED' };
   }
@@ -241,6 +243,8 @@ async function cancelTossPayment({ payment_key, refundAmount }: { payment_key: s
   const resJson = await tossPaymentResponse.json();
 
   if (resJson.status === 'FAILED') {
+    console.error('토스페이먼츠 결제 취소 실패');
+    console.error(resJson);
     // toast.error(`결제 취소에 실패했습니다. ${JSON.stringify(resJson.error)}`, { autoClose: false });
     // return;
     return { status: 'FAILED' };
