@@ -1,5 +1,6 @@
 'use client';
 
+import { checkIsValidEmail } from '@/utils/checkIsValidEmail';
 import { createClient } from '@/utils/supabase/client';
 import {
   Button,
@@ -36,53 +37,94 @@ export default function RequestForm({ className, tourData, user, ...props }) {
   const [license, setLicense] = useState('');
   const [callTime, setCallTime] = useState('');
   const [email, setEmail] = useState('');
-  const [agree, setAgree] = useState(false);
+  const [agree, setAgree] = useState<null | 'agree' | 'disagree'>(null);
 
   const handleSubmit = () => {
-    if (name === '') {
+    if (agree !== 'agree') {
+      toast.error('개인정보 수집 및 이용 동의서를 확인 후 동의 해주세요');
+      return;
+    }
+
+    let isInvalidForm = false;
+
+    const nameTrimmed = name.trim();
+
+    if (nameTrimmed === '') {
       toast.error('이름을 입력해주세요');
-      return;
+      isInvalidForm = true;
+    } else if (nameTrimmed.length < 2) {
+      toast.error('이름은 2자 이상 입력해주세요');
+      isInvalidForm = true;
     }
 
-    if (phone === '') {
-      toast.error('연락처를 입력해주세요');
-      return;
+    const formPhoneRefined = phone.replace(/[^0-9]/g, '');
+
+    if (!formPhoneRefined || formPhoneRefined.length === 0) {
+      toast.error('휴대폰번호를 입력해주세요.');
+      isInvalidForm = true;
+    } else if (formPhoneRefined.length !== 11) {
+      toast.error('휴대폰번호는 11자리 숫자여야 합니다.');
+      isInvalidForm = true;
     }
 
-    if (birth === '') {
-      toast.error('생년월일을 입력해주세요');
-      return;
+    const formBirthRefined = birth.replace(/[^0-9]/g, '');
+
+    if (formBirthRefined == null || formBirthRefined.length === 0) {
+      toast.error('생년월일을 입력해주세요.');
+      isInvalidForm = true;
+    } else if (formBirthRefined.length !== 8) {
+      toast.error('생년월일은 8자리 숫자여야 합니다.');
+      isInvalidForm = true;
     }
 
-    if (region === '') {
+    if (gender !== 'male' && gender !== 'female') {
+      toast.error('성별을 선택해주세요');
+      isInvalidForm = true;
+    }
+
+    const regionTrimmed = region.trim();
+    if (regionTrimmed === '') {
       toast.error('지역을 입력해주세요');
-      return;
+      isInvalidForm = true;
+    } else if (regionTrimmed.length < 2) {
+      toast.error('지역은 2자 이상 입력해주세요');
+      isInvalidForm = true;
     }
 
-    if (license === '') {
+    const licenseTrimmed = license.trim();
+    if (licenseTrimmed === '') {
       toast.error('보유한 라이센스를 입력해주세요');
-      return;
+      isInvalidForm = true;
     }
 
-    if (callTime === '') {
+    const callTimeTrimmed = callTime.trim();
+    if (callTimeTrimmed === '') {
       toast.error('통화가능시간을 입력해주세요');
-      return;
+      isInvalidForm = true;
     }
+
     if (email === '') {
       toast.error('이메일을 입력해주세요');
+      isInvalidForm = true;
+    } else if (checkIsValidEmail(email) === false) {
+      toast.error('이메일 형식이 올바르지 않습니다');
+      isInvalidForm = true;
+    }
+
+    if (isInvalidForm) {
       return;
     }
 
     if (agree) {
       const handleRequest = async () => {
         const { data, error } = await supabase.from('request').insert({
-          name,
-          phone,
+          name: nameTrimmed,
+          phone: formPhoneRefined,
           gender,
-          birth,
-          region,
-          license,
-          callTime,
+          birth: formBirthRefined,
+          region: regionTrimmed,
+          license: licenseTrimmed,
+          callTime: callTimeTrimmed,
           email,
           user_id: user?.user?.id,
           tour_id: tourData.id,
@@ -162,6 +204,7 @@ export default function RequestForm({ className, tourData, user, ...props }) {
         <p>
           <span className="text-red-500">*</span>는 필수항목 입니다.
         </p>
+        <p className="py-1 font-bold text-red-500">보유한 라이센스가 없으신 분들은 투어 신청이 불가능합니다 </p>
       </div>
 
       <div className={cn('flex grid w-full grid-cols-12 flex-col gap-4 py-8', className)} {...props}>
@@ -207,7 +250,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
             여
           </SelectItem>
         </Select>
-
         <Input
           className="col-span-12 md:col-span-6"
           variant="bordered"
@@ -218,7 +260,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           value={birth}
           onChange={e => setBirth(e.target.value)}
         />
-
         <Input
           className="col-span-12 md:col-span-6"
           variant="bordered"
@@ -229,7 +270,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           value={region}
           onChange={e => setRegion(e.target.value)}
         />
-
         <Input
           className="col-span-12 md:col-span-6"
           variant="bordered"
@@ -240,7 +280,6 @@ export default function RequestForm({ className, tourData, user, ...props }) {
           value={license}
           onChange={e => setLicense(e.target.value)}
         />
-
         <Input
           className="col-span-12 md:col-span-6"
           variant="bordered"

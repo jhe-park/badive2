@@ -16,8 +16,6 @@ export default function Reset(searchParams) {
 
   const supabase = createTypedSupabaseClient();
 
-  console.log('password:', password);
-
   const resetPassword = async () => {
     debugger;
     let isInvalid = false;
@@ -51,9 +49,6 @@ export default function Reset(searchParams) {
       password: password,
     });
 
-    console.log('updatedUser');
-    console.log(updatedUser);
-
     if (userUpdateError) {
       console.error('userError:', userUpdateError);
       toast.error('유저 데이터를 업데이트 하는 중 오류가 발생했습니다.', { autoClose: false });
@@ -62,7 +57,7 @@ export default function Reset(searchParams) {
       return;
     }
 
-    console.log('userError:', userUpdateError);
+    console.error('userError:', userUpdateError);
     changePasswordChangeStatus({ status: 'PASSWORD_CHANGE_COMPLETED' });
 
     toast.success('비밀번호가 성공적으로 변경 되었습니다.');
