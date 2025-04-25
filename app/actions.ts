@@ -67,6 +67,7 @@ export const signInAction = async (formData: FormData, returnUrl: string, origin
   return redirect('/?message=success to login');
 };
 
+// 이 함수에서 리다이렉트하는 경로인 "/protected/reset-password"은 사용되지 않는 페이지로 보임
 export const forgotPasswordAction = async (formData: FormData) => {
   const email = formData.get('email')?.toString();
   const supabase = await createClient();
