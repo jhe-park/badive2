@@ -78,6 +78,7 @@ export default function () {
       },
     ],
     groupImage: '/programnew/underwatergroup.png',
+    price: [{ title: '베이직(D1)', originalPrice: 550000, discountPrice: 440000, description: null, borderColor: '#0053C9' }],
   };
 
   return (

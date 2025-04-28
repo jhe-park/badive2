@@ -57,25 +57,26 @@ export default function () {
     instruction: [
       {
         title: '이론교육',
-        description1: `<div>준비중중</div>`,
+        description1: `<div>준비중</div>`,
         description2: `
         
         `,
       },
       {
         title: '스튜디오',
-        description1: `<div>준비중중</div>`,
+        description1: `<div>준비중</div>`,
         description2: `
         `,
       },
       {
         title: '다이빙풀',
-        description1: `<div>준비중중</div>`,
+        description1: `<div>준비중</div>`,
         description2: `
         `,
       },
     ],
     groupImage: '/programnew/underwatergroup.png',
+    price: [{ title: '어드밴스(D2)', originalPrice: null, discountPrice: null, description: null, borderColor: '#0053C9' }],
   };
   return (
     <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">

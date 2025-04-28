@@ -8,6 +8,7 @@ import Requirement from '../../components/Requirement';
 import Review from '../../components/Review';
 import SpecialAdvantage from '../../components/SpecialAdvantage';
 import Strength from '../../components/Strength';
+
 export default function () {
   const data = {
     title: '스쿠버 다이빙',
@@ -88,7 +89,7 @@ export default function () {
     groupImage: '/programnew/scubergroup.png',
   };
   return (
-    <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">
+    <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">      
       <TopHeader></TopHeader>
       <MainTitle data={data}></MainTitle>
       <MainDetail data={data}></MainDetail>

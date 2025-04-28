@@ -73,6 +73,7 @@ export default function () {
       },
     ],
     groupImage: '/programnew/freedivinggroup.png',
+    price: [{ title: '레벨4', originalPrice: 800000, discountPrice: null, description: null, borderColor: '#0053C9' }],
   };
   return (
     <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">

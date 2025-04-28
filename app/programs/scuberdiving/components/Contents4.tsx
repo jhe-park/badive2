@@ -32,7 +32,7 @@ export default function () {
       },
       {
         image: '/programnew/icon4.png',
-        text: '레스큐큐 다이버 자격증 발급',
+        text: '레스큐 다이버 자격증 발급',
         highlight: '',
       },
     ],

@@ -63,7 +63,7 @@ export default function () {
     ],
     instruction: [
       {
-        title: '딥 다이빙빙',
+        title: '딥 다이빙',
         description1: ``,
         description2: `
         <div>최대 수심 40m 무감압 오픈워터 다이빙을 계획하고 실수 할 수 있도록 훈련하는 과정</div>

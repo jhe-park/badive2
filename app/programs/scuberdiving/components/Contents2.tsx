@@ -86,6 +86,10 @@ export default function () {
       },
     ],
     groupImage: '/programnew/scubergroup.png',
+    price: [
+      { title: '오픈워터 다이버', originalPrice: 550000, discountPrice: 440000, description: null, borderColor: '#0053C9' },
+      { title: '오픈+어드밴스', originalPrice: 990000, discountPrice: 792000, description: null, borderColor: '#0053C9' },
+    ],
   };
   return (
     <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">

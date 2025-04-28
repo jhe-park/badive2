@@ -81,6 +81,11 @@ export default function () {
       },
     ],
     groupImage: '/programnew/mermaidgroup.png',
+    price: [
+      { title: '어드밴스 머메이드', originalPrice: 700000, discountPrice: null, description: null, borderColor: '#B388EB' },
+      { title: '베이직+머메이드', originalPrice: 700000, discountPrice: 560000, description: null, borderColor: '#B388EB' },
+      { title: '베이직+머메이드+어드밴스', originalPrice: 1200000, discountPrice: 960000, description: null, borderColor: '#B388EB' },
+    ],
   };
   return (
     <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">

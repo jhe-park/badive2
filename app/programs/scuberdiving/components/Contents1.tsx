@@ -41,11 +41,7 @@ export default function () {
       },
       {
         title: '-포함사항:',
-        description: '교육비, 자격증 발급(교재비 포함)',
-      },
-      {
-        title: '-불포함사항:',
-        description: '입장료, 장비대여',
+        description: '체험강습비, 입장료, 장비대여&공기통대여',
       },
     ],
     instruction: [
@@ -66,6 +62,18 @@ export default function () {
       },
     ],
     groupImage: '/programnew/scubergroup.png',
+    price: [
+      { title: '어린이 체험 다이빙', originalPrice: 160000, discountPrice: null, description: '만10세이상', borderColor: '#FFB703' },
+      { title: '커플 체험 다이빙', originalPrice: 250000, discountPrice: null, description: '만 19세이상, 커플2인 예약 가능', borderColor: '#FB6F92' },
+      {
+        title: '한가족 체험 다이빙',
+        originalPrice: 260000,
+        discountPrice: null,
+        description: '만10세이상, 한가족(부모1+자녀1)예약가능',
+        borderColor: '#A7C957',
+      },
+      { title: '성인 체험 다이빙', originalPrice: 150000, discountPrice: null, description: '※ 20세이상', borderColor: '#2C63FF' },
+    ],
   };
   return (
     <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">
