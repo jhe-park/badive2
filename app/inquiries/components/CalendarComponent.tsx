@@ -180,7 +180,15 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
   return (
     <div className={`order-2 col-span-1 flex h-full flex-col items-center justify-center gap-y-2 md:order-1 md:gap-y-12`}>
       <div className="flex w-full items-center justify-between md:mb-4 lg:pt-[0px]">
-        <button onClick={handlePrevMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
+        <button
+          onClick={() => {
+            setMonthlyTimeSlots([]);
+            setTimeout(() => {
+              handlePrevMonth();
+            }, 100);
+          }}
+          className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200"
+        >
           <ChevronLeft className="text-4xl font-bold md:text-9xl" />
           <span className="text-[20px] md:text-2xl lg:text-[32px]">이전달</span>
         </button>
@@ -188,7 +196,15 @@ const CalendarComponent: React.FC<TProps> = ({ isSelectProgram, isSelectInstruct
           <div className="text-[20px] font-[700] md:text-3xl lg:text-[32px]">{dayjs(currentDate).format('YYYY.MM')}</div>
         </div>
 
-        <button onClick={handleNextMonth} className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200">
+        <button
+          onClick={() => {
+            setMonthlyTimeSlots([]);
+            setTimeout(() => {
+              handleNextMonth();
+            }, 100);
+          }}
+          className="flex items-center justify-center gap-x-2 rounded-full p-2 transition hover:bg-gray-200"
+        >
           <span className="text-[20px] md:text-2xl lg:text-[32px]">다음달</span>
           <ChevronRight className="text-4xl font-bold md:text-9xl" />
         </button>
