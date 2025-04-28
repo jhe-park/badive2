@@ -1,4 +1,5 @@
 'use client';
+
 import { createClient } from '@/utils/supabase/client';
 import { formatingDateRange } from '@/utils/supabase/formatingDateRange';
 import { Button, Card, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Pagination, Skeleton, useDisclosure } from '@heroui/react';
@@ -84,7 +85,7 @@ export default function TourCards() {
                       {tour.status}
                     </Chip>
                   )}
-                  {tour.status === '예약마감' || tour.isClosed || tour.current_participants === tour.max_participants ? (
+                  {tour.status === '투어종료' || tour.status === '예약마감' || tour.isClosed || tour.current_participants === tour.max_participants ? (
                     <div
                       onClick={() => {
                         onOpen();
@@ -102,7 +103,7 @@ export default function TourCards() {
                           투어일자:{formatingDateRange(tour.date)}
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-gray-500">모집종료</span>
+                          <span className="text-2xl font-bold text-gray-500">{tour.status}</span>
                         </div>
                       </div>
                     </div>

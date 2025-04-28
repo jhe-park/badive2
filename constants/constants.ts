@@ -5,6 +5,16 @@ export const ALIGO_SENDER_PHONE_NUMBER = '01086448733';
 export const LECTURE_CATEGORY = ['스쿠버다이빙', '프리다이빙', '머메이드', '언더워터 댄스'] as const;
 export type LECTURE_CATEGORY_TYPE = (typeof LECTURE_CATEGORY)[number];
 
+export const COLORS = {
+  // CHART_X_Y: '#9e9fad',
+  // PRIMARY_COLOR: '#3651b2',
+  // TOOLTIP_BG: '#28282e',
+  // POINT: '#ff176a',
+  GRAYSCALE_200: '#E5E6EB',
+  GRAYSCALE_400: '#9E9FAD',
+  GRAYSCALE_500: '#6E717D',
+};
+
 export const IMG_DOMAIN = {
   legacy: 'efehwvtyjlpxkpgswrfw.supabase.co',
   current: 'api.badive.co.kr',

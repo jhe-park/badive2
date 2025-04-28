@@ -1,5 +1,6 @@
 'use client';
 
+import { ReactSelect } from '@/app/components/ReactSelectStyled';
 import { useProgramStore } from '@/app/store/useProgramStore';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
 import { selectedResultInitializedValue, useSelectedResult } from '@/app/store/useSelectedResult';
@@ -13,6 +14,7 @@ import { User } from '@supabase/supabase-js';
 import React, { useEffect, useRef, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { PriceAndCheckOutComponent } from './PriceAndCheckoutComponent';
+import { GroupBase, OptionsOrGroups } from 'react-select';
 
 type TProps = {
   isSelectProgram: boolean;
@@ -44,6 +46,13 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     .toSorted((a, b) => {
       return a.created_at > b.created_at ? 1 : -1;
     });
+
+  const programFilteredForReactSelect = programFiltered.map(item => {
+    return {
+      value: item.title,
+      label: item.title,
+    };
+  });
 
   const [selectedProgramTitle, setSelectedProgramTitle] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -245,6 +254,8 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
     initializeSelectedInstructor();
   };
 
+  const options: OptionsOrGroups<unknown, GroupBase<unknown>> = [];
+
   return (
     <div className="order-1 flex flex-col items-start justify-start gap-y-3 pt-6 md:order-2 md:gap-y-6 md:pt-0">
       <ToastContainer
@@ -282,7 +293,34 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
           );
         })}
       </div>
-      <Select
+
+      <div className="relative z-[9999] w-full bg-white">
+        <ReactSelect
+          // customOptions={customOptions}
+          // defaultValue={defaultOption}
+          placeholder={'프로그램명'}
+          options={programFilteredForReactSelect}
+          isSearchable={false}
+          noOptionsMessage={() => "프로그램을 선택해주세요"}
+          onChange={obj => {
+            selectProgram({ programTitle: (obj as any).value });
+
+            // console.debug('🐞obj');
+            // console.debug((obj as any).value);
+            // debugger;
+
+            // if (typePredicateForSelect(obj) === false) {
+            //   alert('선택된 값이 없습니다.');
+            //   return;
+            // }
+            // field.onChange(obj.value);
+            // if (typeof onChangeSelect === 'function') {
+            //   onChangeSelect({ ...obj });
+            // }
+          }}
+        />
+      </div>
+      {/* <Select
         ref={refForProgramSelect}
         label="프로그램명"
         aria-label="강습프로그램 선택"
@@ -300,7 +338,7 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
             </SelectItem>
           );
         })}
-      </Select>
+      </Select> */}
       <div className="w-full text-lg font-bold md:text-2xl">희망하는 지역</div>
       <Select
         label="지역명"
