@@ -1,8 +1,10 @@
 'use client';
 import { Button } from '@heroui/react';
-import { useRouter } from 'next/navigation';
-export default function Requirement({ data }) {
+import { usePathname, useRouter } from 'next/navigation';
+export default function Requirement({ data, warningHide }: { data: any; warningHide?: boolean }) {
   const router = useRouter();
+  const pathName = usePathname();
+
   return (
     <div className="mb-8 mt-4 flex h-full w-full flex-col items-center justify-evenly gap-y-4 text-[24px] md:aspect-[768/540] md:text-[64px] xl:aspect-[1280/693]">
       <div className="text-center text-[35px] font-bold md:text-[40px] xl:text-[64px]">
@@ -21,7 +23,9 @@ export default function Requirement({ data }) {
             <div><span className="text-[20px] md:text-[40px] text-[#0053C9] font-bold">포함사항:</span> 교육비, 자격증 발급(교재비 포함)</div>
             <div><span className="text-[20px] md:text-[40px] text-[#0053C9] font-bold">불포함사항:</span> 입장료, 장비대여&공기통대여, 해양실습 </div> */}
       </div>
-      <div className="text-center text-[16px] text-[#7A7A7A] md:text-[20px]">＊ 모든 강습은 개인에 따라 일정이 추가 되거나 변경될 수 있습니다.</div>
+      {warningHide !== true && (
+        <div className="text-center text-[16px] text-[#7A7A7A] md:text-[20px]">＊ 모든 강습은 개인에 따라 일정이 추가 되거나 변경될 수 있습니다.</div>
+      )}
       <div className="flex w-full items-center justify-center md:mt-0">
         <Button
           onPress={() => router.push('/inquiries')}

@@ -84,7 +84,7 @@ export default function () {
       <MiddleBanner data={data}></MiddleBanner>
       <Review></Review>
       <Phone></Phone>
-      <Requirement data={data}></Requirement>
+      <Requirement warningHide data={data}></Requirement>
     </div>
   );
 }
