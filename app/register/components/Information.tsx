@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import { toast, ToastContainer } from 'react-toastify';
 import { programlist } from './programlist';
+import { cn } from '@/lib/utils';
 
 export default function Information() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -35,9 +36,12 @@ export default function Information() {
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const supabase = createClient();
+  const [isSubmitBtnClicked, setIsSubmitBtnClicked] = useState(false);
   const { step, setStep } = useStep();
 
   const handleNext = async () => {
+    setIsSubmitBtnClicked(true);
+
     let isInvalidForm = false;
 
     if (!checkIsValidEmail(email)) {
@@ -266,13 +270,13 @@ export default function Information() {
               type="password"
               autoComplete="new-password"
               variant="bordered"
-              className={`w-full ${isPasswordMatch ? 'border-red-500' : ''}`}
+              // isInvalid={!isPasswordMatch && passwordCheck.length > 0}
+              // className={`w-full ${isPasswordMatch ? 'border-red-500' : ''}`}
               placeholder="패스워드를 입력해 주세요."
               value={password}
-              isInvalid={!isPasswordMatch}
               onChange={handlePasswordChange}
             />
-            <p className={`text-[#F31260] ${isPasswordMatch ? 'hidden' : ''}`}>패스워드가 일치하지 않습니다.</p>
+            {/* <p className={`text-[#F31260] ${passwordCheck.length === 0 || isPasswordMatch ? 'hidden' : ''}`}>패스워드가 일치하지 않습니다.</p> */}
             <p className="pt-2">※ 8~16자 사이의 비밀번호를 입력해주세요</p>
             {/* <p>※ 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합하여 설정해주세요 (8~16자)</p> */}
             {/* <p>※ 아이디와 4자리 이상 동일하거나, 4자리 이상 반복되는 문자와 숫자는 사용이 불가합니다.</p> */}
@@ -285,7 +289,7 @@ export default function Information() {
             <Input
               type="password"
               variant="bordered"
-              isInvalid={!isPasswordMatch}
+              isInvalid={isSubmitBtnClicked && !isPasswordMatch && passwordCheck.length > 0}
               className={`w-full`}
               placeholder="패스워드를 입력해 주세요."
               value={passwordCheck}
@@ -293,7 +297,9 @@ export default function Information() {
               onChange={handlePasswordCheckChange}
             />
           </div>
-          <p className={`text-[#F31260] ${isPasswordMatch ? 'hidden' : ''}`}>패스워드가 일치하지 않습니다.</p>
+          <p className={cn(`text-[#F31260]`, (isSubmitBtnClicked === false || passwordCheck.length === 0 || isPasswordMatch) && 'hidden')}>
+            패스워드가 일치하지 않습니다.
+          </p>
         </div>
         <div>
           <div>이름</div>
