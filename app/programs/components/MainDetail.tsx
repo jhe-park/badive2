@@ -33,21 +33,24 @@ export default function MainDetail({ data }) {
         </div>
       </div>
       <div
-        className="grid w-full grid-cols-1 items-center gap-6 px-4 pb-24 sm:px-12 md:grid-cols-2 md:gap-6 md:px-12"
-        style={{
-          justifyItems: 'center',
-        }}
+        // grid-cols-1 md:grid-cols-2 items-center
+        className="flex w-full flex-wrap justify-center gap-6 px-4 pb-24 sm:px-12 md:gap-6 md:px-0 md:pt-12 xl:max-w-[1280px]"
+        // style={{
+        //   justifyItems: 'center',
+        // }}
       >
         {data?.price?.map((item, index) => {
           return (
             <div
+              key={index}
               style={{
                 borderColor: typeof item.borderColor === 'string' ? item.borderColor : 'black',
               }}
               className={cn(
-                'w-full rounded-3xl border-1 border-solid px-4 py-4 sm:w-[80%] sm:px-12 md:w-full md:py-8',
-
-                typeof item.discountPrice === 'number' && 'sm:w-[90%] sm:px-6 md:px-2',
+                // md:w-full
+                'w-full rounded-3xl border-1 border-solid px-4 py-4 sm:w-full sm:px-12 md:w-[48%] md:py-8',
+                // sm:w-[40%]
+                typeof item.discountPrice === 'number' && 'sm:px-6 md:px-2',
                 typeof item.discountPrice !== 'number' && 'sm:w-[80%] sm:px-12 md:px-8',
               )}
             >
@@ -58,11 +61,20 @@ export default function MainDetail({ data }) {
                   typeof item.discountPrice !== 'number' && 'sm:grid-cols-[60%_40%]',
                 )}
               >
-                <div className="text-center sm:text-left">{item.title}</div>
-                {item.discountPrice == null && <div className="text-center sm:text-right">{item.originalPrice.toLocaleString()}원</div>}
+                {/* <div className="text-center sm:text-left">{item.title}</div> */}
+                {item.discountPrice == null && (
+                  <>
+                    <div className="text-center sm:text-left">{item.title}</div>
+                    <div className="text-center sm:text-right">{item.originalPrice.toLocaleString()}원</div>
+                  </>
+                )}
                 {item.discountPrice && (
                   <>
-                    <div className="text-center text-[16px] line-through decoration-[#FF0000] sm:text-right sm:text-[20px]">{item.originalPrice.toLocaleString()}</div>
+                    <div className="text-center sm:text-left md:text-center">{item.title}</div>
+
+                    <div className="text-center text-[16px] line-through decoration-[#FF0000] sm:text-right sm:text-[20px]">
+                      {item.originalPrice.toLocaleString()}
+                    </div>
                     <div className="text-center text-[#FF0000] sm:text-center md:text-right">{item.discountPrice.toLocaleString()}원</div>
                   </>
                 )}
