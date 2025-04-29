@@ -36,7 +36,7 @@ export default function () {
         highlight: '',
       },
     ],
-    condition: '※수료전 20회이상 다이빙 경험 필요',
+    condition: '※수료전 20회이상 다이빙 경험 필요<br/>※레스큐 강습 비용은 별도 문의',
     guide: [
       {
         title: '-장소(수영장):',

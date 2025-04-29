@@ -42,7 +42,7 @@ export default function () {
         highlight: '',
       },
     ],
-    condition: '※ 스페셜 티는 교육과정에 따라 이수하는데 필요한 시간이 다를 수 있음.',
+    condition: '※ 스페셜 티는 교육과정에 따라 이수하는데 필요한 시간이 다를 수 있음.<br/>※ 스페셜 티 강습 비용은 별도 문의 ',
     guide: [
       {
         title: '-장소(수영장):',

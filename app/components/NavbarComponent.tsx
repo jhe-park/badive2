@@ -1,4 +1,5 @@
 'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
@@ -203,7 +204,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className={cn('nav fixed z-20 h-[100px] w-full bg-white/80 text-black shadow-lg backdrop-blur-sm', pathname.startsWith('/event/') && 'hidden')}
+      className={cn('nav fixed z-[99999] h-[100px] w-full bg-white/80 text-black shadow-lg backdrop-blur-sm', pathname.startsWith('/event/') && 'hidden')}
       style={{
         top: pathname === '/' && !isMobileMenuOpen ? (isOpen ? '-100px' : '0') : '0',
       }}
@@ -211,7 +212,8 @@ export default function Navbar() {
       <div className="flex h-full w-full justify-between px-4 md:mx-auto md:px-8">
         {/* 로고 영역 */}
 
-        <div className="z-50 flex flex-col items-center justify-center md:pl-4">
+        {/* z-50 */}
+        <div className="flex flex-col items-center justify-center md:pl-4">
           <Link href="/">
             <Image src="/logo/logo.png" alt="Logo" width={80} height={40} className="transition-opacity hover:opacity-80" />
           </Link>
@@ -233,7 +235,8 @@ export default function Navbar() {
         </button>
 
         {/* 데스크톱 메뉴 */}
-        <div className="relative z-50 hidden flex-col items-end justify-center lg:flex">
+        {/* z-50 */}
+        <div className="relative hidden flex-col items-end justify-center lg:flex">
           {/* 상단 행: 로그인/회원가입/마이페이지 */}
           <div className="flex h-1/3 items-center justify-end gap-6">
             {user ? (
