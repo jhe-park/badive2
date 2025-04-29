@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import useLoginStatusStore from '../store/useLoginStatusStore';
 
 type TProps = { unconditionalLoading?: boolean };
@@ -12,7 +13,13 @@ export const Loading: React.FC<TProps> = ({ unconditionalLoading }) => {
   return (
     <>
       {isLoading && (
-        <div className="fixed left-0 top-0 z-[9999] flex h-screen w-screen items-center justify-center bg-black bg-opacity-70">
+        <div
+          style={{
+            zIndex: Z_INDEX.LOADING,
+          }}
+          // z-[9999]
+          className="fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-black bg-opacity-70"
+        >
           <div
             className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-white border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status"

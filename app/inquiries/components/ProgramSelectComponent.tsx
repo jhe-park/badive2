@@ -5,7 +5,7 @@ import { useProgramStore } from '@/app/store/useProgramStore';
 import useSelectedImageUrl from '@/app/store/useSelectedImageUrl';
 import { selectedResultInitializedValue, useSelectedResult } from '@/app/store/useSelectedResult';
 import { Badge } from '@/components/ui/badge';
-import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY, LECTURE_CATEGORY_TYPE } from '@/constants/constants';
+import { LECTURE_CATEGORY, LECTURE_CATEGORY_TO_DB_CATRGORY, LECTURE_CATEGORY_TYPE, Z_INDEX } from '@/constants/constants';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
@@ -294,14 +294,20 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
         })}
       </div>
 
-      <div className="relative z-[9999] w-full bg-white">
+      <div
+        style={{
+          zIndex: Z_INDEX.REACT_SELECT,
+        }}
+        // z-[9999]
+        className="relative w-full bg-white"
+      >
         <ReactSelect
           // customOptions={customOptions}
           // defaultValue={defaultOption}
           placeholder={'프로그램명'}
           options={programFilteredForReactSelect}
           isSearchable={false}
-          noOptionsMessage={() => "프로그램을 선택해주세요"}
+          noOptionsMessage={() => '프로그램을 선택해주세요'}
           onChange={obj => {
             selectProgram({ programTitle: (obj as any).value });
 

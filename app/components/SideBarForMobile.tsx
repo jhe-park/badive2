@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { signOut } from 'next-auth/react';
 import useExpertStore from '../(expert)/expert/store/useExpertStore';
+import { Z_INDEX } from '@/constants/constants';
 
 interface SidebarProps {
   type: 'ADMIN' | 'EXPERT';
@@ -58,18 +59,21 @@ export const SideBarForMobile: React.FC<SidebarProps> = ({ type, user, menuItems
   return (
     <div className="relative">
       <button
-        className="fixed right-3 top-3 z-[10000] rounded-full bg-white bg-opacity-90 p-2.5 shadow-md transition-colors hover:bg-gray-100"
+        style={{
+          zIndex: Z_INDEX.SIDE_BAR_MOBILE_TOGGLE_BUTTON,
+        }}
+        className="fixed right-3 top-3 rounded-full bg-white bg-opacity-90 p-2.5 shadow-md transition-colors hover:bg-gray-100"
         onClick={toggleSidebar}
         aria-label="Toggle sidebar menu"
       >
         <Menu className="text-gray-700" size={24} />
       </button>
-
       <div
-        className={`fixed top-0 z-[9999] h-screen overflow-y-auto bg-white shadow-lg transition-all duration-300 ease-in-out ${
-          isOpen ? 'left-0' : '-left-full'
-        }`}
-        style={{ width: sidebarWidth }}
+        className={`fixed top-0 h-screen overflow-y-auto bg-white shadow-lg transition-all duration-300 ease-in-out ${isOpen ? 'left-0' : '-left-full'}`}
+        style={{
+          zIndex: Z_INDEX.SIDE_BAR_MOBILE,
+          width: sidebarWidth,
+        }}
       >
         {/* <div className="flex justify-end p-5 border-b border-gray-200">
           <button className="p-1.5 hover:bg-gray-100 rounded transition-colors" onClick={toggleSidebar} aria-label="Close sidebar menu">

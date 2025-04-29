@@ -146,7 +146,13 @@ export default function VerticalCarousel({ images, index, setIndex }) {
             }}
           >
             <div ref={modalRef} className="relative flex h-full w-full items-center justify-center" style={{ isolation: 'isolate' }}>
-              <div className="absolute right-0 top-0 z-[10000] m-4 flex gap-x-5">
+              <div
+                style={{
+                  zIndex: Z_INDEX.YOUTUBE_MODAL_INNER_ELEMENT,
+                }}
+                // z-[10000]
+                className="absolute right-0 top-0 m-4 flex gap-x-5"
+              >
                 <button onClick={toggleFullScreen} className="rounded-full bg-black bg-opacity-50 p-2">
                   {isFullScreen ? <BiExitFullscreen className="h-8 w-8 text-white" /> : <BiFullscreen className="h-8 w-8 text-white" />}
                 </button>

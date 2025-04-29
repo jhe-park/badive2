@@ -2,6 +2,7 @@
 
 import useModalOpen from '@/app/store/useModalOpen';
 import SlideUp from '@/components/animation/SlideUp';
+import { Z_INDEX } from '@/constants/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -259,7 +260,13 @@ const MultiImageCarousel = () => {
       </SlideUp>
       {/* Modal for Image and Video */}
       {isModalOpen && selectedImage && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-80">
+        <div
+          style={{
+            zIndex: Z_INDEX.STORY_CAROUSEL,
+          }}
+          // z-[1000]
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80"
+        >
           <div ref={modalRef} className="relative flex h-full w-full items-center justify-center" style={{ isolation: 'isolate' }}>
             <div className="absolute right-0 top-0 z-50 m-4 flex gap-x-5">
               <button className="" onClick={toggleFullScreen}>

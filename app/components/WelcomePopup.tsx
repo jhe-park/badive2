@@ -1,4 +1,5 @@
 'use client';
+import { Z_INDEX } from '@/constants/constants';
 import { Button, Checkbox } from '@heroui/react';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -119,7 +120,13 @@ export default function WelcomePopup() {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      style={{
+        zIndex: Z_INDEX.WELCOME_POPUP,
+      }}
+      // z-[1000]
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    >
       <div className="flex h-auto w-[80vw] flex-col overflow-hidden rounded-lg bg-white shadow-lg md:w-[60vw] xl:w-[25vw]">
         {/* 배너 영역 - 460x600 비율 유지 */}
         <div className="w-full" style={{ aspectRatio: '460/600' }}>

@@ -5,6 +5,7 @@ import React from 'react';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 import { formatDateString } from '@/utils/formatDateString';
 import { checkIsMobileDevice } from '@/utils/checkIsMobileDevice';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function ModalForDetailInformation({
   reservationsDetail,
@@ -27,7 +28,13 @@ export default function ModalForDetailInformation({
   return (
     <>
       {reservationsDetail.length >= 1 && (
-        <div className="fixed left-0 top-0 z-[99999] block h-[100dvh] w-screen bg-white md:hidden">
+        <div
+          style={{
+            zIndex: Z_INDEX.MODAL_FOR_DETAIL_INFO_IN_ADMIN_SCHEDULE,
+          }}
+          // z-[99999]
+          className="fixed left-0 top-0 block h-[100dvh] w-screen bg-white md:hidden"
+        >
           <div className="absolute left-6 top-6">
             <X
               onClick={e => {
