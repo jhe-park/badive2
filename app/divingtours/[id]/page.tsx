@@ -4,11 +4,27 @@ import Image from 'next/image';
 import { FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import ReservationButton from './components/ReservationButton';
+
 export default async function page({ params }) {
   const supabase = await createClient();
   const paramsdata = await params;
   const tour_id = paramsdata.id;
-  const { data, error } = await supabase.from('tour').select('*').eq('id', tour_id).single();
+
+  const user = await supabase.auth.getUser();
+  const userId = user?.data?.user?.id;
+
+  const [{ data: dataForTour, error }, { data: dataForProfile, error: errorForProfile }] = await Promise.all([
+    supabase.from('tour').select('*').eq('id', tour_id).single(),
+    supabase.from('profiles').select('*').eq('id', userId).single(),
+  ]);
+
+  const { data: dataForMyRequest, error: errorForMyRequest } = await supabase
+    .from('request')
+    .select('*,tour_id(*)', { count: 'exact' })
+    .eq('user_id', dataForProfile?.id)
+    .not('tour_id', 'is', null);
+
+  const isAlreadyRequested = dataForMyRequest.find(request => request.tour_id.id === dataForTour.id);
 
   return (
     <div className="mt-[100px] flex h-full w-full flex-col items-center justify-center">
@@ -19,13 +35,13 @@ export default async function page({ params }) {
       <div className="my-12 flex h-full w-[90%] flex-col items-center justify-center gap-y-5 md:my-24 md:w-[66vw]">
         <div className="flex h-full w-full flex-col items-center justify-center gap-y-5">
           <div className="flex flex-col items-center justify-center gap-x-2 gap-y-2 text-2xl font-bold md:flex-row md:gap-x-6 md:text-4xl">
-            <Chip color={data.status === '마감임박' ? 'danger' : 'primary'} size="lg">
-              {data.status}
+            <Chip color={dataForTour.status === '마감임박' ? 'danger' : 'primary'} size="lg">
+              {dataForTour.status}
             </Chip>
-            <div className="text-2xl font-bold md:text-4xl">{data.title}</div>
+            <div className="text-2xl font-bold md:text-4xl">{dataForTour.title}</div>
           </div>
 
-          <div className="text-medium font-bold text-gray-500">조회수: {data.view_count}</div>
+          <div className="text-medium font-bold text-gray-500">조회수: {dataForTour.view_count}</div>
           <div className="flex w-full items-center justify-end gap-x-2">
             <div className="flex cursor-pointer flex-col items-center justify-center gap-x-2">
               <FaRegHeart className="text-2xl text-red-500" />
@@ -37,10 +53,14 @@ export default async function page({ params }) {
             </div>
           </div>
           <div className="flex w-full cursor-pointer flex-col items-center justify-center gap-x-2">
-            <div className="w-full [&_img]:mx-auto" dangerouslySetInnerHTML={{ __html: data.description }} />
+            <div className="w-full [&_img]:mx-auto" dangerouslySetInnerHTML={{ __html: dataForTour.description }} />
           </div>
           <div className="md:m24 my-2 flex h-full w-1/2 items-center justify-center md:my-6 md:w-full">
-            <ReservationButton tour_id={tour_id} />
+            <ReservationButton
+              buttonText={isAlreadyRequested != null ? '신청이 완료되었습니다' : null}
+              isDisabled={isAlreadyRequested != null}
+              tour_id={tour_id}
+            />
           </div>
           <div className="flex flex-col items-start justify-center gap-y-2">
             <p>※ 해외 다이빙 투어는 신청서 작성 후, 담당자가 직접 개별 연락 드립니다.</p>
