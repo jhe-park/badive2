@@ -31,7 +31,8 @@ const VideoModal = ({ selected, onClose }) => {
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+    // z-50
+    <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black bg-opacity-80">
       <div ref={modalRef} className="relative flex h-full w-full items-center justify-center">
         <div className="text-red-500"></div>
         <div className="absolute right-0 top-0 z-50 m-4 flex gap-x-5">
