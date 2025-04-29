@@ -1,18 +1,12 @@
-import { COLORS } from '@/constants/constants';
-import { Search } from 'lucide-react';
 import clsx from 'clsx';
 import React, { ComponentType } from 'react';
-import Select, { components, GroupBase, IndicatorsContainerProps, MenuListProps, OptionProps } from 'react-select';
+import Select, { components, GroupBase, IndicatorsContainerProps, OptionProps } from 'react-select';
 
 const controlStyles = {
   base: 'bg-gray50 border rounded-md hover:cursor-pointer py-3 tw-txt-md-500 bg-[#F4F4F5]',
   focus: 'border border-2 border-main500',
   nonFocus: 'border-0 hover:border-gray-400 ',
-  // ring-6 ring-primary-500
-  // nonFocus: 'border-[#999999] hover:border-gray-400',
 };
-
-// bg-white z-[999999]
 
 const placeholderStyles = 'text-gray400 pl-1 ';
 const selectInputStyles = 'pl-1';
@@ -38,36 +32,14 @@ const DefaultOption = (props: OptionProps<{ value: number; label: string }>) => 
   return <components.Option {...props} />;
 };
 
-// const IndicatorsContainerForRegisteringPatents: ComponentType<IndicatorsContainerProps<unknown, boolean, GroupBase<unknown>>> = () => {
-//   return (
-//     <div className="pr-2">
-//       <Search size={20} color={COLORS.GRAYSCALE_400} />
-//     </div>
-//   );
-// };
-
 const DefaultIndicatorsContainer: ComponentType<IndicatorsContainerProps<unknown, boolean, GroupBase<unknown>>> = props => {
   return <components.IndicatorsContainer {...props} className="asdf" />;
 };
 
-// const OptionForRegisterPatients = (props: OptionProps<{ value: number; label: string }>) => {
-//   const [name, yyyymmdd] = props.data.label.split(' ');
-
-//   return (
-//     <>
-//       <components.Option {...props}>
-//         <div className="flex gap-2">
-//           <Search size={20} color={COLORS.GRAYSCALE_400} />
-//           <div className="tw-txt-md-bold text-gray900">{name}</div>
-//           <div className="tw-txt-md-500 text-gray600">{yyyymmdd}</div>
-//         </div>
-//       </components.Option>
-//     </>
-//   );
-// };
-
 export const ReactSelect = (props: React.ComponentPropsWithoutRef<typeof Select> & { customOptions?: 'REGISTER_PATIENTS' }) => (
   <Select
+    // 아래의 instanceId 삭제시 hydration error 발생하므로 제거하지 말것
+    instanceId="react-select-3-live-region"
     closeMenuOnSelect={true}
     hideSelectedOptions={false}
     unstyled
