@@ -25,7 +25,7 @@ export default function () {
         highlight: '',
       },
     ],
-    condition: '※ 어드밴스 언더워터 댄스 수료자 대상',
+    condition: '※ 어드밴스 언더워터 댄스 수료자 대상<br/>※언더워터 댄스 강사 비용은 별도 문의<br/>※언더워터 댄스 강사 강습은 현재 준비중입니다.',
     guide: [
       {
         title: '-장소(수영장):',

@@ -28,7 +28,7 @@ export default function MainDetail({ data }) {
             ))}
           </div>
           <div className="flex flex-col items-center justify-center">
-            <div dangerouslySetInnerHTML={{ __html: data.condition }} className="text-[12px] font-medium text-[#7A7A7A] md:text-[20px]"></div>
+            <div dangerouslySetInnerHTML={{ __html: data.condition }} className="text-right text-[12px] font-medium text-[#7A7A7A] md:text-[20px]"></div>
           </div>
         </div>
       </div>
