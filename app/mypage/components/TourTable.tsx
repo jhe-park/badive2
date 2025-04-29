@@ -1,6 +1,7 @@
 'use client';
 
 import useModalOpen from '@/app/store/useModalOpen';
+import { Z_INDEX } from '@/constants/constants';
 import { createClient } from '@/utils/supabase/client';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import {
@@ -112,6 +113,9 @@ export default function TourTable({ profile }: { profile: PostgrestSingleRespons
   return (
     <div className="h-full w-full flex-col items-center justify-center space-y-5">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

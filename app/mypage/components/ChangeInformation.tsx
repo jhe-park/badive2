@@ -1,4 +1,5 @@
 import { programlist } from '@/app/register/components/programlist';
+import { Z_INDEX } from '@/constants/constants';
 import { createClient } from '@/utils/supabase/client';
 import { TypeDBprofile } from '@/utils/supabase/dbTableTypes';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/react';
@@ -108,6 +109,9 @@ export default function App({ profile }: { profile: PostgrestSingleResponse<Type
   return (
     <div className="flex w-full flex-col gap-4 md:p-5">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

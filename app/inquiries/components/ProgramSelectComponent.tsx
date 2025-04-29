@@ -259,6 +259,9 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
   return (
     <div className="order-1 flex flex-col items-start justify-start gap-y-3 pt-6 md:order-2 md:gap-y-6 md:pt-0">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

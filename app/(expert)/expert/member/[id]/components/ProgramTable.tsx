@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { checkIsDDayMinus1 } from '@/utils/checkIsDDayMinus1';
 import { checkIsSameDay } from '@/utils/checkIfSameDay';
 import { TypeDBreservationJoinWithTimeslot } from '@/utils/supabase/dbTableTypes';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
   const supabase = createTypedSupabaseClient();
@@ -125,6 +126,9 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
   return (
     <div className="flex h-full w-full flex-col gap-y-6">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

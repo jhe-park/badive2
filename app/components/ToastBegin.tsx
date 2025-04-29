@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -16,6 +17,9 @@ const ToastBegin = () => {
   return (
     <>
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

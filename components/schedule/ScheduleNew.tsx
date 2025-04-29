@@ -3,7 +3,7 @@
 import ClipLoader from 'react-spinners/ClipLoader';
 import useExpertStore from '@/app/(expert)/expert/store/useExpertStore';
 import { Badge } from '@/components/ui/badge';
-import { LECTURE_CATEGORY } from '@/constants/constants';
+import { LECTURE_CATEGORY, Z_INDEX } from '@/constants/constants';
 import { cn } from '@/lib/utils';
 import { createTypedSupabaseClient } from '@/utils/supabase/client';
 import { TypeDBinstructor, TypeDBprofile, TypeDBprogram } from '@/utils/supabase/dbTableTypes';
@@ -424,6 +424,9 @@ export const ScheduleNew: React.FC<TProps> = ({ user, profilesForLoginUser, inst
         onOpenChange={() => {}}
       />
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

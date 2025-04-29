@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { createClient } from '@/utils/supabase/client';
 import { Button, Input } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
@@ -26,6 +27,9 @@ export default function Login(props) {
   return (
     <div className="my-32 flex h-full w-full flex-col items-center justify-center gap-y-10">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

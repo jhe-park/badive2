@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
@@ -21,6 +22,9 @@ export default function Toast({ searchParams }) {
   return (
     <>
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

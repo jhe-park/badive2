@@ -1,6 +1,7 @@
 'use client';
 
 import { signInAction } from '@/app/actions';
+import { Z_INDEX } from '@/constants/constants';
 import { Button, Form, Input } from '@heroui/react';
 import React, { use, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -25,6 +26,9 @@ export default function Component({ searchParams }) {
   return (
     <div className="flex h-screen w-full items-center justify-center">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

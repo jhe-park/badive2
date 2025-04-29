@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { contents } from './contents';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function Login() {
   const router = useRouter();
@@ -204,6 +205,9 @@ export default function Login() {
   return (
     <div style={{ fontFamily: 'Freesentation-9Black' }} className="my-32 flex h-full w-full flex-col items-center justify-center">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -250,7 +254,7 @@ export default function Login() {
                 placeholder="예) 01000000000"
               />
             </div>
-            <div className="pt-2 text-red-600 text-[14px]">강습 일정을 위해 강사님이 직접 연락드립니다. 꼭 본인과 연락 가능한 전화번호를 입력해주세요.</div>
+            <div className="pt-2 text-[14px] text-red-600">강습 일정을 위해 강사님이 직접 연락드립니다. 꼭 본인과 연락 가능한 전화번호를 입력해주세요.</div>
           </div>
           <div className="flex w-full flex-col items-start justify-start">
             <div>생년월일</div>

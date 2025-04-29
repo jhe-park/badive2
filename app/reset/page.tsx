@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { usePasswordChangeStatus } from '@/hooks/usePasswordChangeStatus';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function Reset(searchParams) {
   const { changePasswordChangeStatus, passwordChangeStatus } = usePasswordChangeStatus();
@@ -70,6 +71,9 @@ export default function Reset(searchParams) {
   return (
     <>
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}

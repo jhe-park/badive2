@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { checkIsSameDay } from '@/utils/checkIfSameDay';
 import { checkIsDDayMinus1 } from '@/utils/checkIsDDayMinus1';
 import { createClient, createTypedSupabaseClient } from '@/utils/supabase/client';
@@ -126,6 +127,9 @@ export default function ProgramTable({ member, totalAmount, setTotalAmount }) {
   return (
     <div className="flex h-full w-full flex-col gap-y-6">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

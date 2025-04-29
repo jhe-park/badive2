@@ -9,6 +9,7 @@ import { LuCirclePlus } from 'react-icons/lu';
 import { v4 as uuidv4 } from 'uuid';
 import useExpertStore from '../store/useExpertStore';
 import { ToastContainer, toast } from 'react-toastify';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function InstructorNewPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -142,6 +143,9 @@ export default function InstructorNewPage() {
   return (
     <div className="flex h-full w-full flex-col gap-y-6 overflow-y-auto scrollbar-hide">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

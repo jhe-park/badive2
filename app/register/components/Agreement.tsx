@@ -1,6 +1,7 @@
 'use client';
 import useMarketingAgreement from '@/app/store/useMarketingAgreement';
 import useStep from '@/app/store/useStep';
+import { Z_INDEX } from '@/constants/constants';
 import { Button, Checkbox } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -42,6 +43,9 @@ export default function Agreement() {
         약관동의
       </div>
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

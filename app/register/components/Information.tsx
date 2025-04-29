@@ -12,6 +12,7 @@ import DaumPostcode from 'react-daum-postcode';
 import { toast, ToastContainer } from 'react-toastify';
 import { programlist } from './programlist';
 import { cn } from '@/lib/utils';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function Information() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -225,6 +226,9 @@ export default function Information() {
   return (
     <div style={{ fontFamily: 'Freesentation-9Black' }} className="flex w-full flex-col items-center justify-center gap-4">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

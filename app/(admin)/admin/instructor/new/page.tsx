@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { createClient } from '@/utils/supabase/client';
 import { Button, Chip, Input, Select, SelectItem, Textarea } from '@heroui/react';
 import Image from 'next/image';
@@ -152,6 +153,9 @@ export default function InstructorNewPage() {
   return (
     <div className="flex h-full w-full flex-col gap-y-6">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

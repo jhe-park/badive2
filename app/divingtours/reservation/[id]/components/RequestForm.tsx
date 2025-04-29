@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { checkIsValidEmail } from '@/utils/checkIsValidEmail';
 import { createClient } from '@/utils/supabase/client';
 import {
@@ -185,6 +186,9 @@ export default function RequestForm({ className, tourData, user, ...props }) {
   return (
     <div className="flex w-[90vw] flex-col items-center justify-center gap-y-12 md:w-[60vw]">
       <ToastContainer
+        style={{
+          zIndex: Z_INDEX.TOAST,
+        }}
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}

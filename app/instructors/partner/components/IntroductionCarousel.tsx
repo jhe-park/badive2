@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
-import Image from 'next/image';
-import { partnerItems } from './items';
-import { partnerItems as items } from './items';
-import { Divider } from '@heroui/react';
 import useInstructor from '@/app/store/useInstructor';
+import { Divider } from '@heroui/react';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
+import { partnerItems as items, partnerItems } from './items';
 
 function IntroductionCarousel() {
   const { instructor, setInstructor } = useInstructor();
