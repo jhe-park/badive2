@@ -133,7 +133,8 @@ export default function VerticalCarousel({ images, index, setIndex }) {
         mounted &&
         createPortal(
           <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-90"
+            // z-[9999]
+            className="fixed inset-0 z-[999999] flex items-center justify-center bg-black bg-opacity-90"
             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           >
             <div ref={modalRef} className="relative flex h-full w-full items-center justify-center" style={{ isolation: 'isolate' }}>
