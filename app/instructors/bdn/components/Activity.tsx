@@ -10,7 +10,7 @@ export default function Activity() {
   const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
-    const filtered = activities.filter(item => item.instructor === instructor);
+    const filtered = activities.filter(item => item.instructor.includes(instructor));
     setSelectedItems(filtered);
   }, [instructor]);
 
