@@ -40,7 +40,7 @@ export default function Activity() {
 
             <div className="flex h-full w-full flex-col items-center justify-center pb-12 md:w-1/2">
               <div className="relative">
-                <div className="absolute -left-[50px] -top-[100px] text-[100px] font-bold text-[#C8C8C8] opacity-50">01</div>
+                {/* <div className="absolute -left-[50px] -top-[100px] text-[100px] font-bold text-[#C8C8C8] opacity-50">01</div> */}
                 <div className="text-2xl font-bold md:text-[50px]">{instructor}</div>
               </div>
 
