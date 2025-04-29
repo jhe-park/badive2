@@ -76,7 +76,7 @@ export default function () {
       },
     ],
     groupImage: '/programnew/underwatergroup.png',
-    price: [{ title: '어드밴스(D2)', originalPrice: 650000, discountPrice: null, description: null, borderColor: '#0053C9' }],
+    price: [{ title: '마스터(D3)', originalPrice: null, discountPrice: null, description: null, borderColor: '#0053C9' }],
   };
   return (
     <div style={{ fontFamily: 'Hakgyoansim' }} className="mt-7 flex h-full w-full flex-col items-center justify-center lg:max-w-[1280px]">

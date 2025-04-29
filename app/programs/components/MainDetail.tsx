@@ -65,13 +65,14 @@ export default function MainDetail({ data }) {
                 {item.discountPrice == null && (
                   <>
                     <div className="text-center sm:text-left">{item.title}</div>
-                    <div className="text-center sm:text-right">{item.originalPrice.toLocaleString()}원</div>
+                    <div className="text-center sm:text-right">
+                      {typeof item.originalPrice === 'number' ? `${item.originalPrice.toLocaleString()}원` : '준비중'}
+                    </div>
                   </>
                 )}
                 {item.discountPrice && (
                   <>
                     <div className="text-center sm:text-left md:text-center">{item.title}</div>
-
                     <div className="text-center text-[16px] line-through decoration-[#FF0000] sm:text-right sm:text-[20px]">
                       {item.originalPrice.toLocaleString()}
                     </div>
