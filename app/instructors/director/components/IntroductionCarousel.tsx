@@ -8,6 +8,7 @@ import useInstructor from '@/app/store/useInstructor';
 
 function IntroductionCarousel() {
   const { instructor, setInstructor } = useInstructor();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);

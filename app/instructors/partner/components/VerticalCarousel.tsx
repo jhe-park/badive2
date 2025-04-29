@@ -11,6 +11,8 @@ import useModalOpen from '@/app/store/useModalOpen';
 import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
 import { IoMdClose } from 'react-icons/io';
 import ReactPlayer from 'react-player';
+import { Z_INDEX } from '@/constants/constants';
+import { createPortal } from 'react-dom';
 
 export default function VerticalCarousel({ images, index, setIndex }) {
   const { instructor, setInstructor } = useInstructor();
@@ -122,22 +124,41 @@ export default function VerticalCarousel({ images, index, setIndex }) {
         </div>
       </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div ref={modalRef} className="relative flex h-full w-full items-center justify-center">
-            <div className="absolute right-0 top-0 z-50 m-4 flex gap-x-5">
-              <button onClick={toggleFullScreen}>
-                {isFullScreen ? <BiExitFullscreen className="h-8 w-8 text-white" /> : <BiFullscreen className="h-8 w-8 text-white" />}
-              </button>
-              <button onClick={closeModal}>
-                <IoMdClose className="h-10 w-10 text-white" />
-              </button>
-            </div>
+      {isModalOpen &&
+        createPortal(
+          <div
+            // z-[9999] z-[999999]
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90"
+            style={{
+              zIndex: Z_INDEX.YOUTUBE_MODAL,
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+          >
+            <div ref={modalRef} className="relative flex h-full w-full items-center justify-center" style={{ isolation: 'isolate' }}>
+              <div
+                style={{
+                  zIndex: Z_INDEX.YOUTUBE_MODAL_INNER_ELEMENT,
+                }}
+                // z-[10000]
+                className="absolute right-0 top-0 m-4 flex gap-x-5"
+              >
+                <button onClick={toggleFullScreen} className="rounded-full bg-black bg-opacity-50 p-2">
+                  {isFullScreen ? <BiExitFullscreen className="h-8 w-8 text-white" /> : <BiFullscreen className="h-8 w-8 text-white" />}
+                </button>
+                <button onClick={closeModal} className="rounded-full bg-black bg-opacity-50 p-2">
+                  <IoMdClose className="h-10 w-10 text-white" />
+                </button>
+              </div>
 
-            <ReactPlayer url={images[selectedIndex].videoUrl} playing controls width="80%" height="80%" />
-          </div>
-        </div>
-      )}
+              <ReactPlayer url={images[selectedIndex].videoUrl} playing controls width="80%" height="80%" style={{ zIndex: 9999 }} />
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

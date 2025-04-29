@@ -17,7 +17,6 @@ export default function page() {
           </div>
         </div>
       </div>
-
       <TabContents />
       <Activity></Activity>
     </div>

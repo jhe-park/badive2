@@ -3,9 +3,13 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 import Image from 'next/image';
 import { partnerItems } from './items';
+import { partnerItems as items } from './items';
 import { Divider } from '@heroui/react';
+import useInstructor from '@/app/store/useInstructor';
 
 function IntroductionCarousel() {
+  const { instructor, setInstructor } = useInstructor();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -29,15 +33,18 @@ function IntroductionCarousel() {
   const nextSlide = () => {
     const newIndex = currentIndex === partnerItems.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
+    setInstructor(items[newIndex].left.title);
   };
 
   const prevSlide = () => {
     const newIndex = currentIndex === 0 ? partnerItems.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
+    setInstructor(items[newIndex].left.title);
   };
 
   const goToSlide = index => {
     setCurrentIndex(index);
+    setInstructor(items[index].left.title);
   };
 
   const handleTouchStart = e => {
