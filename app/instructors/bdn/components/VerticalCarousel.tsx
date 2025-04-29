@@ -12,6 +12,7 @@ import ReactPlayer from 'react-player';
 import useModalOpen from '@/app/store/useModalOpen';
 import useInstructor from '@/app/store/useInstructor';
 import { createPortal } from 'react-dom';
+import { Z_INDEX } from '@/constants/constants';
 
 export default function VerticalCarousel({ images, index, setIndex }) {
   const { instructor, setInstructor } = useInstructor();
@@ -133,9 +134,16 @@ export default function VerticalCarousel({ images, index, setIndex }) {
         mounted &&
         createPortal(
           <div
-            // z-[9999]
-            className="fixed inset-0 z-[999999] flex items-center justify-center bg-black bg-opacity-90"
-            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+            // z-[9999] z-[999999]
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90"
+            style={{
+              zIndex: Z_INDEX.YOUTUBE_MODAL,
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
           >
             <div ref={modalRef} className="relative flex h-full w-full items-center justify-center" style={{ isolation: 'isolate' }}>
               <div className="absolute right-0 top-0 z-[10000] m-4 flex gap-x-5">

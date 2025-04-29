@@ -8,6 +8,7 @@ import useModalOpen from '@/app/store/useModalOpen';
 import { createClient } from '@/utils/supabase/client';
 import { signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
+import { Z_INDEX } from '@/constants/constants';
 
 // Add menu data structure
 const menuItems = [
@@ -204,8 +205,10 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className={cn('nav fixed z-[99999] h-[100px] w-full bg-white/80 text-black shadow-lg backdrop-blur-sm', pathname.startsWith('/event/') && 'hidden')}
+      // z-[99999]
+      className={cn('nav fixed h-[100px] w-full bg-white/80 text-black shadow-lg backdrop-blur-sm', pathname.startsWith('/event/') && 'hidden')}
       style={{
+        zIndex: Z_INDEX.NAV_BAR,
         top: pathname === '/' && !isMobileMenuOpen ? (isOpen ? '-100px' : '0') : '0',
       }}
     >

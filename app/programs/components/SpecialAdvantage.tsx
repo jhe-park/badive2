@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function SpecialAdvantage() {
   return (
@@ -89,7 +90,9 @@ export default function SpecialAdvantage() {
               <p>다이빙 풀 입장 예약을 하시면 언제든지 수영장에서 개인연습이 가능합니다.</p>
               <br />
               <p className="text-[10px] font-bold text-[#7A7A7A] md:text-[20px]">※ 협회 연회비, 수영장입장료, 장비렌탈, 강사입장료 별도</p>
-              <p className="text-[10px] font-bold text-[#0077B6] md:text-[20px]">자세히 보러가기 →</p>
+              <p className="text-[10px] font-bold text-[#0077B6] md:text-[20px]">
+                <Link href={'/community/notification/50'}>자세히 보러가기 →</Link>
+              </p>
             </div>
           </div>
         </div>

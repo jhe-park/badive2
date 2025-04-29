@@ -1,5 +1,6 @@
 'use client';
 
+import { Z_INDEX } from '@/constants/constants';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
@@ -32,7 +33,13 @@ const VideoModal = ({ selected, onClose }) => {
 
   return createPortal(
     // z-50
-    <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black bg-opacity-80">
+    <div
+      style={{
+        zIndex: Z_INDEX.YOUTUBE_MODAL,
+      }}
+      // z-[999999]
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80"
+    >
       <div ref={modalRef} className="relative flex h-full w-full items-center justify-center">
         <div className="text-red-500"></div>
         <div className="absolute right-0 top-0 z-50 m-4 flex gap-x-5">
