@@ -56,6 +56,7 @@ export default function SearchTable() {
       .not('email', 'is', null)
       .not('email', 'eq', '')
       .eq('bye', false)
+      // .not('created_at', 'is', null)
       .order('created_at', { ascending: true });
 
     const { data: dataForProfile, error: errorForProfile, count: countForProfile } = await query;
