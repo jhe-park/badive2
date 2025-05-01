@@ -18,7 +18,6 @@ export default function Component() {
       {/* Logo Section */}
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center text-4xl font-bold transition-colors md:text-5xl">바다이브</div>
-
         {/* Main Content */}
         <div className="mb-12 flex flex-col items-center justify-center gap-8 md:flex-row md:items-center md:justify-between">
           {/* Company Info */}

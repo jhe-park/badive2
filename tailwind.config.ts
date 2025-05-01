@@ -22,6 +22,16 @@ const config = {
         '1000': '1000',
       },
       keyframes: {
+        'fade-in': {
+          '0%': {
+            transform: 'translateY(100px)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
         'scale-fade-in': {
           '0%': {
             opacity: '0',
@@ -46,6 +56,7 @@ const config = {
       animation: {
         'scale-fade-in': 'scale-fade-in 0.5s ease-out forwards',
         'slide-in-bottom': 'slide-in-bottom 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'fade-in-up': 'fade-in 1s ease-out forwards',
       },
       screens: {
         xs: '480px', // 휴대폰
@@ -59,6 +70,7 @@ const config = {
         freesentation500: ['Freesentation-5Medium', 'sans-serif'],
         freesentation600: ['Freesentation-6SemiBold', 'sans-serif'],
         freesentation700: ['Freesentation-7Bold', 'sans-serif'],
+        freesentation800: ['Freesentation-8ExtraBold', 'sans-serif'],        
         freesentation: ['Freesentation-9Black', 'sans-serif'],
         freesentationVF: ['FreesentationVF', 'sans-serif'],
         miceGothic: ['MICE Gothic', 'sans-serif'],

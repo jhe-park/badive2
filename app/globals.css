@@ -4,6 +4,26 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  /* FOR DEBUG */
+  /* outline: 1px solid red; */
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out forwards;
+}
+
 .listbox {
   width: 100%;
   max-height: 16rem;
@@ -52,6 +72,13 @@
   font-family: 'Freesentation-7Bold';
   src: url('/fonts/Freesentation-7Bold.woff2') format('woff2');
   font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Freesentation-8ExtraBold';
+  src: url('/fonts/Freesentation-8ExtraBold.woff2') format('woff2');
+  font-weight: 800;
   font-style: normal;
 }
 
