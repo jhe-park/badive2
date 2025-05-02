@@ -1,0 +1,44 @@
+{
+  "chat.agent.enabled": true,
+  "github.copilot.chat.agent.thinkingTool": true,
+  //   "github.copilot.selectedCompletionModel": "",
+
+  "github.copilot.chat.completionContext.typescript.mode": "on",
+  "github.copilot.chat.languageContext.fix.typescript.enabled": true,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
+  // TypeScript 파일의 인라인 완성에 대한 향상된 기능을 제공한다
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+
+  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
+    {
+      "file": ".copilot-pull-request-description-instructions.md"
+    },
+    {
+      "text": "Use conventional commit message format."
+    }
+  ],
+  "github.copilot.selectedCompletionModel": "",
+
+  // inlayHints
+  "editor.inlayHints.enabled": "onUnlessPressed",
+  "editor.inlayHints.padding": true,
+
+  // inlayHints : typescript setting
+  "typescript.inlayHints.enumMemberValues.enabled": true, // // 열거형 값의 실제 값을 더 쉽게 볼 수 있다
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true, // 함수의 리턴 타입을 인라인으로 표시
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+  "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": true,
+
+  // inlayHints : javascript setting
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+  "javascript.inlayHints.variableTypes.suppressWhenTypeMatchesName": true
+}

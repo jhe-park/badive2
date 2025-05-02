@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2024,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "plugin:@next/next/recommended",
+    "plugin:tailwindcss/recommended"
+    // "next/core-web-vitals",
+    // "next/typescript"
+  ],
+  "rules": {
+    "@next/next/no-img-element": ["off"],
+    "tailwindcss/enforces-shorthand": ["off"],
+    "tailwindcss/classnames-order": ["off"],
+    "tailwindcss/no-custom-classname": ["off"],
+    "no-unused-vars": [
+      "off",
+      {
+        "vars": "local",
+        "args": "none",
+        "ignoreRestSiblings": false
+      }
+    ]
+  }
+}
