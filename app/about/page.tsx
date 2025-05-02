@@ -19,7 +19,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
   const { refForCounterElement } = useCounterUpAnimation();
 
   return (
-    <div className="min-h-screen md:pt-32">
+    <div className="min-h-screen md:pt-32 overflow-x-hidden">
       <div className="text-center">
         <div className="font-freesentation800 animate-fade-in-up pt-32 text-[76px] sm:text-[76px] md:pt-0 md:text-[76px]">BADIVE</div>
         <div
@@ -90,7 +90,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
         <Image ref={containerRefForImage as any} fill src={ImgBackgroundInAboutPage} alt="인어" />
         <div
           ref={containerRefForText}
-          className="absolute left-[0%] top-[50%] z-10 w-full font-freesentation500 text-[20px] text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] sm:text-[35px] md:text-[50px] lg:text-[55px]"
+          className="absolute left-[0%] top-[50%] -translate-y-1/2 z-10 w-full font-freesentation500 text-[20px] text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] sm:text-[35px] md:text-[50px] lg:text-[55px]"
         >
           평범한 다이빙이 아닌, 완벽한 다이빙_ 바다이브만의 경쟁력
         </div>

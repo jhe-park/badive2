@@ -12,6 +12,14 @@ type TProps = Record<string, unknown>;
 
 type TLocation = '인천' | '서울' | '경기' | '대구' | '부산';
 
+const locationImgMapper = {
+  서울: 'about_new/seoul.png',
+  인천: 'about_new/incheon.png',
+  경기: 'about_new/kyoungki.png',
+  대구: 'about_new/daegu.png',
+  부산: 'about_new/pusan.png',
+};
+
 const instructorArr = [
   { instructorName: '김일남 트레이너', imgSrc: 'about_new/instructor_kin.webp', location: ['인천'] },
   { instructorName: '이세원 강사', imgSrc: 'about_new/instructor_lsw.webp', location: ['인천'] },
@@ -41,6 +49,8 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
     }, 16);
     setIsMapAlreadyMoved(true);
   };
+
+  const currentLocationMapImgSrc = locationImgMapper[currentLocation];
 
   const selectedInstructorArr = instructorArr.filter(instructor => instructor.location.includes(currentLocation));
 
@@ -78,10 +88,13 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
     };
   };
 
+  console.debug('🐞currentLocationMapImgSrc');
+  console.debug(currentLocationMapImgSrc);
+
   return (
     <div className="flex justify-center">
       <div className="pb-24 pt-24">
-        <div className="font-freesentation800 py-8 text-center text-[40px] sm:text-[40px] md:text-[50px] lg:text-[50px]">전지역 강습, 바다이브 강사</div>
+        <div className="py-8 text-center font-freesentation800 text-[40px] sm:text-[40px] md:text-[50px] lg:text-[50px]">전지역 강습, 바다이브 강사</div>
         <div
           style={{
             lineHeight: '1.9',
@@ -100,26 +113,37 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
             className="absolute flex w-fit flex-1 flex-col items-center transition-all duration-100"
           >
             <Image src={ImgKoreanMapWithoutPoint} alt="한국지도" />
-            <div onClick={() => changeLocation('인천')} className="absolute left-[18%] top-[22%] z-10 cursor-pointer">
+            <div onClick={() => changeLocation('인천')} className="absolute left-[17%] top-[19%] z-20 cursor-pointer">
               <Image src={currentLocation === '인천' ? PinActivated : Pin} alt="위치 포인터" />
+
               <div className="">인천</div>
             </div>
-            <div onClick={() => changeLocation('서울')} className="absolute left-[25%] top-[20%] z-10 cursor-pointer">
-              <Image src={currentLocation === '서울' ? PinActivated : Pin} alt="위치 포인터" />
+            {currentLocation === '인천' && <img src={currentLocationMapImgSrc} className="absolute w-[6%] left-[21%] top-[22%] z-10 -translate-x-1/2" />}
+            <div onClick={() => changeLocation('서울')} className="absolute left-[25%] top-[20%] z-20 cursor-pointer">
+              <Image className="z-30" src={currentLocation === '서울' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">서울</div>
             </div>
-            <div onClick={() => changeLocation('경기')} className="absolute left-[37%] top-[25%] z-10 cursor-pointer">
+            {/* -translate-y-1/2 -translate-x-1/2 */}
+            {currentLocation === '서울' && <img src={currentLocationMapImgSrc} className="absolute left-[29%] top-[22%] z-10 w-[10%] -translate-x-1/2" />}
+            <div onClick={() => changeLocation('경기')} className="absolute left-[37%] top-[25%] z-20 cursor-pointer">
               <Image src={currentLocation === '경기' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">경기</div>
             </div>
-            <div onClick={() => changeLocation('대구')} className="absolute left-[67%] top-[60%] z-10 cursor-pointer">
+            {currentLocation === '경기' && (
+              <img src={currentLocationMapImgSrc} className="absolute left-[34%] top-[24%] z-10 w-[35%] -translate-x-1/2 -translate-y-1/2" />
+            )}
+            <div onClick={() => changeLocation('대구')} className="absolute left-[64%] top-[55%] z-20 cursor-pointer">
               <Image src={currentLocation === '대구' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">대구</div>
             </div>
-            <div onClick={() => changeLocation('부산')} className="absolute left-[80%] top-[72%] z-10 cursor-pointer">
+            {currentLocation === '대구' && (
+              <img src={currentLocationMapImgSrc} className="absolute w-[11%] left-[68%] top-[62%] z-10 -translate-x-1/2 -translate-y-1/2" />
+            )}
+            <div onClick={() => changeLocation('부산')} className="absolute left-[80%] top-[68%] z-20 cursor-pointer">
               <Image src={currentLocation === '부산' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">부산</div>
             </div>
+            {currentLocation === '부산' && <img src={currentLocationMapImgSrc} className="absolute w-[20%] left-[80%] top-[68%] z-10 -translate-x-1/2" />}
           </div>
           {currentLocation && (
             <div ref={refForInstructors} className="absolute flex-1 px-8 md:px-0 md:pt-32">
@@ -143,3 +167,4 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
     </div>
   );
 };
+1;
