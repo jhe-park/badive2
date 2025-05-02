@@ -1,84 +1,233 @@
-import React from 'react';
-import Image from 'next/image';
-import { Divider } from '@nextui-org/react';
-import RegionTabs from './components/RegionTabs';
-export default function page() {
-  return (
-    <div className="flex h-full w-full flex-col items-center justify-start">
-      <div className="relative mt-[100px] h-[30vh] w-full md:h-[600px]">
-        <Image src="/about/topbanner.png" alt="about_banner" className="h-full w-full object-contain" fill />
-        <div className="absolute bottom-[2vh] left-[2vw] flex flex-col items-start justify-center md:gap-y-6">
-          {/* text-medium */}
-          <div className="text-[24px] font-bold md:text-[32px] xl:text-[48px]">BADIVE,</div>
-          <div className="text-[16px] md:text-[24px] xl:text-[32px]">스쿠버다이빙, 프리다이빙, 머메이드 </div>
-          <div className="text-[16px] md:text-[24px] xl:text-[32px]">라이센스 및 강사교육을 하는 전문 교육기관 </div>
-        </div>
-      </div>
-      <div className="flex aspect-[1280/128] w-full max-w-[1280px] items-center justify-center text-center text-[25px] font-bold md:text-[30px] xl:text-[40px]">
-        "Professionals with Years of Diving Experience
-      </div>
-      <div className="flex aspect-[375/557] w-full flex-col items-center justify-evenly gap-y-5 md:aspect-[768/645] md:max-w-[1280px] xl:aspect-[1280/868]">
-        {' '}
-        <div className="mt-6 text-[25px] md:text-[30px]">BA DIVE</div>
-        <div className="text-[20px] font-bold md:text-[30px] xl:text-[40px]">국내 상위 1% 다이빙 강사진</div>
-        <Divider className="w-full max-w-[238px] bg-black md:max-w-[355px] xl:max-w-[491px]"></Divider>
-        <div className="flex w-full flex-col items-center justify-center text-[16px] md:text-[18px] xl:text-[20px]">
-          <p className="text-center">
-            “BADIVE 다이빙 강사진들은 수천회의 다이빙
-            <br className="md:hidden" /> 경험과 다양한 다이빙 환경에서의
-            <br className="" /> 실전 경험을 바탕으로,
-          </p>
-          <p className="text-center">
-            초보강습부터 강사 라이센스 교육까지 체계적인
-            <br className="md:hidden" />
-            교육시스템을 제공합니다.”{' '}
-          </p>
-        </div>
-        <div className="relative mt-6 hidden aspect-[375/247] w-full max-w-[1280px] items-center justify-center md:mt-12 md:flex md:aspect-[768/347] xl:mt-16 xl:aspect-[1280/500]">
-          <Image src="/about/aboutTopPC.png" alt="about1" fill className="fill" />
-        </div>
-        <div className="relative mt-6 flex aspect-[375/247] w-full items-center justify-center md:mt-12 md:hidden xl:mt-16">
-          <Image src="/about/aboutTopMobile.png" alt="about1" fill className="fill" />
-        </div>
-      </div>
-      <div className="mt-6 flex aspect-[375/250] w-full flex-col items-center justify-evenly md:mt-12 md:aspect-[768/234] md:max-w-[1280px] xl:mt-16 xl:aspect-[1280/220]">
-        <h1 className="text-center text-2xl font-bold md:px-10 md:text-[40px]">전국 지역 다이빙 강습 가능</h1>
-        <div className="mt-5 text-center md:px-10">
-          <p className="text-medium md:text-[18px]">“BADIVE는 대한민국 어디서든 다이빙을 배울 수 있는 기회를 제공합니다.</p>
-          <p className="text-medium md:text-[18px]">각 지역 원하는 장소에서 강사진들을 통해 체계적이고</p>
-          <p className="text-medium md:text-[18px]">안전한 다이빙 강습을 운영하고 있으며, 초보자에게는 기초부터 탄탄하게,</p>
-          <p className="text-medium md:text-[18px]">경험자에게는 심화 과정을 통해 수준을 높힐 수 있는 맞춤형 강습을 제공합니다.“</p>
-        </div>
-      </div>
-      <div className="items-cente flex h-full w-full max-w-[1280px] justify-center md:mt-12 md:aspect-square">
-        <RegionTabs></RegionTabs>
-      </div>
+'use client';
 
-      <div className="mt-6 flex aspect-[375/747] w-full flex-col items-start justify-evenly md:mb-24 md:mt-12 md:aspect-[768/531] md:max-w-[1280px] xl:mt-16 xl:aspect-[1280/652]">
-        <div className="w-full text-center text-[30px] md:text-[40px]">
-          깊은 바다로 떠나는
-          <br className="md:hidden" /> 잊을 수 없는 여행
+import { useTextAnimationV2 } from '@/hooks/useAnimation';
+import { useCounterUpAnimation } from '@/hooks/useCounterUpAnimation';
+import ImgBackgroundInAboutPage from '@/public/about_new/background_in_about_page.webp';
+import ImgBadiveDescription from '@/public/about_new/badive_description_img.webp';
+import ImgLogoBanner from '@/public/about_new/logo_banner.webp';
+import { type NextPage } from 'next';
+import Image from 'next/image';
+import { ImgAndDescription } from '../components/ImgAndDescription';
+import { KoreaMapForAboutPage } from '../components/KoreaMapForAboutPage';
+import { TextFadeInAnimation } from '../components/TextFadeInAnimation';
+
+const PageForAbout: NextPage<NextPageProps> = ({}) => {
+  const { containerRef: containerRefForImage } = useTextAnimationV2({ direction: 'UP', delay: 0 });
+  const { containerRef: containerRefForText } = useTextAnimationV2({ direction: 'UP', delay: 0.3 });
+  const { containerRef: containerRefForText2 } = useTextAnimationV2({ direction: 'UP', delay: 0.3 * 3 });
+
+  const { refForCounterElement } = useCounterUpAnimation();
+
+  return (
+    <div className="min-h-screen md:pt-32">
+      <div className="text-center">
+        <div className="font-freesentation800 animate-fade-in-up pt-32 text-[76px] sm:text-[76px] md:pt-0 md:text-[76px]">BADIVE</div>
+        <div
+          style={{
+            animationDelay: '0.5s',
+            transform: 'translateY(100px)',
+            opacity: 0,
+          }}
+          className="animate-fade-in-up pt-12 font-freesentation500 text-[20px] transition-all sm:text-[35px] md:pt-24 md:text-[45px]"
+        >
+          <div className="">스쿠버다이빙, 프리다이빙, 머메이드, 언더워터댄스 </div>
+          <div className="">라이센스 및 강사교육을 하는 전문 교육기관</div>
         </div>
-        <div className="mt-4 flex h-full w-full flex-col items-center justify-center md:mt-12 md:h-[540px] md:flex-row">
-          <div className="grid h-full w-full grid-cols-4 gap-0 md:w-1/2">
-            {[...Array(12)].map((_, index) => (
-              <div key={index} className="relative h-full w-full p-0">
-                <Image src={`/about/tour${index + 1}.png`} alt={`tour_image_${index + 1}`} fill className="object-cover" />
+      </div>
+      <div className="py-24 sm:py-24 md:py-24">
+        <Image src={ImgLogoBanner} alt="BADIVE 로고" />
+      </div>
+      <div className="flex w-full justify-center pb-36">
+        <div className="flex max-w-[1280px] flex-col-reverse justify-center gap-6 md:flex-row md:gap-12">
+          <div className="flex flex-col text-center md:flex-[2] md:text-left">
+            <TextFadeInAnimation direction="UP">
+              <div
+                style={{
+                  letterSpacing: '1.5rem',
+                }}
+                className="font-freesentation800 pb-12 text-[45px] sm:text-[55px] md:pt-12 md:text-[76px]"
+              >
+                BADIVE
               </div>
-            ))}
-          </div>
-          <div className="flex h-full w-full flex-col items-start justify-center gap-4 gap-y-4 p-4 px-[1vw] md:w-1/2 md:gap-y-12 md:px-[2vw]">
-            <div className="w-full text-center text-[28px] font-bold xl:text-[35px]" style={{ lineHeight: '1.5' }}>
-              Safe dives, Enjoy Diving!
+            </TextFadeInAnimation>
+            <div
+              style={{
+                lineHeight: '1.8',
+              }}
+              className="flex flex-col font-freesentation500 text-[16px] sm:text-[25px] md:text-[30px]"
+            >
+              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 1}>
+                <div className="">바다이브는 푸른바다와 다이빙의 설렘을 담은 브랜드입니다.</div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="LEFT" delay={0.3 * 2}>
+                <div className="">
+                  <span className="font-bold text-[#004EA2]">바다와 다이브의 합성어</span>로, 바다 속 깊은 곳까지
+                </div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 3}>
+                <div className="">자유롭게 탐험하는 즐거움을 의미합니다. </div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="LEFT" delay={0.3 * 4}>
+                <div className="">바다이브는 다이빙의 설렘과 해양의 아름다움을 전하는 최고의 경험을 제공하며,</div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 5}>
+                <div className="">전문적인 기술력과 노하우로 누구나 바다를 더 가깝고 안전하게</div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="LEFT" delay={0.3 * 6}>
+                <div className="">즐길 수 있도록 돕습니다. </div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 7}>
+                <div className="font-bold">바다이브와 함께, 더 깊이, 더 자유롭게 바다를 경험해보세요. </div>
+              </TextFadeInAnimation>
             </div>
-            {/* text-medium */}
-            <div className="text-center text-[14px] md:text-[18px] xl:text-[20px]" style={{ lineHeight: '1.5' }}>
-              “BADIVE는 국내, 국외 다이빙 투어를 위해 쾌적하고 안전한 다이브 리조트들과의 MOU를 체결하여 많은 다이버 회원분들에게 특별한 경험을 제공하고자
-              노력하고 있습니다. “
+          </div>
+          <div className="px-[15%] md:flex-[1] md:px-0">
+            <Image src={ImgBadiveDescription} alt="스쿠버다이빙 예시 사진" />
+          </div>
+        </div>
+      </div>
+      <div className="relative flex h-[200px] w-full items-center justify-center object-cover text-center font-freesentation500 text-white sm:h-[350px] md:h-[500px] md:text-[55px]">
+        <Image ref={containerRefForImage as any} fill src={ImgBackgroundInAboutPage} alt="인어" />
+        <div
+          ref={containerRefForText}
+          className="absolute left-[0%] top-[50%] z-10 w-full font-freesentation500 text-[20px] text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] sm:text-[35px] md:text-[50px] lg:text-[55px]"
+        >
+          평범한 다이빙이 아닌, 완벽한 다이빙_ 바다이브만의 경쟁력
+        </div>
+      </div>
+      <div className="pb-24 pt-24">
+        <div className="text-center">
+          <TextFadeInAnimation direction="UP" delay={0.3 * 0}>
+            <div className="font-freesentation800 text-center text-[30px] sm:text-[40px] md:text-[50px] lg:text-[50px]">차별화된 시스템 </div>
+          </TextFadeInAnimation>
+          <TextFadeInAnimation direction="UP" delay={0.3 * 1}>
+            <div className="pb-8 pt-8 font-freesentation500 text-[20px] text-[#004EA2] sm:text-[25px] md:text-[30px]">
+              검증된 상위 1% 강사진과 체계적인 커리큘럼
+            </div>
+          </TextFadeInAnimation>
+          <TextFadeInAnimation direction="UP" delay={0.3 * 2}>
+            <div
+              style={{
+                lineHeight: '1.8',
+              }}
+              className="pb-12 font-freesentation500 text-[16px] text-[#424242] sm:text-[20px] md:text-[25px]"
+            >
+              <div className="">최고의 다이빙은 최고의 교육에서 시작됩니다. </div>
+              <div className="">바다이브에서는 경험과 실력을 갖춘 상위 1% 강사진이 직접 교육을 진행하며, </div>
+              <div className="">개인의 역량을 고려해 충분한 적응 능력을 향상 시키고 </div>
+              <div className="">단계별로 설계된 체계적인 커리큘럼을 통해 안전하고 전문적인 교육을 제공합니다.</div>
+            </div>
+          </TextFadeInAnimation>
+        </div>
+        <div ref={containerRefForText2} className="flex flex-col justify-center sm:flex-col md:flex-row">
+          <div
+            style={{
+              backgroundImage: 'linear-gradient(rgba(0, 83, 201, 0.6),rgba(0, 83, 201, 0.6)), url(about_new/system_background_01.webp)',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+            }}
+            className="flex h-[150px] items-center justify-center object-cover text-center font-freesentation500 text-white sm:h-[250px] md:h-[300px] md:w-[640px]"
+          >
+            <div className="font-freesentation400">
+              <div className="text-[20px] sm:text-[30px] md:text-[40px] lg:text-[48px]">
+                로그 &nbsp;
+                <span ref={refForCounterElement} id="count-up" className="font-freesentation text-[35px] sm:text-[45px] md:text-[55px] lg:text-[64px]"></span>
+                <span className="font-freesentation text-[35px] sm:text-[45px] md:text-[55px] lg:text-[64px]">회</span>
+                이상
+              </div>
+              <div className="text-center font-freesentation400 text-[18px] sm:text-[25px] md:text-[30px] lg:text-[32px]">
+                <div className="">프리미엄 상위 1% 강사 </div>
+                <div className="">BADIVE</div>
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              backgroundImage: 'linear-gradient(rgba(49, 49, 49, 0.6),rgba(49, 49, 49, 0.6)), url(about_new/system_background_02.webp)',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+            }}
+            className="flex h-[150px] items-center justify-center object-cover text-center font-freesentation500 text-white sm:h-[250px] md:h-[300px] md:w-[640px]"
+          >
+            <div className="font-freesentation400">
+              <div className="text-[20px] sm:text-[30px] md:text-[40px] lg:text-[48px]">
+                제한수역 교육 <span className="font-freesentation text-[35px] sm:text-[45px] md:text-[55px] lg:text-[64px]">3회+α</span>
+              </div>
+              <div className="text-center font-freesentation400 text-[18px] sm:text-[25px] md:text-[30px] lg:text-[32px]">
+                <div className="">프리미엄 상위 1% 강사 </div>
+                <div className="">BADIVE</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <TextFadeInAnimation direction="UP">
+        <div className="font-freesentation800 pb-16 text-center text-[30px] sm:text-[40px] md:pb-0 md:text-[50px] lg:text-[50px]">바다이브만의 독보적 강점</div>
+      </TextFadeInAnimation>
+      <div className="flex flex-col items-center gap-24 sm:gap-24 md:gap-24 md:pt-24">
+        <ImgAndDescription
+          children={
+            <>
+              <div className=""> 완벽한 다이빙을 위한 첫걸음, 누구에게 배우느냐에 따라 다릅니다.</div>
+              <div className="">스킨스쿠버는 경험이 중요한 스포츠이기 때문에</div>
+              <div className="">다양한 환경에서 다이빙을 경험한 강사가 </div>
+              <div className="">기초부터 고급 과정까지, 단계별로 세밀하게 설계된 교육을 진행합니다.</div>
+              <div className="">초보자는 빠르게 성장하고, 경험자는 더욱 깊이 있는 다이빙을 즐길 수 있습니다. </div>
+              <div className="">&nbsp;</div>
+              <div className="">다이빙을 더욱 확실하게 배우고 싶다면 꼭 확인하세요. </div>
+            </>
+          }
+          imagePosition="LEFT"
+          imgSrc="about_new/badive_advantage_01.webp"
+          title="다이빙의 기준을 높이는 바다이브 강사"
+        />
+        <ImgAndDescription
+          children={
+            <>
+              <div className="">바다이브는 전국 어디서나 다이빙 강습이 가능한</div>
+              <div className="">시스템을 운영하고 있습니다. </div>
+              <div className="">위치에 상관없이 숙련된 강사진이 직접 교육을 진행하며,</div>
+              <div className="">수강생의 일정과 환경에 맞춰 최적의 다이빙 강습을 제공합니다. </div>
+            </>
+          }
+          imagePosition="RIGHT"
+          imgSrc="about_new/badive_advantage_02.webp"
+          title="전국 어디서나 가능한 교육"
+        />
+        <ImgAndDescription
+          children={
+            <>
+              <div className=""> 바다이브는 더욱 특별한 다이빙 경험을 제공하기 위해</div>
+              <div className="">국내 외 다양한 리조트들과 MOU를 체결하고 있습니다. </div>
+              <div className="">제휴 리조트와의 협력을 통해 더욱 편안하고 안전한 다이빙 환경을 제공하며,</div>
+              <div className="">아름다운 다이빙 명소에서 차별화된 혜택과 최상의 </div>
+              <div className="">서비스를 누릴 수 있습니다. </div>
+            </>
+          }
+          imagePosition="LEFT"
+          imgSrc="about_new/badive_advantage_03.webp"
+          title="특별한 다이빙 경험을 위한 새로운 도약"
+        />
+        <ImgAndDescription
+          children={
+            <>
+              <div className="">바다이브에서는 단순 다이빙 체험을 넘어 투어 촬영을 진행합니다. </div>
+              <div className="">전문 촬영팀과 함께 투어 및 교육 촬영을 진행하며</div>
+              <div className="">다이빙의 즐거움을 더욱 깊이 있게 경험할 수 있도록 합니다. </div>
+              <div className="">&nbsp;</div>
+              <div className="">다이빙의 즐거운 순간을 기록하는 땡크투어와 </div>
+              <div className="">다이버들에게 효율적인 교육내용을 전달하는 땡크버디로 </div>
+              <div className="">새롭고 풍부한 다이빙의 경험을 즐길 수 있습니다. </div>
+            </>
+          }
+          imagePosition="RIGHT"
+          imgSrc="about_new/badive_advantage_04.webp"
+          title=" 다이빙 컨텐츠 기획 촬영"
+        />
+      </div>
+      <KoreaMapForAboutPage />
     </div>
   );
-}
+};
+
+export default PageForAbout;
