@@ -124,7 +124,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
               <div className="">서울</div>
             </div>
             {/* -translate-y-1/2 -translate-x-1/2 */}
-            {currentLocation === '서울' && <img src={currentLocationMapImgSrc} className="absolute left-[29%] top-[22%] z-10 w-[10%] -translate-x-1/2" />}
+            {currentLocation === '서울' && <img src={currentLocationMapImgSrc} className="absolute left-[28%] top-[20%] z-10 w-[12%] -translate-x-1/2" />}
             <div onClick={() => changeLocation('경기')} className="absolute left-[37%] top-[25%] z-20 cursor-pointer">
               <Image src={currentLocation === '경기' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">경기</div>
@@ -143,7 +143,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
               <Image src={currentLocation === '부산' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">부산</div>
             </div>
-            {currentLocation === '부산' && <img src={currentLocationMapImgSrc} className="absolute w-[20%] left-[80%] top-[68%] z-10 -translate-x-1/2" />}
+            {currentLocation === '부산' && <img src={currentLocationMapImgSrc} className="absolute w-[15%] left-[80%] top-[71%] z-10 -translate-x-1/2" />}
           </div>
           {currentLocation && (
             <div ref={refForInstructors} className="absolute flex-1 px-8 md:px-0 md:pt-32">
