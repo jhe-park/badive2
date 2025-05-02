@@ -36,10 +36,11 @@ const MainNews = () => {
       link: 'http://www.kdpress.co.kr/news/articleView.html?idxno=137294',
     },
     {
-      title: '바다이브 소식',
-      description: '',
-      category: 'NOTICE',
-      date: '',
+      title: '바다이브 고송미 강사 인솔하에 세부 막탄 다이빙 투어 성료',
+      description: '해양 레저 전문 플랫폼 바다이브가 2025년 4월 필리핀 세부 막탄에서 진행한 다이빙 투어 프로그램을 성공적으로 마무리했다고 밝혔다.',
+      category: 'NEWS',
+      date: '2025-05-02',
+      link: 'https://m.sports.naver.com/general/article/396/0000708161',
     },
   ];
 

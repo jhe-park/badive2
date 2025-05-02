@@ -9,10 +9,6 @@ import VideoModal from './VideoModal';
 const MainStory = () => {
   const THUMBNAILS = [
     {
-      img: '/story/thumbnail1.webp',
-      link: 'https://youtu.be/q5rGiEZLdA8?si=Rm8x6v2SnY1pg_F-',
-    },
-    {
       img: '/story/thumbnail2.webp',
       link: 'https://youtu.be/zzZoKMPZeqY?si=qIWaqK7hjF1xOd8r',
     },
@@ -22,6 +18,10 @@ const MainStory = () => {
     },
     {
       img: '/story/thumbnail4_1.webp',
+      link: 'https://youtu.be/TGaT8VMUZSU?si=PUviijSWNZkV7Rlm',
+    },
+    {
+      img: '/story/thumbnail4_2.webp',
       link: 'https://youtu.be/TGaT8VMUZSU?si=PUviijSWNZkV7Rlm',
     },
   ];

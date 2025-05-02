@@ -20,7 +20,7 @@ export default function () {
       },
       {
         image: '/programnew/icon5.png',
-        text: '만 10세부터~ 60세까지 참가 가능',
+        text: '만 10세부터 참가 가능',
         highlight: '',
       },
       {
