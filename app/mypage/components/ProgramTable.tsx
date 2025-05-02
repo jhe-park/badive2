@@ -449,7 +449,7 @@ export default function ProgramTable({
                 </div>
                 {selectedReservation.status === '예약확정' && selectedReservation?.pay_type === '가상계좌' && (
                   <>
-                    <div className="font-freesentation800 pt-8 text-[18px] font-[800]">※무통장입금 환불 계좌 정보</div>
+                    <div className="font-freesentation800 pt-8 text-[18px] ">※무통장입금 환불 계좌 정보</div>
                     <div className="flex w-full gap-4">
                       <Input
                         onChange={e => {
