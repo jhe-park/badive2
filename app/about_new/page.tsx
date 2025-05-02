@@ -1,70 +1,27 @@
 'use client';
 
+import { useTextAnimationV2 } from '@/hooks/useAnimation';
+import { useCounterUpAnimation } from '@/hooks/useCounterUpAnimation';
 import ImgBackgroundInAboutPage from '@/public/about_new/background_in_about_page.webp';
 import ImgBadiveDescription from '@/public/about_new/badive_description_img.webp';
-import ImgKoreanMapWithoutPoint from '@/public/about_new/korean_map_without_point.webp';
 import ImgLogoBanner from '@/public/about_new/logo_banner.webp';
-import Pin from '@/public/about_new/pin.webp';
-import PinActivated from '@/public/about_new/pin_activated.webp';
-import { CountUp } from 'countup.js';
 import { type NextPage } from 'next';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
 import { ImgAndDescription } from '../components/ImgAndDescription';
-import { useTextAnimation, useTextAnimationV2 } from '@/hooks/useAnimation';
+import { KoreaMapForAboutPage } from '../components/KoreaMapForAboutPage';
 import { TextFadeInAnimation } from '../components/TextFadeInAnimation';
 
-type TLocation = '인천' | '서울' | '경기' | '대구' | '부산';
-
-const instructorArr = [
-  { instructorName: '김일남 트레이너', imgSrc: 'about_new/instructor_kin.webp', location: ['인천'] },
-  { instructorName: '이세원 강사', imgSrc: 'about_new/instructor_lsw.webp', location: ['인천'] },
-  { instructorName: '이지연강사', imgSrc: 'about_new/instructor_ljy.webp', location: ['서울', '경기'] },
-  { instructorName: '정은지 강사', imgSrc: 'about_new/instructor_jwj.webp', location: ['서울', '경기'] },
-  { instructorName: '고송미강사', imgSrc: 'about_new/instructor_ksm.webp', location: ['대구', '부산'] },
-  { instructorName: '이도경강사', imgSrc: 'about_new/instructor_ldg.webp', location: ['대구'] },
-  { instructorName: '김규리 강사', imgSrc: 'about_new/instructor_kgr.webp', location: ['부산'] },
-];
-
 const PageForAbout: NextPage<NextPageProps> = ({}) => {
-  const [currentLocation, setCurrentLocation] = useState<TLocation | undefined>();
-  const [isMapAlreadyMoved, setIsMapAlreadyMoved] = useState(false);
-
   const { containerRef: containerRefForImage } = useTextAnimationV2({ direction: 'UP', delay: 0 });
   const { containerRef: containerRefForText } = useTextAnimationV2({ direction: 'UP', delay: 0.3 });
   const { containerRef: containerRefForText2 } = useTextAnimationV2({ direction: 'UP', delay: 0.3 * 3 });
 
-  const refForCounterElement = useRef<HTMLSpanElement>(null);
-
-  const changeLocation = (location: TLocation) => {
-    setCurrentLocation(location);
-  };
-
-  const selectedInstructorArr = instructorArr.filter(instructor => instructor.location.includes(currentLocation));
-
-  useEffect(() => {
-    const options = {
-      // root: document.querySelector('#scrollArea'),
-      rootMargin: '0px',
-      threshold: 1.0,
-    };
-
-    const observer = new IntersectionObserver(countUp, options);
-    observer.observe(refForCounterElement.current);
-
-    function countUp() {
-      const countUp = new CountUp('count-up', 1000, {
-        duration: 3,
-      });
-      countUp.start();
-    }
-  }, []);
+  const { refForCounterElement } = useCounterUpAnimation();
 
   return (
     <div className="min-h-screen md:pt-32">
       <div className="text-center">
         <div className="font-freesentation800 animate-fade-in-up pt-32 text-[76px] sm:text-[76px] md:pt-0 md:text-[76px]">BADIVE</div>
-        {/* translate-y-6 opacity-0 transition-all delay-1000 duration-500 ease-out */}
         <div
           style={{
             animationDelay: '0.5s',
@@ -129,30 +86,14 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
           </div>
         </div>
       </div>
-      <div
-        // style={{
-        //   backgroundImage: 'url(about_new/background_in_about_page.webp)',
-        // }}
-        className="relative flex h-[200px] w-full items-center justify-center object-cover text-center font-freesentation500 text-white sm:h-[350px] md:h-[500px] md:text-[55px]"
-      >
-        {/* className="animate-fade-in-up" */}
+      <div className="relative flex h-[200px] w-full items-center justify-center object-cover text-center font-freesentation500 text-white sm:h-[350px] md:h-[500px] md:text-[55px]">
         <Image ref={containerRefForImage as any} fill src={ImgBackgroundInAboutPage} alt="인어" />
-        {/* <TextFadeInAnimation direction="UP" delay={0}></TextFadeInAnimation> */}
-        {/* <div className=""></div> */}
         <div
           ref={containerRefForText}
-          // style={{
-          //   animationDelay: '0.5s',
-          //   transform: 'translateY(100px)',
-          //   opacity: 0,
-          // }}
-          // animate-fade-in-up
-          // -translate-x-1/2 -translate-y-1/2
           className="absolute left-[0%] top-[50%] z-10 w-full font-freesentation500 text-[20px] text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] sm:text-[35px] md:text-[50px] lg:text-[55px]"
         >
           평범한 다이빙이 아닌, 완벽한 다이빙_ 바다이브만의 경쟁력
         </div>
-        {/* <TextFadeInAnimation direction="UP" delay={0.3 * 1}></TextFadeInAnimation> */}
       </div>
       <div className="pb-24 pt-24">
         <div className="text-center">
@@ -237,7 +178,6 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
             </>
           }
           imagePosition="LEFT"
-          //   imgSrc="https://s.pstatic.net/dthumb.phinf/?src=%22http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA0MTFfMjMy%2FMDAxNzQ0MzcyNjgzNTkz.JoYwqogIDchNsuoYTa_-l6MEsJm294iCM4Py6qaBprkg.zdhyE1VGDtwdnWxTcwoD4NhLYxEYTMPXiu-IyoVTt60g.JPEG%2F10.jpg%22&type=ff364_236&service=navermain"
           imgSrc="about_new/badive_advantage_01.webp"
           title="다이빙의 기준을 높이는 바다이브 강사"
         />
@@ -285,67 +225,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
           title=" 다이빙 컨텐츠 기획 촬영"
         />
       </div>
-      <div className="flex justify-center">
-        <div className="pb-24 pt-24">
-          <div className="font-freesentation800 py-8 text-center text-[40px] sm:text-[40px] md:text-[50px] lg:text-[50px]">전지역 강습, 바다이브 강사</div>
-          <div
-            style={{
-              lineHeight: '1.9',
-            }}
-            className="text-center font-freesentation500 text-[16px] text-[#424242] sm:text-[20px] md:text-[25px]"
-          >
-            <div className="">원하는 지역을 선택하면 해당 지역에서 </div>
-            <div className="">강습 가능한 전문 강사를 확인하실 수 있습니다. </div>
-          </div>
-          <div className="flex flex-col-reverse gap-12 pt-24 md:flex-row md:gap-0">
-            <div
-              style={{
-                left: '0%',
-              }}
-              className="relative flex w-fit flex-1 flex-col items-center transition-all duration-100"
-            >
-              <Image src={ImgKoreanMapWithoutPoint} alt="한국지도" />
-              <div onClick={() => changeLocation('인천')} className="absolute left-[17%] top-[30%] z-10 cursor-pointer">
-                <Image src={currentLocation === '인천' ? PinActivated : Pin} alt="위치 포인터" />
-                <div className="">인천</div>
-              </div>
-              <div onClick={() => changeLocation('서울')} className="absolute left-[25%] top-[28%] z-10 cursor-pointer">
-                <Image src={currentLocation === '서울' ? PinActivated : Pin} alt="위치 포인터" />
-                <div className="">서울</div>
-              </div>
-              <div onClick={() => changeLocation('경기')} className="absolute left-[37%] top-[35%] z-10 cursor-pointer">
-                <Image src={currentLocation === '경기' ? PinActivated : Pin} alt="위치 포인터" />
-                <div className="">경기</div>
-              </div>
-              <div onClick={() => changeLocation('대구')} className="absolute left-[67%] top-[60%] z-10 cursor-pointer">
-                <Image src={currentLocation === '대구' ? PinActivated : Pin} alt="위치 포인터" />
-                <div className="">대구</div>
-              </div>
-              <div onClick={() => changeLocation('부산')} className="absolute left-[80%] top-[75%] z-10 cursor-pointer">
-                <Image src={currentLocation === '부산' ? PinActivated : Pin} alt="위치 포인터" />
-                <div className="">부산</div>
-              </div>
-            </div>
-            {currentLocation && (
-              <div className="flex-1 px-8 md:px-0 md:pt-32">
-                <div className="pb-12 text-center font-freesentation text-[25px] sm:text-[30px] md:text-left md:text-[40px]">{currentLocation}</div>
-                <div className="flex gap-12">
-                  {selectedInstructorArr.map(instructor => {
-                    return (
-                      <div className="font-freesentation500 text-[18px] sm:text-[20px] md:text-[30px]" key={instructor.instructorName}>
-                        <div className="">
-                          <img className="rounded-3xl" src={instructor.imgSrc} />
-                        </div>
-                        <div className="pt-4 text-center">{instructor.instructorName}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <KoreaMapForAboutPage />
     </div>
   );
 };
