@@ -36,6 +36,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
   const [isMobile, setIsMobile] = useState(false);
   const refForAbsoluteContainer = useRef<HTMLDivElement>(null);
   const refForMap = useRef<HTMLDivElement>(null);
+  const refForMapImage = useRef<HTMLImageElement>(null);
   const refForInstructors = useRef<HTMLDivElement>(null);
 
   const [currentLocation, setCurrentLocation] = useState<TLocation | undefined>();
@@ -91,6 +92,13 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
     // 1) 애니메이션 적용 대상 설정
     const targets: HTMLElement[] = [containerRef.current];
 
+    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1280;
+
+    const imageRect = refForMapImage.current.getBoundingClientRect();
+
+    console.debug('🐞containerRect.height ');
+    console.debug(imageRect.height);
+
     // 3) 애니메이션 생성
     const tween = gsap.fromTo(
       targets,
@@ -100,7 +108,14 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
       },
       {
         x: direction === 'LEFT' ? -300 : direction === 'RIGHT' ? 300 : 0,
-        y: direction === 'UP' ? -(window.innerWidth * 0.5) : direction === 'DOWN' ? window.innerWidth * 0.9 : 0,
+        y:
+          direction === 'UP'
+            ? -(isTablet ? imageRect.height * 0.6 + Math.abs(800 - window.innerWidth) * 0.8 : window.innerWidth * 0.5)
+            : direction === 'DOWN'
+              ? isTablet
+                ? 410
+                : window.innerWidth * 0.9
+              : 0,
         duration: 0.6,
         ease: 'power3.out',
       },
@@ -136,7 +151,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
             {/* max-w-[640px] */}
             <div className="w-full">
               {/* w-full md:w-fit */}
-              <Image src={ImgKoreanMapWithoutPoint} fill={isMobile} alt="한국지도" />
+              <Image ref={refForMapImage} src={ImgKoreanMapWithoutPoint} fill={isMobile} alt="한국지도" />
               <div onClick={() => changeLocation('인천')} className="absolute left-[17%] top-[19%] z-20 cursor-pointer">
                 <Image src={currentLocation === '인천' ? PinActivated : Pin} alt="위치 포인터" />
 
