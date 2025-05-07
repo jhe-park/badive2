@@ -68,15 +68,18 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
                 <div className="">자유롭게 탐험하는 즐거움을 의미합니다. </div>
               </TextFadeInAnimation>
               <TextFadeInAnimation direction="LEFT" delay={0.3 * 4}>
-                <div className="">바다이브는 다이빙의 설렘과 해양의 아름다움을 전하는 최고의 경험을 제공하며,</div>
+                <div className="">바다이브는 다이빙의 설렘과 해양의 아름다움을 전하는</div>
               </TextFadeInAnimation>
-              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 5}>
+              <TextFadeInAnimation direction="LEFT" delay={0.3 * 5}>
+                <div className="">최고의 경험을 제공하며,</div>
+              </TextFadeInAnimation>
+              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 6}>
                 <div className="">전문적인 기술력과 노하우로 누구나 바다를 더 가깝고 안전하게</div>
               </TextFadeInAnimation>
-              <TextFadeInAnimation direction="LEFT" delay={0.3 * 6}>
+              <TextFadeInAnimation direction="LEFT" delay={0.3 * 7}>
                 <div className="">즐길 수 있도록 돕습니다. </div>
               </TextFadeInAnimation>
-              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 7}>
+              <TextFadeInAnimation direction="RIGHT" delay={0.3 * 8}>
                 <div className="font-bold">바다이브와 함께, 더 깊이, 더 자유롭게 바다를 경험해보세요. </div>
               </TextFadeInAnimation>
             </div>
@@ -113,7 +116,8 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
               className="pb-12 font-freesentation500 text-[16px] text-[#424242] sm:text-[20px] md:text-[25px]"
             >
               <div className="">최고의 다이빙은 최고의 교육에서 시작됩니다. </div>
-              <div className="">바다이브에서는 경험과 실력을 갖춘 상위 1% 강사진이 직접 교육을 진행하며, </div>
+              <div className="">바다이브에서는 경험과 실력을 갖춘 </div>
+              <div className="">상위 1% 강사진이 직접 교육을 진행하며, </div>
               <div className="">개인의 역량을 고려해 충분한 적응 능력을 향상 시키고 </div>
               <div className="">단계별로 설계된 체계적인 커리큘럼을 통해 안전하고 전문적인 교육을 제공합니다.</div>
             </div>
@@ -172,7 +176,8 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
               <div className="">스킨스쿠버는 경험이 중요한 스포츠이기 때문에</div>
               <div className="">다양한 환경에서 다이빙을 경험한 강사가 </div>
               <div className="">기초부터 고급 과정까지, 단계별로 세밀하게 설계된 교육을 진행합니다.</div>
-              <div className="">초보자는 빠르게 성장하고, 경험자는 더욱 깊이 있는 다이빙을 즐길 수 있습니다. </div>
+              <div className="">초보자는 빠르게 성장하고</div>
+              <div className="">경험자는 더욱 깊이 있는 다이빙을 즐길 수 있습니다. </div>
               <div className="">&nbsp;</div>
               <div className="">다이빙을 더욱 확실하게 배우고 싶다면 꼭 확인하세요. </div>
             </>
@@ -199,13 +204,14 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
             <>
               <div className=""> 바다이브는 더욱 특별한 다이빙 경험을 제공하기 위해</div>
               <div className="">국내 외 다양한 리조트들과 MOU를 체결하고 있습니다. </div>
-              <div className="">제휴 리조트와의 협력을 통해 더욱 편안하고 안전한 다이빙 환경을 제공하며,</div>
+              <div className="">제휴 리조트와의 협력을 통해 더욱 편안하고</div>
+              <div className="">안전한 다이빙 환경을 제공하며,</div>
               <div className="">아름다운 다이빙 명소에서 차별화된 혜택과 최상의 </div>
               <div className="">서비스를 누릴 수 있습니다. </div>
             </>
           }
           imagePosition="LEFT"
-          imgSrc="about_new/badive_advantage_03.webp"
+          imgSrc="about_new/badive_advantage_03_new.webp"
           title="특별한 다이빙 경험을 위한 새로운 도약"
         />
         <ImgAndDescription
