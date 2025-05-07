@@ -19,9 +19,9 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
   const { refForCounterElement } = useCounterUpAnimation();
 
   return (
-    <div className="min-h-screen md:pt-32 overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden md:pt-32">
       <div className="text-center">
-        <div className="font-freesentation800 animate-fade-in-up pt-32 text-[76px] sm:text-[76px] md:pt-0 md:text-[76px]">BADIVE</div>
+        <div className="animate-fade-in-up pt-32 font-freesentation800 text-[76px] sm:text-[76px] md:pt-0 md:text-[76px]">BADIVE</div>
         <div
           style={{
             animationDelay: '0.5s',
@@ -38,14 +38,14 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
         <Image src={ImgLogoBanner} alt="BADIVE 로고" />
       </div>
       <div className="flex w-full justify-center pb-36">
-        <div className="flex max-w-[1280px] flex-col-reverse justify-center gap-6 md:flex-row md:gap-12">
+        <div className="flex flex-col-reverse items-center justify-center gap-6 md:w-[1280px] md:max-w-[1280px] md:flex-row md:gap-0">
           <div className="flex flex-col text-center md:flex-[2] md:text-left">
             <TextFadeInAnimation direction="UP">
               <div
                 style={{
                   letterSpacing: '1.5rem',
                 }}
-                className="font-freesentation800 pb-12 text-[45px] sm:text-[55px] md:pt-12 md:text-[76px]"
+                className="pb-12 font-freesentation800 text-[45px] sm:text-[55px] md:pt-12 md:text-[76px]"
               >
                 BADIVE
               </div>
@@ -82,10 +82,12 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
               <TextFadeInAnimation direction="RIGHT" delay={0.3 * 8}>
                 <div className="font-bold">바다이브와 함께, 더 깊이, 더 자유롭게 바다를 경험해보세요. </div>
               </TextFadeInAnimation>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
             </div>
           </div>
-          <div className="px-[15%] md:flex-[1] md:px-0">
-            <Image src={ImgBadiveDescription} alt="스쿠버다이빙 예시 사진" />
+          <div className="flex px-[15%] md:flex-[1] md:px-0">
+            <Image src={ImgBadiveDescription} alt="스쿠버다이빙 예시 사진" className="w-full" />
           </div>
         </div>
       </div>
@@ -93,7 +95,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
         <Image ref={containerRefForImage as any} fill src={ImgBackgroundInAboutPage} alt="인어" />
         <div
           ref={containerRefForText}
-          className="absolute left-[0%] top-[50%] -translate-y-1/2 z-10 w-full font-freesentation500 text-[20px] text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] sm:text-[35px] md:text-[50px] lg:text-[55px]"
+          className="absolute left-[0%] top-[50%] z-10 w-full -translate-y-1/2 font-freesentation500 text-[20px] text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] sm:text-[35px] md:text-[50px] lg:text-[55px]"
         >
           평범한 다이빙이 아닌, 완벽한 다이빙_ 바다이브만의 경쟁력
         </div>
@@ -101,7 +103,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
       <div className="pb-24 pt-24">
         <div className="text-center">
           <TextFadeInAnimation direction="UP" delay={0.3 * 0}>
-            <div className="font-freesentation800 text-center text-[30px] sm:text-[40px] md:text-[50px] lg:text-[50px]">차별화된 시스템 </div>
+            <div className="text-center font-freesentation800 text-[30px] sm:text-[40px] md:text-[50px] lg:text-[50px]">차별화된 시스템 </div>
           </TextFadeInAnimation>
           <TextFadeInAnimation direction="UP" delay={0.3 * 1}>
             <div className="pb-8 pt-8 font-freesentation500 text-[20px] text-[#004EA2] sm:text-[25px] md:text-[30px]">
@@ -166,7 +168,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
         </div>
       </div>
       <TextFadeInAnimation direction="UP">
-        <div className="font-freesentation800 pb-16 text-center text-[30px] sm:text-[40px] md:pb-0 md:text-[50px] lg:text-[50px]">바다이브만의 독보적 강점</div>
+        <div className="pb-16 text-center font-freesentation800 text-[30px] sm:text-[40px] md:pb-0 md:text-[50px] lg:text-[50px]">바다이브만의 독보적 강점</div>
       </TextFadeInAnimation>
       <div className="flex flex-col items-center gap-24 sm:gap-24 md:gap-24 md:pt-24">
         <ImgAndDescription
@@ -175,8 +177,8 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
               <div className=""> 완벽한 다이빙을 위한 첫걸음, 누구에게 배우느냐에 따라 다릅니다.</div>
               <div className="">스킨스쿠버는 경험이 중요한 스포츠이기 때문에</div>
               <div className="">다양한 환경에서 다이빙을 경험한 강사가 </div>
-              <div className="">기초부터 고급 과정까지, 단계별로 세밀하게 설계된 교육을 진행합니다.</div>
-              <div className="">초보자는 빠르게 성장하고</div>
+              <div className="">기초부터 고급 과정까지, 단계별로 세밀하게 설계된 교육을</div>
+              <div className="">진행합니다. 초보자는 빠르게 성장하고</div>
               <div className="">경험자는 더욱 깊이 있는 다이빙을 즐길 수 있습니다. </div>
               <div className="">&nbsp;</div>
               <div className="">다이빙을 더욱 확실하게 배우고 싶다면 꼭 확인하세요. </div>
@@ -217,7 +219,7 @@ const PageForAbout: NextPage<NextPageProps> = ({}) => {
         <ImgAndDescription
           children={
             <>
-              <div className="">바다이브에서는 단순 다이빙 체험을 넘어 투어 촬영을 진행합니다. </div>
+              <div className="">바다이브는 단순 다이빙 체험을 넘어 투어 촬영을 진행합니다. </div>
               <div className="">전문 촬영팀과 함께 투어 및 교육 촬영을 진행하며</div>
               <div className="">다이빙의 즐거움을 더욱 깊이 있게 경험할 수 있도록 합니다. </div>
               <div className="">&nbsp;</div>

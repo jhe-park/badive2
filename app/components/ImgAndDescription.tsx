@@ -16,17 +16,17 @@ export const ImgAndDescription: React.FC<TProps> = ({ children, imgSrc, title, i
   return (
     <div
       style={{}}
-      className={cn('flex flex-col items-center justify-center sm:flex-col md:flex-row md:gap-24', imagePosition === 'RIGHT' && 'flex-col md:flex-row-reverse')}
+      className={cn('flex flex-col items-center justify-center sm:flex-col md:flex-row md:gap-20', imagePosition === 'RIGHT' && 'flex-col md:flex-row-reverse')}
     >
       <TextFadeInAnimation direction={imagePosition === 'RIGHT' ? 'LEFT' : 'RIGHT'} className={imagePosition === 'LEFT' ? 'flex justify-center' : ''}>
         <img
           src={imgSrc}
-          className="h-[350px] w-[350px] rounded-full object-cover sm:h-[450px] sm:w-[450px] md:h-[526px] md:w-[526px]"
+          className="h-[350px] w-[350px] rounded-full object-cover sm:h-[450px] sm:w-[450px] md:mx-12 md:h-[526px] md:w-[526px]"
           alt={'바다이브 이미지'}
         />
         {/* <div className=""></div> */}
       </TextFadeInAnimation>
-      <TextFadeInAnimation direction={imagePosition === 'RIGHT' ? 'RIGHT' : 'LEFT'}>
+      <TextFadeInAnimation direction={imagePosition === 'RIGHT' ? 'RIGHT' : 'LEFT'} className="">
         <div className="">
           <div className="py-12 text-center font-freesentation text-[25px] sm:text-[30px] md:text-[40px]">{title}</div>
           <div

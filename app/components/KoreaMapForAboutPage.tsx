@@ -94,7 +94,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
   return (
     <div className="flex justify-center">
       <div className="pb-24 pt-24">
-        <div className="py-8 text-center font-freesentation800 text-[40px] sm:text-[40px] md:text-[50px] lg:text-[50px]">전지역 강습, 바다이브 강사</div>
+        <div className="py-8 text-center font-freesentation800 text-[30px] sm:text-[40px] md:text-[50px] lg:text-[50px]">전지역 강습, 바다이브 강사</div>
         <div
           style={{
             lineHeight: '1.9',
@@ -118,7 +118,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
 
               <div className="">인천</div>
             </div>
-            {currentLocation === '인천' && <img src={currentLocationMapImgSrc} className="absolute w-[6%] left-[21%] top-[22%] z-10 -translate-x-1/2" />}
+            {currentLocation === '인천' && <img src={currentLocationMapImgSrc} className="absolute left-[21%] top-[22%] z-10 w-[6%] -translate-x-1/2" />}
             <div onClick={() => changeLocation('서울')} className="absolute left-[25%] top-[20%] z-20 cursor-pointer">
               <Image className="z-30" src={currentLocation === '서울' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">서울</div>
@@ -137,13 +137,13 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
               <div className="">대구</div>
             </div>
             {currentLocation === '대구' && (
-              <img src={currentLocationMapImgSrc} className="absolute w-[11%] left-[68%] top-[62%] z-10 -translate-x-1/2 -translate-y-1/2" />
+              <img src={currentLocationMapImgSrc} className="absolute left-[68%] top-[62%] z-10 w-[11%] -translate-x-1/2 -translate-y-1/2" />
             )}
             <div onClick={() => changeLocation('부산')} className="absolute left-[80%] top-[68%] z-20 cursor-pointer">
               <Image src={currentLocation === '부산' ? PinActivated : Pin} alt="위치 포인터" />
               <div className="">부산</div>
             </div>
-            {currentLocation === '부산' && <img src={currentLocationMapImgSrc} className="absolute w-[15%] left-[80%] top-[71%] z-10 -translate-x-1/2" />}
+            {currentLocation === '부산' && <img src={currentLocationMapImgSrc} className="absolute left-[80%] top-[71%] z-10 w-[15%] -translate-x-1/2" />}
           </div>
           {currentLocation && (
             <div ref={refForInstructors} className="absolute flex-1 px-8 md:px-0 md:pt-32">
