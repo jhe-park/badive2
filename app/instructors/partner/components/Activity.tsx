@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import VerticalCarousel from './VerticalCarousel';
+// import VerticalCarousel from './VerticalCarousel';
+import VerticalCarousel from '../../bdn/components/VerticalCarousel';
 import useInstructor from '@/app/store/useInstructor';
 import { activities } from '@/app/instructors/components/activities';
 
@@ -17,7 +18,7 @@ export default function Activity() {
 
   console.debug('🐞instructor');
   console.debug(instructor);
-  
+
   console.debug('🐞selectedItems');
   console.debug(selectedItems);
 
@@ -33,19 +34,34 @@ export default function Activity() {
           <div className="my-12 text-2xl font-bold md:my-0 md:text-[40px]">준비중입니다</div>
         </div>
       ) : (
-        <div className="flex h-full w-[1280px] flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center md:max-w-[1280px]">
           <div className="z-1 absolute bottom-0 left-0 block h-full w-1/4 bg-black md:hidden"></div>
-
-          <div className="z-10 flex h-full w-[80%] flex-col items-center justify-center gap-y-6 text-black md:w-full md:flex-row md:gap-x-10">
+          <div className="z-10 flex h-full w-[80%] flex-col items-center justify-center gap-y-6 text-black md:w-full md:gap-x-10 lg:flex-row">
             <div className="relative flex h-full w-full flex-col items-center justify-center md:w-1/2">
               <VerticalCarousel images={selectedItems} index={index} setIndex={setIndex}></VerticalCarousel>
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center pb-12 md:w-1/2">
-              <div className="text-2xl font-bold md:text-[50px]">{instructor}</div>
+              <div className="relative">
+                {/* <div className="absolute -left-[50px] -top-[100px] text-[100px] font-bold text-[#C8C8C8] opacity-50">01</div> */}
+                <div className="text-2xl font-bold md:text-[50px]">{instructor}</div>
+              </div>
+
               <div className="text-md mt-8 md:mt-12 md:text-[20px]">{selectedItems[index]?.title}</div>
             </div>
           </div>
         </div>
+        // <div className="flex h-full w-[1280px] flex-col items-center justify-center">
+        //   <div className="z-1 absolute bottom-0 left-0 block h-full w-1/4 bg-black md:hidden"></div>
+        //   <div className="z-10 flex h-full w-[80%] flex-col items-center justify-center gap-y-6 text-black md:w-full md:flex-row md:gap-x-10">
+        //     <div className="relative flex h-full w-full flex-col items-center justify-center md:w-1/2">
+        //       <VerticalCarousel images={selectedItems} index={index} setIndex={setIndex}></VerticalCarousel>
+        //     </div>
+        //     <div className="flex h-full w-full flex-col items-center justify-center pb-12 md:w-1/2">
+        //       <div className="text-2xl font-bold md:text-[50px]">{instructor}</div>
+        //       <div className="text-md mt-8 md:mt-12 md:text-[20px]">{selectedItems[index]?.title}</div>
+        //     </div>
+        //   </div>
+        // </div>
       )}
     </div>
   );

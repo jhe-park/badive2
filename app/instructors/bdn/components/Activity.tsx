@@ -14,10 +14,6 @@ export default function Activity() {
     setSelectedItems(filtered);
   }, [instructor]);
 
-  console.debug('🐞instructor');
-  console.debug(instructor);
-  console.debug('🐞selectedItems');
-  console.debug(selectedItems);
   return (
     <div className="relative flex h-full w-full flex-col items-center md:h-[836px]">
       <div className="z-1 absolute left-0 top-0 hidden h-full w-1/3 bg-black md:block lg:w-[calc(50vw-320px)]"></div>
@@ -32,12 +28,10 @@ export default function Activity() {
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center md:max-w-[1280px]">
           <div className="z-1 absolute bottom-0 left-0 block h-full w-1/4 bg-black md:hidden"></div>
-
           <div className="z-10 flex h-full w-[80%] flex-col items-center justify-center gap-y-6 text-black md:w-full md:gap-x-10 lg:flex-row">
             <div className="relative flex h-full w-full flex-col items-center justify-center md:w-1/2">
               <VerticalCarousel images={selectedItems} index={index} setIndex={setIndex}></VerticalCarousel>
             </div>
-
             <div className="flex h-full w-full flex-col items-center justify-center pb-12 md:w-1/2">
               <div className="relative">
                 {/* <div className="absolute -left-[50px] -top-[100px] text-[100px] font-bold text-[#C8C8C8] opacity-50">01</div> */}
