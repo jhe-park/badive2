@@ -57,7 +57,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
     resizeObserver.observe(refForAbsoluteContainer.current);
 
     return () => {
-      resizeObserver.unobserve(refForAbsoluteContainer.current);
+      resizeObserver?.unobserve(refForAbsoluteContainer.current);
     };
   }, []);
 
