@@ -43,7 +43,6 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
-      console.debug('🐞트리거');
       let isChanged = false;
       if (isMobile && window.innerWidth >= 1280) {
         setIsMobile(false);
@@ -57,7 +56,7 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
     resizeObserver.observe(refForAbsoluteContainer.current);
 
     return () => {
-      if(refForAbsoluteContainer.current) {
+      if (refForAbsoluteContainer.current) {
         resizeObserver?.unobserve(refForAbsoluteContainer.current);
       }
     };
@@ -98,9 +97,6 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
 
     const imageRect = refForMapImage.current.getBoundingClientRect();
 
-    console.debug('🐞containerRect.height ');
-    console.debug(imageRect.height);
-
     // 3) 애니메이션 생성
     const tween = gsap.fromTo(
       targets,
@@ -127,9 +123,6 @@ export const KoreaMapForAboutPage: React.FC<TProps> = ({}) => {
       tween.kill();
     };
   };
-
-  console.debug('🐞currentLocationMapImgSrc');
-  console.debug(currentLocationMapImgSrc);
 
   return (
     <div className="flex w-full justify-center px-4 md:px-0">

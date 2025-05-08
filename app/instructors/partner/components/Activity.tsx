@@ -16,12 +16,6 @@ export default function Activity() {
     setSelectedItems(filtered);
   }, [instructor]);
 
-  console.debug('🐞instructor');
-  console.debug(instructor);
-
-  console.debug('🐞selectedItems');
-  console.debug(selectedItems);
-
   return (
     <div className="relative flex h-full w-full flex-col items-center md:h-[836px]">
       <div className="z-1 absolute left-0 top-0 hidden h-full w-[calc(50vw-320px)] bg-black md:block"></div>

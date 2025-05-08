@@ -313,41 +313,9 @@ const ProgramSelectComponent: React.FC<TProps> = ({ setIsSelectProgram, setIsSel
           noOptionsMessage={() => '프로그램을 선택해주세요'}
           onChange={obj => {
             selectProgram({ programTitle: (obj as any).value });
-
-            // console.debug('🐞obj');
-            // console.debug((obj as any).value);
-            // debugger;
-
-            // if (typePredicateForSelect(obj) === false) {
-            //   alert('선택된 값이 없습니다.');
-            //   return;
-            // }
-            // field.onChange(obj.value);
-            // if (typeof onChangeSelect === 'function') {
-            //   onChangeSelect({ ...obj });
-            // }
           }}
         />
       </div>
-      {/* <Select
-        ref={refForProgramSelect}
-        label="프로그램명"
-        aria-label="강습프로그램 선택"
-        showScrollIndicators={true}
-        selectedKeys={[selectedProgramTitle]}
-        onChange={e => {
-          selectProgram({ programTitle: e.target.value });
-        }}
-        className="h-full w-full text-xl"
-      >
-        {programFiltered.map(item => {
-          return (
-            <SelectItem value={item.title} key={item.title}>
-              {item.title}
-            </SelectItem>
-          );
-        })}
-      </Select> */}
       <div className="w-full text-lg font-bold md:text-2xl">희망하는 지역</div>
       <Select
         label="지역명"

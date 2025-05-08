@@ -54,7 +54,6 @@ export default function InstructorNewPage({ params }) {
   const [imageUrl, setImageUrl] = useState('');
 
   const getProgram = async () => {
-    console.debug('🐞call getProgram');
     const { data, error } = await supabase.from('program').select('*,instructor_id(*)').eq('id', id).single();
     if (error) {
       console.error('Error getting program:', error);
@@ -115,15 +114,9 @@ export default function InstructorNewPage({ params }) {
       // error: urlError,
     } = supabase.storage.from('program').getPublicUrl(data.path);
 
-    console.debug('🐞publicUrl');
     // 이미지 URL 설정
     setImageUrl(publicUrl);
-    console.debug('🐞setImageUrl 완료');
     setTimeout(() => {
-      console.debug('after settimeout');
-      console.debug('🐞publicUrl');
-      console.debug(publicUrl);
-      // setImageUrl(publicUrl);
       setImageUrl(prev => publicUrl);
     }, 3000);
   };
@@ -144,9 +137,6 @@ export default function InstructorNewPage({ params }) {
 
   const handleSaveProgram = async () => {
     setIsSave(true);
-    console.debug('🐞imageUrl');
-    console.debug(imageUrl);
-    debugger;
 
     try {
       const newProgramData = tableData.map(item => {
@@ -205,20 +195,8 @@ export default function InstructorNewPage({ params }) {
     }
   };
 
-  console.debug('🐞imageUrl');
-  console.debug(imageUrl);
-
   return (
     <div className="flex h-full w-full flex-col">
-      {/* <div className="">{imageUrl}</div> */}
-      {/* <div
-        className=""
-        onClick={() => {
-          setImageUrl('https://api.badive.co.kr/storage/v1/object/public/program/44c84322-f4f8-4ec0-91a4-532e35dbceaf');
-        }}
-      >
-        change
-      </div> */}
       <div className="flex h-full w-full flex-col items-center justify-center gap-y-6">
         <div className="relative flex aspect-square h-[50vh]">
           {/* fill */}
