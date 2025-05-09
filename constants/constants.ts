@@ -1,3 +1,4 @@
+export const NOTIFICATION_PAGE_SIZE = 10 ; 
 export const AWS_LAMBDA_URL = 'https://g2skecpigqunnzvt3l24k2h4640srabj.lambda-url.ap-southeast-2.on.aws';
 export const ALIGO_TPL_CODE = 'TY_9910';
 export const ALIGO_SENDER_PHONE_NUMBER = '01086448733';

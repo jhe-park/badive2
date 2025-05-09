@@ -24,6 +24,8 @@ export default async function page({ params }) {
     .eq('user_id', dataForProfile?.id)
     .not('tour_id', 'is', null);
 
+    console.debug('🐞dataForMyRequest');
+    console.debug(dataForMyRequest);
   const isAlreadyRequested = dataForMyRequest.find(request => request.tour_id.id === dataForTour.id);
 
   return (
